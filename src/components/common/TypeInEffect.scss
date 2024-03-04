@@ -1,0 +1,17 @@
+@import 'common-styles/palette.scss';
+@import 'common-styles/animation.scss';
+
+.blinking-cursor {
+  $size: 0.2rem;
+
+  width: $size;
+  border-radius: $size;
+  height: 100%;
+  background-color: $textPrimary;
+  position: absolute;
+  right: -0.25rem;
+  top: 0;
+  bottom: 0;
+
+  @extend .blink;
+}

@@ -1,0 +1,66 @@
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.25s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0
+  }
+
+  to {
+    opacity: 1
+  }
+}
+
+.shrink-in {
+  transform: scale(1.618);
+  animation: shrinkIn 0.25s ease-in-out forwards;
+}
+
+@keyframes shrinkIn {
+  from {
+    transform: scale(1.618);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+.shrink-fade-in {
+  transform: scale(1.618);
+  opacity: 0;
+  animation: shrinkFadeIn 0.25s ease-in-out forwards;
+}
+
+@keyframes shrinkFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(1.618);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.blink {
+  opacity: 0;
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

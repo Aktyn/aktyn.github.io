@@ -5,10 +5,7 @@ import 'common-styles/typography.scss'
 export const BasicInfo = () => {
   return (
     <div>
-      {/* <header className="App-header">
-        Type in effect showing my name and basic info (like in business card)
-      </header> */}
-      <TypeInEffect className="text-large">Aktyn</TypeInEffect>
+      <TypeInEffect className="text-large">Radosław Krajewski</TypeInEffect>
     </div>
   )
 }
