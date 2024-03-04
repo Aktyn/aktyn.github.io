@@ -1,4 +1,24 @@
+@import './palette.scss';
+
 .text-large {
   font-size: 2rem;
   font-weight: 700;
+}
+
+.text-medium {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.text-small {
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.text-primary {
+  color: $textPrimary;
+}
+
+.text-darken {
+  color: $textPrimaryDarken;
 }

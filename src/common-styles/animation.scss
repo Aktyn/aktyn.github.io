@@ -1,3 +1,6 @@
+$springEase: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+$smooth: cubic-bezier(0.36, 0.07, 0.19, 0.97);
+
 .fade-in {
   opacity: 0;
   animation: fadeIn 0.25s ease-in-out forwards;
@@ -5,17 +8,32 @@
 
 @keyframes fadeIn {
   from {
-    opacity: 0
+    opacity: 0;
   }
 
   to {
-    opacity: 1
+    opacity: 1;
+  }
+}
+
+.zoom-in-x {
+  transform: scaleX(0);
+  animation: zoomInX 0.25s $smooth forwards;
+}
+
+@keyframes zoomInX {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
   }
 }
 
 .shrink-in {
   transform: scale(1.618);
-  animation: shrinkIn 0.25s ease-in-out forwards;
+  animation: shrinkIn 0.25s ease-out forwards;
 }
 
 @keyframes shrinkIn {
@@ -29,20 +47,38 @@
 }
 
 .shrink-fade-in {
-  transform: scale(1.618);
-  opacity: 0;
-  animation: shrinkFadeIn 0.25s ease-in-out forwards;
+  transform: translate(1rem, -1rem) scale(1.618);
+  opacity: 0.5;
+  animation: shrinkFadeIn 0.4s $springEase forwards;
 }
 
 @keyframes shrinkFadeIn {
   from {
-    opacity: 0;
+    opacity: 0.5;
     transform: scale(1.618);
   }
 
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+.shrink-fade-side-in {
+  transform: translate(1rem, -1rem) scale(1.618);
+  opacity: 0.5;
+  animation: shrinkFadeSideIn 0.4s $springEase forwards;
+}
+
+@keyframes shrinkFadeSideIn {
+  from {
+    opacity: 0.5;
+    transform: translate(1rem, -1rem) scale(1.618);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(0rem, 0rem) scale(1);
   }
 }
 

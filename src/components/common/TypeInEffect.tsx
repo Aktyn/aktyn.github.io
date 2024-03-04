@@ -1,20 +1,35 @@
 import { useEffect, useState, type FC } from 'react'
+import clsx from 'clsx'
+import { randomFloat } from 'utils/random'
 
 import 'common-styles/animation.scss'
 import './TypeInEffect.scss'
 
-export const TypeInEffect: FC<{ children: string; className: string }> = ({
+interface TypeInfEffectProps {
+  children: string
+  className: string
+  duration?: number
+  delay?: number
+}
+
+export const defaultTypeInEffectDuration = 1_000
+
+export const TypeInEffect: FC<TypeInfEffectProps> = ({
   children,
   className,
+  duration = defaultTypeInEffectDuration,
+  delay = 0,
 }) => {
   const [visibleChars, setVisibleChars] = useState<string[]>([])
-  const [finished, setFinished] = useState(false)
+  const [_finished, setFinished] = useState(false)
+
+  const averageCharDuration = duration / children.length
 
   useEffect(() => {
     setVisibleChars([])
     const individualChars = children.split('')
 
-    const randomDelay = () => Math.floor(Math.random() * 100) + 50
+    const randomDelay = () => randomFloat(averageCharDuration * 0.5, averageCharDuration * 1.5)
 
     let timeout: number | null = null
 
@@ -29,33 +44,29 @@ export const TypeInEffect: FC<{ children: string; className: string }> = ({
       }
     }
 
-    timeout = setTimeout(pushChar, randomDelay(), individualChars.shift())
+    timeout = setTimeout(pushChar, randomDelay() + delay, individualChars.shift())
 
     return () => {
       if (timeout) {
         clearTimeout(timeout)
       }
     }
-  }, [children])
+  }, [averageCharDuration, children, delay])
 
   return (
-    <div
-      className={className}
-      style={{
-        position: 'relative',
-      }}
-    >
-      {visibleChars.map((character, index) => (
-        <span
-          key={index}
-          className="shrink-in"
-          style={{ display: character === ' ' ? 'inline' : 'inline-block' }}
-        >
-          {character}
-        </span>
-      ))}
-      {/* TODO */}
-      <div className="blinking-cursor" style={{ opacity: finished ? 0 : undefined }} />
+    <div className={clsx(className, 'type-in-effect')}>
+      <span className="placeholder">{children}</span>
+      <div className="characters">
+        {visibleChars.map((character, index) => (
+          <span
+            key={index}
+            className="shrink-fade-side-in"
+            style={{ display: character === ' ' ? 'inline' : 'inline-block' }}
+          >
+            {character}
+          </span>
+        ))}
+      </div>
     </div>
   )
 }

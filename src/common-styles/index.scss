@@ -1,25 +1,66 @@
-@import "palette.scss";
+@import 'palette.scss';
 
 body {
   margin: 0;
-  font-family: "Roboto Flex", sans-serif;
+  font-family: 'Roboto Flex', sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
   font-variation-settings:
-    "slnt" 0,
-    "wdth" 100,
-    "GRAD" 0,
-    "XOPQ" 96,
-    "XTRA" 468,
-    "YOPQ" 79,
-    "YTAS" 750,
-    "YTDE" -203,
-    "YTFI" 738,
-    "YTLC" 514,
-    "YTUC" 712;
+    'slnt' 0,
+    'wdth' 100,
+    'GRAD' 0,
+    'XOPQ' 96,
+    'XTRA' 468,
+    'YOPQ' 79,
+    'YTAS' 750,
+    'YTDE' -203,
+    'YTFI' 738,
+    'YTLC' 514,
+    'YTUC' 712;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: $textPrimary;
   background-color: $backgroundPrimary;
+}
+
+a {
+  color: $textPrimary;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    color: $secondary;
+  }
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+button.icon {
+  background-color: transparent;
+  outline: none;
+  color: $textPrimary;
+  border: 1px solid rgba($textPrimary, 0.5);
+  border-radius: 100%;
+  padding: 0.25rem;
+  display: inline-flex;
+
+  transition:
+    color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out;
+
+  &:active {
+    color: $primary;
+    border-color: $primary;
+  }
+
+  & > * {
+    transition: opacity 0.2s ease-in-out;
+    opacity: 0.5;
+  }
+  &:hover > * {
+    opacity: 1;
+  }
 }
