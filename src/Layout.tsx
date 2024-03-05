@@ -1,15 +1,23 @@
+import { useState } from 'react'
 import { mdiFastForward } from '@mdi/js'
 import Icon from '@mdi/react'
+import clsx from 'clsx'
 import { BasicInfo } from 'components/BasicInfo'
 import logoFlat from 'img/logo_flat.png'
 
 import './Layout.scss'
 
 function App() {
+  const [isLogoLoaded, setIsLogoLoaded] = useState(false)
+
   return (
     <main className="layout">
-      {/* TODO: 3d rotation entry animation */}
-      <img src={logoFlat} className="shrink-fade-in" style={{ height: '16rem', width: 'auto' }} />
+      <img
+        src={logoFlat}
+        onLoad={() => setIsLogoLoaded(true)}
+        className={clsx('logo-top', isLogoLoaded && 'loaded')}
+        style={{ height: '16rem', width: 'auto' }}
+      />
       <BasicInfo />
 
       {/* TODO: circular progress counting down to end of initial entry animation */}

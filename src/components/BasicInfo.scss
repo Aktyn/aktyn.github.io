@@ -20,14 +20,8 @@
     width: 100%;
     height: 100%;
 
-    background-color: rgba($backgroundLight, 0.25);
-
-    opacity: 0.5;
-
-    @extend .fade-in;
-    opacity: 0;
-    animation-delay: 4s;
-    animation-duration: 0.4s;
+    background-color: rgba($backgroundLight, 0);
+    overflow: hidden;
 
     &::before,
     &::after {
@@ -35,19 +29,42 @@
       position: absolute;
       left: 0;
       width: 100%;
-      height: 2px;
-      background-color: rgba($textPrimary, 0.25);
+      height: 100%;
+    }
+
+    &::after {
+      top: 0;
+
+      $borderSize: 2px;
+      border-block: $borderSize solid rgba($textPrimary, 0.25);
+      height: calc(100% - $borderSize * 2);
 
       @extend .zoom-in-x;
-      animation-delay: 4.4s;
-      animation-duration: 0.4s;
+      animation-delay: 3s;
+      animation-duration: 0.6s;
     }
-
     &::before {
-      top: 0;
-    }
-    &::after {
-      bottom: 0;
+      // TODO: some subtle background pattern (maybe something with lines)
+      $gradientSpread: 16rem;
+      background: linear-gradient(
+        130deg,
+        $backgroundPrimary calc(50% - $gradientSpread),
+        mix($backgroundPrimary, $backgroundLight, 60%) calc(50% + $gradientSpread)
+      );
+
+      transform: translateX(100%);
+      opacity: 0;
+      animation: backgroundSlideIn 0.8s 4.4s $smooth forwards;
+      @keyframes backgroundSlideIn {
+        from {
+          opacity: 0;
+          transform: translateX(100%);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
     }
   }
 

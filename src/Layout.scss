@@ -1,7 +1,32 @@
+@import 'common-styles/animation.scss';
+
 .layout {
   padding-top: 4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   row-gap: 4rem;
+
+  perspective: 1024px;
+
+  .logo-top {
+    transform: rotateY(180deg) scale(1.618);
+    opacity: 0;
+
+    &.loaded {
+      animation: logoEntryAnimation 2s $springEase forwards;
+    }
+
+    @keyframes logoEntryAnimation {
+      from {
+        opacity: 0;
+        transform: rotateY(180deg) scale(1.618);
+      }
+
+      to {
+        opacity: 1;
+        transform: rotateY(0) scale(1);
+      }
+    }
+  }
 }
