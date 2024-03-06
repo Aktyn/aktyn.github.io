@@ -1,0 +1,51 @@
+@import 'common-styles/palette.scss';
+@import 'common-styles/animation.scss';
+
+.sections-navigation-main {
+  opacity: 0;
+  @extend .fade-in;
+  animation-delay: 2s;
+
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0.5rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  pointer-events: none;
+
+  & > * {
+    $dotSize: 0.5rem;
+    $transitionDuration: 0.5s;
+
+    width: $dotSize;
+    height: $dotSize;
+    border-radius: 50%;
+    background-color: $textPrimary;
+    pointer-events: all;
+
+    opacity: 0.5;
+    transform: scale(0.8);
+    transition:
+      opacity $transitionDuration ease-in-out,
+      transform $transitionDuration $springEase;
+
+    &.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+    &:not(.active) {
+      cursor: pointer;
+
+      &:hover {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+}

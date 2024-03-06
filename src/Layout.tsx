@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { SectionContainer } from 'components/sections/SectionContainer'
+import { SectionsNavigation } from 'components/sections/SectionsNavigation'
 import { BasicInfo } from 'components/sections/basic-info/BasicInfo'
 import { Websites } from 'components/sections/websites/Websites'
 import { Section, SectionContext } from 'context/SectionContext'
@@ -55,7 +56,16 @@ function App() {
   //TODO: simple dots navigation somewhere at the edge of the screen
 
   return (
-    <SectionContext.Provider value={{ section, setSection, previousSection, nextSection }}>
+    <SectionContext.Provider
+      value={{
+        section,
+        setSection,
+        previousSection,
+        nextSection,
+        isFirstSection: section === Section.BASIC_INFO,
+        isLastSection: section === Section.WEBSITES,
+      }}
+    >
       <main className="layout">
         <SectionContainer section={Section.BASIC_INFO}>
           <BasicInfo />
@@ -63,6 +73,8 @@ function App() {
         <SectionContainer section={Section.WEBSITES}>
           <Websites />
         </SectionContainer>
+
+        <SectionsNavigation />
       </main>
     </SectionContext.Provider>
   )

@@ -1,13 +1,18 @@
 $backgroundPrimary: #0e141b;
-$backgroundSecondary: #1B150E;
+$backgroundSecondary: #1b150e;
 $backgroundLight: #002439;
 $backgroundLightSecondary: #391500;
 
 $textPrimary: #e4eff0;
 $textPrimaryDarken: #4e7988;
 
-$textSecondary: #F0E5E4;
-$textSecondaryDarken: #885D4E;
+$textSecondary: #f0e5e4;
+$textSecondaryDarken: #885d4e;
 
 $primary: #78cce2;
 $secondary: #e28e78;
+
+.text-darken {
+  color: $textPrimaryDarken;
+  fill: $textPrimaryDarken;
+}

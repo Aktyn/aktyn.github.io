@@ -10,4 +10,6 @@ export const SectionContext = createContext({
   setSection: (_: Section) => {},
   previousSection: () => {},
   nextSection: () => {},
+  isFirstSection: true,
+  isLastSection: false,
 })

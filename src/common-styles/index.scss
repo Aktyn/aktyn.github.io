@@ -23,6 +23,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: $textPrimary;
   background-color: $backgroundPrimary;
+  border-color: $textPrimary;
 }
 
 a {
@@ -42,8 +43,7 @@ button:not(:disabled) {
 button.icon {
   background-color: transparent;
   outline: none;
-  color: $textPrimary;
-  border: 1px solid rgba($textPrimary, 0.5);
+  border: 1px solid;
   border-radius: 100%;
   padding: 0.25rem;
   display: inline-flex;

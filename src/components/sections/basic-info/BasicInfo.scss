@@ -8,6 +8,8 @@
   justify-content: stretch;
   row-gap: 2rem;
 
+  perspective: 1024px;
+
   .logo-top {
     transform: rotateY(180deg) scale(1.618);
     opacity: 0;
