@@ -21,7 +21,6 @@ export const TypeInEffect: FC<TypeInfEffectProps> = ({
   delay = 0,
 }) => {
   const [visibleChars, setVisibleChars] = useState<string[]>([])
-  const [_finished, setFinished] = useState(false)
 
   const averageCharDuration = duration / children.length
 
@@ -40,7 +39,6 @@ export const TypeInEffect: FC<TypeInfEffectProps> = ({
         timeout = setTimeout(pushChar, randomDelay(), individualChars.shift())
       } else {
         timeout = null
-        setFinished(true)
       }
     }
 

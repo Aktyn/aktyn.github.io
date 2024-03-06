@@ -1,30 +1,70 @@
-import { useState } from 'react'
-import { mdiFastForward } from '@mdi/js'
-import Icon from '@mdi/react'
-import clsx from 'clsx'
-import { BasicInfo } from 'components/BasicInfo'
-import logoFlat from 'img/logo_flat.png'
-
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { SectionContainer } from 'components/sections/SectionContainer'
+import { BasicInfo } from 'components/sections/basic-info/BasicInfo'
+import { Websites } from 'components/sections/websites/Websites'
+import { Section, SectionContext } from 'context/SectionContext'
 import './Layout.scss'
 
+const MINIMUM_SECTION_CHANGE_INTERVAL = 500
+
 function App() {
-  const [isLogoLoaded, setIsLogoLoaded] = useState(false)
+  const sectionChangeTimestampRef = useRef(0)
+
+  const [section, setSection] = useState(Section.BASIC_INFO)
+
+  const canChangeSection = useCallback(() => {
+    return Date.now() - sectionChangeTimestampRef.current >= MINIMUM_SECTION_CHANGE_INTERVAL
+  }, [])
+
+  const previousSection = useCallback(() => {
+    if (!canChangeSection()) {
+      return
+    }
+
+    switch (section) {
+      case Section.BASIC_INFO:
+        return
+      case Section.WEBSITES:
+        return setSection(Section.BASIC_INFO)
+    }
+  }, [canChangeSection, section])
+
+  const nextSection = useCallback(() => {
+    if (!canChangeSection()) {
+      return
+    }
+
+    switch (section) {
+      case Section.BASIC_INFO:
+        return setSection(Section.WEBSITES)
+      case Section.WEBSITES:
+        return
+    }
+  }, [canChangeSection, section])
+
+  useEffect(() => {
+    sectionChangeTimestampRef.current = Date.now()
+
+    const sectionContainerElement = document.querySelector(`.section-container.${section}`)
+    if (!sectionContainerElement) {
+      console.error(`Container not found for section: ${section}`)
+    }
+    sectionContainerElement?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [section])
+
+  //TODO: simple dots navigation somewhere at the edge of the screen
 
   return (
-    <main className="layout">
-      <img
-        src={logoFlat}
-        onLoad={() => setIsLogoLoaded(true)}
-        className={clsx('logo-top', isLogoLoaded && 'loaded')}
-        style={{ height: '16rem', width: 'auto' }}
-      />
-      <BasicInfo />
-
-      {/* TODO: circular progress counting down to end of initial entry animation */}
-      <button className="icon" style={{ position: 'fixed', top: '1rem', right: '1rem' }}>
-        <Icon path={mdiFastForward} size="3rem" />
-      </button>
-    </main>
+    <SectionContext.Provider value={{ section, setSection, previousSection, nextSection }}>
+      <main className="layout">
+        <SectionContainer section={Section.BASIC_INFO}>
+          <BasicInfo />
+        </SectionContainer>
+        <SectionContainer section={Section.WEBSITES}>
+          <Websites />
+        </SectionContainer>
+      </main>
+    </SectionContext.Provider>
   )
 }
 

@@ -1,0 +1,10 @@
+@import 'common-styles/palette.scss';
+
+.websites-main {
+  background-color: $backgroundLight;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
