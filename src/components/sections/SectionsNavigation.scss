@@ -39,6 +39,7 @@
       padding-block: 0.5rem;
       width: 100%;
       text-align: right;
+      position: relative;
 
       &:not(.active) {
         cursor: pointer;
@@ -64,6 +65,14 @@
       &:not(.active):hover::after {
         opacity: 1;
         width: $dotSize * 4;
+      }
+
+      & > * {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
       }
     }
   }

@@ -1,7 +1,8 @@
 import { useContext } from 'react'
 import clsx from 'clsx'
-import { Section, SectionContext } from 'context/SectionContext'
+import { Section, SectionContext, sectionNames } from 'context/SectionContext'
 
+import 'common-styles/tooltip.scss'
 import './SectionsNavigation.scss'
 
 export const SectionsNavigation = () => {
@@ -20,7 +21,9 @@ export const SectionsNavigation = () => {
               }
               setSection(section)
             }}
-          />
+          >
+            <span data-tooltip={sectionNames[section]} data-tooltip-conf="left" />
+          </span>
         ))}
       </div>
     </div>

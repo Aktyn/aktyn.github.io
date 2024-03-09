@@ -8,6 +8,8 @@ export const Websites = () => {
     <div className="websites-main">
       <Icon path={mdiAccountHardHat} size="8rem" />
       <div className="text-large">Under development</div>
+      {/* some info about technologies */}
+      {/* not only websites but web/electron applications */}
     </div>
   )
 }
