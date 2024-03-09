@@ -9,18 +9,20 @@ export const SectionsNavigation = () => {
 
   return (
     <div className="sections-navigation-main">
-      {Object.values(Section).map((section) => (
-        <span
-          key={section}
-          className={clsx(section === activeSection && 'active')}
-          onClick={() => {
-            if (section === activeSection) {
-              return
-            }
-            setSection(section)
-          }}
-        />
-      ))}
+      <div className="inner-container">
+        {Object.values(Section).map((section) => (
+          <span
+            key={section}
+            className={clsx(section === activeSection && 'active')}
+            onClick={() => {
+              if (section === activeSection) {
+                return
+              }
+              setSection(section)
+            }}
+          />
+        ))}
+      </div>
     </div>
   )
 }

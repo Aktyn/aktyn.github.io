@@ -1,8 +1,8 @@
 import { useContext, type FC, type PropsWithChildren } from 'react'
-import { mdiChevronDoubleDown, mdiChevronDoubleUp } from '@mdi/js'
+import { mdiChevronDown } from '@mdi/js'
 import Icon from '@mdi/react'
 import clsx from 'clsx'
-import { SectionContext, type Section } from 'context/SectionContext'
+import { SectionContext, sectionNames, type Section } from 'context/SectionContext'
 
 import 'common-styles/palette.scss'
 import 'common-styles/typography.scss'
@@ -12,7 +12,7 @@ export const SectionContainer: FC<PropsWithChildren<{ section: Section }>> = ({
   children,
   section,
 }) => {
-  const { previousSection, nextSection, isFirstSection, isLastSection } = useContext(SectionContext)
+  const { previousSection, nextSection } = useContext(SectionContext)
 
   return (
     <div
@@ -28,27 +28,35 @@ export const SectionContainer: FC<PropsWithChildren<{ section: Section }>> = ({
       }}
     >
       <div className="section-content">{children}</div>
-      <NavigationButton type="previous" show={!isFirstSection} onClick={previousSection} />
-      <NavigationButton type="next" show={!isLastSection} onClick={nextSection} />
+      <NavigationButton type="previous" section={section} />
+      <NavigationButton type="next" section={section} />
     </div>
   )
 }
 
 interface NavigationButtonProps {
   type: 'next' | 'previous'
-  show: boolean
-  onClick: () => void
+  section: Section
 }
 
-const NavigationButton: FC<NavigationButtonProps> = ({ type, show, onClick }) => {
+const NavigationButton: FC<NavigationButtonProps> = ({ type, section }) => {
+  const { setSection, getNextSection, getPreviousSection } = useContext(SectionContext)
+
+  const targetSection = type === 'next' ? getNextSection(section) : getPreviousSection(section)
+
   return (
-    <div className={clsx('navigation-button', type, !show && 'hidden')}>
+    <div className={clsx('navigation-button', type, !targetSection && 'hidden')}>
       <div
         style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}
       >
-        <div className="text-small text-darken">{type === 'next' ? 'See more' : 'Return'}</div>
-        <button className="icon text-darken" onClick={onClick}>
-          <Icon path={type === 'next' ? mdiChevronDoubleDown : mdiChevronDoubleUp} size="3rem" />
+        <div className="text-small text-darken">{targetSection && sectionNames[targetSection]}</div>
+        <button
+          className={clsx('icon', 'text-darken', type)}
+          disabled={!targetSection}
+          onClick={() => targetSection && setSection(targetSection)}
+        >
+          <Icon path={mdiChevronDown} size="3rem" />
+          <Icon path={mdiChevronDown} size="3rem" />
         </button>
       </div>
     </div>

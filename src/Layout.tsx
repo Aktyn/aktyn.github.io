@@ -14,51 +14,70 @@ const MINIMUM_SECTION_CHANGE_INTERVAL = 500
 function App() {
   const sectionChangeTimestampRef = useRef(0)
 
-  const [section, setSection] = useState(Section.BASIC_INFO)
+  const [section, internalSetSection] = useState(Section.BASIC_INFO)
 
   const canChangeSection = useCallback(() => {
     return Date.now() - sectionChangeTimestampRef.current >= MINIMUM_SECTION_CHANGE_INTERVAL
   }, [])
 
-  const previousSection = useCallback(() => {
-    if (!canChangeSection()) {
-      return
-    }
-    sectionChangeTimestampRef.current = Date.now()
-
-    switch (section) {
-      case Section.BASIC_INFO:
+  const setSection = useCallback(
+    (newSection: Section) => {
+      if (!canChangeSection()) {
         return
-      case Section.WEBSITES:
-        return setSection(Section.BASIC_INFO)
-      case Section.GAME_DEVELOPMENT:
-        return setSection(Section.WEBSITES)
-      case Section.MICROCONTROLLERS:
-        return setSection(Section.GAME_DEVELOPMENT)
-      case Section.COMPUTER_GRAPHICS:
-        return setSection(Section.MICROCONTROLLERS)
+      }
+      sectionChangeTimestampRef.current = Date.now()
+      internalSetSection(newSection)
+    },
+    [canChangeSection],
+  )
+
+  const getPreviousSection = useCallback(
+    (sourceSection?: Section) => {
+      switch (sourceSection ?? section) {
+        case Section.WEBSITES:
+          return Section.BASIC_INFO
+        case Section.GAME_DEVELOPMENT:
+          return Section.WEBSITES
+        case Section.MICROCONTROLLERS:
+          return Section.GAME_DEVELOPMENT
+        case Section.COMPUTER_GRAPHICS:
+          return Section.MICROCONTROLLERS
+      }
+      return null
+    },
+    [section],
+  )
+
+  const previousSection = useCallback(() => {
+    const previousSection = getPreviousSection()
+    if (previousSection) {
+      setSection(previousSection)
     }
-  }, [canChangeSection, section])
+  }, [getPreviousSection, setSection])
+
+  const getNextSection = useCallback(
+    (sourceSection?: Section) => {
+      switch (sourceSection ?? section) {
+        case Section.BASIC_INFO:
+          return Section.WEBSITES
+        case Section.WEBSITES:
+          return Section.GAME_DEVELOPMENT
+        case Section.GAME_DEVELOPMENT:
+          return Section.MICROCONTROLLERS
+        case Section.MICROCONTROLLERS:
+          return Section.COMPUTER_GRAPHICS
+      }
+      return null
+    },
+    [section],
+  )
 
   const nextSection = useCallback(() => {
-    if (!canChangeSection()) {
-      return
+    const nextSection = getNextSection()
+    if (nextSection) {
+      setSection(nextSection)
     }
-    sectionChangeTimestampRef.current = Date.now()
-
-    switch (section) {
-      case Section.BASIC_INFO:
-        return setSection(Section.WEBSITES)
-      case Section.WEBSITES:
-        return setSection(Section.GAME_DEVELOPMENT)
-      case Section.GAME_DEVELOPMENT:
-        return setSection(Section.MICROCONTROLLERS)
-      case Section.MICROCONTROLLERS:
-        return setSection(Section.COMPUTER_GRAPHICS)
-      case Section.COMPUTER_GRAPHICS:
-        return
-    }
-  }, [canChangeSection, section])
+  }, [getNextSection, setSection])
 
   useEffect(() => {
     const sectionContainerElement = document.querySelector(`.section-container.${section}`)
@@ -73,7 +92,9 @@ function App() {
       value={{
         section,
         setSection,
+        getPreviousSection,
         previousSection,
+        getNextSection,
         nextSection,
         isFirstSection: section === Section.BASIC_INFO,
         isLastSection: section === Section.COMPUTER_GRAPHICS,
