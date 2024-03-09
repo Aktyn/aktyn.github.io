@@ -1,4 +1,5 @@
 @import 'common-styles/animation.scss';
+@import 'common-styles/consts.scss';
 
 .layout {
   width: 100%;
@@ -6,4 +7,5 @@
   overflow: hidden;
 
   position: relative;
+  perspective: $perspective;
 }

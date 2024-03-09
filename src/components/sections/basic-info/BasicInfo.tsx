@@ -1,17 +1,33 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { TypeInEffect, defaultTypeInEffectDuration } from 'components/common/TypeInEffect'
 import logoFlat from 'img/logo_flat.png'
+import { LogoBackground } from './LogoBackground'
 
 import 'common-styles/typography.scss'
 import './BasicInfo.scss'
 
 export const BasicInfo = () => {
   const [isLogoLoaded, setIsLogoLoaded] = useState(false)
+  const [logoEntered, setLogoEntered] = useState(false)
+
+  useEffect(() => {
+    if (!isLogoLoaded) {
+      return
+    }
+    const timeout = setTimeout(() => {
+      setLogoEntered(true)
+    }, 2_000) // 2 seconds of logoEntryAnimation
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [isLogoLoaded])
 
   return (
     <div className="basic-info-main">
       <div className={clsx('logo-top', isLogoLoaded && 'loaded')}>
+        {logoEntered && <LogoBackground />}
         <img
           src={logoFlat}
           onLoad={() => setIsLogoLoaded(true)}
@@ -37,10 +53,10 @@ export const BasicInfo = () => {
             Game development
           </TypeInEffect>
           <TypeInEffect className="text-small" delay={defaultTypeInEffectDuration * 1.5}>
-            Computer graphics
+            Microcontrollers
           </TypeInEffect>
           <TypeInEffect className="text-small" delay={defaultTypeInEffectDuration * 1.5}>
-            Neural networks
+            Computer graphics
           </TypeInEffect>
         </div>
         <TypeInEffect className="text-medium" delay={defaultTypeInEffectDuration * 2}>
