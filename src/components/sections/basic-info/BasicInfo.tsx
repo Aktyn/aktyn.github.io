@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { TypeInEffect, defaultTypeInEffectDuration } from 'components/common/TypeInEffect'
+import { Section, SectionContext, sectionNames } from 'context/SectionContext'
 import logoFlat from 'img/logo_flat.png'
 import { LogoBackground } from './LogoBackground'
 
@@ -8,6 +9,8 @@ import 'common-styles/typography.scss'
 import './BasicInfo.scss'
 
 export const BasicInfo = () => {
+  const { section: activeSection, setSection } = useContext(SectionContext)
+
   const [isLogoLoaded, setIsLogoLoaded] = useState(false)
   const [logoEntered, setLogoEntered] = useState(false)
 
@@ -46,18 +49,24 @@ export const BasicInfo = () => {
           FRONT-END DEVELOPER
         </TypeInEffect>
         <div className="basic-info-grid-2x2">
-          <TypeInEffect className="text-small" delay={defaultTypeInEffectDuration * 1.5}>
-            Websites
-          </TypeInEffect>
-          <TypeInEffect className="text-small" delay={defaultTypeInEffectDuration * 1.5}>
-            Game development
-          </TypeInEffect>
-          <TypeInEffect className="text-small" delay={defaultTypeInEffectDuration * 1.5}>
-            Microcontrollers
-          </TypeInEffect>
-          <TypeInEffect className="text-small" delay={defaultTypeInEffectDuration * 1.5}>
-            Computer graphics
-          </TypeInEffect>
+          {Object.values(Section).map(
+            (section) =>
+              section !== Section.BASIC_INFO && (
+                <TypeInEffect
+                  key={section}
+                  className="text-small link"
+                  delay={defaultTypeInEffectDuration * 1.5}
+                  onClick={() => {
+                    if (section === activeSection) {
+                      return
+                    }
+                    setSection(section)
+                  }}
+                >
+                  {sectionNames[section]}
+                </TypeInEffect>
+              ),
+          )}
         </div>
         <TypeInEffect className="text-medium" delay={defaultTypeInEffectDuration * 2}>
           Poland, Łódź

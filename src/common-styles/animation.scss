@@ -105,6 +105,34 @@ $smooth: cubic-bezier(0.36, 0.07, 0.19, 0.97);
   animation: blink 1s ease-in-out infinite;
 }
 
+.slide-in-left {
+  transform: translateX(-100%);
+  animation: slideInLeft 0.5s $smooth forwards;
+}
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.slide-in-right {
+  transform: translateX(100%);
+  animation: slideInRight 0.5s $smooth forwards;
+}
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
 @keyframes blink {
   0% {
     opacity: 0;

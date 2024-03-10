@@ -26,10 +26,12 @@ body {
   border-color: $textPrimary;
 }
 
-a {
+a,
+.link {
   color: $textPrimary;
   text-decoration: none;
   transition: color 0.2s ease-in-out;
+  cursor: pointer;
 
   &:hover {
     color: $secondary;
@@ -48,11 +50,15 @@ button.icon {
   padding: 0.25rem;
   display: inline-flex;
 
+  &:disabled {
+    color: $disabled;
+  }
+
   transition:
     color 0.2s ease-in-out,
     border-color 0.2s ease-in-out;
 
-  &:active {
+  &:not(:disabled):active {
     color: $primary;
     border-color: $primary;
   }
@@ -61,7 +67,7 @@ button.icon {
     transition: opacity 0.2s ease-in-out;
     opacity: 0.5;
   }
-  &:hover > * {
+  &:not(:disabled):hover > * {
     opacity: 1;
   }
 }

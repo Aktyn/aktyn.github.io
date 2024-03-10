@@ -1,5 +1,6 @@
 import { mdiAccountHardHat } from '@mdi/js'
 import Icon from '@mdi/react'
+
 import 'common-styles/typography.scss'
 import './GameDevelopment.scss'
 

@@ -12,6 +12,9 @@ $textSecondaryDarken: #885d4e;
 $primary: #78cce2;
 $secondary: #e28e78;
 
+$divider: rgba(lighten($backgroundLight, 50%), 0.1);
+$disabled: desaturate(darken($textPrimary, 50%), 75%);
+
 .text-darken {
   color: $textPrimaryDarken;
   fill: $textPrimaryDarken;

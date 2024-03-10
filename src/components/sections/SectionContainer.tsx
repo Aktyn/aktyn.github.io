@@ -12,11 +12,11 @@ export const SectionContainer: FC<PropsWithChildren<{ section: Section }>> = ({
   children,
   section,
 }) => {
-  const { previousSection, nextSection } = useContext(SectionContext)
+  const { section: activeSection, previousSection, nextSection } = useContext(SectionContext)
 
   return (
     <div
-      className={clsx('section-container', section)}
+      className={clsx('section-container', section, activeSection === section && 'section-active')}
       onWheel={(event) => {
         event.stopPropagation()
 

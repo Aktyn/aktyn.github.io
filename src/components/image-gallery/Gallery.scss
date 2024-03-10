@@ -1,0 +1,118 @@
+@import 'common-styles/palette.scss';
+@import 'common-styles/animation.scss';
+@import 'common-styles/typography.scss';
+@import 'common-styles/consts.scss';
+
+.gallery-main {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+
+  perspective: $perspective;
+
+  & > .gallery-item {
+    $shadowSize: 0.2rem;
+
+    position: absolute;
+    top: $shadowSize;
+    bottom: $shadowSize;
+    margin-inline: auto;
+
+    width: auto;
+    height: calc(100% - $shadowSize * 2);
+    overflow: hidden;
+    border-radius: 1rem;
+    box-shadow: 0 0 0 $shadowSize desaturate(lighten($backgroundLight, 20%), 50%);
+
+    transition:
+      transform 0.4s $smooth,
+      box-shadow 0.4s ease-in-out;
+
+    $shiftStepBase: 32rem;
+    $angleStart: 60deg;
+    $angleStep: 10deg;
+    $angleMax: 90deg;
+    $scaleFactor: 0.618;
+
+    //NOTE: increase `through` value to support more images in the gallery
+    &.pos-0,
+    &.pos--0 {
+      z-index: 33;
+      transform: translateX(0) rotate(0) scale(1);
+      box-shadow: 0 0 0 $shadowSize desaturate(lighten(teal, 20%), 50%);
+    }
+    @for $i from 1 through 32 {
+      &.pos-#{$i} {
+        z-index: 33 - $i;
+        transform: translateX($shiftStepBase * pow($i, 0.5))
+          rotateY(-($angleStart + $angleStep * ($i - 1)))
+          scale($scaleFactor);
+      }
+      &.pos--#{$i} {
+        z-index: 33 - $i;
+        transform: translateX(-$shiftStepBase * pow($i, 0.5))
+          rotateY(($angleStart + $angleStep * ($i - 1)))
+          scale($scaleFactor);
+      }
+    }
+
+    & > img {
+      max-height: 100%;
+      height: auto;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    & > .content {
+      display: none; //TODO: show content on hover
+      margin-top: -50%;
+      text-align: center;
+      background-color: blue;
+      @extend .text-medium;
+    }
+  }
+
+  & > .gallery-navigation-button {
+    color: $textSecondary;
+    background-color: rgba(desaturate(lighten($backgroundLight, 50%), 75%), 0.25);
+    border-color: transparent;
+    border-radius: 1rem;
+    &:active {
+      border-color: transparent !important;
+    }
+    & > * {
+      opacity: 0.8;
+    }
+
+    transition: opacity 0.2s ease-in-out;
+    opacity: 0;
+    &:not(:disabled):hover {
+      opacity: 1;
+    }
+
+    position: absolute;
+    width: calc(50% - 16rem);
+    height: 100%;
+
+    z-index: 34;
+    margin-block: auto;
+    &.left {
+      left: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    &.right {
+      right: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+}

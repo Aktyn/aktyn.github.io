@@ -28,6 +28,13 @@
       animation: logoEntryAnimation 2s $springEase forwards;
     }
 
+    @media screen and (max-height: 40rem) {
+      & > * {
+        transition: opacity 0.5s ease-in-out;
+        opacity: 0;
+      }
+    }
+
     @keyframes logoEntryAnimation {
       from {
         opacity: 0;
@@ -76,9 +83,6 @@
       transition:
         transform 0.5s $springEase,
         opacity 0.5s ease-in-out;
-      @media screen and (max-height: 40rem) {
-        opacity: 0;
-      }
 
       &:hover {
         transform: scale(1.2);
@@ -198,6 +202,6 @@
 
   & > * {
     margin-inline: auto;
-    font-weight: bold;
+    font-weight: 600;
   }
 }
