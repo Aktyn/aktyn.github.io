@@ -1,14 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.3f2915e3.css",
-    "main.js": "/static/js/main.309a5c24.js",
+    "main.css": "/static/css/main.97cdb31c.css",
+    "main.js": "/static/js/main.aa6b446d.js",
+    "static/media/map-poi.png": "/static/media/map-poi.2f3095382cfed3ee2aba.png",
+    "static/media/in2rp.png": "/static/media/in2rp.3ba127b4c3464e4d31f6.png",
+    "static/media/berta-snakes.png": "/static/media/berta-snakes.9ed176cfccfff9402401.png",
+    "static/media/project-paradise.png": "/static/media/project-paradise.a59181aa11a66fb7b487.png",
+    "static/media/fivem-launcher.png": "/static/media/fivem-launcher.90ca8faf031e518e4f24.png",
     "static/media/logo_flat.png": "/static/media/logo_flat.3f63c305fdf57387f86b.png",
     "index.html": "/index.html",
-    "main.3f2915e3.css.map": "/static/css/main.3f2915e3.css.map",
-    "main.309a5c24.js.map": "/static/js/main.309a5c24.js.map"
+    "main.97cdb31c.css.map": "/static/css/main.97cdb31c.css.map",
+    "main.aa6b446d.js.map": "/static/js/main.aa6b446d.js.map"
   },
   "entrypoints": [
-    "static/css/main.3f2915e3.css",
-    "static/js/main.309a5c24.js"
+    "static/css/main.97cdb31c.css",
+    "static/js/main.aa6b446d.js"
   ]
 }
