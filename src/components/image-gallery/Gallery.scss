@@ -4,8 +4,12 @@
 @import 'common-styles/consts.scss';
 
 .gallery-main {
-  height: 100%;
+  $shadowSize: 0.2rem;
+
   width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 32rem;
   overflow: hidden;
 
   display: flex;
@@ -18,8 +22,6 @@
   perspective: $perspective;
 
   & > .gallery-item {
-    $shadowSize: 0.2rem;
-
     position: absolute;
     top: $shadowSize;
     bottom: $shadowSize;
@@ -27,56 +29,83 @@
 
     width: auto;
     height: calc(100% - $shadowSize * 2);
-    overflow: hidden;
-    border-radius: 1rem;
-    box-shadow: 0 0 0 $shadowSize desaturate(lighten($backgroundLight, 20%), 50%);
+    overflow: visible;
 
-    transition:
-      transform 0.4s $smooth,
-      box-shadow 0.4s ease-in-out;
+    transition: transform 0.4s $smooth;
 
-    $shiftStepBase: 32rem;
+    $shiftStepBase: var(--galleryHeight, 256px);
     $angleStart: 60deg;
     $angleStep: 10deg;
     $angleMax: 90deg;
     $scaleFactor: 0.618;
 
-    //NOTE: increase `through` value to support more images in the gallery
-    &.pos-0,
-    &.pos--0 {
+    &.pos-0 {
       z-index: 33;
       transform: translateX(0) rotate(0) scale(1);
-      box-shadow: 0 0 0 $shadowSize desaturate(lighten(teal, 20%), 50%);
+      & > img {
+        box-shadow: 0 0 0 $shadowSize desaturate(lighten(teal, 20%), 50%);
+      }
     }
+    //NOTE: increase `through` value to support more images in the gallery
     @for $i from 1 through 32 {
       &.pos-#{$i} {
         z-index: 33 - $i;
-        transform: translateX($shiftStepBase * pow($i, 0.5))
+        transform: translateX(calc(#{$shiftStepBase} * pow($i, 0.5) * 1.25))
           rotateY(-($angleStart + $angleStep * ($i - 1)))
           scale($scaleFactor);
       }
       &.pos--#{$i} {
         z-index: 33 - $i;
-        transform: translateX(-$shiftStepBase * pow($i, 0.5))
+        transform: translateX(calc(#{$shiftStepBase} * pow($i, 0.5) * -1.25))
           rotateY(($angleStart + $angleStep * ($i - 1)))
           scale($scaleFactor);
       }
     }
 
     & > img {
-      max-height: 100%;
-      height: auto;
       width: auto;
+      height: auto;
       max-width: 100%;
+      max-height: 100%;
       object-fit: contain;
+
+      border-radius: 1rem;
+      box-shadow: 0 0 0 $shadowSize desaturate(lighten($backgroundLight, 20%), 50%);
+
+      opacity: 0;
+      transition:
+        opacity 0.4s ease-in,
+        box-shadow 0.4s ease-in-out;
+      &.loaded {
+        opacity: 1;
+      }
     }
 
     & > .content {
-      display: none; //TODO: show content on hover
-      margin-top: -50%;
-      text-align: center;
-      background-color: blue;
       @extend .text-medium;
+      text-align: center;
+      position: absolute;
+      left: 0;
+      right: 0;
+      overflow: hidden;
+      background-color: rgba($backgroundLight, 0.5);
+      backdrop-filter: blur(2px);
+      overflow: hidden;
+      border-top: 2px solid $backgroundLight;
+      border-bottom-left-radius: 1rem;
+      border-bottom-right-radius: 1rem;
+
+      padding: 1rem 0.5rem;
+      opacity: 0;
+      transform: translateY(0%);
+
+      transition:
+        opacity 0.4s ease-in,
+        transform 0.4s $smooth;
+    }
+    &.pos-0:hover > .content {
+      opacity: 1;
+      transform: translateY(calc(-100% - $shadowSize));
     }
   }
 
@@ -100,6 +129,14 @@
 
     position: absolute;
     width: calc(50% - 16rem);
+
+    @media screen and (max-width: 48rem) {
+      width: calc(50% - 4rem);
+    }
+    @media screen and (max-width: 32rem) {
+      width: 50%;
+    }
+
     height: 100%;
 
     z-index: 34;

@@ -54,11 +54,11 @@ export const TypeInEffect: FC<TypeInfEffectProps> = ({
     let timeout: number | null = null
 
     const pushChar = (char: string) => {
-      setVisibleChars((prevChars) => [...prevChars, char])
-
       if (individualCharsRef.current.length > 0) {
+        setVisibleChars((prevChars) => [...prevChars, char])
         timeout = setTimeout(pushChar, randomDelay(), individualCharsRef.current.shift())
       } else {
+        setVisibleChars(children.split(''))
         timeout = null
       }
     }

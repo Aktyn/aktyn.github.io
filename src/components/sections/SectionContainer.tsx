@@ -1,4 +1,4 @@
-import { useContext, type FC, type PropsWithChildren } from 'react'
+import { useContext, useEffect, useRef, type FC, type PropsWithChildren } from 'react'
 import { mdiChevronDown } from '@mdi/js'
 import Icon from '@mdi/react'
 import clsx from 'clsx'
@@ -12,20 +12,57 @@ export const SectionContainer: FC<PropsWithChildren<{ section: Section }>> = ({
   children,
   section,
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null)
   const { section: activeSection, previousSection, nextSection } = useContext(SectionContext)
+
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) {
+      return
+    }
+
+    let touchY = 0
+
+    const handleVerticalMove = (delta: number) => {
+      if (delta > 0) {
+        nextSection()
+      } else if (delta < 0) {
+        previousSection()
+      }
+    }
+
+    const handleWheel = (event: WheelEvent) => {
+      event.stopPropagation()
+      handleVerticalMove(event.deltaY)
+    }
+    const handleTouchStart = (event: TouchEvent) => {
+      touchY = event.touches[0].clientY
+    }
+    const handleTouchMove = (event: TouchEvent) => {
+      event.stopPropagation()
+      const y = event.touches[0].clientY
+      const delta = touchY - y
+      if (Math.abs(delta) >= 32) {
+        handleVerticalMove(delta)
+        touchY = y
+      }
+    }
+
+    container.addEventListener('wheel', handleWheel, true)
+    container.addEventListener('touchstart', handleTouchStart)
+    container.addEventListener('touchmove', handleTouchMove)
+
+    return () => {
+      container.removeEventListener('wheel', handleWheel, true)
+      container.removeEventListener('touchstart', handleTouchStart)
+      container.removeEventListener('touchmove', handleTouchMove)
+    }
+  }, [nextSection, previousSection])
 
   return (
     <div
+      ref={containerRef}
       className={clsx('section-container', section, activeSection === section && 'section-active')}
-      onWheel={(event) => {
-        event.stopPropagation()
-
-        if (event.deltaY > 0) {
-          nextSection()
-        } else if (event.deltaY < 0) {
-          previousSection()
-        }
-      }}
     >
       <div className="section-content">{children}</div>
       <NavigationButton type="previous" section={section} />
@@ -47,7 +84,12 @@ const NavigationButton: FC<NavigationButtonProps> = ({ type, section }) => {
   return (
     <div className={clsx('navigation-button', type, !targetSection && 'hidden')}>
       <div
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}
+        style={{
+          display: 'flex',
+          flexDirection: type === 'next' ? 'column-reverse' : 'column',
+          alignItems: 'center',
+          gap: '0.5rem',
+        }}
       >
         <div className="text-small text-darken">{targetSection && sectionNames[targetSection]}</div>
         <button

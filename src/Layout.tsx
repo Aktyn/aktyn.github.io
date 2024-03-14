@@ -85,6 +85,21 @@ function App() {
       console.error(`Container not found for section: ${section}`)
     }
     sectionContainerElement?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+
+    let timeoutId: NodeJS.Timeout
+    const onWindowResize = () => {
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => {
+        sectionContainerElement?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 200)
+    }
+
+    window.addEventListener('resize', onWindowResize)
+
+    return () => {
+      clearTimeout(timeoutId)
+      window.removeEventListener('resize', onWindowResize)
+    }
   }, [section])
 
   return (

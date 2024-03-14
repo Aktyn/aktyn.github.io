@@ -51,7 +51,7 @@ $smooth: cubic-bezier(0.36, 0.07, 0.19, 0.97);
 
 .shrink-in {
   transform: scale(1.618);
-  animation: shrinkIn 0.25s ease-out forwards;
+  animation: shrinkIn 0.25s $springEase forwards;
 }
 
 @keyframes shrinkIn {

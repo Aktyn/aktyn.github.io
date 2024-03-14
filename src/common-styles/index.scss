@@ -1,8 +1,14 @@
 @import 'palette.scss';
 @import 'scrollbar.scss';
 
+html,
 body {
   margin: 0;
+}
+
+body {
+  height: 100vh;
+  height: 100dvh;
   font-family: 'Roboto Flex', sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
@@ -24,6 +30,10 @@ body {
   color: $textPrimary;
   background-color: $backgroundPrimary;
   border-color: $textPrimary;
+}
+
+#root {
+  height: 100%;
 }
 
 a,
