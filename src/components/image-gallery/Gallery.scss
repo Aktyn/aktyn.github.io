@@ -107,6 +107,32 @@
       opacity: 1;
       transform: translateY(calc(-100% - $shadowSize));
     }
+
+    & > .options {
+      position: absolute;
+      z-index: 9;
+      top: 0;
+      right: 0;
+      left: auto;
+      padding: 0.5rem;
+      overflow: hidden;
+      border-radius: 1rem;
+
+      opacity: 0;
+      transform: scale(0);
+      transition:
+        opacity 0.4s ease-in,
+        transform 0.4s $smooth;
+
+      & > button.icon {
+        color: $textPrimary;
+        background-color: rgba($backgroundLight, 0.5);
+      }
+    }
+    &.pos-0:hover > .options {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 
   & > .gallery-navigation-button {

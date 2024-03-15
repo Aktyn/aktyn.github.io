@@ -16,6 +16,21 @@ $smooth: cubic-bezier(0.36, 0.07, 0.19, 0.97);
   }
 }
 
+.fade-out {
+  opacity: 1;
+  animation: fadeOut 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
 .fade-in-from-bottom {
   opacity: 0;
   transform: translateY(100%);
