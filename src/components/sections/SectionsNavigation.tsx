@@ -19,10 +19,10 @@ export const SectionsNavigation = () => {
               if (section === activeSection) {
                 return
               }
-              setSection(section)
+              setSection(section as Section)
             }}
           >
-            <span data-tooltip={sectionNames[section]} data-tooltip-conf="left" />
+            <span data-tooltip={sectionNames[section as Section]} data-tooltip-conf="left" />
           </span>
         ))}
       </div>

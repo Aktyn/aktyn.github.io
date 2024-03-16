@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @import 'common-styles/palette.scss';
 @import 'common-styles/animation.scss';
 @import 'common-styles/typography.scss';
@@ -20,6 +22,8 @@
   position: relative;
 
   perspective: $perspective;
+
+  @extend .fade-in;
 
   & > .gallery-item {
     position: absolute;
@@ -88,12 +92,18 @@
       left: 0;
       right: 0;
       overflow: hidden;
-      background-color: rgba($backgroundLight, 0.5);
       backdrop-filter: blur(2px);
       overflow: hidden;
-      border-top: 2px solid $backgroundLight;
+      border-top: 2px solid;
       border-bottom-left-radius: 1rem;
       border-bottom-right-radius: 1rem;
+
+      @each $name, $colors in $sectionColors {
+        .#{$name} & {
+          background-color: rgba(map.get($colors, 'background'), 0.5);
+          border-color: map.get($colors, 'background');
+        }
+      }
 
       padding: 1rem 0.5rem;
       opacity: 0;
@@ -110,13 +120,18 @@
 
     & > .options {
       position: absolute;
-      z-index: 9;
+      z-index: 35;
       top: 0;
       right: 0;
       left: auto;
       padding: 0.5rem;
       overflow: hidden;
       border-radius: 1rem;
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
 
       opacity: 0;
       transform: scale(0);
@@ -125,8 +140,13 @@
         transform 0.4s $smooth;
 
       & > button.icon {
-        color: $textPrimary;
+        color: currentColor;
         background-color: rgba($backgroundLight, 0.5);
+        @each $name, $colors in $sectionColors {
+          .#{$name} & {
+            background-color: rgba(map.get($colors, 'background'), 0.5);
+          }
+        }
       }
     }
     &.pos-0:hover > .options {
@@ -136,8 +156,13 @@
   }
 
   & > .gallery-navigation-button {
-    color: $textSecondary;
-    background-color: rgba(desaturate(lighten($backgroundLight, 50%), 75%), 0.25);
+    color: currentColor;
+    @each $name, $colors in $sectionColors {
+      .#{$name} & {
+        background-color: rgba(desaturate(lighten(map.get($colors, 'background'), 50%), 75%), 0.25);
+      }
+    }
+
     border-color: transparent;
     border-radius: 1rem;
     &:active {
@@ -149,21 +174,27 @@
 
     transition: opacity 0.2s ease-in-out;
     opacity: 0;
+    &:disabled {
+      pointer-events: none;
+    }
     &:not(:disabled):hover {
       opacity: 1;
     }
 
     position: absolute;
-    width: calc(50% - 16rem);
 
+    width: calc(50% - 16rem);
     @media screen and (max-width: 48rem) {
       width: calc(50% - 4rem);
     }
+    max-width: 25%;
     @media screen and (max-width: 32rem) {
       width: 50%;
+      max-width: 50%;
     }
 
-    height: 100%;
+    height: calc(100% - 8rem);
+    min-height: 61.8%;
 
     z-index: 34;
     margin-block: auto;
@@ -178,4 +209,12 @@
       border-bottom-right-radius: 0;
     }
   }
+}
+
+.gallery-main {
+  animation-play-state: paused;
+}
+
+.section-active .gallery-main {
+  animation-play-state: running;
 }

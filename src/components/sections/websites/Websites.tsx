@@ -1,6 +1,6 @@
-import { useContext, type FC, type PropsWithChildren } from 'react'
-import { mdiLink } from '@mdi/js'
-import Icon from '@mdi/react'
+import { useContext } from 'react'
+import { RepositoryInfo } from 'components/common/RepositoryInfo'
+import { TechnologiesList } from 'components/common/TechnologiesList'
 import { Title } from 'components/common/Title'
 import { Gallery } from 'components/image-gallery/Gallery'
 import { Section, SectionContext } from 'context/SectionContext'
@@ -10,8 +10,8 @@ import in2rpImg from 'img/websites/in2rp.webp'
 import mapPoiImg from 'img/websites/map-poi.webp'
 import projectParadiseImg from 'img/websites/project-paradise.webp'
 
-import 'common-styles/typography.scss'
 import 'common-styles/tooltip.scss'
+import 'common-styles/typography.scss'
 import 'devicon/devicon.min.css'
 import './Websites.scss'
 
@@ -34,50 +34,10 @@ export const Websites = () => {
       <Title paused={paused} delay={delayBase + delaySection * 1}>
         Some of technologies used in my web projects
       </Title>
-      <div className="technologies">
-        <div
-          className="text-small text-darken"
-          style={{ width: '100%', textAlign: 'center', opacity: 0.5 }}
-        >
-          Hover over the icons to see the name of the technology
-        </div>
-        <div className="technologies-list">
-          {technologies.map(({ className, tooltip }, index) => (
-            <span
-              key={className}
-              data-tooltip={tooltip}
-              data-tooltip-conf="top"
-              style={{
-                animationDelay: `${2200 + 100 * Math.abs(index - technologies.length / 2)}ms`,
-              }}
-            >
-              <i className={className} />
-            </span>
-          ))}
-        </div>
-      </div>
+      <TechnologiesList technologies={technologies} />
     </div>
   )
 }
-
-const RepositoryInfo: FC<PropsWithChildren<{ link: string }>> = ({ link, children }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-    <div>{children}</div>
-    <a
-      href={link}
-      target="_blank"
-      rel="noreferrer"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '0.25rem',
-      }}
-    >
-      Repository <Icon path={mdiLink} size="1rem" />
-    </a>
-  </div>
-)
 
 const images = [
   {

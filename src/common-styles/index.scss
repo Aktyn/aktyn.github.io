@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @import 'palette.scss';
 @import 'scrollbar.scss';
 
@@ -38,7 +40,7 @@ body {
 
 a,
 .link {
-  color: $textPrimary;
+  color: currentColor;
   text-decoration: none;
   transition: color 0.2s ease-in-out;
   cursor: pointer;
@@ -79,6 +81,15 @@ button.icon {
   }
   &:not(:disabled):hover > * {
     opacity: 1;
+  }
+}
+
+@each $name, $colors in $sectionColors {
+  $color: lighten(getDarkenText(map.get($colors, 'text')), 40%);
+
+  .#{$name} button.icon:not(:disabled):active {
+    color: $color;
+    border-color: $color;
   }
 }
 

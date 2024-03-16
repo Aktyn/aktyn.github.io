@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @import './palette.scss';
 @import './typography.scss';
 @import './animation.scss';
@@ -36,7 +38,6 @@ $tooltip-base-border-color: $tooltip-base-bg-color;
     text-align: center;
     padding: 0.5rem 0.75rem;
     border-radius: 2rem;
-    color: $textPrimary;
     @extend .text-small;
     transition:
       opacity 0.4s ease-in,
@@ -56,7 +57,6 @@ $tooltip-base-border-color: $tooltip-base-bg-color;
 [data-tooltip]:after {
   background: $tooltip-base-bg-color;
 }
-
 [data-tooltip]:before {
   border-top-color: $tooltip-base-bg-color;
   border-right-color: transparent;
@@ -83,6 +83,28 @@ $tooltip-base-border-color: $tooltip-base-bg-color;
   border-right-color: transparent;
   border-bottom-color: transparent;
   border-left-color: $tooltip-base-border-color;
+}
+
+@each $name, $colors in $sectionColors {
+  .#{$name} {
+    $color: lighten(map.get($colors, 'background'), 10%);
+
+    [data-tooltip]:after {
+      background-color: $color;
+    }
+    [data-tooltip]:before {
+      border-top-color: $color;
+    }
+    [data-tooltip][data-tooltip-conf*='right']:before {
+      border-right-color: $color;
+    }
+    [data-tooltip][data-tooltip-conf*='bottom']:before {
+      border-bottom-color: $color;
+    }
+    [data-tooltip][data-tooltip-conf*='left']:before {
+      border-left-color: $color;
+    }
+  }
 }
 
 [data-tooltip] {

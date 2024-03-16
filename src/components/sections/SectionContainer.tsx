@@ -2,7 +2,12 @@ import { useContext, useEffect, useRef, type FC, type PropsWithChildren } from '
 import { mdiChevronDown } from '@mdi/js'
 import Icon from '@mdi/react'
 import clsx from 'clsx'
-import { SectionContext, sectionNames, type Section } from 'context/SectionContext'
+import {
+  SectionContext,
+  sectionClassNames,
+  sectionNames,
+  type Section,
+} from 'context/SectionContext'
 
 import 'common-styles/palette.scss'
 import 'common-styles/typography.scss'
@@ -62,7 +67,11 @@ export const SectionContainer: FC<PropsWithChildren<{ section: Section }>> = ({
   return (
     <div
       ref={containerRef}
-      className={clsx('section-container', section, activeSection === section && 'section-active')}
+      className={clsx(
+        'section-container',
+        sectionClassNames[section],
+        activeSection === section && 'section-active',
+      )}
     >
       <div className="section-content">{children}</div>
       <NavigationButton type="previous" section={section} />

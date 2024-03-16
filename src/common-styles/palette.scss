@@ -1,21 +1,59 @@
+@use 'sass:color';
+@use 'sass:map';
+
 $backgroundPrimary: #0e141b;
 $backgroundSecondary: #1b150e;
 $backgroundLight: #002439;
 $backgroundLightSecondary: #391500;
 
 $textPrimary: #e4eff0;
-$textPrimaryDarken: #4e7988;
-
-$textSecondary: #f0e5e4;
-$textSecondaryDarken: #885d4e;
 
 $primary: #78cce2;
 $secondary: #e28e78;
 
-$divider: rgba(lighten($backgroundLight, 50%), 0.1);
 $disabled: desaturate(darken($textPrimary, 50%), 75%);
 
-.text-darken {
-  color: $textPrimaryDarken;
-  fill: $textPrimaryDarken;
+$hue-change: 140deg;
+
+$sectionColors: (
+  'basic-info': (
+    'background': transparent,
+    'text': $textPrimary,
+  ),
+  'websites': (
+    'background': $backgroundLight,
+    'text': $textPrimary,
+  ),
+  'game-development': (
+    'background': color.adjust($backgroundLight, $hue: + $hue-change),
+    'text': #ecc,
+  ),
+  'microcontrollers': (
+    'background': #f55,
+    'text': $textPrimary,
+  ),
+  'computer-graphics': (
+    'background': #5ff,
+    'text': $textPrimary,
+  ),
+);
+
+@function getDarkenText($color) {
+  @return darken($color, 50%);
+}
+@function getDivider($color) {
+  @return rgba(lighten($color, 50%), 0.1);
+}
+
+@each $name, $colors in $sectionColors {
+  .#{$name} .text-darken {
+    color: getDarkenText(map.get($colors, 'text'));
+    fill: getDarkenText(map.get($colors, 'text'));
+  }
+}
+
+@each $name, $colors in $sectionColors {
+  .#{$name} .divider {
+    background-color: getDivider(map.get($colors, 'background'));
+  }
 }

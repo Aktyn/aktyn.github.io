@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @import 'common-styles/animation.scss';
 @import 'common-styles/palette.scss';
 
@@ -6,6 +8,13 @@
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
+
+  @each $name, $colors in $sectionColors {
+    &.#{$name} {
+      background-color: map.get($colors, 'background');
+      color: map.get($colors, 'text');
+    }
+  }
 
   & > .section-content {
     height: 100%;
@@ -20,6 +29,16 @@
     & > * {
       max-height: 100%;
       max-width: 100%;
+    }
+  }
+}
+
+@each $name, $colors in $sectionColors {
+  .#{$name} .navigation-button > * button.icon {
+    border-color: rgba(getDarkenText(map.get($colors, 'text')), 0.5);
+
+    &:not(:active):hover {
+      border-color: getDarkenText(map.get($colors, 'text'));
     }
   }
 }
@@ -61,12 +80,10 @@
       align-items: center;
       aspect-ratio: 1 / 1;
 
-      border-color: rgba($textPrimaryDarken, 0.5);
       border-style: dashed;
-      transition: border-color 0.5s $smooth;
-      &:hover {
-        border-color: $textPrimaryDarken;
-      }
+      transition:
+        border-color 0.25s $smooth,
+        color 0.25s $smooth;
 
       &.previous {
         transform: rotate(180deg);

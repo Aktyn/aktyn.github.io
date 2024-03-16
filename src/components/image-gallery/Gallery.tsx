@@ -48,7 +48,11 @@ export const Gallery = memo<GalleryProps>(({ images }) => {
             }}
           >
             {images.map(({ src, content }, index) => (
-              <div key={src} className={clsx('gallery-item', `pos-${index - focusedIndex}`)}>
+              <div
+                key={src}
+                className={clsx('gallery-item', `pos-${index - focusedIndex}`)}
+                onDoubleClick={() => setMaximizedImage(src)}
+              >
                 <Maximizable
                   maximized={maximizedImage === src}
                   onClose={() => setMaximizedImage(null)}

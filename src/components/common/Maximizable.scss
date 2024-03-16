@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @import 'common-styles/palette.scss';
 @import 'common-styles/animation.scss';
 
@@ -9,7 +11,12 @@
   height: 100%;
   z-index: 99;
 
-  background-color: rgba($backgroundPrimary, 0.5);
+  background-color: red;
+  @each $name, $colors in $sectionColors {
+    :has(.section-active.#{$name}) & {
+      background-color: rgba(darken(map.get($colors, 'background'), 10%), 0.5);
+    }
+  }
   backdrop-filter: blur(4px);
 
   display: flex;
@@ -28,6 +35,11 @@
     top: 1rem;
     right: 1rem;
     color: $textPrimary;
-    background-color: rgba($backgroundLight, 0.5);
+
+    @each $name, $colors in $sectionColors {
+      :has(.section-active.#{$name}) & {
+        background-color: rgba(map.get($colors, 'background'), 0.5);
+      }
+    }
   }
 }

@@ -16,7 +16,7 @@
     content: '';
     height: 1px;
     border-radius: 1px;
-    background-color: $divider;
+    @extend .divider;
   }
   &::before {
     @extend .slide-in-left;
@@ -33,4 +33,14 @@
       font-size: 1rem !important;
     }
   }
+}
+
+.title-main::before,
+.title-main::after {
+  animation-play-state: paused;
+}
+
+.section-active .title-main::before,
+.section-active .title-main::after {
+  animation-play-state: running;
 }

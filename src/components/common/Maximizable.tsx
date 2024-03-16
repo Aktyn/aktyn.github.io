@@ -41,7 +41,14 @@ export const Maximizable: FC<PropsWithChildren<{ maximized: boolean; onClose: ()
         <>
           {children}
           {createPortal(
-            <div className={clsx('maximized', { closing })}>
+            <div
+              className={clsx('maximized', { closing })}
+              onClick={(event) => {
+                if (event.target === event.currentTarget) {
+                  startClosing()
+                }
+              }}
+            >
               {children}
               <button className="icon" onClick={startClosing}>
                 <Icon path={mdiFullscreenExit} size="1.5rem" />

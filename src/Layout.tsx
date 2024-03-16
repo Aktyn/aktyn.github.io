@@ -6,7 +6,7 @@ import { ComputerGraphics } from 'components/sections/computer-graphics/Computer
 import { GameDevelopment } from 'components/sections/game-development/GameDevelopment'
 import { Microcontrollers } from 'components/sections/microcontrollers/Microcontrollers'
 import { Websites } from 'components/sections/websites/Websites'
-import { Section, SectionContext } from 'context/SectionContext'
+import { Section, SectionContext, sectionClassNames } from 'context/SectionContext'
 import './Layout.scss'
 
 const MINIMUM_SECTION_CHANGE_INTERVAL = 500
@@ -80,7 +80,9 @@ function App() {
   }, [getNextSection, setSection])
 
   useEffect(() => {
-    const sectionContainerElement = document.querySelector(`.section-container.${section}`)
+    const sectionContainerElement = document.querySelector(
+      `.section-container.${sectionClassNames[section]}`,
+    )
     if (!sectionContainerElement) {
       console.error(`Container not found for section: ${section}`)
     }

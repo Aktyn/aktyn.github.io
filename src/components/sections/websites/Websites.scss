@@ -3,7 +3,6 @@
 @import 'common-styles/consts.scss';
 
 .websites-main {
-  background-color: $backgroundLight;
   display: grid;
   grid-template-rows: auto 1fr auto auto;
   row-gap: 1rem;
@@ -31,48 +30,9 @@
     height: 100%;
     overflow: hidden;
     margin: 0;
-    @extend .fade-in;
-    animation-delay: 1200ms;
-  }
-
-  & > .technologies {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 0.5rem;
-    height: 4rem;
-    max-height: 9rem;
-    max-width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    font-size: 3rem;
-    padding-top: 2rem;
-    margin-top: -2rem;
-
-    @extend .fade-in;
-    opacity: 0;
-    animation-delay: 2s;
-
-    & > .technologies-list {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-inline: auto;
-
-      & > * {
-        @extend .shrink-fade-in;
-        animation-duration: 0.75s;
-      }
+    & .gallery-main {
+      animation-delay: 1200ms;
     }
-  }
-
-  & .title-main::before,
-  & .title-main::after,
-  & > .gallery-container,
-  & > .technologies,
-  & > .technologies > .technologies-list > * {
-    animation-play-state: paused;
   }
 
   @for $i from 1 through 2 {
@@ -80,15 +40,5 @@
     & .title-main:nth-of-type(#{$i})::after {
       animation-delay: 1200ms + 600ms * ($i - 1);
     }
-  }
-}
-
-.section-active .websites-main {
-  & .title-main::before,
-  & .title-main::after,
-  & > .gallery-container,
-  & > .technologies,
-  & > .technologies > .technologies-list > * {
-    animation-play-state: running;
   }
 }

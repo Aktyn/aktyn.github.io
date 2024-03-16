@@ -60,10 +60,10 @@ export const BasicInfo = () => {
                     if (section === activeSection) {
                       return
                     }
-                    setSection(section)
+                    setSection(section as Section)
                   }}
                 >
-                  {sectionNames[section]}
+                  {sectionNames[section as Section]}
                 </TypeInEffect>
               ),
           )}
