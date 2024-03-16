@@ -1,22 +1,29 @@
 {
   "files": {
-    "main.css": "/static/css/main.d86f01aa.css",
-    "main.js": "/static/js/main.eb33aff5.js",
+    "main.css": "/static/css/main.fbb071b4.css",
+    "main.js": "/static/js/main.8286d31a.js",
     "static/media/devicon.svg?iehcku": "/static/media/devicon.de33ff67547800466a48.svg",
     "static/media/devicon.woff?iehcku": "/static/media/devicon.25bdb9cbf8e5f9b4dde9.woff",
     "static/media/devicon.ttf?iehcku": "/static/media/devicon.161b6f3376d6ce5c517d.ttf",
     "static/media/map-poi.webp": "/static/media/map-poi.6d9d3bb47e98bc63beec.webp",
+    "static/media/zero-g-ball.webp": "/static/media/zero-g-ball.041d9efc422c0b1ad518.webp",
+    "static/media/kulka-w-tarapatach.webp": "/static/media/kulka-w-tarapatach.d7d47ad5dba4391f5ad0.webp",
+    "static/media/astro-kulka.webp": "/static/media/astro-kulka.bb5fc8d71fccfdea1b5b.webp",
+    "static/media/berta-snakes.webp": "/static/media/berta-snakes.0b2d923f8d19a051e896.webp",
     "static/media/in2rp.webp": "/static/media/in2rp.e4399e0cfd2b33b7858e.webp",
     "static/media/project-paradise.webp": "/static/media/project-paradise.8186e1781e3710482677.webp",
+    "static/media/avoid-lines.webp": "/static/media/avoid-lines.9332a743cdc7d8b01611.webp",
     "static/media/logo_flat.png": "/static/media/logo_flat.3f63c305fdf57387f86b.png",
     "static/media/fivem-launcher.webp": "/static/media/fivem-launcher.d4091775feeb3b513e30.webp",
-    "static/media/berta-snakes.webp": "/static/media/berta-snakes.0b2d923f8d19a051e896.webp",
+    "static/media/ten-tac-toe.webp": "/static/media/ten-tac-toe.6f065823385e89ec8b5c.webp",
+    "static/media/tetris.webp": "/static/media/tetris.d5fb32fe978505abc125.webp",
+    "static/media/snake.webp": "/static/media/snake.36b9e5f23de7bcdee4f0.webp",
     "index.html": "/index.html",
-    "main.d86f01aa.css.map": "/static/css/main.d86f01aa.css.map",
-    "main.eb33aff5.js.map": "/static/js/main.eb33aff5.js.map"
+    "main.fbb071b4.css.map": "/static/css/main.fbb071b4.css.map",
+    "main.8286d31a.js.map": "/static/js/main.8286d31a.js.map"
   },
   "entrypoints": [
-    "static/css/main.d86f01aa.css",
-    "static/js/main.eb33aff5.js"
+    "static/css/main.fbb071b4.css",
+    "static/js/main.8286d31a.js"
   ]
 }
