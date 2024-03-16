@@ -53,6 +53,7 @@ export const Gallery = memo<GalleryProps>(({ images }) => {
                 className={clsx('gallery-item', `pos-${index - focusedIndex}`)}
                 onDoubleClick={() => setMaximizedImage(src)}
               >
+                <GalleryImage src={src} className="reflection" />
                 <Maximizable
                   maximized={maximizedImage === src}
                   onClose={() => setMaximizedImage(null)}
@@ -90,12 +91,12 @@ export const Gallery = memo<GalleryProps>(({ images }) => {
   )
 })
 
-const GalleryImage: FC<{ src: string }> = ({ src }) => {
+const GalleryImage: FC<{ src: string; className?: string }> = ({ src, className }) => {
   const [loaded, setLoaded] = useState(false)
   return (
     <LazyLoadImage
       src={src}
-      className={clsx({ loaded })}
+      className={clsx(className, { loaded })}
       delayTime={500}
       delayMethod="debounce"
       onLoad={() => setLoaded(true)}
