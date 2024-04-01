@@ -1,17 +1,24 @@
 {
   "files": {
-    "main.css": "/static/css/main.36742103.css",
-    "main.js": "/static/js/main.b12aef08.js",
+    "main.css": "/static/css/main.209a2eeb.css",
+    "main.js": "/static/js/main.f93e81d0.js",
     "static/media/devicon.svg?iehcku": "/static/media/devicon.de33ff67547800466a48.svg",
     "static/media/devicon.woff?iehcku": "/static/media/devicon.25bdb9cbf8e5f9b4dde9.woff",
     "static/media/devicon.ttf?iehcku": "/static/media/devicon.161b6f3376d6ce5c517d.ttf",
     "static/media/map-poi.webp": "/static/media/map-poi.6d9d3bb47e98bc63beec.webp",
     "static/media/zero-g-ball.webp": "/static/media/zero-g-ball.041d9efc422c0b1ad518.webp",
+    "static/media/old_ball.webp": "/static/media/old_ball.b2c3130959e5058e4a90.webp",
     "static/media/kulka-w-tarapatach.webp": "/static/media/kulka-w-tarapatach.d7d47ad5dba4391f5ad0.webp",
     "static/media/astro-kulka.webp": "/static/media/astro-kulka.bb5fc8d71fccfdea1b5b.webp",
     "static/media/berta-snakes.webp": "/static/media/berta-snakes.0b2d923f8d19a051e896.webp",
+    "static/media/hairy-logo-v1-postprocess.webp": "/static/media/hairy-logo-v1-postprocess.5fe8e88e99af93bc024b.webp",
+    "static/media/fafik_2.webp": "/static/media/fafik_2.6af058a84c228f1b05a5.webp",
     "static/media/in2rp.webp": "/static/media/in2rp.e4399e0cfd2b33b7858e.webp",
+    "static/media/sniadanko.webp": "/static/media/sniadanko.658539292f2f4d4ed93b.webp",
+    "static/media/neon_logo_wallpaper.webp": "/static/media/neon_logo_wallpaper.075a7abbfe247f9543e8.webp",
+    "static/media/psyduck.webp": "/static/media/psyduck.9e08002fd5637632f91d.webp",
     "static/media/project-paradise.webp": "/static/media/project-paradise.8186e1781e3710482677.webp",
+    "static/media/table-tennis.webp": "/static/media/table-tennis.0c196eeb29f8e89ebf68.webp",
     "static/media/avoid-lines.webp": "/static/media/avoid-lines.9332a743cdc7d8b01611.webp",
     "static/media/logo_flat.png": "/static/media/logo_flat.3f63c305fdf57387f86b.png",
     "static/media/fivem-launcher.webp": "/static/media/fivem-launcher.d4091775feeb3b513e30.webp",
@@ -19,11 +26,11 @@
     "static/media/tetris.webp": "/static/media/tetris.d5fb32fe978505abc125.webp",
     "static/media/snake.webp": "/static/media/snake.36b9e5f23de7bcdee4f0.webp",
     "index.html": "/index.html",
-    "main.36742103.css.map": "/static/css/main.36742103.css.map",
-    "main.b12aef08.js.map": "/static/js/main.b12aef08.js.map"
+    "main.209a2eeb.css.map": "/static/css/main.209a2eeb.css.map",
+    "main.f93e81d0.js.map": "/static/js/main.f93e81d0.js.map"
   },
   "entrypoints": [
-    "static/css/main.36742103.css",
-    "static/js/main.b12aef08.js"
+    "static/css/main.209a2eeb.css",
+    "static/js/main.f93e81d0.js"
   ]
 }
