@@ -3,8 +3,6 @@
 @import 'common-styles/consts.scss';
 
 .game-development-main {
-  // background-color: color.adjust($backgroundLight, $hue: + $hue-change);
-  // color: red; //color.adjust($textPrimary, $hue: + $hue-change);
   display: grid;
   grid-template-rows: auto 1fr auto auto;
   row-gap: 1rem;

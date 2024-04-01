@@ -13,8 +13,6 @@ $secondary: #e28e78;
 
 $disabled: desaturate(darken($textPrimary, 50%), 75%);
 
-$hue-change: 140deg;
-
 $sectionColors: (
   'basic-info': (
     'background': transparent,
@@ -25,7 +23,7 @@ $sectionColors: (
     'text': $textPrimary,
   ),
   'game-development': (
-    'background': color.adjust($backgroundLight, $hue: + $hue-change),
+    'background': color.adjust($backgroundLight, $hue: + 140deg),
     'text': #ecc,
   ),
   'microcontrollers': (
@@ -33,8 +31,8 @@ $sectionColors: (
     'text': $textPrimary,
   ),
   'computer-graphics': (
-    'background': #5ff,
-    'text': $textPrimary,
+    'background': color.adjust($backgroundLight, $hue: + 120deg),
+    'text': lighten(color.adjust($backgroundLight, $hue: + 120deg), 75%),
   ),
 );
 
