@@ -1,4 +1,13 @@
-import { memo, useEffect, useRef, useState, type FC, type ReactNode } from 'react'
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type FC,
+  type ReactNode,
+  type WheelEvent,
+} from 'react'
 import { mdiChevronLeft, mdiChevronRight, mdiFullscreen } from '@mdi/js'
 import Icon from '@mdi/react'
 import clsx from 'clsx'
@@ -14,6 +23,7 @@ type GalleryProps = {
 
 export const Gallery = memo<GalleryProps>(({ images }) => {
   const scrollChangeTimestamp = useRef(0)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const [galleryHeight, setGalleryHeight] = useState(0)
   const [focusedIndex, setFocusedIndex] = useState(Math.floor((images.length - 0.5) / 2))
@@ -23,30 +33,71 @@ export const Gallery = memo<GalleryProps>(({ images }) => {
     document.documentElement.style.setProperty('--galleryHeight', galleryHeight.toString() + 'px')
   }, [galleryHeight])
 
+  const handleWheel = useCallback(
+    (event: WheelEvent<HTMLDivElement>) => {
+      event.stopPropagation()
+
+      if (maximizedImage || Date.now() - scrollChangeTimestamp.current < 500) {
+        return
+      }
+
+      if (event.deltaY > 0) {
+        scrollChangeTimestamp.current = Date.now()
+        setFocusedIndex((prevIndex) => Math.min(images.length - 1, prevIndex + 1))
+      } else if (event.deltaY < 0) {
+        scrollChangeTimestamp.current = Date.now()
+        setFocusedIndex((prevIndex) => Math.max(0, prevIndex - 1))
+      }
+    },
+    [images.length, maximizedImage],
+  )
+
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) {
+      return
+    }
+
+    let touchX = 0
+    const threshold = 128
+
+    const handleHorizontalMove = (delta: number) => {
+      if (delta >= threshold) {
+        setFocusedIndex((prevIndex) => Math.min(images.length - 1, prevIndex + 1))
+      } else if (delta <= threshold) {
+        setFocusedIndex((prevIndex) => Math.max(0, prevIndex - 1))
+      }
+    }
+
+    const handleTouchStart = (event: TouchEvent) => {
+      touchX = event.touches[0].clientX
+    }
+    const handleTouchMove = (event: TouchEvent) => {
+      // event.stopPropagation()
+      const x = event.touches[0].clientX
+      const delta = touchX - x
+      if (Math.abs(delta) >= threshold) {
+        handleHorizontalMove(delta)
+        touchX = x
+      }
+    }
+
+    container.addEventListener('touchstart', handleTouchStart)
+    container.addEventListener('touchmove', handleTouchMove)
+
+    return () => {
+      container.removeEventListener('touchstart', handleTouchStart)
+      container.removeEventListener('touchmove', handleTouchMove)
+    }
+  }, [images.length])
+
   return (
     <AutoSizer>
       {({ height }) => {
         setTimeout(() => setGalleryHeight(height), 1)
 
         return (
-          <div
-            className="gallery-main"
-            onWheelCapture={(event) => {
-              event.stopPropagation()
-
-              if (maximizedImage || Date.now() - scrollChangeTimestamp.current < 500) {
-                return
-              }
-
-              if (event.deltaY > 0) {
-                scrollChangeTimestamp.current = Date.now()
-                setFocusedIndex((prevIndex) => Math.min(images.length - 1, prevIndex + 1))
-              } else if (event.deltaY < 0) {
-                scrollChangeTimestamp.current = Date.now()
-                setFocusedIndex((prevIndex) => Math.max(0, prevIndex - 1))
-              }
-            }}
-          >
+          <div ref={containerRef} className="gallery-main" onWheelCapture={handleWheel}>
             {images.map(({ src, content }, index) => (
               <div
                 key={src}

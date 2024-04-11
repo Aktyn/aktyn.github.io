@@ -47,7 +47,15 @@
       z-index: 33;
       transform: translateX(0) rotate(0) scale(1);
       & > img {
-        box-shadow: 0 0 0 $shadowSize desaturate(lighten(teal, 20%), 50%);
+        @each $name, $colors in $sectionColors {
+          .#{$name} & {
+            box-shadow: 0
+              0
+              0
+              $shadowSize
+              desaturate(lighten(map.get($colors, 'background'), 30%), 70%);
+          }
+        }
 
         &.reflection {
           opacity: 0.25;
@@ -78,7 +86,7 @@
       object-fit: contain;
 
       border-radius: 1rem;
-      box-shadow: 0 0 0 $shadowSize desaturate(lighten($backgroundLight, 20%), 50%);
+      box-shadow: 0 0 0 $shadowSize #0000;
 
       opacity: 0;
       transition:

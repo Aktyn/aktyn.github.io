@@ -27,6 +27,7 @@ export const SectionContainer: FC<PropsWithChildren<{ section: Section }>> = ({
     }
 
     let touchY = 0
+    const threshold = 128
 
     const handleVerticalMove = (delta: number) => {
       if (delta > 0) {
@@ -47,7 +48,7 @@ export const SectionContainer: FC<PropsWithChildren<{ section: Section }>> = ({
       event.stopPropagation()
       const y = event.touches[0].clientY
       const delta = touchY - y
-      if (Math.abs(delta) >= 32) {
+      if (Math.abs(delta) >= threshold) {
         handleVerticalMove(delta)
         touchY = y
       }

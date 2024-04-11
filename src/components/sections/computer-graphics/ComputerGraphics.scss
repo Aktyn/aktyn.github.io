@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 @import 'common-styles/palette.scss';
 @import 'common-styles/animation.scss';
 @import 'common-styles/consts.scss';
@@ -22,7 +24,7 @@
 
   & > .gallery-container {
     $factor: 2;
-    transform: translateZ($perspective/$factor) translateY(1rem) scale(1 - 1 / $factor);
+    transform: translateZ($perspective/$factor) translateY(1rem) scale(1 - math.div(1, $factor));
 
     width: 100%;
     max-width: 100vw;
