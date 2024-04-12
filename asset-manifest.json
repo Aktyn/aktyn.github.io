@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.209a2eeb.css",
-    "main.js": "/static/js/main.f93e81d0.js",
+    "main.css": "/static/css/main.991ddb27.css",
+    "main.js": "/static/js/main.dd2ba252.js",
     "static/media/devicon.svg?iehcku": "/static/media/devicon.de33ff67547800466a48.svg",
     "static/media/devicon.woff?iehcku": "/static/media/devicon.25bdb9cbf8e5f9b4dde9.woff",
     "static/media/devicon.ttf?iehcku": "/static/media/devicon.161b6f3376d6ce5c517d.ttf",
@@ -18,19 +18,27 @@
     "static/media/neon_logo_wallpaper.webp": "/static/media/neon_logo_wallpaper.075a7abbfe247f9543e8.webp",
     "static/media/psyduck.webp": "/static/media/psyduck.9e08002fd5637632f91d.webp",
     "static/media/project-paradise.webp": "/static/media/project-paradise.8186e1781e3710482677.webp",
+    "static/media/bike-tour-assistant.webp": "/static/media/bike-tour-assistant.b37ea7adcc056e932f8c.webp",
+    "static/media/robot.webp": "/static/media/robot.0811b735d407a5483e4a.webp",
     "static/media/table-tennis.webp": "/static/media/table-tennis.0c196eeb29f8e89ebf68.webp",
+    "static/media/cyclocomputer3.webp": "/static/media/cyclocomputer3.4b1c8e3715141421de03.webp",
     "static/media/avoid-lines.webp": "/static/media/avoid-lines.9332a743cdc7d8b01611.webp",
+    "static/media/cyclocomputer2.webp": "/static/media/cyclocomputer2.d26c305c15cd7ae7db1b.webp",
     "static/media/logo_flat.png": "/static/media/logo_flat.3f63c305fdf57387f86b.png",
-    "static/media/fivem-launcher.webp": "/static/media/fivem-launcher.d4091775feeb3b513e30.webp",
+    "static/media/bike-tour-assistant2.webp": "/static/media/bike-tour-assistant2.f729bccc1234043f1ae4.webp",
+    "static/media/bike-tour-assistant-mobile2.webp": "/static/media/bike-tour-assistant-mobile2.7aec9ac6fd348518c93c.webp",
     "static/media/ten-tac-toe.webp": "/static/media/ten-tac-toe.6f065823385e89ec8b5c.webp",
+    "static/media/cyclocomputer.webp": "/static/media/cyclocomputer.68f602a09055d4d50066.webp",
+    "static/media/bike-tour-assistant-mobile.webp": "/static/media/bike-tour-assistant-mobile.1467b52936699dcd6936.webp",
     "static/media/tetris.webp": "/static/media/tetris.d5fb32fe978505abc125.webp",
+    "static/media/fivem-launcher.webp": "/static/media/fivem-launcher.22f4a439295ec4471be3.webp",
     "static/media/snake.webp": "/static/media/snake.36b9e5f23de7bcdee4f0.webp",
     "index.html": "/index.html",
-    "main.209a2eeb.css.map": "/static/css/main.209a2eeb.css.map",
-    "main.f93e81d0.js.map": "/static/js/main.f93e81d0.js.map"
+    "main.991ddb27.css.map": "/static/css/main.991ddb27.css.map",
+    "main.dd2ba252.js.map": "/static/js/main.dd2ba252.js.map"
   },
   "entrypoints": [
-    "static/css/main.209a2eeb.css",
-    "static/js/main.f93e81d0.js"
+    "static/css/main.991ddb27.css",
+    "static/js/main.dd2ba252.js"
   ]
 }
