@@ -23,12 +23,12 @@ $sectionColors: (
     'text': $textPrimary,
   ),
   'game-development': (
-    'background': color.adjust($backgroundLight, $hue: + 140deg),
-    'text': #ecc,
+    'background': color.adjust($backgroundLight, $hue: + 340deg),
+    'text': lighten(color.adjust($backgroundLight, $hue: + 340deg), 75%),
   ),
   'microcontrollers': (
-    'background': #f55,
-    'text': $textPrimary,
+    'background': color.adjust($backgroundLight, $hue: + 320deg),
+    'text': lighten(color.adjust($backgroundLight, $hue: + 320deg), 75%),
   ),
   'computer-graphics': (
     'background': color.adjust($backgroundLight, $hue: + 120deg),

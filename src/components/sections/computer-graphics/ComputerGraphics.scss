@@ -37,6 +37,16 @@
     }
   }
 
+  & > .more {
+    $height: 4rem;
+    height: $height;
+    margin-bottom: -$height;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
   @for $i from 1 through 2 {
     & .title-main:nth-of-type(#{$i})::before,
     & .title-main:nth-of-type(#{$i})::after {
