@@ -1,14 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import 'common-styles/index.scss'
-import Layout from './Layout'
+import { App } from './App'
 
 const rootElement = document.getElementById('root')
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <React.StrictMode>
-      <Layout />
+      <App />
     </React.StrictMode>,
   )
 }

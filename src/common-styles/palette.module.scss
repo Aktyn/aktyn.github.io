@@ -1,9 +1,0 @@
-@use 'sass:map';
-
-@import './palette.scss';
-
-:export {
-  @each $name, $colors in $sectionColors {
-    class-#{$name}: #{$name};
-  }
-}
