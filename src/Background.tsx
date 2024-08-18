@@ -1,44 +1,72 @@
-import { useEffect, useRef } from 'react'
-import * as THREE from 'three'
+import { useEffect, useRef, useState } from 'react'
+import { Scene3D } from './scene-3D'
 
 export function Background() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
+  const [webGlAvailable, setWebGlAvailable] = useState(true)
+
   useEffect(() => {
-    if (!canvasRef.current) {
+    const available = Scene3D.supported
+    if (!available) {
+      setWebGlAvailable(false)
+    }
+
+    if (!canvasRef.current || !available) {
       return
     }
 
-    const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000,
-    )
+    const scene = new Scene3D(canvasRef.current, window.innerWidth, window.innerHeight)
+    scene.run()
 
-    const renderer = new THREE.WebGLRenderer({
-      canvas: canvasRef.current,
-      antialias: true,
-      depth: false,
-    })
-    renderer.setSize(window.innerWidth, window.innerHeight)
-
-    const animate = () => {
-      renderer.render(scene, camera)
+    const onResize = () => {
+      scene.resize(window.innerWidth, window.innerHeight)
     }
-    renderer.setAnimationLoop(animate)
+    const onMouseMove = (event: MouseEvent) => {
+      if (!scene.grid) {
+        return
+      }
+      scene.grid.updateMousePosition(
+        ((event.clientX - window.innerWidth / 2) / window.innerHeight) * 2,
+        -(event.clientY / window.innerHeight - 0.5) * 2,
+      )
+    }
+
+    window.addEventListener('resize', onResize)
+    window.addEventListener('mousemove', onMouseMove)
 
     return () => {
-      renderer.dispose()
+      scene.destroy()
+      window.removeEventListener('resize', onResize)
+      window.removeEventListener('mousemove', onMouseMove)
     }
   }, [])
 
   return (
     <div
-      style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: -1 }}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: -1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
     >
-      <canvas ref={canvasRef} />
+      {webGlAvailable ? (
+        <canvas ref={canvasRef} />
+      ) : (
+        <div
+          style={{
+            marginTop: 'auto',
+          }}
+        >
+          WebGL is not available in your browser
+        </div>
+      )}
     </div>
   )
 }
