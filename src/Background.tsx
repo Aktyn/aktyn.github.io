@@ -23,13 +23,11 @@ export function Background() {
       scene.resize(window.innerWidth, window.innerHeight)
     }
     const onMouseMove = (event: MouseEvent) => {
-      if (!scene.grid) {
-        return
-      }
-      scene.grid.updateMousePosition(
-        ((event.clientX - window.innerWidth / 2) / window.innerHeight) * 2,
-        -(event.clientY / window.innerHeight - 0.5) * 2,
-      )
+      const relativeX = ((event.clientX - window.innerWidth / 2) / window.innerHeight) * 2
+      const relativeY = -(event.clientY / window.innerHeight - 0.5) * 2
+
+      scene.grid?.updateMousePosition(relativeX, relativeY)
+      scene.logo?.updateMousePosition(relativeX, relativeY)
     }
 
     window.addEventListener('resize', onResize)

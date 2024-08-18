@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { smoothValueUpdate } from './helpers'
 import { ObjectBase } from './object-base'
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -64,7 +65,7 @@ export class ReactiveGrid extends ObjectBase {
   }
 
   update(delta: number) {
-    if (!this.positionAttribute) {
+    if (!this.positionAttribute || (!this.mouseX && !this.mouseY)) {
       return
     }
 
@@ -78,9 +79,8 @@ export class ReactiveGrid extends ObjectBase {
 
       const dst = Math.min(Math.pow(dstX * dstX + dstY * dstY, 0.7) * 8, Math.PI * 1.5)
       const targetZ = Math.max(-0.095, Math.cos(dst) * 0.1)
-      const zDiff = targetZ - z
 
-      this.positionAttribute.setZ(i, z + zDiff * delta * 2)
+      this.positionAttribute.setZ(i, smoothValueUpdate(z, targetZ, delta * 2))
     }
 
     this.positionAttribute.needsUpdate = true

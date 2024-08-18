@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import * as THREE from 'three'
+import { smoothValueUpdate } from './helpers'
 import { ObjectBase } from './object-base'
 
 const { GLTFLoader } = require('three/addons/loaders/GLTFLoader.js')
@@ -8,6 +9,8 @@ const dustParticleTexture = require('./textures/vertex.png')
 
 export class Logo extends ObjectBase {
   private object: THREE.Object3D | null = null
+  private mouseX = 0
+  private mouseY = 0
 
   constructor(scene: THREE.Scene) {
     super()
@@ -21,7 +24,6 @@ export class Logo extends ObjectBase {
         if (!objectScene.children?.length) {
           return
         }
-        objectScene.rotation.y = Math.PI / 2
         const mesh = objectScene.children[0]
         if (!(mesh instanceof THREE.Mesh) || !mesh.isMesh) {
           return
@@ -67,6 +69,21 @@ export class Logo extends ObjectBase {
     if (!this.object) {
       return
     }
-    this.object.rotation.y += delta * 0.5
+    const damping = 0.1
+    this.object.rotation.x = smoothValueUpdate(
+      this.object.rotation.x,
+      -this.mouseY * Math.PI * damping,
+      delta * 2,
+    )
+    this.object.rotation.y = smoothValueUpdate(
+      this.object.rotation.y,
+      this.mouseX * Math.PI * damping,
+      delta * 2,
+    )
+  }
+
+  updateMousePosition(x: number, y: number) {
+    this.mouseX = x
+    this.mouseY = y
   }
 }

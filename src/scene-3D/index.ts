@@ -16,6 +16,7 @@ export class Scene3D {
   private readonly camera: THREE.PerspectiveCamera
   private readonly objects: ObjectBase[] = []
   public grid: ReactiveGrid | null = null
+  public logo: Logo | null = null
 
   constructor(canvas: HTMLCanvasElement, width: number, height: number) {
     this.scene = this.loadScene()
@@ -70,8 +71,8 @@ export class Scene3D {
     this.grid = new ReactiveGrid(scene)
     this.objects.push(this.grid)
 
-    const logo = new Logo(scene)
-    this.objects.push(logo)
+    this.logo = new Logo(scene)
+    this.objects.push(this.logo)
 
     return scene
   }
