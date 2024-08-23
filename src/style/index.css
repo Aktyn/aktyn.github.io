@@ -1,0 +1,18 @@
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  src: url('../scene-3D/fonts//SourceCodePro/SourceCodePro-VariableFont_wght.ttf');
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Source Code Pro', Helvetica, Arial, monospace;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+body {
+  background-color: #171b22;
+  color: #fff;
+}

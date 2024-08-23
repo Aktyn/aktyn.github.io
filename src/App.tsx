@@ -4,7 +4,7 @@ export function App() {
   return (
     <>
       <Background />
-      <div>Hello</div>
+      <center>Hello</center>
     </>
   )
 }

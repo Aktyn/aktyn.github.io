@@ -1,23 +1,28 @@
 import * as THREE from 'three'
-import { smoothValueUpdate } from './helpers'
 import { ObjectBase } from './object-base'
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const dustParticleTexture = require('./textures/vertex.png')
+import { Assets } from '../assets'
+import { smoothValueUpdate } from '../helpers'
 
 export class ReactiveGrid extends ObjectBase {
-  private mesh: THREE.Object3D | null = null
-  private positionAttribute: THREE.Float32BufferAttribute | null = null
+  private readonly background: THREE.Mesh
+  private readonly mesh: THREE.Object3D
+  private readonly positionAttribute: THREE.Float32BufferAttribute
   private readonly grid: Array<[number, number, number]>
-  private mouseX = 0
-  private mouseY = 0
 
   constructor(
     scene: THREE.Scene,
-    private readonly gridSize = 64,
+    private readonly gridSize = 48,
   ) {
-    super()
+    super(scene)
 
+    const planeGeometry = new THREE.PlaneGeometry(3, 3)
+    const planeMaterial = new THREE.MeshBasicMaterial({
+      color: 0x4e545b,
+      transparent: true,
+      opacity: 0.1,
+    })
+    this.background = new THREE.Mesh(planeGeometry, planeMaterial)
+    this.background.position.z = -0.5
     this.mesh = new THREE.Object3D()
 
     this.grid = calculateGridPoints(this.gridSize)
@@ -25,13 +30,13 @@ export class ReactiveGrid extends ObjectBase {
     const gridGeometry = new THREE.BufferGeometry()
 
     this.positionAttribute = new THREE.Float32BufferAttribute(this.grid.flat(), 3)
-    //? this.positionAttribute.setUsage(THREE.DynamicDrawUsage)
     gridGeometry.setAttribute('position', this.positionAttribute)
 
     const lineMaterial = new THREE.LineBasicMaterial({
-      color: 0x80deea,
+      color: 0xb2ebf2,
       transparent: true,
-      opacity: 0.1,
+      // opacity: 0.025,
+      opacity: 0.005,
     })
     for (let y = 0; y < gridSize; y++) {
       const lineGeometry = new THREE.BufferGeometry()
@@ -49,33 +54,45 @@ export class ReactiveGrid extends ObjectBase {
     }
 
     const dotMaterial = new THREE.PointsMaterial({
-      size: 0.025,
-      color: 0xea8c80, // 0x80deea,
+      size: 0.02,
+      color: 0xffffff, // 0x0e141b,
       sizeAttenuation: true,
       transparent: true,
-      opacity: 0.25,
-      map: new THREE.TextureLoader().load(dustParticleTexture),
+      opacity: 0.1,
+      // opacity: 0.2,
+      map: Assets.textures.crossParticle,
       blending: THREE.AdditiveBlending,
     })
-    const dot = new THREE.Points(gridGeometry, dotMaterial)
+    const points = new THREE.Points(gridGeometry, dotMaterial)
+    this.mesh.add(points)
 
-    this.mesh.add(dot)
-    scene.add(this.mesh)
-    // this.mesh.scale.setScalar(0.9)
+    scene.add(this.background, this.mesh)
+  }
+
+  public destroy() {}
+
+  public resize(width: number, height: number) {
+    super.resize(width, height)
+
+    const factor = Math.max(width / height, height / width) * 1.2
+    this.background.scale.setScalar(factor)
+    this.mesh.scale.setScalar(factor)
   }
 
   update(delta: number) {
-    if (!this.positionAttribute || (!this.mouseX && !this.mouseY)) {
+    if (!this.mouseX && !this.mouseY) {
       return
     }
+
+    //TODO: morph enter grid
 
     for (let i = 0; i < this.grid.length; i++) {
       const x = this.positionAttribute.getX(i)
       const y = this.positionAttribute.getY(i)
       const z = this.positionAttribute.getZ(i)
 
-      const dstX = x - this.mouseX
-      const dstY = y - this.mouseY
+      const dstX = x - this.mouseX / this.mesh.scale.x
+      const dstY = y - this.mouseY / this.mesh.scale.y
 
       const dst = Math.min(Math.pow(dstX * dstX + dstY * dstY, 0.7) * 8, Math.PI * 1.5)
       const targetZ = Math.max(-0.095, Math.cos(dst) * 0.1)
@@ -84,15 +101,6 @@ export class ReactiveGrid extends ObjectBase {
     }
 
     this.positionAttribute.needsUpdate = true
-  }
-
-  updateMousePosition(x: number, y: number) {
-    this.mouseX = x
-    this.mouseY = y
-  }
-
-  resize() {
-    // noop
   }
 }
 
