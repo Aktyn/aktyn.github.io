@@ -1,13 +1,20 @@
+import { easeInOutSine } from 'js-easing-functions'
 import * as THREE from 'three'
 import { ObjectBase } from './object-base'
+import { mix } from '../../utils/math'
 import { Assets } from '../assets'
 import { smoothValueUpdate } from '../helpers'
+
+const morphDuration = 5
 
 export class ReactiveGrid extends ObjectBase {
   private readonly background: THREE.Mesh
   private readonly mesh: THREE.Object3D
   private readonly positionAttribute: THREE.Float32BufferAttribute
+  private readonly sizeAttribute: THREE.Float32BufferAttribute
+  private readonly initialGrid: Array<[number, number, number]>
   private readonly grid: Array<[number, number, number]>
+  private morphTimer = morphDuration
 
   constructor(
     scene: THREE.Scene,
@@ -25,18 +32,27 @@ export class ReactiveGrid extends ObjectBase {
     this.background.position.z = -0.5
     this.mesh = new THREE.Object3D()
 
+    this.initialGrid = calculateRingPoints(
+      this.gridSize,
+      Math.min(this.aspect, 1 / this.aspect) * 0.5,
+    )
     this.grid = calculateGridPoints(this.gridSize)
 
     const gridGeometry = new THREE.BufferGeometry()
 
-    this.positionAttribute = new THREE.Float32BufferAttribute(this.grid.flat(), 3)
+    const buffer = this.initialGrid.flat()
+    this.positionAttribute = new THREE.Float32BufferAttribute(buffer, 3)
     gridGeometry.setAttribute('position', this.positionAttribute)
+    this.sizeAttribute = new THREE.Float32BufferAttribute(
+      this.initialGrid.map(() => 0.02),
+      1,
+    )
+    gridGeometry.setAttribute('size', this.sizeAttribute)
 
     const lineMaterial = new THREE.LineBasicMaterial({
       color: 0xb2ebf2,
       transparent: true,
-      // opacity: 0.025,
-      opacity: 0.005,
+      opacity: 0.0025,
     })
     for (let y = 0; y < gridSize; y++) {
       const lineGeometry = new THREE.BufferGeometry()
@@ -53,15 +69,36 @@ export class ReactiveGrid extends ObjectBase {
       this.mesh.add(line)
     }
 
-    const dotMaterial = new THREE.PointsMaterial({
-      size: 0.02,
-      color: 0xffffff, // 0x0e141b,
-      sizeAttenuation: true,
+    // const dotMaterial = new THREE.PointsMaterial({
+    //   size: 0.02,
+    //   color: 0xffffff, // 0x0e141b,
+    //   sizeAttenuation: true,
+    //   transparent: true,
+    //   opacity: 0.1,
+    //   map: Assets.textures.crossParticle,
+    //   blending: THREE.AdditiveBlending,
+    // })
+    const colors = new THREE.Float32BufferAttribute(
+      Array.from({ length: gridSize * gridSize * 3 }).map(() => 0.2),
+      3,
+    )
+    gridGeometry.setAttribute('customColor', colors)
+    const dotMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        color: { value: new THREE.Color(0xffffff) },
+        pointTexture: { value: Assets.textures.crossParticle },
+      },
+      vertexShader: Assets.shaders.particleVertex,
+      fragmentShader: Assets.shaders.particleFragment,
+
+      blending: THREE.CustomBlending,
+      blendAlpha: THREE.CustomBlending,
+      blendSrc: THREE.SrcAlphaFactor,
+      blendDst: THREE.OneFactor,
+      blendSrcAlpha: THREE.SrcAlphaFactor,
+      blendDstAlpha: THREE.OneMinusSrcAlphaFactor,
+      depthTest: false,
       transparent: true,
-      opacity: 0.1,
-      // opacity: 0.2,
-      map: Assets.textures.crossParticle,
-      blending: THREE.AdditiveBlending,
     })
     const points = new THREE.Points(gridGeometry, dotMaterial)
     this.mesh.add(points)
@@ -80,28 +117,68 @@ export class ReactiveGrid extends ObjectBase {
   }
 
   update(delta: number) {
-    if (!this.mouseX && !this.mouseY) {
-      return
+    if (this.morphTimer <= 0) {
+      if (!this.mouseX && !this.mouseY) {
+        return
+      }
+
+      for (let i = 0; i < this.grid.length; i++) {
+        const x = this.positionAttribute.getX(i)
+        const y = this.positionAttribute.getY(i)
+        const z = this.positionAttribute.getZ(i)
+
+        const dstX = x - this.mouseX / this.mesh.scale.x
+        const dstY = y - this.mouseY / this.mesh.scale.y
+
+        const dst = Math.min(Math.pow(dstX * dstX + dstY * dstY, 0.7) * 8, Math.PI * 1.5)
+        const targetZ = Math.max(-0.095, Math.cos(dst) * 0.1)
+        this.positionAttribute.setZ(i, smoothValueUpdate(z, targetZ, delta * 2))
+
+        const targetSize = this.mouseClicked
+          ? Math.min(0.5, Math.max(0.02, Math.pow(targetZ * 8, 5) * 0.5))
+          : 0.02
+        const size = smoothValueUpdate(this.sizeAttribute.getX(i), targetSize, delta * 8)
+        this.sizeAttribute.setX(i, size)
+      }
+
+      this.positionAttribute.needsUpdate = true
+      this.sizeAttribute.needsUpdate = true
+    } else if (delta < 1) {
+      this.morphTimer = Math.max(0, this.morphTimer - delta)
+      const factor = easeInOutSine(1 - this.morphTimer / morphDuration, 0, 1, 1)
+
+      for (let i = 0; i < this.positionAttribute.count; i++) {
+        const [fromX, fromY, fromZ] = this.initialGrid[i]
+        const [toX, toY, toZ] = this.grid[i]
+
+        this.positionAttribute.setXYZ(
+          i,
+          mix(fromX, toX, factor),
+          mix(fromY, toY, factor),
+          mix(fromZ, toZ, factor),
+        )
+      }
+      this.positionAttribute.needsUpdate = true
     }
-
-    //TODO: morph enter grid
-
-    for (let i = 0; i < this.grid.length; i++) {
-      const x = this.positionAttribute.getX(i)
-      const y = this.positionAttribute.getY(i)
-      const z = this.positionAttribute.getZ(i)
-
-      const dstX = x - this.mouseX / this.mesh.scale.x
-      const dstY = y - this.mouseY / this.mesh.scale.y
-
-      const dst = Math.min(Math.pow(dstX * dstX + dstY * dstY, 0.7) * 8, Math.PI * 1.5)
-      const targetZ = Math.max(-0.095, Math.cos(dst) * 0.1)
-
-      this.positionAttribute.setZ(i, smoothValueUpdate(z, targetZ, delta * 2))
-    }
-
-    this.positionAttribute.needsUpdate = true
   }
+}
+
+function calculateRingPoints(gridSize: number, outerRadius: number) {
+  const points: Array<[number, number, number]> = Array.from({ length: gridSize * gridSize })
+
+  for (let y = 0; y < gridSize; y++) {
+    const radius = outerRadius * (1 - (y / (gridSize - 1)) * 2)
+    const offset = (y / (gridSize - 1) ** 2) * 8
+    for (let x = 0; x < gridSize; x++) {
+      const index = y * gridSize + x
+      points[index] = [
+        Math.cos((x / gridSize + offset) * Math.PI * 2) * radius,
+        Math.sin((x / gridSize + offset) * Math.PI * 2) * radius,
+        Math.sin(offset * gridSize) * 0.25,
+      ]
+    }
+  }
+  return points
 }
 
 function calculateGridPoints(gridSize: number) {

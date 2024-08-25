@@ -31,15 +31,29 @@ export function Background() {
 
       scene.updateMousePosition(relativeX, relativeY)
     }
+    const onMouseKeyDown = (event: MouseEvent) => {
+      if (event.button === 0) {
+        scene.setMouseClicked(true)
+      }
+    }
+    const onMouseKeyUp = (event: MouseEvent) => {
+      if (event.button === 0) {
+        scene.setMouseClicked(false)
+      }
+    }
 
     window.addEventListener('resize', onResize)
     window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mousedown', onMouseKeyDown)
+    window.addEventListener('mouseup', onMouseKeyUp)
 
     return () => {
       scene.destroy()
       Assets.destroy()
       window.removeEventListener('resize', onResize)
       window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('mousedown', onMouseKeyDown)
+      window.removeEventListener('mouseup', onMouseKeyUp)
     }
   }, [])
 

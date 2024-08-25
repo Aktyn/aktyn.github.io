@@ -101,6 +101,12 @@ export class Scene3D {
     }
   }
 
+  public setMouseClicked(clicked: boolean) {
+    for (const object of this.objects) {
+      object.setMouseClicked(clicked)
+    }
+  }
+
   public run() {
     let lastTime = 0
     const animate: XRFrameRequestCallback = (time) => {
@@ -126,11 +132,11 @@ export class Scene3D {
     // this.objects.push(this.logo, new LogoEdges(scene), new Title(scene))
     this.title = new Title(scene)
     setTimeout(() => {
-      this.title?.setTitleModel('titleFullName')
+      this.title?.setTitleModel('titleAktyn', 3, 0.15)
     }, 2_000)
 
     setTimeout(() => {
-      this.title?.setTitleModel('titleAktyn')
+      this.title?.setTitleModel('titleFullName', 5, 0.3)
     }, 10_000)
     this.objects.push(this.title)
 

@@ -6,13 +6,13 @@ import { clamp, mix } from '../../utils/math'
 import { randomFloat } from '../../utils/random'
 import { Addons } from '../addons'
 import { Assets } from '../assets'
+import { smoothValueUpdate } from '../helpers'
 
 const particlesCount = 10_000
 const particleLifetime = 4
 const primaryColor = [0x00 / 255, 0xbc / 255, 0xd4 / 255]
 const secondaryColor = [0xd4 / 255, 0x18 / 255, 0x00 / 255]
 const textOpacity = 0.1
-const morphDuration = 5
 
 export class Title extends ObjectBase {
   private readonly positions: THREE.Float32BufferAttribute
@@ -27,7 +27,10 @@ export class Title extends ObjectBase {
   private textObject: THREE.Mesh | null = null
   private pointsObject: THREE.Points
   private posY = 0.8
+  private particlesAlpha = 0.3
+  private targetParticlesAlpha = 0.3
 
+  private morphDuration = 5
   private morphTimer = 0
 
   constructor(scene: THREE.Scene) {
@@ -35,7 +38,7 @@ export class Title extends ObjectBase {
 
     const positions: Array<THREE.Vector3> = []
 
-    const maxRadius = ((Math.max(this.aspect, 1 / this.aspect) * Math.SQRT2) / this.scale) * 0.5
+    const maxRadius = (Math.max(this.aspect, 1 / this.aspect) * Math.SQRT2) / this.scale
     for (let i = 0; i < particlesCount; i++) {
       const randomAngle = randomFloat(0, Math.PI * 2)
       const randomRadiusOffset = randomFloat(-0.5, 0.5, 3)
@@ -97,7 +100,11 @@ export class Title extends ObjectBase {
     return Math.min(0.4, this.aspect * 0.4)
   }
 
-  public setTitleModel(model: keyof typeof Assets.models & `title${string}`) {
+  public setTitleModel(
+    model: keyof typeof Assets.models & `title${string}`,
+    duration = 5,
+    alpha = 0.3,
+  ) {
     if (this.textObject) {
       this.scene.remove(this.textObject)
       this.textObject.clear()
@@ -136,7 +143,8 @@ export class Title extends ObjectBase {
       this.morphingPositions[i].copy(particle)
     }
 
-    this.morphTimer = morphDuration
+    this.targetParticlesAlpha = alpha
+    this.morphTimer = this.morphDuration = duration
   }
 
   resize(width: number, height: number) {
@@ -157,11 +165,11 @@ export class Title extends ObjectBase {
       }
 
       this.morphTimer = Math.max(0, this.morphTimer - delta)
-      const morphProgress = 1 - this.morphTimer / morphDuration
+      const morphProgress = 1 - this.morphTimer / this.morphDuration
 
       for (let i = 0; i < this.positions.count; i++) {
         const waveFactor = clamp(morphProgress * 2 - (i + 1) / this.positions.count, 0, 1)
-        const factor = easeOutBounce(waveFactor, 0, 1, 1)
+        const factor = Math.pow(easeOutBounce(waveFactor, 0, 1, 1), 0.25)
 
         this.positions.setXYZ(
           i,
@@ -177,6 +185,16 @@ export class Title extends ObjectBase {
     } else {
       if (textMaterial && textMaterial.opacity < textOpacity) {
         textMaterial.opacity = Math.min(textOpacity, textMaterial.opacity + delta * 0.1)
+      }
+
+      if (Math.abs(this.particlesAlpha - this.targetParticlesAlpha) > 0.001) {
+        this.particlesAlpha = smoothValueUpdate(
+          this.particlesAlpha,
+          this.targetParticlesAlpha,
+          delta,
+        )
+      } else {
+        this.particlesAlpha = this.targetParticlesAlpha
       }
 
       for (let i = 0; i < this.positions.count; i++) {
@@ -201,9 +219,21 @@ export class Title extends ObjectBase {
         const factor = Math.pow(clamp(1 - this.timers[i] / particleLifetime, 0, 1), 1.5)
         this.colors.setXYZ(
           i,
-          mix(primaryColor[0] * 0.15, secondaryColor[0] * 0.3, factor),
-          mix(primaryColor[1] * 0.15, secondaryColor[1] * 0.3, factor),
-          mix(primaryColor[2] * 0.15, secondaryColor[2] * 0.3, factor),
+          mix(
+            primaryColor[0] * this.particlesAlpha * 0.5,
+            secondaryColor[0] * this.particlesAlpha,
+            factor,
+          ),
+          mix(
+            primaryColor[1] * this.particlesAlpha * 0.5,
+            secondaryColor[1] * this.particlesAlpha,
+            factor,
+          ),
+          mix(
+            primaryColor[2] * this.particlesAlpha * 0.5,
+            secondaryColor[2] * this.particlesAlpha,
+            factor,
+          ),
         )
         this.sizes.setX(
           i,

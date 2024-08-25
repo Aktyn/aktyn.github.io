@@ -5,6 +5,7 @@ export abstract class ObjectBase {
   protected screenHeight = window.innerHeight
   protected mouseX = 0
   protected mouseY = 0
+  protected mouseClicked = false
 
   constructor(protected readonly scene: THREE.Scene) {}
 
@@ -20,6 +21,9 @@ export abstract class ObjectBase {
   public updateMousePosition(x: number, y: number) {
     this.mouseX = x
     this.mouseY = y
+  }
+  public setMouseClicked(clicked: boolean) {
+    this.mouseClicked = clicked
   }
 
   protected get aspect() {
