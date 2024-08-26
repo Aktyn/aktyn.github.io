@@ -83,7 +83,7 @@ export function Background() {
         left: 0,
         width: '100vw',
         height: '100vh',
-        zIndex: -1,
+        // zIndex: -1,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

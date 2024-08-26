@@ -2,6 +2,7 @@
 import * as THREE from 'three'
 import { Addons, type AddonsTypes } from './addons'
 import { type Logo } from './objects/logo'
+import { LogoEdges } from './objects/logo-edges'
 import type { ObjectBase } from './objects/object-base'
 import { ReactiveGrid } from './objects/reactiveGrid'
 import { Title } from './objects/title'
@@ -128,17 +129,16 @@ export class Scene3D {
     this.grid = new ReactiveGrid(scene)
     this.objects.push(this.grid)
 
-    // this.logo = new Logo(scene)
     // this.objects.push(this.logo, new LogoEdges(scene), new Title(scene))
     this.title = new Title(scene)
     setTimeout(() => {
-      this.title?.setTitleModel('titleAktyn', 3, 0.15)
+      this.title?.setTitleModel('titleFullName', 3, 0.3)
     }, 2_000)
 
     setTimeout(() => {
-      this.title?.setTitleModel('titleFullName', 5, 0.3)
+      this.title?.setTitleModel('titleAktyn', 3, 0.15)
     }, 10_000)
-    this.objects.push(this.title)
+    this.objects.push(this.title, new LogoEdges(scene))
 
     return scene
   }

@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import { ObjectBase } from './object-base'
 import { mix } from '../../utils/math'
 import { Assets } from '../assets'
-import { smoothValueUpdate } from '../helpers'
+import { secondaryColor, smoothValueUpdate } from '../helpers'
 
 const morphDuration = 5
 
@@ -69,17 +69,10 @@ export class ReactiveGrid extends ObjectBase {
       this.mesh.add(line)
     }
 
-    // const dotMaterial = new THREE.PointsMaterial({
-    //   size: 0.02,
-    //   color: 0xffffff, // 0x0e141b,
-    //   sizeAttenuation: true,
-    //   transparent: true,
-    //   opacity: 0.1,
-    //   map: Assets.textures.crossParticle,
-    //   blending: THREE.AdditiveBlending,
-    // })
     const colors = new THREE.Float32BufferAttribute(
-      Array.from({ length: gridSize * gridSize * 3 }).map(() => 0.2),
+      Array.from({ length: gridSize * gridSize })
+        .map(() => secondaryColor)
+        .flat(),
       3,
     )
     gridGeometry.setAttribute('customColor', colors)

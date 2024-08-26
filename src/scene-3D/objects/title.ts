@@ -6,12 +6,13 @@ import { clamp, mix } from '../../utils/math'
 import { randomFloat } from '../../utils/random'
 import { Addons } from '../addons'
 import { Assets } from '../assets'
-import { smoothValueUpdate } from '../helpers'
+import { primaryColor, secondaryColor, smoothValueUpdate } from '../helpers'
 
+/** seconds */
+// const enterAnimationDuration = 3
 const particlesCount = 10_000
+/** seconds */
 const particleLifetime = 4
-const primaryColor = [0x00 / 255, 0xbc / 255, 0xd4 / 255]
-const secondaryColor = [0xd4 / 255, 0x18 / 255, 0x00 / 255]
 const textOpacity = 0.1
 
 export class Title extends ObjectBase {
@@ -23,6 +24,8 @@ export class Title extends ObjectBase {
   private readonly speeds: Array<number>
   private readonly timers: Array<number>
   private readonly angles: Array<number>
+
+  // private enterAnimationTimer = enterAnimationDuration
 
   private textObject: THREE.Mesh | null = null
   private pointsObject: THREE.Points
@@ -38,13 +41,15 @@ export class Title extends ObjectBase {
 
     const positions: Array<THREE.Vector3> = []
 
-    const maxRadius = (Math.max(this.aspect, 1 / this.aspect) * Math.SQRT2) / this.scale
+    // const maxRadius = (Math.max(this.aspect, 1 / this.aspect) * Math.SQRT2) / this.scale
+    const maxRadius = 0.5
     for (let i = 0; i < particlesCount; i++) {
       const randomAngle = randomFloat(0, Math.PI * 2)
       const randomRadiusOffset = randomFloat(-0.5, 0.5, 3)
       const particle = new THREE.Vector3(
         Math.cos(randomAngle) * (maxRadius + randomRadiusOffset),
-        Math.sin(randomAngle) * (maxRadius + randomRadiusOffset) - this.posY / this.scale,
+        // Math.sin(randomAngle) * (maxRadius + randomRadiusOffset) - this.posY / this.scale,
+        Math.sin(randomAngle) * (maxRadius + randomRadiusOffset) + 1.25,
         0,
       )
       particle.setZ(randomFloat(0, 0.05))
@@ -62,8 +67,10 @@ export class Title extends ObjectBase {
     this.timers = positions.map(() => randomFloat(0, particleLifetime))
     this.angles = positions.map(() => randomFloat(0, Math.PI * 2))
 
-    const initialColors = positions.map(() => primaryColor.map((c) => c * 0.15)).flat()
-    this.colors = new THREE.Float32BufferAttribute(initialColors, 3)
+    this.colors = new THREE.Float32BufferAttribute(
+      Array.from({ length: particlesCount * 3 }).map(() => 0),
+      3,
+    )
     this.sizes = new THREE.Float32BufferAttribute(
       positions.map(() => 0.02),
       1,
@@ -150,11 +157,40 @@ export class Title extends ObjectBase {
   resize(width: number, height: number) {
     super.resize(width, height)
 
+    // if (this.enterAnimationTimer <= 0) {
     this.textObject?.scale.setScalar(this.scale)
     this.pointsObject.scale.setScalar(this.scale)
+    // }
   }
 
   update(delta: number) {
+    // if (this.enterAnimationTimer > 0) {
+    //   this.enterAnimationTimer -= delta
+
+    //   const enterAnimationFactor = clamp(
+    //     1 - this.enterAnimationTimer / enterAnimationDuration,
+    //     0,
+    //     1,
+    //   )
+    //   const factor = easeOutBounce(enterAnimationFactor, 0, 1, 1)
+
+    //   this.pointsObject.scale.setScalar(this.scale * factor)
+    //   this.pointsObject.rotation.z = -(1 - enterAnimationFactor) * Math.PI * 2
+
+    //   const colorFactor = Math.pow(factor, 4) * 0.25
+    //   for (let i = 0; i < this.positions.count; i++) {
+    //     this.colors.setXYZ(
+    //       i,
+    //       primaryColor[0] * this.particlesAlpha * colorFactor,
+    //       primaryColor[1] * this.particlesAlpha * colorFactor,
+    //       primaryColor[2] * this.particlesAlpha * colorFactor,
+    //     )
+    //   }
+
+    //   this.colors.needsUpdate = true
+    //   return
+    // }
+
     const textMaterial = Array.isArray(this.textObject?.material)
       ? this.textObject.material[0]
       : this.textObject?.material
@@ -177,8 +213,15 @@ export class Title extends ObjectBase {
           mix(this.originalPositions[i].y, this.morphingPositions[i].y, factor),
           mix(this.originalPositions[i].z, this.morphingPositions[i].z, factor),
         )
+        // this.colors.setXYZ(
+        //   i,
+        //   primaryColor[0] * this.particlesAlpha * (0.25 + morphProgress * 0.4),
+        //   primaryColor[1] * this.particlesAlpha * (0.25 + morphProgress * 0.4),
+        //   primaryColor[2] * this.particlesAlpha * (0.25 + morphProgress * 0.4),
+        // )
       }
       this.positions.needsUpdate = true
+      // this.colors.needsUpdate = true
     } else if (this.morphingPositions) {
       this.originalPositions = this.morphingPositions
       this.morphingPositions = null
