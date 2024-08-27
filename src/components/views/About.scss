@@ -100,7 +100,7 @@
 
       transform: scaleX(0%);
       opacity: 0;
-      animation: backgroundZoomOutHorizontal 0.4s 2s ease-in forwards;
+      animation: backgroundZoomOutHorizontal 0.4s 2s ease-in-out forwards;
 
       @keyframes backgroundZoomOutHorizontal {
         from {

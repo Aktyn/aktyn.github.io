@@ -3,11 +3,17 @@ import { Scene3D } from './scene-3D'
 import { Addons } from './scene-3D/addons'
 import { Assets } from './scene-3D/assets'
 
-export function Background() {
+export function Background({ onLoaded }: { onLoaded?: (loaded: true) => void }) {
   const containerRef = useRef<HTMLDivElement>(null)
 
   const [webGlAvailable, setWebGlAvailable] = useState(true)
   const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (!loading && onLoaded) {
+      onLoaded(true)
+    }
+  }, [loading, onLoaded])
 
   const init = useCallback(() => {
     const available = Scene3D.supported
@@ -83,16 +89,13 @@ export function Background() {
         left: 0,
         width: '100vw',
         height: '100vh',
-        // zIndex: -1,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
-      {loading ? (
-        <div>Loading...</div>
-      ) : webGlAvailable ? (
+      {!loading && !webGlAvailable ? (
         <div
           style={{
             marginTop: 'auto',

@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import * as THREE from 'three'
 import { Addons, type AddonsTypes } from './addons'
-import { type Logo } from './objects/logo'
+import type { Logo } from './objects/logo'
 import { LogoEdges } from './objects/logo-edges'
 import type { ObjectBase } from './objects/object-base'
 import { ReactiveGrid } from './objects/reactiveGrid'
 import { Title } from './objects/title'
 import { assert } from '../utils/common'
+import { clamp } from '../utils/math'
 
 export class Scene3D {
   public static get supported() {
@@ -24,7 +25,7 @@ export class Scene3D {
   private logo: Logo | null = null
   private title: Title | null = null
 
-  private readonly stats: Stats
+  private stats: Stats | null = null
 
   constructor(container: HTMLElement, width: number, height: number) {
     assert(Addons.ready, 'Addons are not initialized')
@@ -39,8 +40,12 @@ export class Scene3D {
       depth: true,
       alpha: false,
     })
-    container.innerHTML = ''
-    container.appendChild(this.renderer.domElement)
+    try {
+      container.innerHTML = ''
+      container.appendChild(this.renderer.domElement)
+    } catch (e) {
+      console.error(e)
+    }
     this.renderer.setPixelRatio(window.devicePixelRatio)
     this.renderer.setSize(width, height)
     this.renderer.outputColorSpace = THREE.LinearDisplayP3ColorSpace
@@ -72,8 +77,10 @@ export class Scene3D {
 
     this.resize(width, height)
 
-    this.stats = new Addons.Stats()
-    container.appendChild(this.stats.dom)
+    if (process.env.NODE_ENV === 'development') {
+      this.stats = new Addons.Stats()
+      container.appendChild(this.stats.dom)
+    }
   }
 
   public destroy() {
@@ -111,12 +118,12 @@ export class Scene3D {
   public run() {
     let lastTime = 0
     const animate: XRFrameRequestCallback = (time) => {
-      const delta = Math.min(time - lastTime, 1000) / 1000.0
+      const delta = clamp((time - lastTime) / 1000.0, 0, 1.0)
       for (const object of this.objects) {
         object.update(delta)
       }
       this.composer.render(time)
-      this.stats.update()
+      this.stats?.update()
 
       lastTime = time
     }
