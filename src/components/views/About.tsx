@@ -1,10 +1,14 @@
-import { ViewType } from '../../context/viewContext'
+import { useContext } from 'react'
+import { ViewContext, ViewType } from '../../context/viewContext'
 import { viewNames } from '../../utils/consts'
 import { defaultTypeInEffectDuration, TypeInEffect } from '../common/TypeInEffect'
-import './About.scss'
+
 import '../../style/typography.scss'
+import './About.scss'
 
 export function About() {
+  const { view: currentView, setView } = useContext(ViewContext)
+
   return (
     <div className="view-container">
       <div className="about-main">
@@ -25,10 +29,10 @@ export function About() {
                     className="text-small link"
                     delay={defaultTypeInEffectDuration * 1.5}
                     onClick={() => {
-                      // if (section === activeSection) {
-                      //   return
-                      // }
-                      // setSection(section as Section)
+                      if (view === currentView) {
+                        return
+                      }
+                      setView(view)
                     }}
                   >
                     {viewNames[view as unknown as ViewType]}

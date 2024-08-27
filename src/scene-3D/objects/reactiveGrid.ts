@@ -1,7 +1,7 @@
 import { easeInOutSine } from 'js-easing-functions'
 import * as THREE from 'three'
 import { ObjectBase } from './object-base'
-import { mix } from '../../utils/math'
+import { clamp, mix } from '../../utils/math'
 import { Assets } from '../assets'
 import { secondaryColor, smoothValueUpdate } from '../helpers'
 
@@ -128,9 +128,12 @@ export class ReactiveGrid extends ObjectBase {
         this.positionAttribute.setZ(i, smoothValueUpdate(z, targetZ, delta * 2))
 
         const targetSize = this.mouseClicked
-          ? Math.min(0.5, Math.max(0.02, Math.pow(targetZ * 8, 5) * 0.5))
+          ? clamp(Math.pow(targetZ * 8, 5) * 0.5, 0.02, 0.5)
           : 0.02
-        const size = smoothValueUpdate(this.sizeAttribute.getX(i), targetSize, delta * 8)
+        const size = Math.min(
+          0.5,
+          smoothValueUpdate(this.sizeAttribute.getX(i), targetSize, delta * 8),
+        )
         this.sizeAttribute.setX(i, size)
       }
 

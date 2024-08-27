@@ -1,4 +1,4 @@
-import { createContext, type Dispatch, type SetStateAction } from 'react'
+import { createContext, type Dispatch } from 'react'
 
 export enum ViewType {
   ABOUT = 'ABOUT',
@@ -10,5 +10,6 @@ export enum ViewType {
 
 export const ViewContext = createContext({
   view: ViewType.ABOUT,
-  setView: (() => {}) as Dispatch<SetStateAction<ViewType>>,
+  setView: (() => {}) as Dispatch<ViewType>,
+  scrollValue: 0,
 })

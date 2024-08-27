@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 import * as THREE from 'three'
 import { Addons, type AddonsTypes } from './addons'
 import type { Logo } from './objects/logo'
@@ -6,6 +5,7 @@ import { LogoEdges } from './objects/logo-edges'
 import type { ObjectBase } from './objects/object-base'
 import { ReactiveGrid } from './objects/reactiveGrid'
 import { Title } from './objects/title'
+import { ViewType } from '../context/viewContext'
 import { assert } from '../utils/common'
 import { clamp } from '../utils/math'
 
@@ -15,6 +15,7 @@ export class Scene3D {
     return Addons.LocalWebGL.isWebGL2Available()
   }
 
+  private view = ViewType.ABOUT
   private readonly renderer: THREE.WebGLRenderer
   private composer: InstanceType<AddonsTypes['EffectComposer']>
   private bloomPass: InstanceType<AddonsTypes['UnrealBloomPass']>
@@ -115,6 +116,31 @@ export class Scene3D {
     }
   }
 
+  public setView(view: ViewType) {
+    if (view === this.view) {
+      return
+    }
+    this.view = view
+
+    switch (this.view) {
+      case ViewType.ABOUT:
+        this.title?.setTitleModel('titleAktyn', 3, 0.15)
+        break
+      case ViewType.WEBSITES:
+        this.title?.setTitleModel('titleWebsites', 3, 0.3)
+        break
+      case ViewType.GAME_DEVELOPMENT:
+        this.title?.setTitleModel('titleGameDevelopment', 3, 0.3)
+        break
+      case ViewType.MICROCONTROLLERS:
+        this.title?.setTitleModel('titleMicrocontrollers', 3, 0.3)
+        break
+      case ViewType.COMPUTER_GRAPHICS:
+        this.title?.setTitleModel('titleComputerGraphics', 3, 0.3)
+        break
+    }
+  }
+
   public run() {
     let lastTime = 0
     const animate: XRFrameRequestCallback = (time) => {
@@ -139,11 +165,15 @@ export class Scene3D {
     // this.objects.push(this.logo, new LogoEdges(scene), new Title(scene))
     this.title = new Title(scene)
     setTimeout(() => {
-      this.title?.setTitleModel('titleFullName', 3, 0.3)
+      if (this.view === ViewType.ABOUT) {
+        this.title?.setTitleModel('titleFullName', 3, 0.3)
+      }
     }, 2_000)
 
     setTimeout(() => {
-      this.title?.setTitleModel('titleAktyn', 3, 0.15)
+      if (this.view === ViewType.ABOUT) {
+        this.title?.setTitleModel('titleAktyn', 3, 0.15)
+      }
     }, 10_000)
     this.objects.push(this.title, new LogoEdges(scene))
 

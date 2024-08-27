@@ -5,7 +5,15 @@ import { assert } from '../utils/common'
 /* eslint-disable @typescript-eslint/no-require-imports */
 
 type TextureName = 'crossParticle' | 'fireParticle' | 'simpleParticle'
-type ModelName = 'logo' | 'logoEdges' | 'titleFullName' | 'titleAktyn'
+type ModelName =
+  | 'logo'
+  | 'logoEdges'
+  | 'titleFullName'
+  | 'titleAktyn'
+  | 'titleWebsites'
+  | 'titleGameDevelopment'
+  | 'titleMicrocontrollers'
+  | 'titleComputerGraphics'
 type ShaderName = 'particleVertex' | 'particleFragment'
 
 export class Assets {
@@ -24,6 +32,19 @@ export class Assets {
       logoEdges: await loadGltfModel(gltfLoader, require('./models/logo-edges.glb')),
       titleFullName: await loadGltfModel(gltfLoader, require('./models/titles/full-name.glb')),
       titleAktyn: await loadGltfModel(gltfLoader, require('./models/titles/aktyn.glb')),
+      titleWebsites: await loadGltfModel(gltfLoader, require('./models/titles/websites.glb')),
+      titleGameDevelopment: await loadGltfModel(
+        gltfLoader,
+        require('./models/titles/game-development.glb'),
+      ),
+      titleMicrocontrollers: await loadGltfModel(
+        gltfLoader,
+        require('./models/titles/microcontrollers.glb'),
+      ),
+      titleComputerGraphics: await loadGltfModel(
+        gltfLoader,
+        require('./models/titles/computer-graphics.glb'),
+      ),
     }
 
     this._shaders ??= {

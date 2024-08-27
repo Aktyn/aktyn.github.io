@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { ViewContext } from './context/viewContext'
 import { Scene3D } from './scene-3D'
 import { Addons } from './scene-3D/addons'
 import { Assets } from './scene-3D/assets'
@@ -6,8 +7,20 @@ import { Assets } from './scene-3D/assets'
 export function Background({ onLoaded }: { onLoaded?: (loaded: true) => void }) {
   const containerRef = useRef<HTMLDivElement>(null)
 
+  const { view } = useContext(ViewContext)
+
   const [webGlAvailable, setWebGlAvailable] = useState(true)
   const [loading, setLoading] = useState(true)
+  const [scene, setScene] = useState<Scene3D | null>(null)
+
+  useEffect(() => {
+    if (loading || !scene) {
+      return
+    }
+
+    //TODO: debounce by few seconds (maybe 2)
+    scene.setView(view)
+  }, [loading, scene, view])
 
   useEffect(() => {
     if (!loading && onLoaded) {
@@ -27,6 +40,7 @@ export function Background({ onLoaded }: { onLoaded?: (loaded: true) => void }) 
 
     const scene = new Scene3D(containerRef.current, window.innerWidth, window.innerHeight)
     scene.run()
+    setScene(scene)
 
     const onResize = () => {
       scene.resize(window.innerWidth, window.innerHeight)

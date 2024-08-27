@@ -1,15 +1,79 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Background } from './Background'
 import { Layout } from './Layout'
 import { Loader } from './components/common/Loader'
 import { ViewContext, ViewType } from './context/viewContext'
+import { useDebounce } from './hooks/useDebounce'
+import { clamp } from './utils/math'
+
+const viewsCount = Object.values(ViewType).length
+const wheelStrengthMultiplier = 2
+const scrollAnimationSpeed = 3
 
 export function App() {
-  const [view, setView] = useState(ViewType.ABOUT)
+  const targetScrollValue = useRef(0)
+
   const [ready, setReady] = useState(false)
+  const [scrollValue, setScrollValue] = useState(0)
+
+  const view = useMemo(() => Object.values(ViewType)[Math.round(scrollValue)], [scrollValue])
+
+  const adjustScrollDebounced = useDebounce(
+    () => {
+      const targetIndex = Math.round(targetScrollValue.current)
+      targetScrollValue.current = targetIndex
+    },
+    500,
+    [],
+  )
+
+  useEffect(() => {
+    const onScroll = (event: WheelEvent) => {
+      targetScrollValue.current = clamp(
+        targetScrollValue.current + (event.deltaY / window.innerHeight) * wheelStrengthMultiplier,
+        0,
+        viewsCount - 1,
+      )
+      adjustScrollDebounced()
+    }
+
+    window.addEventListener('wheel', onScroll)
+    return () => {
+      window.removeEventListener('wheel', onScroll)
+    }
+  }, [adjustScrollDebounced])
+
+  useEffect(() => {
+    let animation = 0,
+      last = 0
+    const tick = (time: number) => {
+      const delta = Math.min(1, (time - last) / 1000)
+      last = time
+
+      setScrollValue((currentValue) => {
+        const diff = targetScrollValue.current - currentValue
+        const step = Math.sign(diff) * delta * scrollAnimationSpeed
+        if (Math.abs(step) > Math.abs(diff)) {
+          return targetScrollValue.current
+        }
+        return currentValue + step
+      })
+
+      animation = requestAnimationFrame(tick)
+    }
+    tick(0)
+
+    return () => {
+      cancelAnimationFrame(animation)
+    }
+  }, [])
+
+  const setView = useCallback((view: ViewType) => {
+    targetScrollValue.current = Object.values(ViewType).indexOf(view)
+  }, [])
 
   return (
-    <ViewContext.Provider value={{ view, setView }}>
+    <ViewContext.Provider value={{ view, setView, scrollValue }}>
       <Background onLoaded={setReady} />
       {ready ? (
         <Layout />
