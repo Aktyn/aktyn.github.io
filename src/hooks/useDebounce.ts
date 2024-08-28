@@ -1,6 +1,6 @@
 import { type DependencyList, useCallback, useRef } from 'react'
 
-export function useDebounce<FuncType extends (...args: unknown[]) => void>(
+export function useDebounce<FuncType extends (...args: never[]) => void>(
   func: FuncType,
   delay: number,
   deps: DependencyList = [],

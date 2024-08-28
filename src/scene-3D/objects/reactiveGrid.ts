@@ -3,18 +3,28 @@ import * as THREE from 'three'
 import { ObjectBase } from './object-base'
 import { clamp, mix } from '../../utils/math'
 import { Assets } from '../assets'
-import { secondaryColor, smoothValueUpdate } from '../helpers'
+import { linearValueUpdate, secondaryColor, smoothValueUpdate } from '../helpers'
 
 const morphDuration = 5
+enum Mode {
+  BACKGROUND,
+  LANDSCAPE,
+}
 
 export class ReactiveGrid extends ObjectBase {
-  private readonly background: THREE.Mesh
+  public static Mode = Mode
+
   private readonly mesh: THREE.Object3D
+  private readonly lineMaterial: THREE.LineBasicMaterial
   private readonly positionAttribute: THREE.Float32BufferAttribute
   private readonly sizeAttribute: THREE.Float32BufferAttribute
   private readonly initialGrid: Array<[number, number, number]>
   private readonly grid: Array<[number, number, number]>
   private morphTimer = morphDuration
+  private waveOffsetX = 0
+  private waveOffsetY = 0
+
+  private mode = Mode.BACKGROUND
 
   constructor(
     scene: THREE.Scene,
@@ -22,14 +32,6 @@ export class ReactiveGrid extends ObjectBase {
   ) {
     super(scene)
 
-    const planeGeometry = new THREE.PlaneGeometry(3, 3)
-    const planeMaterial = new THREE.MeshBasicMaterial({
-      color: 0x4e545b,
-      transparent: true,
-      opacity: 0.1,
-    })
-    this.background = new THREE.Mesh(planeGeometry, planeMaterial)
-    this.background.position.z = -0.5
     this.mesh = new THREE.Object3D()
 
     this.initialGrid = calculateRingPoints(
@@ -49,7 +51,7 @@ export class ReactiveGrid extends ObjectBase {
     )
     gridGeometry.setAttribute('size', this.sizeAttribute)
 
-    const lineMaterial = new THREE.LineBasicMaterial({
+    this.lineMaterial = new THREE.LineBasicMaterial({
       color: 0xb2ebf2,
       transparent: true,
       opacity: 0.0025,
@@ -58,14 +60,14 @@ export class ReactiveGrid extends ObjectBase {
       const lineGeometry = new THREE.BufferGeometry()
       lineGeometry.setAttribute('position', this.positionAttribute)
       lineGeometry.setIndex(Array.from({ length: gridSize }, (_, i) => i + y * gridSize))
-      const line = new THREE.Line(lineGeometry, lineMaterial)
+      const line = new THREE.Line(lineGeometry, this.lineMaterial)
       this.mesh.add(line)
     }
     for (let x = 0; x < gridSize; x++) {
       const lineGeometry = new THREE.BufferGeometry()
       lineGeometry.setAttribute('position', this.positionAttribute)
       lineGeometry.setIndex(Array.from({ length: gridSize }, (_, i) => i * gridSize + x))
-      const line = new THREE.Line(lineGeometry, lineMaterial)
+      const line = new THREE.Line(lineGeometry, this.lineMaterial)
       this.mesh.add(line)
     }
 
@@ -96,7 +98,8 @@ export class ReactiveGrid extends ObjectBase {
     const points = new THREE.Points(gridGeometry, dotMaterial)
     this.mesh.add(points)
 
-    scene.add(this.background, this.mesh)
+    // scene.add(this.background, this.mesh)
+    scene.add(this.mesh)
   }
 
   public destroy() {}
@@ -105,40 +108,88 @@ export class ReactiveGrid extends ObjectBase {
     super.resize(width, height)
 
     const factor = Math.max(width / height, height / width) * 1.2
-    this.background.scale.setScalar(factor)
     this.mesh.scale.setScalar(factor)
+  }
+
+  public setMode(mode: Mode) {
+    this.mode = mode
   }
 
   update(delta: number) {
     if (this.morphTimer <= 0) {
-      if (!this.mouseX && !this.mouseY) {
-        return
+      let targetOrientation = 0
+      let targetY = 0
+      let targetZ = 0
+      let targetLinesOpacity = 0.0025
+
+      switch (this.mode) {
+        case Mode.BACKGROUND:
+          {
+            if (!this.mouseX && !this.mouseY) {
+              break
+            }
+            for (let i = 0; i < this.grid.length; i++) {
+              const x = this.positionAttribute.getX(i)
+              const y = this.positionAttribute.getY(i)
+              const z = this.positionAttribute.getZ(i)
+
+              const dstX = x - this.mouseX / this.mesh.scale.x
+              const dstY = y - this.mouseY / this.mesh.scale.y
+
+              const dst = Math.min(Math.pow(dstX * dstX + dstY * dstY, 0.7) * 8, Math.PI * 1.5)
+              const targetZ = Math.max(-0.095, Math.cos(dst) * 0.1)
+              this.positionAttribute.setZ(i, smoothValueUpdate(z, targetZ, delta * 2))
+
+              const targetSize = this.mouseClicked
+                ? clamp(Math.pow(targetZ * 8, 5) * 0.5, 0.02, 0.4)
+                : 0.02
+              const size = Math.min(
+                0.5,
+                smoothValueUpdate(this.sizeAttribute.getX(i), targetSize, delta * 8),
+              )
+              this.sizeAttribute.setX(i, size)
+            }
+          }
+          break
+        case Mode.LANDSCAPE:
+          {
+            targetOrientation = -Math.PI * 0.5
+            targetY = -0.25
+            targetZ = -0.5
+            targetLinesOpacity = 0.0125
+            this.waveOffsetX += delta * Math.PI * 2 * 0.05
+            this.waveOffsetY += delta * Math.PI * 2 * 0.1
+
+            for (let y = 0; y < this.gridSize; y++) {
+              for (let x = 0; x < this.gridSize; x++) {
+                const i = y * this.gridSize + x
+
+                const vertexZ = this.positionAttribute.getZ(i)
+                const targetZ =
+                  Math.pow(clamp(y / this.gridSize, 0, 1), 8) +
+                  Math.sin((y / this.gridSize) * Math.PI * 8 + this.waveOffsetY) * 0.025 +
+                  Math.cos((x / this.gridSize) * Math.PI * 12 + this.waveOffsetX) * 0.0125
+                this.positionAttribute.setZ(i, smoothValueUpdate(vertexZ, targetZ, delta * 2))
+
+                const size = this.sizeAttribute.getX(i)
+                const targetSize = 0.025 // 0.02
+                this.sizeAttribute.setX(i, smoothValueUpdate(size, targetSize, delta * 2))
+              }
+            }
+          }
+          break
       }
-
-      for (let i = 0; i < this.grid.length; i++) {
-        const x = this.positionAttribute.getX(i)
-        const y = this.positionAttribute.getY(i)
-        const z = this.positionAttribute.getZ(i)
-
-        const dstX = x - this.mouseX / this.mesh.scale.x
-        const dstY = y - this.mouseY / this.mesh.scale.y
-
-        const dst = Math.min(Math.pow(dstX * dstX + dstY * dstY, 0.7) * 8, Math.PI * 1.5)
-        const targetZ = Math.max(-0.095, Math.cos(dst) * 0.1)
-        this.positionAttribute.setZ(i, smoothValueUpdate(z, targetZ, delta * 2))
-
-        const targetSize = this.mouseClicked
-          ? clamp(Math.pow(targetZ * 8, 5) * 0.5, 0.02, 0.5)
-          : 0.02
-        const size = Math.min(
-          0.5,
-          smoothValueUpdate(this.sizeAttribute.getX(i), targetSize, delta * 8),
-        )
-        this.sizeAttribute.setX(i, size)
-      }
-
       this.positionAttribute.needsUpdate = true
       this.sizeAttribute.needsUpdate = true
+
+      this.mesh.rotation.x = smoothValueUpdate(this.mesh.rotation.x, targetOrientation, delta)
+      this.mesh.position.y = smoothValueUpdate(this.mesh.position.y, targetY, delta)
+      this.mesh.position.z = smoothValueUpdate(this.mesh.position.z, targetZ, delta)
+      this.lineMaterial.opacity = linearValueUpdate(
+        this.lineMaterial.opacity,
+        targetLinesOpacity,
+        delta * 0.001,
+      )
     } else if (delta < 1) {
       this.morphTimer = Math.max(0, this.morphTimer - delta)
       const factor = easeInOutSine(1 - this.morphTimer / morphDuration, 0, 1, 1)

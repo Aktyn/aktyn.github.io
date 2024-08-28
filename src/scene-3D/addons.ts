@@ -11,17 +11,26 @@ const getAddons = once(async () => ({
   RenderPass: await import('three/addons/postprocessing/RenderPass.js').then(
     ({ RenderPass }) => RenderPass,
   ),
+  ShaderPass: await import('three/addons/postprocessing/ShaderPass.js').then(
+    ({ ShaderPass }) => ShaderPass,
+  ),
   UnrealBloomPass: await import('three/addons/postprocessing/UnrealBloomPass.js').then(
     ({ UnrealBloomPass }) => UnrealBloomPass,
   ),
   OutputPass: await import('three/addons/postprocessing/OutputPass.js').then(
     ({ OutputPass }) => OutputPass,
   ),
+  AfterimagePass: await import('three/addons/postprocessing/AfterimagePass.js').then(
+    ({ AfterimagePass }) => AfterimagePass,
+  ),
   EffectComposer: await import('three/addons/postprocessing/EffectComposer.js').then(
     ({ EffectComposer }) => EffectComposer,
   ),
   MeshSurfaceSampler: await import('three/addons/math/MeshSurfaceSampler.js').then(
     ({ MeshSurfaceSampler }) => MeshSurfaceSampler,
+  ),
+  FXAAShader: await import('three/addons/shaders/FXAAShader.js').then(
+    ({ FXAAShader }) => FXAAShader,
   ),
 }))
 

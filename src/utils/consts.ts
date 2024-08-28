@@ -7,3 +7,6 @@ export const viewNames: { [key in ViewType]: string } = {
   [ViewType.MICROCONTROLLERS]: 'Microcontrollers',
   [ViewType.COMPUTER_GRAPHICS]: 'Computer graphics',
 }
+
+export const wheelStrengthMultiplier = 2
+export const scrollAnimationSpeed = 3

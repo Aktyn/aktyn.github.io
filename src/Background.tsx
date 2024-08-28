@@ -1,5 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { ViewContext } from './context/viewContext'
+import { ViewContext, type ViewType } from './context/viewContext'
+import { useDebounce } from './hooks/useDebounce'
 import { Scene3D } from './scene-3D'
 import { Addons } from './scene-3D/addons'
 import { Assets } from './scene-3D/assets'
@@ -13,14 +14,21 @@ export function Background({ onLoaded }: { onLoaded?: (loaded: true) => void }) 
   const [loading, setLoading] = useState(true)
   const [scene, setScene] = useState<Scene3D | null>(null)
 
+  const changeViewDebounced = useDebounce(
+    (scene: Scene3D, view: ViewType) => {
+      scene.setView(view)
+    },
+    1_000,
+    [scene, view],
+  )
+
   useEffect(() => {
     if (loading || !scene) {
       return
     }
 
-    //TODO: debounce by few seconds (maybe 2)
-    scene.setView(view)
-  }, [loading, scene, view])
+    changeViewDebounced(scene, view)
+  }, [loading, changeViewDebounced, view, scene])
 
   useEffect(() => {
     if (!loading && onLoaded) {

@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import { Addons, type AddonsTypes } from './addons'
-import type { Logo } from './objects/logo'
 import { LogoEdges } from './objects/logo-edges'
 import type { ObjectBase } from './objects/object-base'
 import { ReactiveGrid } from './objects/reactiveGrid'
@@ -18,12 +17,14 @@ export class Scene3D {
   private view = ViewType.ABOUT
   private readonly renderer: THREE.WebGLRenderer
   private composer: InstanceType<AddonsTypes['EffectComposer']>
+  private afterImagePass: InstanceType<AddonsTypes['AfterimagePass']>
+  private fxaaPass: InstanceType<AddonsTypes['ShaderPass']>
   private bloomPass: InstanceType<AddonsTypes['UnrealBloomPass']>
   private readonly scene: THREE.Scene
   private readonly camera: THREE.PerspectiveCamera
   private readonly objects: ObjectBase[] = []
-  private grid: ObjectBase | null = null
-  private logo: Logo | null = null
+  private grid: ReactiveGrid | null = null
+  private logo: LogoEdges | null = null
   private title: Title | null = null
 
   private stats: Stats | null = null
@@ -50,16 +51,24 @@ export class Scene3D {
     this.renderer.setPixelRatio(window.devicePixelRatio)
     this.renderer.setSize(width, height)
     this.renderer.outputColorSpace = THREE.LinearDisplayP3ColorSpace
+    // this.renderer.outputColorSpace = THREE.DisplayP3ColorSpace
     this.renderer.setClearColor(0x000000, 1)
 
     // this.renderer.toneMapping = THREE.ReinhardToneMapping
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping
 
     const renderScene = new Addons.RenderPass(
       this.scene,
       this.camera,
       undefined,
-      new THREE.Color(0x2e343b),
+      // new THREE.Color(0x2e343b),
+      new THREE.Color(0x34383f),
     )
+
+    this.fxaaPass = new Addons.ShaderPass(Addons.FXAAShader)
+
+    this.afterImagePass = new Addons.AfterimagePass(0.92)
+    this.afterImagePass.setSize(window.innerWidth, window.innerHeight)
 
     this.bloomPass = new Addons.UnrealBloomPass(
       new THREE.Vector2(window.innerWidth, window.innerHeight),
@@ -73,6 +82,8 @@ export class Scene3D {
     this.composer = new Addons.EffectComposer(this.renderer)
     this.composer.setPixelRatio(window.devicePixelRatio)
     this.composer.addPass(renderScene)
+    this.composer.addPass(this.fxaaPass)
+    this.composer.addPass(this.afterImagePass)
     this.composer.addPass(this.bloomPass)
     this.composer.addPass(outputPass)
 
@@ -95,6 +106,14 @@ export class Scene3D {
   public resize(width: number, height: number) {
     this.camera.aspect = width / height
     this.camera.updateProjectionMatrix()
+
+    const pixelRatio = this.renderer.getPixelRatio()
+
+    this.fxaaPass.material.uniforms['resolution'].value.x = 1 / (width * pixelRatio)
+    this.fxaaPass.material.uniforms['resolution'].value.y = 1 / (height * pixelRatio)
+
+    this.afterImagePass.setSize(window.innerWidth, window.innerHeight)
+
     this.bloomPass.setSize(width, height)
     this.bloomPass.resolution.set(width, height)
     this.renderer.setSize(width, height)
@@ -139,6 +158,10 @@ export class Scene3D {
         this.title?.setTitleModel('titleComputerGraphics', 3, 0.3)
         break
     }
+
+    this.grid?.setMode(
+      this.view === ViewType.ABOUT ? ReactiveGrid.Mode.BACKGROUND : ReactiveGrid.Mode.LANDSCAPE,
+    )
   }
 
   public run() {
@@ -160,7 +183,7 @@ export class Scene3D {
     const scene = new THREE.Scene()
 
     this.grid = new ReactiveGrid(scene)
-    this.objects.push(this.grid)
+    this.logo = new LogoEdges(scene)
 
     // this.objects.push(this.logo, new LogoEdges(scene), new Title(scene))
     this.title = new Title(scene)
@@ -175,7 +198,8 @@ export class Scene3D {
         this.title?.setTitleModel('titleAktyn', 3, 0.15)
       }
     }, 10_000)
-    this.objects.push(this.title, new LogoEdges(scene))
+
+    this.objects.push(this.grid, this.title, this.logo)
 
     return scene
   }

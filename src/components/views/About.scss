@@ -4,6 +4,11 @@
 .about-main {
   width: 100%;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+
+  transition: transform 0.25s ease-out, opacity 0.25s ease-out;
 
   hr {
     border: 1px solid $textPrimary;
@@ -11,6 +16,7 @@
     margin: 0;
     padding: 0;
 
+    transition: margin 0.25s $smooth;
 
     &.line-top {
       top: 0;

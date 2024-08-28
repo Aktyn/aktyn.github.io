@@ -4,11 +4,10 @@ import { Layout } from './Layout'
 import { Loader } from './components/common/Loader'
 import { ViewContext, ViewType } from './context/viewContext'
 import { useDebounce } from './hooks/useDebounce'
+import { scrollAnimationSpeed, wheelStrengthMultiplier } from './utils/consts'
 import { clamp } from './utils/math'
 
 const viewsCount = Object.values(ViewType).length
-const wheelStrengthMultiplier = 2
-const scrollAnimationSpeed = 3
 
 export function App() {
   const targetScrollValue = useRef(0)

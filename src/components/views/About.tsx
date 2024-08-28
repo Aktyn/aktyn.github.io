@@ -7,12 +7,20 @@ import '../../style/typography.scss'
 import './About.scss'
 
 export function About() {
-  const { view: currentView, setView } = useContext(ViewContext)
+  const { view: currentView, scrollValue, setView } = useContext(ViewContext)
+
+  const hideFactor = Math.min(1, scrollValue)
 
   return (
     <div className="view-container">
-      <div className="about-main">
-        <hr className="line-top" />
+      <div
+        className="about-main"
+        style={{
+          transform: `translateY(${-hideFactor * 50}vh)`,
+          opacity: 1 - hideFactor,
+        }}
+      >
+        <hr className="line-top" style={{ marginRight: `${hideFactor * 50}%` }} />
         <div className="details">
           <TypeInEffect className="text-large" delay={defaultTypeInEffectDuration * 0.5}>
             Radosław Krajewski
@@ -54,7 +62,7 @@ export function About() {
             </a>
           </div>
         </div>
-        <hr className="line-bottom" />
+        <hr className="line-bottom" style={{ marginLeft: `${hideFactor * 50}%` }} />
       </div>
     </div>
   )

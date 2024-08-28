@@ -36,6 +36,12 @@ export class Title extends ObjectBase {
   private morphDuration = 5
   private morphTimer = 0
 
+  private delayedTitleModelChange: {
+    model: keyof typeof Assets.models & `title${string}`
+    duration: number
+    alpha: number
+  } | null = null
+
   constructor(scene: THREE.Scene) {
     super(scene)
 
@@ -112,6 +118,15 @@ export class Title extends ObjectBase {
     duration = 5,
     alpha = 0.3,
   ) {
+    if (this.morphTimer > 0 && this.morphingPositions) {
+      this.delayedTitleModelChange = {
+        model,
+        duration,
+        alpha,
+      }
+      return
+    }
+
     if (this.textObject) {
       this.scene.remove(this.textObject)
       this.textObject.clear()
@@ -225,6 +240,15 @@ export class Title extends ObjectBase {
     } else if (this.morphingPositions) {
       this.originalPositions = this.morphingPositions
       this.morphingPositions = null
+
+      if (this.delayedTitleModelChange) {
+        this.setTitleModel(
+          this.delayedTitleModelChange.model,
+          this.delayedTitleModelChange.duration,
+          this.delayedTitleModelChange.alpha,
+        )
+        this.delayedTitleModelChange = null
+      }
     } else {
       if (textMaterial && textMaterial.opacity < textOpacity) {
         textMaterial.opacity = Math.min(textOpacity, textMaterial.opacity + delta * 0.1)
