@@ -6,6 +6,7 @@ export abstract class ObjectBase {
   protected mouseX = 0
   protected mouseY = 0
   protected mouseClicked = false
+  protected scrollValue = 0
 
   constructor(protected readonly scene: THREE.Scene) {}
 
@@ -24,6 +25,10 @@ export abstract class ObjectBase {
   }
   public setMouseClicked(clicked: boolean) {
     this.mouseClicked = clicked
+  }
+
+  public setScrollValue(factor: number) {
+    this.scrollValue = factor
   }
 
   protected get aspect() {

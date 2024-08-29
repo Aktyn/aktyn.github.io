@@ -3,7 +3,7 @@ import { Background } from './Background'
 import { Layout } from './Layout'
 import { Loader } from './components/common/Loader'
 import { ViewContext, ViewType } from './context/viewContext'
-import { useDebounce } from './hooks/useDebounce'
+import { linearValueUpdate, smoothValueUpdate } from './scene-3D/helpers'
 import { scrollAnimationSpeed, wheelStrengthMultiplier } from './utils/consts'
 import { clamp } from './utils/math'
 
@@ -17,38 +17,47 @@ export function App() {
 
   const view = useMemo(() => Object.values(ViewType)[Math.round(scrollValue)], [scrollValue])
 
-  const adjustScrollDebounced = useDebounce(
-    () => {
-      const targetIndex = Math.round(targetScrollValue.current)
-      targetScrollValue.current = targetIndex
-    },
-    500,
-    [],
-  )
-
   useEffect(() => {
-    const onScroll = (event: WheelEvent) => {
-      targetScrollValue.current = clamp(
-        targetScrollValue.current + (event.deltaY / window.innerHeight) * wheelStrengthMultiplier,
-        0,
-        viewsCount - 1,
-      )
-      adjustScrollDebounced()
-    }
-
-    window.addEventListener('wheel', onScroll)
-    return () => {
-      window.removeEventListener('wheel', onScroll)
-    }
-  }, [adjustScrollDebounced])
-
-  useEffect(() => {
-    let animation = 0,
+    const slowingDownFactor = 1,
+      stickingSpeedFactor = 3,
+      velocityEffectMultiplier = 4,
+      maxVelocity = 0.5
+    let velocity = 0,
+      animation = 0,
       last = 0
-    const tick = (time: number) => {
+    const step = (time: number) => {
       const delta = Math.min(1, (time - last) / 1000)
       last = time
 
+      updateTargetScrollValue(delta)
+      updateScrollValue(delta)
+
+      animation = requestAnimationFrame(step)
+    }
+
+    const updateTargetScrollValue = (delta: number) => {
+      if (velocity !== 0) {
+        targetScrollValue.current = clamp(
+          targetScrollValue.current + velocity * delta * velocityEffectMultiplier,
+          0,
+          viewsCount - 1,
+        )
+        if (targetScrollValue.current === 0 || targetScrollValue.current === viewsCount - 1) {
+          velocity = 0
+        }
+      }
+
+      const targetIndex = Math.round(targetScrollValue.current)
+      targetScrollValue.current = smoothValueUpdate(
+        targetScrollValue.current,
+        targetIndex,
+        delta * Math.max(0, stickingSpeedFactor * (1 - Math.abs(velocity) / maxVelocity)),
+      )
+
+      velocity = linearValueUpdate(velocity, 0, delta * slowingDownFactor)
+    }
+
+    const updateScrollValue = (delta: number) => {
       setScrollValue((currentValue) => {
         const diff = targetScrollValue.current - currentValue
         const step = Math.sign(diff) * delta * scrollAnimationSpeed
@@ -57,12 +66,22 @@ export function App() {
         }
         return currentValue + step
       })
-
-      animation = requestAnimationFrame(tick)
     }
-    tick(0)
 
+    const onScroll = (event: WheelEvent) => {
+      const deltaY = (event.deltaY / window.innerHeight) * wheelStrengthMultiplier
+      if (velocity === 0 || Math.sign(velocity) !== Math.sign(deltaY)) {
+        velocity = deltaY
+      } else {
+        velocity = clamp(velocity + deltaY, -maxVelocity, maxVelocity)
+      }
+    }
+
+    step(0)
+
+    window.addEventListener('wheel', onScroll)
     return () => {
+      window.removeEventListener('wheel', onScroll)
       cancelAnimationFrame(animation)
     }
   }, [])

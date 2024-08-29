@@ -128,26 +128,33 @@ export class ReactiveGrid extends ObjectBase {
             if (!this.mouseX && !this.mouseY) {
               break
             }
-            for (let i = 0; i < this.grid.length; i++) {
-              const x = this.positionAttribute.getX(i)
-              const y = this.positionAttribute.getY(i)
-              const z = this.positionAttribute.getZ(i)
+            for (let y = 0; y < this.gridSize; y++) {
+              for (let x = 0; x < this.gridSize; x++) {
+                const i = y * this.gridSize + x
 
-              const dstX = x - this.mouseX / this.mesh.scale.x
-              const dstY = y - this.mouseY / this.mesh.scale.y
+                const vertexX = this.positionAttribute.getX(i)
+                const vertexY = this.positionAttribute.getY(i)
+                const vertexZ = this.positionAttribute.getZ(i)
 
-              const dst = Math.min(Math.pow(dstX * dstX + dstY * dstY, 0.7) * 8, Math.PI * 1.5)
-              const targetZ = Math.max(-0.095, Math.cos(dst) * 0.1)
-              this.positionAttribute.setZ(i, smoothValueUpdate(z, targetZ, delta * 2))
+                const dstX = vertexX - this.mouseX / this.mesh.scale.x
+                const dstY = vertexY - this.mouseY / this.mesh.scale.y
 
-              const targetSize = this.mouseClicked
-                ? clamp(Math.pow(targetZ * 8, 5) * 0.5, 0.02, 0.4)
-                : 0.02
-              const size = Math.min(
-                0.5,
-                smoothValueUpdate(this.sizeAttribute.getX(i), targetSize, delta * 8),
-              )
-              this.sizeAttribute.setX(i, size)
+                const dst = Math.min(Math.pow(dstX * dstX + dstY * dstY, 0.7) * 8, Math.PI * 1.5)
+                const targetZ = Math.max(-0.095, Math.cos(dst) * 0.1)
+                this.positionAttribute.setZ(i, smoothValueUpdate(vertexZ, targetZ, delta * 2))
+
+                const targetY = (y / (this.gridSize - 1) - 0.5) * 2
+                this.positionAttribute.setY(i, smoothValueUpdate(vertexY, targetY, delta))
+
+                const targetSize = this.mouseClicked
+                  ? clamp(Math.pow(targetZ * 8, 5) * 0.5, 0.02, 0.4)
+                  : 0.02
+                const size = Math.min(
+                  0.5,
+                  smoothValueUpdate(this.sizeAttribute.getX(i), targetSize, delta * 8),
+                )
+                this.sizeAttribute.setX(i, size)
+              }
             }
           }
           break
@@ -155,7 +162,7 @@ export class ReactiveGrid extends ObjectBase {
           {
             targetOrientation = -Math.PI * 0.5
             targetY = -0.25
-            targetZ = -0.5
+            targetZ = 0.125
             targetLinesOpacity = 0.0125
             this.waveOffsetX += delta * Math.PI * 2 * 0.05
             this.waveOffsetY += delta * Math.PI * 2 * 0.1
@@ -163,6 +170,10 @@ export class ReactiveGrid extends ObjectBase {
             for (let y = 0; y < this.gridSize; y++) {
               for (let x = 0; x < this.gridSize; x++) {
                 const i = y * this.gridSize + x
+
+                const vertexY = this.positionAttribute.getY(i)
+                const targetY = y / (this.gridSize - 1) - 0.5
+                this.positionAttribute.setY(i, smoothValueUpdate(vertexY, targetY, delta))
 
                 const vertexZ = this.positionAttribute.getZ(i)
                 const targetZ =

@@ -12,6 +12,7 @@ export class LogoEdges extends ObjectBase {
   private object: THREE.Object3D | null = null
   private posY = -0.65
   private entryAnimationTimer = entryAnimationDuration
+  private readonly lineMaterial: THREE.LineBasicMaterial
 
   constructor(scene: THREE.Scene) {
     super(scene)
@@ -19,17 +20,17 @@ export class LogoEdges extends ObjectBase {
     const objectScene = Assets.models.logoEdges
     const object = objectScene.children[0] as THREE.Mesh
     if (!(object instanceof THREE.Object3D) || !object.isObject3D) {
-      return
+      throw new Error('Logo edges object is not a mesh')
     }
     object.position.z = 0
     object.position.y = startingPosY
 
-    const lineMaterial = new THREE.LineBasicMaterial({
+    this.lineMaterial = new THREE.LineBasicMaterial({
       color: 0x00838f,
-      // transparent: true,
-      // opacity: 0.5,
+      transparent: true,
+      opacity: 1,
     })
-    object.material = lineMaterial
+    object.material = this.lineMaterial
 
     this.object = object
     scene.add(this.object)
@@ -58,19 +59,27 @@ export class LogoEdges extends ObjectBase {
       )
       this.object.position.y = mix(startingPosY, this.posY, factor)
       this.object.rotation.y = -(1 - factor) * Math.PI * 2
+
       return
     }
 
-    const damping = 0.1
-    this.object.rotation.x = smoothValueUpdate(
-      this.object.rotation.x,
-      (-this.mouseY + this.posY * 2) * Math.PI * damping,
-      delta * 2,
-    )
-    this.object.rotation.y = smoothValueUpdate(
-      this.object.rotation.y,
-      this.mouseX * Math.PI * damping,
-      delta * 2,
-    )
+    if (this.scrollValue < 1) {
+      const damping = 0.1
+      this.object.rotation.x = smoothValueUpdate(
+        this.object.rotation.x,
+        (-this.mouseY + this.posY * 2) * Math.PI * damping,
+        delta * 2,
+      )
+      this.object.rotation.y = smoothValueUpdate(
+        this.object.rotation.y,
+        this.mouseX * Math.PI * damping,
+        delta * 2,
+      )
+    }
+
+    const factor = clamp(this.scrollValue, 0, 1)
+    this.object.position.z = mix(0, -1.5, factor)
+    this.object.rotation.x = mix(0, -Math.PI, Math.pow(factor, 2))
+    this.lineMaterial.opacity = mix(0, 1, Math.pow(1 - factor, 4))
   }
 }

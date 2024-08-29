@@ -135,6 +135,12 @@ export class Scene3D {
     }
   }
 
+  public setScrollValue(factor: number) {
+    for (const object of this.objects) {
+      object.setScrollValue(factor)
+    }
+  }
+
   public setView(view: ViewType) {
     if (view === this.view) {
       return

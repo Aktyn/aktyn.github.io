@@ -39,7 +39,9 @@
 
       transition: transform 0.5s $springEase,
       background-color 0.2s $smooth,
-      box-shadow 0.2s $smooth;
+      box-shadow 0.2s $smooth,
+      margin 0.1s linear,
+      padding 0.1s linear;
       transform: translateX(0);
 
       &.hide {

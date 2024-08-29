@@ -8,7 +8,7 @@ import { Assets } from './scene-3D/assets'
 export function Background({ onLoaded }: { onLoaded?: (loaded: true) => void }) {
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const { view } = useContext(ViewContext)
+  const { view, scrollValue } = useContext(ViewContext)
 
   const [webGlAvailable, setWebGlAvailable] = useState(true)
   const [loading, setLoading] = useState(true)
@@ -29,6 +29,13 @@ export function Background({ onLoaded }: { onLoaded?: (loaded: true) => void }) 
 
     changeViewDebounced(scene, view)
   }, [loading, changeViewDebounced, view, scene])
+
+  useEffect(() => {
+    if (loading || !scene) {
+      return
+    }
+    scene.setScrollValue(scrollValue)
+  }, [loading, scrollValue, scene])
 
   useEffect(() => {
     if (!loading && onLoaded) {

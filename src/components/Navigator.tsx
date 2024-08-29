@@ -5,7 +5,7 @@ import { ViewContext, ViewType } from '../context/viewContext'
 import './Navigator.scss'
 
 const gapSizeRem = 1
-const viewsCount = Object.values(ViewType).length
+// const viewsCount = Object.values(ViewType).length
 
 export function Navigator() {
   const innerContainerRef = useRef<HTMLDivElement>(null)
@@ -65,7 +65,7 @@ export function Navigator() {
               className={clsx(hide && 'hide', active && 'active')}
               onClick={active ? undefined : () => setView(view)}
               style={{
-                transitionDelay: `${Math.abs(index + 1 - viewsCount / 2) * 0.05}s`,
+                // transitionDelay: `${Math.abs(index + 1 - viewsCount / 2) * 0.05}s`,
                 marginBottom: `-${sizeRem}rem`,
                 paddingBottom: `${sizeRem}rem`,
                 marginTop: `-${sizeRem}rem`,
