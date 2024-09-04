@@ -5,14 +5,13 @@ import { Scene3D } from './scene-3D'
 import { Addons } from './scene-3D/addons'
 import { Assets } from './scene-3D/assets'
 
-export function Background({ onLoaded }: { onLoaded?: (loaded: true) => void }) {
+export function BackgroundScene({ onLoaded }: { onLoaded?: (loaded: true) => void }) {
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const { view, scrollValue } = useContext(ViewContext)
+  const { view, scrollValue, scene, setScene } = useContext(ViewContext)
 
   const [webGlAvailable, setWebGlAvailable] = useState(true)
   const [loading, setLoading] = useState(true)
-  const [scene, setScene] = useState<Scene3D | null>(null)
 
   const changeViewDebounced = useDebounce(
     (scene: Scene3D, view: ViewType) => {
@@ -90,7 +89,7 @@ export function Background({ onLoaded }: { onLoaded?: (loaded: true) => void }) 
       window.removeEventListener('mousedown', onMouseKeyDown)
       window.removeEventListener('mouseup', onMouseKeyUp)
     }
-  }, [])
+  }, [setScene])
 
   useEffect(() => {
     let cleanup: (() => void) | undefined = undefined

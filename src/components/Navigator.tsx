@@ -1,11 +1,11 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
+import { AdjacentViewNavigationButton } from './common/AdjacentViewNavigationButton'
 import { ViewContext, ViewType } from '../context/viewContext'
 
 import './Navigator.scss'
 
 const gapSizeRem = 1
-// const viewsCount = Object.values(ViewType).length
 
 export function Navigator() {
   const innerContainerRef = useRef<HTMLDivElement>(null)
@@ -15,6 +15,7 @@ export function Navigator() {
   const { view: currentView, setView, scrollValue } = useContext(ViewContext)
 
   const [hide, setHide] = useState(false)
+  const [initialDelayOver, setInitialDelayOver] = useState(false)
 
   const showWidget = useCallback(() => {
     if (hideTimeoutRef.current) {
@@ -42,39 +43,61 @@ export function Navigator() {
   }, [showWidget])
 
   useEffect(() => {
+    const timeout = setTimeout(() => {
+      setInitialDelayOver(true)
+    }, 3_000)
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [])
+
+  useEffect(() => {
     if (typeof scrollValue === 'number') {
       showWidget()
     }
   }, [scrollValue, showWidget])
 
+  const showPreviousViewButton =
+    initialDelayOver &&
+    currentView !== ViewType.ABOUT &&
+    Math.abs(scrollValue - Math.round(scrollValue)) < 0.1
+  const showNextViewButton =
+    initialDelayOver &&
+    currentView !== ViewType.COMPUTER_GRAPHICS &&
+    Math.abs(scrollValue - Math.round(scrollValue)) < 0.1
+
   return (
-    <div className="navigator">
-      <div
-        ref={innerContainerRef}
-        style={{ display: 'flex', flexDirection: 'column', gap: `${gapSizeRem}rem` }}
-      >
-        {Object.values(ViewType).map((view, index) => {
-          const factor = Math.max(0, 1 - Math.abs(index - scrollValue))
-          const sizeRem = factor * gapSizeRem * 0.5
+    <>
+      <AdjacentViewNavigationButton variant="previous" show={showPreviousViewButton} />
+      <AdjacentViewNavigationButton variant="next" show={showNextViewButton} />
+      <div className="navigator">
+        <div
+          ref={innerContainerRef}
+          style={{ display: 'flex', flexDirection: 'column', gap: `${gapSizeRem}rem` }}
+        >
+          {Object.values(ViewType).map((view, index) => {
+            const factor = Math.max(0, 1 - Math.abs(index - scrollValue))
+            const sizeRem = factor * gapSizeRem * 0.5
 
-          const active = view === currentView
+            const active = view === currentView
 
-          return (
-            <div
-              key={index}
-              className={clsx(hide && 'hide', active && 'active')}
-              onClick={active ? undefined : () => setView(view)}
-              style={{
-                // transitionDelay: `${Math.abs(index + 1 - viewsCount / 2) * 0.05}s`,
-                marginBottom: `-${sizeRem}rem`,
-                paddingBottom: `${sizeRem}rem`,
-                marginTop: `-${sizeRem}rem`,
-                paddingTop: `${sizeRem}rem`,
-              }}
-            />
-          )
-        })}
+            return (
+              <div
+                key={index}
+                className={clsx(hide && 'hide', active && 'active')}
+                onClick={active ? undefined : () => setView(view)}
+                style={{
+                  marginBottom: `-${sizeRem}rem`,
+                  paddingBottom: `${sizeRem}rem`,
+                  marginTop: `-${sizeRem}rem`,
+                  paddingTop: `${sizeRem}rem`,
+                }}
+              />
+            )
+          })}
+        </div>
       </div>
-    </div>
+    </>
   )
 }

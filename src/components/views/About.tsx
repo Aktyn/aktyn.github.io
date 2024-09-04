@@ -1,13 +1,29 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { ViewContext, ViewType } from '../../context/viewContext'
+import { LogoEdges } from '../../scene-3D/objects/logo-edges'
 import { viewNames } from '../../utils/consts'
+import { clamp } from '../../utils/math'
 import { defaultTypeInEffectDuration, TypeInEffect } from '../common/TypeInEffect'
 
 import '../../style/typography.scss'
 import './About.scss'
 
 export function About() {
-  const { view: currentView, scrollValue, setView } = useContext(ViewContext)
+  const { view: currentView, scrollValue, setView, scene } = useContext(ViewContext)
+
+  useEffect(() => {
+    if (!scene || currentView !== ViewType.ABOUT) {
+      return
+    }
+
+    const logo = new LogoEdges(scene.getScene())
+    scene.addObject(logo)
+
+    return () => {
+      scene.removeObject(logo)
+      logo.destroy()
+    }
+  }, [currentView, scene])
 
   const hideFactor = Math.min(1, scrollValue)
 
@@ -17,7 +33,7 @@ export function About() {
         className="about-main"
         style={{
           transform: `translateY(${-hideFactor * 50}vh)`,
-          opacity: 1 - hideFactor,
+          opacity: clamp((1 - hideFactor) * 2, 0, 1),
         }}
       >
         <hr className="line-top" style={{ marginRight: `${hideFactor * 50}%` }} />

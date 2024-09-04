@@ -3,13 +3,13 @@ import * as THREE from 'three'
 import { ObjectBase } from './object-base'
 import { clamp, mix } from '../../utils/math'
 import { Assets } from '../assets'
-import { smoothValueUpdate } from '../helpers'
+import { linearValueUpdate, smoothValueUpdate } from '../helpers'
 
 const entryAnimationDuration = 4
 const startingPosY = -3
 
 export class LogoEdges extends ObjectBase {
-  private object: THREE.Object3D | null = null
+  private readonly object: THREE.Object3D
   private posY = -0.65
   private entryAnimationTimer = entryAnimationDuration
   private readonly lineMaterial: THREE.LineBasicMaterial
@@ -18,7 +18,7 @@ export class LogoEdges extends ObjectBase {
     super(scene)
 
     const objectScene = Assets.models.logoEdges
-    const object = objectScene.children[0] as THREE.Mesh
+    const object = objectScene.children[0].clone() as THREE.Mesh
     if (!(object instanceof THREE.Object3D) || !object.isObject3D) {
       throw new Error('Logo edges object is not a mesh')
     }
@@ -37,18 +37,16 @@ export class LogoEdges extends ObjectBase {
     this.resize(this.screenWidth, this.screenHeight)
   }
 
-  public destroy() {}
+  public destroy() {
+    this.scene.remove(this.object)
+  }
 
   public resize(width: number, height: number) {
     super.resize(width, height)
-    this.object?.scale.setScalar(Math.min(1, width / height) * 0.618)
+    this.object.scale.setScalar(Math.min(1, width / height) * 0.618)
   }
 
   public update(delta: number) {
-    if (!this.object) {
-      return
-    }
-
     if (this.entryAnimationTimer > 0) {
       this.entryAnimationTimer -= delta
       const factor = easeOutExpo(
@@ -79,7 +77,13 @@ export class LogoEdges extends ObjectBase {
 
     const factor = clamp(this.scrollValue, 0, 1)
     this.object.position.z = mix(0, -1.5, factor)
-    this.object.rotation.x = mix(0, -Math.PI, Math.pow(factor, 2))
+    if (this.scrollValue > 0) {
+      this.object.rotation.x = linearValueUpdate(
+        this.object.rotation.x,
+        mix(0, -Math.PI, Math.pow(factor, 2)),
+        delta,
+      )
+    }
     this.lineMaterial.opacity = mix(0, 1, Math.pow(1 - factor, 4))
   }
 }

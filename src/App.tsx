@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Background } from './Background'
+import { BackgroundScene } from './BackgroundScene'
 import { Layout } from './Layout'
 import { Loader } from './components/common/Loader'
 import { ViewContext, ViewType } from './context/viewContext'
+import type { Scene3D } from './scene-3D'
 import { linearValueUpdate, smoothValueUpdate } from './scene-3D/helpers'
 import { scrollAnimationSpeed, wheelStrengthMultiplier } from './utils/consts'
 import { clamp } from './utils/math'
@@ -14,6 +15,7 @@ export function App() {
 
   const [ready, setReady] = useState(false)
   const [scrollValue, setScrollValue] = useState(0)
+  const [scene, setScene] = useState<Scene3D | null>(null)
 
   const view = useMemo(() => Object.values(ViewType)[Math.round(scrollValue)], [scrollValue])
 
@@ -90,9 +92,13 @@ export function App() {
     targetScrollValue.current = Object.values(ViewType).indexOf(view)
   }, [])
 
+  const goTo = useCallback((scrollValue: number) => {
+    targetScrollValue.current = scrollValue
+  }, [])
+
   return (
-    <ViewContext.Provider value={{ view, setView, scrollValue }}>
-      <Background onLoaded={setReady} />
+    <ViewContext.Provider value={{ view, setView, scrollValue, goTo, scene, setScene }}>
+      <BackgroundScene onLoaded={setReady} />
       {ready ? (
         <Layout />
       ) : (

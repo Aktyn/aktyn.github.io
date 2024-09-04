@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import { Addons, type AddonsTypes } from './addons'
-import { LogoEdges } from './objects/logo-edges'
 import type { ObjectBase } from './objects/object-base'
 import { ReactiveGrid } from './objects/reactiveGrid'
 import { Title } from './objects/title'
@@ -24,7 +23,6 @@ export class Scene3D {
   private readonly camera: THREE.PerspectiveCamera
   private readonly objects: ObjectBase[] = []
   private grid: ReactiveGrid | null = null
-  private logo: LogoEdges | null = null
   private title: Title | null = null
 
   private stats: Stats | null = null
@@ -189,7 +187,6 @@ export class Scene3D {
     const scene = new THREE.Scene()
 
     this.grid = new ReactiveGrid(scene)
-    this.logo = new LogoEdges(scene)
 
     // this.objects.push(this.logo, new LogoEdges(scene), new Title(scene))
     this.title = new Title(scene)
@@ -205,8 +202,22 @@ export class Scene3D {
       }
     }, 10_000)
 
-    this.objects.push(this.grid, this.title, this.logo)
+    this.objects.push(this.grid, this.title)
 
     return scene
+  }
+
+  public getScene() {
+    return this.scene
+  }
+
+  public addObject(object: ObjectBase) {
+    this.objects.push(object)
+  }
+  public removeObject(object: ObjectBase) {
+    const index = this.objects.indexOf(object)
+    if (index !== -1) {
+      this.objects.splice(index, 1)
+    }
   }
 }
