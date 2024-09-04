@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { memo, useContext } from 'react'
 import { mdiChevronDoubleDown, mdiChevronDoubleUp } from '@mdi/js'
 import Icon from '@mdi/react'
 import clsx from 'clsx'
@@ -10,7 +10,7 @@ type AdjacentViewNavigationButtonProps = {
   show: boolean
 }
 
-export function AdjacentViewNavigationButton({ variant, show }: AdjacentViewNavigationButtonProps) {
+function _AdjacentViewNavigationButton({ variant, show }: AdjacentViewNavigationButtonProps) {
   const { scrollValue, goTo } = useContext(ViewContext)
 
   return (
@@ -28,3 +28,8 @@ export function AdjacentViewNavigationButton({ variant, show }: AdjacentViewNavi
     </div>
   )
 }
+
+export const AdjacentViewNavigationButton = memo(
+  _AdjacentViewNavigationButton,
+  (prev, next) => prev.show === next.show,
+)
