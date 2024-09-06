@@ -4,6 +4,7 @@ import { randomFloat } from '../../utils/random'
 import { Assets } from '../assets'
 import { smoothValueUpdate } from '../helpers'
 
+//TODO: remove this file if not needed
 export class Logo extends ObjectBase {
   private object: THREE.Object3D | null = null
   private positionAttribute: THREE.Float32BufferAttribute | null = null

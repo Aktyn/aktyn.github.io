@@ -1,6 +1,8 @@
 import { useContext, useEffect } from 'react'
 import { ViewContext, ViewType } from '../../context/viewContext'
+import { ImagesGallery } from '../../scene-3D/objects/images-gallery'
 
+/* eslint-disable @typescript-eslint/no-require-imports */
 export function Websites() {
   const { view: currentView, scene } = useContext(ViewContext)
 
@@ -9,14 +11,19 @@ export function Websites() {
       return
     }
 
-    // TODO: interactive gallery in THREEjs scene
-
-    // const logo = new LogoEdges(scene.getScene())
-    // scene.addObject(logo)
+    const gallery = new ImagesGallery(scene.getScene(), [
+      require('../../img/websites/berta-snakes.webp'),
+      require('../../img/websites/fivem-launcher.webp'),
+      require('../../img/websites/in2rp.webp'),
+      require('../../img/websites/map-poi.webp'),
+      require('../../img/websites/project-paradise.webp'),
+    ])
+    scene.addObject(gallery)
 
     return () => {
-      // scene.removeObject(logo)
-      // logo.destroy()
+      //TODO: run exit animation before destroying
+      scene.removeObject(gallery)
+      gallery.destroy()
     }
   }, [currentView, scene])
 

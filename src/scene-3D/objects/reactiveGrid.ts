@@ -3,7 +3,13 @@ import * as THREE from 'three'
 import { ObjectBase } from './object-base'
 import { clamp, mix } from '../../utils/math'
 import { Assets } from '../assets'
-import { linearValueUpdate, secondaryColor, smoothValueUpdate } from '../helpers'
+import {
+  calculateGridPoints,
+  calculateRingPoints,
+  linearValueUpdate,
+  secondaryColorValues,
+  smoothValueUpdate,
+} from '../helpers'
 
 const morphDuration = 5
 enum Mode {
@@ -55,6 +61,8 @@ export class ReactiveGrid extends ObjectBase {
       color: 0xb2ebf2,
       transparent: true,
       opacity: 0.0025,
+      depthTest: true,
+      depthWrite: false,
     })
     for (let y = 0; y < gridSize; y++) {
       const lineGeometry = new THREE.BufferGeometry()
@@ -73,7 +81,7 @@ export class ReactiveGrid extends ObjectBase {
 
     const colors = new THREE.Float32BufferAttribute(
       Array.from({ length: gridSize * gridSize })
-        .map(() => secondaryColor)
+        .map(() => secondaryColorValues)
         .flat(),
       3,
     )
@@ -92,7 +100,9 @@ export class ReactiveGrid extends ObjectBase {
       blendDst: THREE.OneFactor,
       blendSrcAlpha: THREE.SrcAlphaFactor,
       blendDstAlpha: THREE.OneMinusSrcAlphaFactor,
-      depthTest: false,
+      // depthTest: false,
+      depthTest: true,
+      depthWrite: false,
       transparent: true,
     })
     const points = new THREE.Points(gridGeometry, dotMaterial)
@@ -219,33 +229,4 @@ export class ReactiveGrid extends ObjectBase {
       this.positionAttribute.needsUpdate = true
     }
   }
-}
-
-function calculateRingPoints(gridSize: number, outerRadius: number) {
-  const points: Array<[number, number, number]> = Array.from({ length: gridSize * gridSize })
-
-  for (let y = 0; y < gridSize; y++) {
-    const radius = outerRadius * (1 - (y / (gridSize - 1)) * 2)
-    const offset = (y / (gridSize - 1) ** 2) * 8
-    for (let x = 0; x < gridSize; x++) {
-      const index = y * gridSize + x
-      points[index] = [
-        Math.cos((x / gridSize + offset) * Math.PI * 2) * radius,
-        Math.sin((x / gridSize + offset) * Math.PI * 2) * radius,
-        Math.sin(offset * gridSize) * 0.25,
-      ]
-    }
-  }
-  return points
-}
-
-function calculateGridPoints(gridSize: number) {
-  const gridPoints: Array<[number, number, number]> = Array.from({ length: gridSize * gridSize })
-  for (let y = 0; y < gridSize; y++) {
-    for (let x = 0; x < gridSize; x++) {
-      const index = y * gridSize + x
-      gridPoints[index] = [(x / (gridSize - 1) - 0.5) * 2, (y / (gridSize - 1) - 0.5) * 2, 0]
-    }
-  }
-  return gridPoints
 }

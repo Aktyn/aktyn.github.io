@@ -17,7 +17,7 @@ export class Scene3D {
   private readonly renderer: THREE.WebGLRenderer
   private composer: InstanceType<AddonsTypes['EffectComposer']>
   private afterImagePass: InstanceType<AddonsTypes['AfterimagePass']>
-  private fxaaPass: InstanceType<AddonsTypes['ShaderPass']>
+  // private fxaaPass: InstanceType<AddonsTypes['ShaderPass']>
   private bloomPass: InstanceType<AddonsTypes['UnrealBloomPass']>
   private readonly scene: THREE.Scene
   private readonly camera: THREE.PerspectiveCamera
@@ -30,10 +30,11 @@ export class Scene3D {
   constructor(container: HTMLElement, width: number, height: number) {
     assert(Addons.ready, 'Addons are not initialized')
 
-    this.scene = this.loadScene()
+    this.scene = this.loadInitialScene()
     this.camera = new THREE.PerspectiveCamera(69, width / height, 0.1, 10)
     this.camera.position.set(0, 0, 1.5)
     this.camera.lookAt(0, 0, 0)
+    // this.camera.layers.enableAll()
 
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -55,15 +56,7 @@ export class Scene3D {
     // this.renderer.toneMapping = THREE.ReinhardToneMapping
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping
 
-    const renderScene = new Addons.RenderPass(
-      this.scene,
-      this.camera,
-      undefined,
-      // new THREE.Color(0x2e343b),
-      new THREE.Color(0x34383f),
-    )
-
-    this.fxaaPass = new Addons.ShaderPass(Addons.FXAAShader)
+    // this.fxaaPass = new Addons.ShaderPass(Addons.FXAAShader)
 
     this.afterImagePass = new Addons.AfterimagePass(0.92)
     this.afterImagePass.setSize(window.innerWidth, window.innerHeight)
@@ -77,12 +70,19 @@ export class Scene3D {
 
     const outputPass = new Addons.OutputPass()
 
+    const renderScene = new Addons.RenderPass(
+      this.scene,
+      this.camera,
+      undefined,
+      // new THREE.Color(0x2e343b),
+      new THREE.Color(0x34383f),
+    )
     this.composer = new Addons.EffectComposer(this.renderer)
     this.composer.setPixelRatio(window.devicePixelRatio)
     this.composer.addPass(renderScene)
-    this.composer.addPass(this.fxaaPass)
     this.composer.addPass(this.afterImagePass)
     this.composer.addPass(this.bloomPass)
+    // this.composer.addPass(this.fxaaPass)
     this.composer.addPass(outputPass)
 
     this.resize(width, height)
@@ -105,10 +105,9 @@ export class Scene3D {
     this.camera.aspect = width / height
     this.camera.updateProjectionMatrix()
 
-    const pixelRatio = this.renderer.getPixelRatio()
-
-    this.fxaaPass.material.uniforms['resolution'].value.x = 1 / (width * pixelRatio)
-    this.fxaaPass.material.uniforms['resolution'].value.y = 1 / (height * pixelRatio)
+    // const pixelRatio = this.renderer.getPixelRatio()
+    // this.fxaaPass.material.uniforms['resolution'].value.x = 1 / (width * pixelRatio)
+    // this.fxaaPass.material.uniforms['resolution'].value.y = 1 / (height * pixelRatio)
 
     this.afterImagePass.setSize(window.innerWidth, window.innerHeight)
 
@@ -175,7 +174,16 @@ export class Scene3D {
       for (const object of this.objects) {
         object.update(delta)
       }
+
+      // this.camera.layers.enable(LAYER.DEFAULT)
+      // this.camera.layers.disable(LAYER.NO_BLOOM)
+      // this.scene.traverse(console.log) //TODO: remove
       this.composer.render(time)
+
+      // this.camera.layers.disable(LAYER.DEFAULT)
+      // this.camera.layers.enable(LAYER.NO_BLOOM)
+      // this.noBloomComposer.render(time)
+
       this.stats?.update()
 
       lastTime = time
@@ -183,12 +191,11 @@ export class Scene3D {
     this.renderer.setAnimationLoop(animate)
   }
 
-  private loadScene() {
+  private loadInitialScene() {
     const scene = new THREE.Scene()
 
     this.grid = new ReactiveGrid(scene)
 
-    // this.objects.push(this.logo, new LogoEdges(scene), new Title(scene))
     this.title = new Title(scene)
     setTimeout(() => {
       if (this.view === ViewType.ABOUT) {

@@ -6,7 +6,7 @@ import { clamp, mix } from '../../utils/math'
 import { randomFloat } from '../../utils/random'
 import { Addons } from '../addons'
 import { Assets } from '../assets'
-import { primaryColor, secondaryColor, smoothValueUpdate } from '../helpers'
+import { primaryColorValues, secondaryColorValues, smoothValueUpdate } from '../helpers'
 
 /** seconds */
 // const enterAnimationDuration = 3
@@ -287,18 +287,18 @@ export class Title extends ObjectBase {
         this.colors.setXYZ(
           i,
           mix(
-            primaryColor[0] * this.particlesAlpha * 0.5,
-            secondaryColor[0] * this.particlesAlpha,
+            primaryColorValues[0] * this.particlesAlpha * 0.5,
+            secondaryColorValues[0] * this.particlesAlpha,
             factor,
           ),
           mix(
-            primaryColor[1] * this.particlesAlpha * 0.5,
-            secondaryColor[1] * this.particlesAlpha,
+            primaryColorValues[1] * this.particlesAlpha * 0.5,
+            secondaryColorValues[1] * this.particlesAlpha,
             factor,
           ),
           mix(
-            primaryColor[2] * this.particlesAlpha * 0.5,
-            secondaryColor[2] * this.particlesAlpha,
+            primaryColorValues[2] * this.particlesAlpha * 0.5,
+            secondaryColorValues[2] * this.particlesAlpha,
             factor,
           ),
         )
