@@ -1,12 +1,13 @@
+import { easeInOutCubic } from 'js-easing-functions'
 import * as THREE from 'three'
-import { calculateTriangulatedGrid, linearValueUpdate, smoothValueUpdate } from '../../helpers'
+import { clamp, mix } from '../../../utils/math'
+import { calculateTriangulatedGrid, linearValueUpdate } from '../../helpers'
 import { ObjectBase } from '../object-base'
-
-const baseScale = 0.25
 
 type ImageSchema = {
   positionAttribute: THREE.Float32BufferAttribute
-  imageScene: THREE.Scene
+  mesh: THREE.Mesh
+  material: THREE.MeshBasicMaterial
 } & (
   | {
       ready: false
@@ -20,15 +21,26 @@ type ImageSchema = {
 
 export class ImagesGallery extends ObjectBase {
   private static readonly imagesCache = new Map<string, THREE.Texture>()
+  private static readonly targetScale = 0.25
+  private static readonly targetRadius = 2.5
+  private static readonly gap = 0.2
+  private static readonly minOpacity = 0.5
 
   private readonly images: Array<ImageSchema>
-  private totalWidth = 0
+  private readonly imagesScene: THREE.Scene
+  private enterAnimationScaleFactor = 0
+  private imagesWidthsSum = 0
+  private galleryRotation = 0
 
-  constructor(scene: THREE.Scene, imagesSources: string[]) {
+  constructor(scene: THREE.Scene, imagesSources: (string | { source: string; color: number })[]) {
     super(scene)
 
-    this.images = imagesSources.map((source) => {
-      const imageScene = new THREE.Scene()
+    this.imagesScene = new THREE.Scene()
+    scene.add(this.imagesScene)
+
+    this.images = imagesSources.map((sourceData) => {
+      const source = typeof sourceData === 'string' ? sourceData : sourceData.source
+      const color = typeof sourceData === 'string' ? 0xffffff : sourceData.color
 
       const gridGeometry = new THREE.BufferGeometry()
       const { vertices, indices, uvs } = calculateTriangulatedGrid(2)
@@ -37,21 +49,6 @@ export class ImagesGallery extends ObjectBase {
       const uvAttribute = new THREE.Float32BufferAttribute(uvs, 2)
       gridGeometry.setAttribute('uv', uvAttribute)
       gridGeometry.setIndex(indices)
-      // this.positionAttribute.needsUpdate = true
-
-      // const lineMaterial = new THREE.LineBasicMaterial({
-      //   color: primaryColor,
-      //   transparent: true,
-      //   opacity: 0.1,
-      //   linewidth: 20,
-      //   depthTest: true,
-      // })
-
-      const schema: ImageSchema = {
-        positionAttribute,
-        imageScene,
-        ready: false,
-      }
 
       const onLoad = (texture: THREE.Texture, first = true) => {
         const img: HTMLImageElement = texture.source.data
@@ -66,71 +63,106 @@ export class ImagesGallery extends ObjectBase {
           source: img,
         })
         Object.seal(schema)
-
-        // texture.removeEventListener('loaded', onLoad)
       }
 
       const texture =
         ImagesGallery.imagesCache.get(source) ?? new THREE.TextureLoader().load(source, onLoad)
-      if (texture.source.data) {
-        onLoad(texture, false)
-      }
 
       ImagesGallery.imagesCache.set(source, texture)
 
       const material = new THREE.MeshBasicMaterial({
-        // color: 0x353535,
         depthTest: true,
         map: texture,
+        transparent: true,
+        opacity: ImagesGallery.minOpacity,
+        side: THREE.DoubleSide,
+        color,
       })
-      // const wireframe = new THREE.Line(gridGeometry, lineMaterial)
       const mesh = new THREE.Mesh(gridGeometry, material)
-      // mesh.layers.set(LAYER.NO_BLOOM)
 
-      // imageScene.add(mesh, wireframe)
-      imageScene.add(mesh)
-      imageScene.scale.setScalar(baseScale)
-      imageScene.position.z = 0.75
-      // imageScene.position.x = index * 0.525
+      const schema: ImageSchema = {
+        positionAttribute,
+        mesh,
+        ready: false,
+        material,
+      }
 
-      scene.add(imageScene)
+      if (texture.source.data) {
+        onLoad(texture, false)
+      }
+
+      this.imagesScene.add(mesh)
 
       return schema
     })
   }
 
   destroy() {
-    for (const image of this.images) {
-      this.scene.remove(image.imageScene)
-    }
+    this.scene.remove(this.imagesScene)
   }
 
-  public resize(width: number, height: number) {
-    super.resize(width, height)
-    // this.object.scale.setScalar(Math.min(1, width / height) * 0.618)
-  }
+  // public resize(width: number, height: number) {
+  //   super.resize(width, height)
+  // }
 
   public update(delta: number) {
+    this.galleryRotation += delta * 0.1
+
+    if (this.enterAnimationScaleFactor < 1) {
+      this.enterAnimationScaleFactor = linearValueUpdate(
+        this.enterAnimationScaleFactor,
+        1,
+        delta * 0.5,
+      )
+    }
+
+    const scaleFactor = easeInOutCubic(this.enterAnimationScaleFactor, 0, 1, 1)
+    this.imagesScene.scale.setScalar(ImagesGallery.targetScale * scaleFactor)
+
+    const circumference = this.imagesWidthsSum
+    const radius = circumference / (2 * Math.PI)
+
+    const offsetZ = ImagesGallery.targetRadius - radius
+    this.imagesScene.position.z = linearValueUpdate(
+      this.imagesScene.position.z,
+      offsetZ,
+      delta * 0.5,
+    )
+
     let offsetX = 0
     for (const image of this.images) {
       if (!image.ready) {
         continue
       }
 
-      if (image.imageScene.scale.x !== image.aspectRatio) {
-        image.imageScene.scale.x = linearValueUpdate(
-          image.imageScene.scale.x,
-          image.aspectRatio * baseScale,
-          delta * 0.25,
-        )
-        image.imageScene.position.x = smoothValueUpdate(
-          image.imageScene.position.x,
-          (offsetX + image.aspectRatio - this.totalWidth / 2) * baseScale,
-          delta * 2,
-        )
-        offsetX += image.aspectRatio * 2
+      if (image.mesh.scale.x !== image.aspectRatio) {
+        image.mesh.scale.x = linearValueUpdate(image.mesh.scale.x, image.aspectRatio, delta * 0.25)
       }
+
+      const imageOffset = offsetX + image.aspectRatio - this.imagesWidthsSum / 2
+
+      const angleOffset = (imageOffset / circumference) * 2 * Math.PI + this.galleryRotation
+      image.mesh.rotation.y = -angleOffset + Math.PI / 2
+
+      const x = Math.cos(angleOffset) * radius
+      const z = Math.sin(angleOffset) * radius
+      image.mesh.position.x = x
+      image.mesh.position.z = z
+
+      image.material.opacity = mix(
+        ImagesGallery.minOpacity,
+        1,
+        clamp(Math.PI / 2 - angleDifference(angleOffset, Math.PI / 2), 0, 1),
+      )
+
+      offsetX += image.aspectRatio * 2 + ImagesGallery.gap
     }
-    this.totalWidth = offsetX
+    this.imagesWidthsSum = offsetX
   }
+}
+
+function angleDifference(angle1: number, angle2: number) {
+  const diff = Math.abs(angle1 - angle2)
+
+  return Math.min(diff, Math.PI * 2 - diff)
 }

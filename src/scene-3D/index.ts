@@ -177,7 +177,7 @@ export class Scene3D {
 
       // this.camera.layers.enable(LAYER.DEFAULT)
       // this.camera.layers.disable(LAYER.NO_BLOOM)
-      // this.scene.traverse(console.log) //TODO: remove
+      // this.scene.traverse(console.log) //TODO: implement selective bloom
       this.composer.render(time)
 
       // this.camera.layers.disable(LAYER.DEFAULT)
