@@ -26,7 +26,8 @@ export function App() {
       maxVelocity = 0.5
     let velocity = 0,
       animation = 0,
-      last = 0
+      last = 0,
+      pointerDown: { x: number; y: number } | null = null
     const step = (time: number) => {
       const delta = Math.min(1, (time - last) / 1000)
       last = time
@@ -70,8 +71,8 @@ export function App() {
       })
     }
 
-    const onScroll = (event: WheelEvent) => {
-      const deltaY = (event.deltaY / window.innerHeight) * wheelStrengthMultiplier
+    const applyVelocity = (delta: number) => {
+      const deltaY = (delta / window.innerHeight) * wheelStrengthMultiplier
       if (velocity === 0 || Math.sign(velocity) !== Math.sign(deltaY)) {
         velocity = deltaY
       } else {
@@ -79,11 +80,38 @@ export function App() {
       }
     }
 
+    const onScroll = (event: WheelEvent) => {
+      applyVelocity(event.deltaY)
+    }
+
+    const onPointerDown = (event: PointerEvent) => {
+      pointerDown = { x: event.clientX, y: event.clientY }
+    }
+    const onPointerUp = () => {
+      pointerDown = null
+    }
+    const onPointerMove = (event: PointerEvent) => {
+      if (!pointerDown) {
+        return
+      }
+      // const deltaX = event.clientX - pointerDown.x
+      const deltaY = event.clientY - pointerDown.y
+      pointerDown.x = event.clientX
+      pointerDown.y = event.clientY
+      applyVelocity(-deltaY)
+    }
+
     step(0)
 
     window.addEventListener('wheel', onScroll)
+    window.addEventListener('pointerdown', onPointerDown)
+    window.addEventListener('pointerup', onPointerUp)
+    window.addEventListener('pointermove', onPointerMove)
     return () => {
       window.removeEventListener('wheel', onScroll)
+      window.removeEventListener('pointerdown', onPointerDown)
+      window.removeEventListener('pointerup', onPointerUp)
+      window.removeEventListener('pointermove', onPointerMove)
       cancelAnimationFrame(animation)
     }
   }, [])

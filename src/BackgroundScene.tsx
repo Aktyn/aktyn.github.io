@@ -1,11 +1,11 @@
-import { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { memo, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { ViewContext, type ViewType } from './context/viewContext'
 import { useDebounce } from './hooks/useDebounce'
 import { Scene3D } from './scene-3D'
 import { Addons } from './scene-3D/addons'
 import { Assets } from './scene-3D/assets'
 
-export function BackgroundScene({ onLoaded }: { onLoaded?: (loaded: true) => void }) {
+export const BackgroundScene = memo(({ onLoaded }: { onLoaded?: (loaded: true) => void }) => {
   const containerRef = useRef<HTMLDivElement>(null)
 
   const { view, scrollValue, scene, setScene } = useContext(ViewContext)
@@ -115,8 +115,8 @@ export function BackgroundScene({ onLoaded }: { onLoaded?: (loaded: true) => voi
         position: 'fixed',
         top: 0,
         left: 0,
-        width: '100vw',
-        height: '100vh',
+        width: '100%',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -134,4 +134,4 @@ export function BackgroundScene({ onLoaded }: { onLoaded?: (loaded: true) => voi
       ) : null}
     </div>
   )
-}
+})

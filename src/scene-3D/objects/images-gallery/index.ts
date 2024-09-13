@@ -4,6 +4,8 @@ import { clamp, mix } from '../../../utils/math'
 import { calculateTriangulatedGrid, linearValueUpdate } from '../../helpers'
 import { ObjectBase } from '../object-base'
 
+export type ImageSourceType = string | { source: string; color: number }
+
 type ImageSchema = {
   positionAttribute: THREE.Float32BufferAttribute
   mesh: THREE.Mesh
@@ -23,7 +25,7 @@ export class ImagesGallery extends ObjectBase {
   private static readonly imagesCache = new Map<string, THREE.Texture>()
   private static readonly targetScale = 0.25
   private static readonly targetRadius = 2.5
-  private static readonly gap = 0.2
+  private static readonly gap = 0.1
   private static readonly minOpacity = 0.5
 
   private readonly images: Array<ImageSchema>
@@ -32,7 +34,7 @@ export class ImagesGallery extends ObjectBase {
   private imagesWidthsSum = 0
   private galleryRotation = 0
 
-  constructor(scene: THREE.Scene, imagesSources: (string | { source: string; color: number })[]) {
+  constructor(scene: THREE.Scene, imagesSources: Array<ImageSourceType>) {
     super(scene)
 
     this.imagesScene = new THREE.Scene()
@@ -122,7 +124,7 @@ export class ImagesGallery extends ObjectBase {
     const circumference = this.imagesWidthsSum
     const radius = circumference / (2 * Math.PI)
 
-    const offsetZ = ImagesGallery.targetRadius - radius
+    const offsetZ = (ImagesGallery.targetRadius - radius) / 2
     this.imagesScene.position.z = linearValueUpdate(
       this.imagesScene.position.z,
       offsetZ,

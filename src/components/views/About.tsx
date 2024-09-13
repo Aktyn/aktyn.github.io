@@ -34,6 +34,8 @@ export function About() {
         style={{
           transform: `translateY(${-hideFactor * 50}vh)`,
           opacity: clamp((1 - hideFactor) * 2, 0, 1),
+          pointerEvents: hideFactor > 0 ? 'none' : 'auto',
+          userSelect: hideFactor > 0.5 ? 'none' : 'auto',
         }}
       >
         <hr className="line-top" style={{ marginRight: `${hideFactor * 50}%` }} />
@@ -77,6 +79,13 @@ export function About() {
               </TypeInEffect>
             </a>
           </div>
+          <TypeInEffect
+            className="text-medium"
+            delay={defaultTypeInEffectDuration * 3.5}
+            style={{ color: '#FF8A65' }}
+          >
+            Work is currently suspended on this project!
+          </TypeInEffect>
         </div>
         <hr className="line-bottom" style={{ marginLeft: `${hideFactor * 50}%` }} />
       </div>
