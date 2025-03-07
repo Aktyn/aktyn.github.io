@@ -13,19 +13,12 @@ export function SlashSeparator({
     <svg
       viewBox="0 0 24 24"
       className={cn(
-        "size-6 opacity-25 transition-transform duration-500",
+        "size-6 opacity-25 transition-transform duration-500 stroke-foreground",
         straight ? "rotate-0" : "rotate-15",
         className,
       )}
     >
-      <line
-        x1="12"
-        y1="0"
-        x2="12"
-        y2="24"
-        stroke="var(--foreground)"
-        strokeWidth={2}
-      />
+      <line x1="12" y1="0" x2="12" y2="24" strokeWidth={2} />
     </svg>
   )
 }

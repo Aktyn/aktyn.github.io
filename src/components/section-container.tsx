@@ -9,7 +9,7 @@ export function SectionContainer({ children, section }: SectionContainerProps) {
   return (
     <section
       id={section}
-      className="min-h-128 w-full flex items-center justify-center bg-background/50"
+      className="min-h-128 w-full flex items-center justify-center bg-background/50 border-b"
     >
       {children}
     </section>
