@@ -30,6 +30,12 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       "react-compiler/react-compiler": "error",
       "prettier/prettier": "error",
+      "no-console": [
+        "warn",
+        {
+          allow: ["warn", "error", "info", "debug", "table", "time", "timeEnd"],
+        },
+      ],
     },
   },
 )
