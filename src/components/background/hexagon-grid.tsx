@@ -1,3 +1,5 @@
+import { cn } from "~/lib/utils"
+
 const innerHexagonRadius = 48
 
 type HexagonGridProps = {
@@ -18,7 +20,10 @@ export function HexagonGrid({
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       strokeWidth={strokeWidth}
-      className={className}
+      className={cn(
+        "animate-in fade-in duration-1000 delay-800 fill-mode-both",
+        className,
+      )}
     >
       <defs>
         <pattern

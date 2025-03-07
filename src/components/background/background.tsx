@@ -36,11 +36,11 @@ export function Background({ children, className }: BackgroundProps) {
   return (
     <div
       className={cn(
-        "bg-linear-to-b from-[oklch(0.13_0.04_264)] to-[oklch(0.22_0.03_263)] relative w-dvw h-dvh *:z-10",
+        "bg-linear-to-b from-[oklch(0.13_0.04_264)] to-[oklch(0.22_0.03_263)] relative w-dvw h-dvh *:z-10 **:[.logo]:aspect-square **:[.logo]:w-auto **:[.logo]:h-[61.8%] **:[.logo]:max-w-[61.8%] **:[.logo]:animate-in **:[.logo]:fade-in **:[.logo]:zoom-in-125 **:[.logo]:duration-1500",
         className,
       )}
     >
-      <div className="absolute inset-0  bg-[radial-gradient(ellipse_60%_60%_at_50%_-10%,oklch(65.39%_0.1926_10_/0.2)_0%,oklch(65.39%_0.1926_10_/0.075)_50%,transparent_100%)]" />
+      <div className="overflow-hidden absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_-10%,oklch(65.39%_0.1926_10_/0.2)_0%,oklch(65.39%_0.1926_10_/0.075)_50%,transparent_100%)] animate-in fade-in slide-in-from-top duration-800" />
       <div
         className={cn(
           "overflow-hidden absolute inset-0 transition-opacity duration-500",
@@ -74,22 +74,24 @@ export function Background({ children, className }: BackgroundProps) {
         <HexagonGrid id="hexagons-accent" className="**:[path]:stroke-white" />
       </div>
       <div
-        className="overflow-hidden absolute inset-0 flex items-center justify-center blur-2xl mix-blend-soft-light"
+        className={cn(
+          "overflow-hidden absolute inset-0 flex items-center justify-center blur-2xl mix-blend-soft-light transition-opacity duration-500",
+          cursorPosition.x === 0 && cursorPosition.y === 0
+            ? "opacity-0"
+            : "opacity-100",
+        )}
         style={{
           maskImage: `radial-gradient(circle at ${cursorPosition.x}px ${cursorPosition.y}px, #000 0rem, #000a calc(var(--spacing) * ${backlightRadius / 2}), #0000 calc(var(--spacing) * ${backlightRadius}))`,
         }}
       >
-        <svg
-          viewBox="0 0 24 24"
-          className="aspect-square w-auto h-[61.8%] max-w-[61.8%]"
-        >
+        <svg viewBox="0 0 24 24" className="logo animate-none">
           <path d={LOGO_PATH} fill="white" stroke="none" />
         </svg>
       </div>
       <div className="overflow-hidden absolute inset-0 flex items-center justify-center blur-none mix-blend-soft-light">
         <svg
           viewBox="0 0 24 24"
-          className="aspect-square w-auto h-[61.8%] max-w-[61.8%]"
+          className="logo delay-1500 fill-mode-both zoom-in-100!"
         >
           <path
             d={LOGO_PATH}
@@ -101,10 +103,7 @@ export function Background({ children, className }: BackgroundProps) {
         </svg>
       </div>
       <div className="overflow-hidden absolute inset-0 flex items-center justify-center">
-        <svg
-          viewBox="0 0 24 24"
-          className="aspect-square w-auto h-[61.8%] max-w-[61.8%]"
-        >
+        <svg viewBox="0 0 24 24" className="logo">
           <defs>
             <linearGradient
               id="logoGradient"
@@ -124,7 +123,7 @@ export function Background({ children, className }: BackgroundProps) {
       <div className="overflow-hidden absolute inset-0 flex items-center justify-center mix-blend-overlay">
         <svg
           viewBox="0 0 24 24"
-          className="aspect-square w-auto h-[61.8%] max-w-[61.8%] drop-shadow-[0_var(--spacing)_var(--spacing)_#000]"
+          className="logo drop-shadow-[0_var(--spacing)_var(--spacing)_#000]"
         >
           <path
             className="fixed-stroke"
