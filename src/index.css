@@ -53,6 +53,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  --default-transition-duration: 0.3s;
 }
 
 @layer utilities {
@@ -74,7 +76,18 @@
   }
   body {
     @apply bg-background text-foreground
-      **:data-[slot=button]:cursor-pointer;
+      
+    **:data-[slot=button]:cursor-pointer
+
+      **:data-[slot=button]:[a]:hover:no-underline!
+      **:data-[slot=button]:[a]:relative
+      **:data-[slot=button]:[a]:after:absolute **:data-[slot=button]:[a]:after:bottom-0
+      **:data-[slot=button]:[a]:after:h-0.5 **:data-[slot=button]:[a]:after:w-full
+      **:data-[slot=button]:[a]:after:rounded-full
+      **:data-[slot=button]:[a]:after:bg-primary
+      **:data-[slot=button]:[a]:after:opacity-0 **:data-[slot=button]:[a]:after:scale-x-0
+      **:data-[slot=button]:[a]:hover:after:opacity-100 **:data-[slot=button]:[a]:hover:after:scale-x-100
+      **:data-[slot=button]:[a]:after:transition-[opacity,scale];
   }
 }
 
