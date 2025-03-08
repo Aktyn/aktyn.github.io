@@ -12,3 +12,18 @@ export function clamp(value: number, min: number, max: number) {
 export function compareArrays(a: number[], b: number[]) {
   return a.length === b.length && a.every((value, index) => value === b[index])
 }
+
+export function debounce<ArgsType extends unknown[]>(
+  func: (...args: ArgsType) => void,
+  delay: number,
+) {
+  if (delay <= 0) {
+    return func
+  }
+
+  let timeout: NodeJS.Timeout
+  return function (...args: ArgsType) {
+    clearTimeout(timeout)
+    timeout = setTimeout(func, delay, ...args)
+  }
+}

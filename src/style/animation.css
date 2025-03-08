@@ -1,0 +1,29 @@
+@supports not (-moz-appearance: none) {
+  .scroll-based-animation {
+    animation-name: exit !important;
+    animation-timeline: scroll(nearest block) !important;
+    /* animation-direction: normal !important; */
+    animation-delay: 0 !important;
+  }
+}
+
+@keyframes enter-view {
+  from {
+    transform: scale(0.618);
+    filter: blur(12px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+@keyframes exit {
+  to {
+    /* translateY(25dvh) */
+    transform: scale(0.618);
+    filter: blur(12px);
+    opacity: 0;
+  }
+}

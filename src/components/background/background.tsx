@@ -1,5 +1,5 @@
 import { PropsWithChildren, useEffect, useState } from "react"
-import { LOGO_PATH } from "~/lib/consts"
+import { isFirefox, LOGO_PATH } from "~/lib/consts"
 import { cn } from "~/lib/utils"
 import { HexagonGrid } from "./hexagon-grid"
 
@@ -36,7 +36,9 @@ export function Background({ children, className }: BackgroundProps) {
   return (
     <div
       className={cn(
-        "bg-linear-to-b from-[oklch(0.13_0.04_264)] to-[oklch(0.22_0.03_263)] relative w-dvw h-dvh *:z-10 **:[.logo]:aspect-square **:[.logo]:w-auto **:[.logo]:h-[61.8%] **:[.logo]:max-w-[61.8%] **:[.logo]:animate-in **:[.logo]:fade-in **:[.logo]:zoom-in-125 **:[.logo]:duration-1500",
+        "bg-linear-to-b from-[oklch(0.13_0.04_264)] to-[oklch(0.22_0.03_263)] relative w-dvw h-dvh *:z-10 **:[.logo]:aspect-square **:[.logo]:w-auto **:[.logo]:h-[61.8%] **:[.logo]:max-w-[61.8%]",
+        !isFirefox &&
+          "**:[.logo]:animate-in **:[.logo]:fade-in **:[.logo]:zoom-in-125 **:[.logo]:duration-1500 **:[.logo]:fill-mode-both",
         className,
       )}
     >
@@ -91,7 +93,7 @@ export function Background({ children, className }: BackgroundProps) {
       <div className="overflow-hidden absolute inset-0 flex items-center justify-center blur-none mix-blend-soft-light">
         <svg
           viewBox="0 0 24 24"
-          className="logo delay-1500 fill-mode-both zoom-in-100!"
+          className="logo delay-1500 zoom-in-100! fill-mode-both"
         >
           <path
             d={LOGO_PATH}

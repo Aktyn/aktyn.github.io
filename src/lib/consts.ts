@@ -6,3 +6,5 @@ export enum Section {
   GameDevelopment = "Game development",
   ComputerGraphics = "Computer graphics",
 }
+
+export const isFirefox = "InternalError" in window

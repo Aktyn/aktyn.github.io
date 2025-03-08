@@ -1,0 +1,14 @@
+@import "~/style/animation.css";
+
+.full-name-container,
+.role-container {
+  animation: enter-view ease-in;
+  animation-duration: 0.5s;
+  animation-range: 0 50dvh;
+  animation-fill-mode: both;
+}
+
+.role-container {
+  animation-range: calc(var(--spacing) * 20) calc(50dvh + var(--spacing) * 20);
+  animation-delay: 0.1s;
+}

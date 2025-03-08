@@ -5,6 +5,8 @@ import { cn } from "~/lib/utils"
 import { SlashSeparator } from "./common/slash-separator"
 import { ScrollArea, ScrollBar } from "./ui/scroll-area"
 
+import "./navigation.css"
+
 type NavigationProps = {
   ref: RefObject<HTMLDivElement | null>
   headerMode: boolean
@@ -25,7 +27,7 @@ export function Navigation({
       ref={ref}
       role="navigation"
       className={cn(
-        "z-30 mx-auto w-fit sticky top-2 border rounded-full border-transparent bg-background/0 transition-colors duration-500",
+        "navigation-container z-30 mx-auto w-fit sticky top-2 border rounded-full border-transparent bg-background/0 transition-colors duration-500",
         headerMode && "border-border bg-background/50 backdrop-blur-sm",
         className,
       )}
@@ -91,6 +93,7 @@ function SectionLink({
         style={{
           width: `${sectionVisibilityFactor * 100}%`,
           opacity: Math.pow(Math.max(sectionVisibilityFactor, 0), 0.25),
+          transition: "width 0.2s linear, opacity 0.2s linear",
         }}
       />
       <span className="z-1 drop-shadow-[0_0_2px_#0008]">{children}</span>
