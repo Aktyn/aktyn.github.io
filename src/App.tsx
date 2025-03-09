@@ -117,7 +117,7 @@ function App() {
           headerMode={headerMode}
           onSectionLinkClick={scrollToSection}
           sectionVisibilityFactors={sectionVisibilityFactors}
-          className="h-12"
+          className="h-12 max-sm:h-42"
         />
         <SocialLinks />
 

@@ -2,7 +2,6 @@
   .scroll-based-animation {
     animation-name: exit !important;
     animation-timeline: scroll(nearest block) !important;
-    /* animation-direction: normal !important; */
     animation-delay: 0 !important;
   }
 }

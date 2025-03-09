@@ -3,7 +3,7 @@ import { Fragment, PropsWithChildren, RefObject } from "react"
 import { Section } from "~/lib/consts"
 import { cn } from "~/lib/utils"
 import { SlashSeparator } from "./common/slash-separator"
-import { ScrollArea, ScrollBar } from "./ui/scroll-area"
+import { ScrollArea } from "./ui/scroll-area"
 
 import "./navigation.css"
 
@@ -27,13 +27,13 @@ export function Navigation({
       ref={ref}
       role="navigation"
       className={cn(
-        "navigation-container z-30 mx-auto w-fit sticky top-2 border rounded-full border-transparent bg-background/0 transition-colors duration-500",
+        "navigation-container z-30 mx-auto w-fit sticky top-2 border rounded-full max-sm:rounded-xl border-transparent bg-background/0 transition-colors duration-500",
         headerMode && "border-border bg-background/50 backdrop-blur-sm",
         className,
       )}
     >
       <ScrollArea className="h-full **:data-[radix-scroll-area-viewport]:*:h-full **:data-[radix-scroll-area-viewport]:*:grid!">
-        <div className="inline-grid grid-cols-[1fr_auto_1fr_auto_1fr] justify-center items-center text-center *:not-[svg]:flex-1 whitespace-nowrap gap-x-2 h-full overflow-y-hidden rounded-full px-8">
+        <div className="inline-grid grid-cols-[1fr_auto_1fr_auto_1fr] max-sm:grid-cols-1 justify-center items-center text-center *:not-[svg]:flex-1 whitespace-nowrap gap-x-2 gap-y-6 h-full overflow-y-hidden rounded-full max-sm:rounded-xl px-8 max-sm:pb-3 max-sm:*:[svg]:hidden">
           {Object.values(Section).map((section, index) => (
             <Fragment key={section}>
               {index > 0 && <SlashSeparator straight={headerMode} />}
@@ -48,7 +48,6 @@ export function Navigation({
             </Fragment>
           ))}
         </div>
-        <ScrollBar orientation="horizontal" />
       </ScrollArea>
     </nav>
   )
