@@ -9,6 +9,6 @@
 }
 
 .role-container {
-  animation-range: calc(var(--spacing) * 20) calc(50dvh + var(--spacing) * 20);
+  animation-range: calc(var(--spacing) * 10) calc(50dvh + var(--spacing) * 10);
   animation-delay: 0.1s;
 }

@@ -99,7 +99,7 @@ function App() {
   }, [])
 
   // TODO: smart back-to-top button
-  // TODO: explain logo (used by me as a signature)
+  // TODO: explain logo (used by me as a signature); perhaps in summary in the bottom of the page (footer-like)
 
   const scrollToSection = (section: Section) => {
     const sectionElement = document.getElementById(section)
@@ -125,10 +125,13 @@ function App() {
           ref={seeProjectsButtonRef}
           size="lg"
           variant="outline"
-          className="fixed bottom-8 mx-auto left-0 right-0 w-fit flex-col h-auto pt-4 pb-1 rounded-full hover:*:[svg]:translate-y-0 bg-background/25 backdrop-blur-sm shadow-lg hover:bg-background/50 hover:text-primary hover:border-primary hover:shadow-[0_0_calc(var(--spacing)*8)_oklch(var(--primary)/0.25)] transition-[color,border-color,background-color,box-shadow] overflow-hidden"
+          className="fixed bottom-8 mx-auto left-0 right-0 w-fit flex-col h-auto pt-4 pb-1 rounded-full hover:*:[svg]:translate-y-0 bg-background/25 backdrop-blur-sm shadow-lg hover:bg-background/50 hover:text-primary hover:border-primary hover:shadow-[0_0_calc(var(--spacing)*8)_oklch(var(--primary)/0.25)] transition-[color,border-color,background-color,box-shadow] overflow-hidden animate-in fade-in slide-in-from-bottom delay-800 ease-out fill-mode-both"
           onClick={() => {
             scrollToSection(Section.WebDevelopment)
           }}
+          onAnimationEnd={(event) =>
+            event.currentTarget.classList.remove("delay-800")
+          }
         >
           <span className="px-8">Check out some of my projects</span>
           <ChevronsDown className="size-6 -translate-y-1 transition-transform" />
