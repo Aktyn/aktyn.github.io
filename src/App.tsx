@@ -1,16 +1,18 @@
 import { ChevronsDown } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
+import { Fragment, useEffect, useRef, useState } from "react"
 import { Background } from "./components/background/background"
 import { Introduction } from "./components/introduction"
 import {
   buildSectionVisibilityFactors,
   Navigation,
 } from "./components/navigation"
-import { SectionContainer } from "./components/section-container"
+import { SectionView } from "./components/sections/common/section-view"
 import { SocialLinks } from "./components/social-links"
 import { Button } from "./components/ui/button"
 import { ScrollArea } from "./components/ui/scroll-area"
-import { isFirefox, Section } from "./lib/consts"
+import { Separator } from "./components/ui/separator"
+import { isFirefox } from "./lib/consts"
+import { SectionType } from "./lib/sections-info"
 import { clamp, compareArrays, debounce } from "./lib/utils"
 
 const seeProjectsButtonThreshold = 128
@@ -32,7 +34,7 @@ function App() {
     const nav = navRef.current
     const seeProjectsButton = seeProjectsButtonRef.current
 
-    const sectionContainers = Object.values(Section).map((section) =>
+    const sectionContainers = Object.values(SectionType).map((section) =>
       document.getElementById(section),
     )
 
@@ -101,7 +103,7 @@ function App() {
   // TODO: smart back-to-top button
   // TODO: explain logo (used by me as a signature); perhaps in summary in the bottom of the page (footer-like)
 
-  const scrollToSection = (section: Section) => {
+  const scrollToSection = (section: SectionType) => {
     const sectionElement = document.getElementById(section)
     sectionElement?.scrollIntoView({
       behavior: "smooth",
@@ -117,7 +119,7 @@ function App() {
           headerMode={headerMode}
           onSectionLinkClick={scrollToSection}
           sectionVisibilityFactors={sectionVisibilityFactors}
-          className="h-12 max-sm:h-42"
+          className="h-12 max-sm:h-46 max-lg:h-24"
         />
         <SocialLinks />
 
@@ -127,7 +129,7 @@ function App() {
           variant="outline"
           className="fixed bottom-8 mx-auto left-0 right-0 w-fit flex-col h-auto pt-4 pb-1 rounded-full hover:*:[svg]:translate-y-0 bg-background/25 backdrop-blur-sm shadow-lg hover:bg-background/50 hover:text-primary hover:border-primary hover:shadow-[0_0_calc(var(--spacing)*8)_oklch(var(--primary)/0.25)] transition-[color,border-color,background-color,box-shadow] overflow-hidden animate-in fade-in slide-in-from-bottom delay-800 ease-out fill-mode-both"
           onClick={() => {
-            scrollToSection(Section.WebDevelopment)
+            scrollToSection(SectionType.WebDevelopment)
           }}
           onAnimationEnd={(event) =>
             event.currentTarget.classList.remove("delay-800")
@@ -136,15 +138,14 @@ function App() {
           <span className="px-8">Check out some of my projects</span>
           <ChevronsDown className="size-6 -translate-y-1 transition-transform" />
         </Button>
-        <SectionContainer section={Section.WebDevelopment}>
-          TODO
-        </SectionContainer>
-        <SectionContainer section={Section.GameDevelopment}>
-          TODO
-        </SectionContainer>
-        <SectionContainer section={Section.ComputerGraphics}>
-          TODO
-        </SectionContainer>
+        {Object.values(SectionType).map((section, index) => {
+          return (
+            <Fragment key={section}>
+              {index > 0 && <Separator />}
+              <SectionView section={section} />
+            </Fragment>
+          )
+        })}
       </ScrollArea>
     </Background>
   )

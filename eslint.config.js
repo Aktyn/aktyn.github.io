@@ -30,6 +30,13 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       "react-compiler/react-compiler": "error",
       "prettier/prettier": "error",
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          prefer: "type-imports",
+          fixStyle: "inline-type-imports",
+        },
+      ],
       "no-console": [
         "warn",
         {

@@ -9,7 +9,7 @@ export function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max)
 }
 
-export function compareArrays(a: number[], b: number[]) {
+export function compareArrays<T>(a: T[], b: T[]) {
   return a.length === b.length && a.every((value, index) => value === b[index])
 }
 

@@ -1,16 +1,18 @@
 import { Forward } from "lucide-react"
-import { Fragment, PropsWithChildren, RefObject } from "react"
-import { Section } from "~/lib/consts"
+import { Fragment, type RefObject } from "react"
 import { cn } from "~/lib/utils"
 import { SlashSeparator } from "./common/slash-separator"
 import { ScrollArea } from "./ui/scroll-area"
+import { DynamicIcon } from "lucide-react/dynamic"
 
 import "./navigation.css"
+import { Sections, SectionType } from "~/lib/sections-info"
+import { IconFromPath } from "./common/icon-from-path"
 
 type NavigationProps = {
   ref: RefObject<HTMLDivElement | null>
   headerMode: boolean
-  onSectionLinkClick: (section: Section) => void
+  onSectionLinkClick: (section: SectionType) => void
   sectionVisibilityFactors: ReturnType<typeof buildSectionVisibilityFactors>
   className?: string
 }
@@ -33,8 +35,8 @@ export function Navigation({
       )}
     >
       <ScrollArea className="h-full **:data-[radix-scroll-area-viewport]:*:h-full **:data-[radix-scroll-area-viewport]:*:grid!">
-        <div className="inline-grid grid-cols-[1fr_auto_1fr_auto_1fr] max-sm:grid-cols-1 justify-center items-center text-center *:not-[svg]:flex-1 whitespace-nowrap gap-x-2 gap-y-6 h-full overflow-y-hidden rounded-full max-sm:rounded-xl px-8 max-sm:pb-3 max-sm:*:[svg]:hidden">
-          {Object.values(Section).map((section, index) => (
+        <div className="inline-grid grid-cols-[repeat(3,1fr_auto)_1fr] max-lg:grid-cols-[1fr_auto_1fr] max-lg:*:[svg]:nth-[4n]:hidden max-sm:grid-cols-1 justify-center items-center text-center *:not-[svg]:flex-1 whitespace-nowrap gap-x-2 gap-y-6 h-full overflow-y-hidden rounded-full max-sm:rounded-xl px-8 max-lg:pb-3 max-sm:*:[svg]:hidden">
+          {Object.values(SectionType).map((section, index) => (
             <Fragment key={section}>
               {index > 0 && <SlashSeparator straight={headerMode} />}
               <SectionLink
@@ -42,9 +44,7 @@ export function Navigation({
                 sectionVisibilityFactor={sectionVisibilityFactors[section]}
                 headerMode={headerMode}
                 onClick={() => onSectionLinkClick(section)}
-              >
-                {section}
-              </SectionLink>
+              />
             </Fragment>
           ))}
         </div>
@@ -53,15 +53,14 @@ export function Navigation({
   )
 }
 
-type SectionLinkProps = PropsWithChildren<{
-  section: Section
+type SectionLinkProps = {
+  section: SectionType
   sectionVisibilityFactor: number
   headerMode: boolean
   onClick: () => void
-}>
+}
 
 function SectionLink({
-  children,
   section,
   sectionVisibilityFactor,
   headerMode,
@@ -80,12 +79,12 @@ function SectionLink({
       <div
         className={cn(
           "absolute inset-0 m-auto -mb-3 bg-white rounded-xs h-4 pointer-events-none",
-          section === Section.WebDevelopment &&
+          section === SectionType.WebDevelopment &&
             "drop-shadow-[0_0_calc(var(--spacing)*7)_oklch(var(--blue-400))]",
-          section === Section.GameDevelopment &&
+          section === SectionType.GameDevelopment &&
             headerMode &&
             "drop-shadow-[0_0_calc(var(--spacing)*7)_oklch(var(--red-400))]",
-          section === Section.ComputerGraphics &&
+          section === SectionType.ComputerGraphics &&
             headerMode &&
             "drop-shadow-[0_0_calc(var(--spacing)*7)_oklch(var(--green-400))]",
         )}
@@ -95,7 +94,21 @@ function SectionLink({
           transition: "width 0.2s linear, opacity 0.2s linear",
         }}
       />
-      <span className="z-1 drop-shadow-[0_0_2px_#0008]">{children}</span>
+      <span className="z-1 drop-shadow-[0_0_2px_#0008] flex flex-row items-center gap-x-2">
+        {typeof Sections[section].icon === "string" ? (
+          <DynamicIcon
+            name={Sections[section].icon}
+            className="size-5 inline"
+          />
+        ) : (
+          <IconFromPath
+            d={Sections[section].icon.svgPath}
+            viewBox="0 0 50 50"
+            className="size-5 inline"
+          />
+        )}
+        {Sections[section].title}
+      </span>
       <div className="z-2 flex flex-row items-start gap-x-2 font-light text-sm h-0 translate-y-2 opacity-0 text-primary">
         <Forward className="size-5" />
         Show more
@@ -105,11 +118,11 @@ function SectionLink({
 }
 
 export function buildSectionVisibilityFactors(factors?: number[]) {
-  return Object.values(Section).reduce(
+  return Object.values(SectionType).reduce(
     (acc, section, index) => {
       acc[section] = factors?.[index] ?? 0
       return acc
     },
-    {} as { [key in Section]: number },
+    {} as { [key in SectionType]: number },
   )
 }
