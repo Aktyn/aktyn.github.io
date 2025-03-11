@@ -108,6 +108,7 @@ function App() {
     const sectionElement = document.getElementById(section)
     sectionElement?.scrollIntoView({
       behavior: "smooth",
+      block: "start",
     })
   }
 

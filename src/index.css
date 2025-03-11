@@ -83,7 +83,7 @@
     @apply bg-background text-foreground
       
       **:data-[slot=button]:cursor-pointer
-      **:data-[slot=tooltip-trigger]:cursor-pointer
+      **:data-[slot=tooltip-trigger]:[a,button]:cursor-pointer
 
       **:data-[slot=button]:[a]:hover:no-underline!
       **:data-[slot=button]:[a]:relative

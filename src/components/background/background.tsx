@@ -42,7 +42,7 @@ export function Background({ children, className }: BackgroundProps) {
         className,
       )}
     >
-      <div className="overflow-hidden absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_-10%,oklch(65.39%_0.1926_10_/0.2)_0%,oklch(65.39%_0.1926_10_/0.075)_50%,transparent_100%)] animate-in fade-in slide-in-from-top duration-800" />
+      <div className="overflow-hidden absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_-10%,oklch(65.39%_0.1926_10_/0.2)_0%,oklch(65.39%_0.1926_10_/0.075)_50%,transparent_100%)] animate-in fade-in slide-in-from-top duration-800 transition-transform" />
       <div
         className={cn(
           "overflow-hidden absolute inset-0 transition-opacity duration-500",
