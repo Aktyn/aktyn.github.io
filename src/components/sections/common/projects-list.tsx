@@ -32,7 +32,7 @@ export function ProjectsList({ projects }: ProjectsListProps) {
               </TooltipTrigger>
               <TooltipContent>Reveal more photos</TooltipContent>
             </Tooltip>
-            <div className="p-4">
+            <div className="p-4 flex flex-col gap-y-2 items-start">
               <div className="flex flex-row items-center justify-between gap-2">
                 <h3 className="text-2xl font-bold">{project.title}</h3>
                 {project.linkToGithubRepo && (

@@ -102,6 +102,7 @@ function App() {
 
   // TODO: smart back-to-top button
   // TODO: explain logo (used by me as a signature); perhaps in summary in the bottom of the page (footer-like)
+  // TODO: scroll snapping for sections
 
   const scrollToSection = (section: SectionType) => {
     const sectionElement = document.getElementById(section)

@@ -94,6 +94,7 @@ function SectionLink({
           transition: "width 0.2s linear, opacity 0.2s linear",
         }}
       />
+      {/* TODO: let's show only icons below sm breakpoint */}
       <span className="z-1 drop-shadow-[0_0_2px_#0008] flex flex-row items-center gap-x-2">
         {typeof Sections[section].icon === "string" ? (
           <DynamicIcon

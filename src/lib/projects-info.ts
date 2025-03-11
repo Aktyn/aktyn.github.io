@@ -6,6 +6,7 @@ export type ProjectSchema = {
   tags?: string[]
   techStack?: string[]
   linkToGithubRepo?: `https://github.com/Aktyn/${string}`
+  images?: string[]
 }
 
 export const projectsData: { [key in SectionType]: ProjectSchema[] } = {
@@ -14,6 +15,7 @@ export const projectsData: { [key in SectionType]: ProjectSchema[] } = {
       title: "In2RP website",
       description: "Website created for ...",
       linkToGithubRepo: "https://github.com/Aktyn/in2rp_homepage",
+      images: ["/projects/in2rp_1.png", "/projects/in2rp_2.png"],
     },
   ],
   [SectionType.GameDevelopment]: [
