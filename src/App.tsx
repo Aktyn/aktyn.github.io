@@ -114,14 +114,17 @@ function App() {
 
   return (
     <Background className="flex flex-col items-center justify-center">
-      <ScrollArea ref={scrollAreaRef} className="w-full h-full text-center">
+      <ScrollArea
+        ref={scrollAreaRef}
+        className="neon-scrollbar w-full h-full text-center"
+      >
         <Introduction />
         <Navigation
           ref={navRef}
           headerMode={headerMode}
           onSectionLinkClick={scrollToSection}
           sectionVisibilityFactors={sectionVisibilityFactors}
-          className="h-12 max-sm:h-46 max-lg:h-24"
+          className="h-12 max-lg:min-xs:h-24"
         />
         <SocialLinks />
 

@@ -60,6 +60,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   --default-transition-duration: 0.3s;
+  --breakpoint-xs: 480px;
 }
 
 @layer utilities {
@@ -96,8 +97,8 @@
       **:data-[slot=button]:[a]:after:transition-[opacity,scale]
       
       **:data-[slot=scroll-area-thumb]:transition-[background-color,box-shadow]
-      **:data-[slot=scroll-area-thumb]:shadow-[calc(var(--spacing)*4)_0_calc(var(--spacing)*4)_var(--color-primary)]
-      **:data-[slot=scroll-area-thumb]:hover:shadow-[0_0_calc(var(--spacing)*4)_var(--color-primary)]
+      **:data-[slot=scroll-area-thumb]:[.neon-scrollbar]:shadow-[calc(var(--spacing)*4)_0_calc(var(--spacing)*4)_var(--color-primary)]
+      **:data-[slot=scroll-area-thumb]:[.neon-scrollbar]:hover:shadow-[0_0_calc(var(--spacing)*4)_var(--color-primary)]
       **:data-[slot=scroll-area-thumb]:hover:bg-primary!;
   }
 }

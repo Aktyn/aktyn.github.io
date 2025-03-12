@@ -2,12 +2,15 @@ import { Expand } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { RootPortal } from "../portal/root-portal"
 import { cn } from "~/lib/utils"
+import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area"
 
 type GalleryProps = {
   images: Promise<string[]>
 }
 
 export function Gallery({ images }: GalleryProps) {
+  const scrollAreaContainerRef = useRef<HTMLDivElement>(null)
+
   const [loadedImages, setLoadedImages] = useState<string[]>([])
 
   useEffect(() => {
@@ -23,13 +26,59 @@ export function Gallery({ images }: GalleryProps) {
     }
   }, [images])
 
+  useEffect(() => {
+    const scrollArea = scrollAreaContainerRef.current?.querySelector(
+      "[data-slot='scroll-area-viewport']",
+    ) as HTMLElement | null
+    if (!scrollArea) {
+      return
+    }
+
+    const handleMouseWheel = (event: WheelEvent) => {
+      const hasHorizontalScroll =
+        scrollArea.scrollWidth > scrollArea.clientWidth
+      const hasVerticalScroll =
+        scrollArea.scrollHeight > scrollArea.clientHeight
+      if (hasHorizontalScroll && !hasVerticalScroll) {
+        scrollArea.scrollTo({
+          left: scrollArea.scrollLeft + event.deltaX + event.deltaY,
+          behavior: "instant",
+        })
+        event.preventDefault()
+        event.stopPropagation()
+      }
+    }
+
+    scrollArea.addEventListener("wheel", handleMouseWheel)
+
+    return () => {
+      scrollArea.removeEventListener("wheel", handleMouseWheel)
+    }
+  }, [loadedImages.length])
+
+  if (!loadedImages) {
+    return null
+  }
+
   return (
-    <div className="grid grid-rows-1 grid-cols-1 items-center h-full">
-      {/* TODO: support multiple images */}
-      {loadedImages.map((src) => (
-        <Image key={src} src={src} />
-      ))}
-    </div>
+    <ScrollArea
+      ref={scrollAreaContainerRef}
+      dir="rtl"
+      className="**:data-[orientation=vertical]:hidden **:data-[slot=scroll-area-viewport]:py-8 max-lg:**:data-[slot=scroll-area-viewport]:py-4 **:data-[slot=scroll-area-viewport]:pl-8 max-lg:**:data-[slot=scroll-area-viewport]:pl-4 max-lg:**:data-[slot=scroll-area-viewport]:pt-48 lg:-mr-48 max-lg:**:data-[slot=scroll-area-viewport]:h-97 **:data-[slot=scroll-area-viewport]:box-content"
+      style={{
+        maskImage:
+          "linear-gradient(to right, transparent 0%, black calc(var(--spacing)*12), black calc(100% - var(--spacing)*64), transparent 100%)",
+      }}
+    >
+      <div className="flex flex-row justify-start items-center *:shrink-0 gap-x-4">
+        <span className="block w-44 max-lg:w-1">&nbsp;</span>
+        {loadedImages.map((src) => (
+          <Image key={src} src={src} />
+        ))}
+      </div>
+      <div className="max-lg:hidden" />
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   )
 }
 
@@ -53,16 +102,16 @@ function Image({ src }: { src: string }) {
 
   return (
     <>
-      <div className="relative h-fit *:rounded-lg w-fit md:justify-self-end max-h-96 inline-grid grid-rows-1 hover:*:[div]:opacity-100 hover:*:[div]:translate-y-0 hover:*:[div]:*:[svg]:scale-100 hover:*:[div]:*:[svg]:rotate-0 hover:*:[div]:*:[p]:scale-100">
+      <div className="relative *:rounded-lg w-fit md:justify-self-end inline-grid grid-rows-1 hover:*:[div]:opacity-100 hover:*:[div]:translate-y-0 hover:*:[div]:*:[svg]:scale-100 hover:*:[div]:*:[svg]:rotate-0 hover:*:[div]:*:[p]:scale-100 *:[img]:h-96">
         <img
           src={src}
           loading="lazy"
-          className="absolute max-md:inset-x-0 w-auto h-full mx-auto md:right-0 blur-3xl scale-110 opacity-50 -z-1 pointer-events-none"
+          className="absolute max-md:inset-x-0 w-auto mx-auto md:right-0 blur-3xl scale-110 opacity-50 -z-1 pointer-events-none"
         />
         <img
           src={src}
           loading="lazy"
-          className="max-h-full w-auto max-w-full ml-auto max-md:mx-auto"
+          className="w-auto ml-auto max-md:mx-auto object-cover"
         />
         <div
           className="absolute inset-x-2 top-2 ml-auto w-fit inline-flex flex-row items-center justify-center gap-4 px-4 py-2 overflow-hidden border border-transparent drop-shadow-[0_0_12px_var(--primary-color)] bg-background/50 backdrop-blur-xs opacity-0 translate-y-full transition-[opacity,translate,border-color,background-color] duration-300 cursor-pointer hover:border-primary hover:bg-primary/50 hover:*:[svg]:scale-120!"
