@@ -25,7 +25,7 @@ export function ProjectsList({ projects }: ProjectsListProps) {
       {projects.map((project) => (
         <div
           key={project.title}
-          className="grid grid-cols-2 max-lg:grid-cols-1 items-center justify-stretch *:first:justify-self-stretch *:last:justify-self-center gap-x-16 mx-8 pr-8 max-lg:pr-0 max-lg:gap-x-8 max-lg:mx-4 max-lg:*:first:row-start-2 max-lg:*:last:row-start-1 bg-background/20 rounded-2xl border mx-auto w-[calc(100%-var(--spacing)*8)] max-w-full backdrop-blur-sm overflow-hidden shadow-xl"
+          className="grid grid-cols-2 max-lg:grid-cols-1 items-center justify-stretch *:first:justify-self-stretch *:last:justify-self-start max-lg:min-xs:*:last:justify-self-center gap-x-16 mx-8 pr-8 max-lg:pr-0 max-lg:gap-x-8 max-lg:mx-4 max-lg:*:first:row-start-2 max-lg:*:last:row-start-1 bg-background/20 rounded-2xl border mx-auto w-[calc(100%-var(--spacing)*8)] max-w-full backdrop-blur-sm overflow-hidden shadow-xl"
         >
           <Suspense fallback={<div>...</div>}>
             <Gallery images={project.images} />

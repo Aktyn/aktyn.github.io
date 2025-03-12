@@ -64,7 +64,7 @@ export function Gallery({ images }: GalleryProps) {
     <ScrollArea
       ref={scrollAreaContainerRef}
       dir="rtl"
-      className="**:data-[orientation=vertical]:hidden **:data-[slot=scroll-area-viewport]:py-8 max-lg:**:data-[slot=scroll-area-viewport]:py-4 **:data-[slot=scroll-area-viewport]:pl-8 max-lg:**:data-[slot=scroll-area-viewport]:pl-4 max-lg:**:data-[slot=scroll-area-viewport]:pt-48 lg:-mr-48 max-lg:**:data-[slot=scroll-area-viewport]:h-97 **:data-[slot=scroll-area-viewport]:box-content"
+      className="**:data-[orientation=vertical]:hidden **:data-[slot=scroll-area-viewport]:py-8 max-lg:**:data-[slot=scroll-area-viewport]:py-4 **:data-[slot=scroll-area-viewport]:pl-8 max-lg:**:data-[slot=scroll-area-viewport]:pl-4 max-lg:**:data-[slot=scroll-area-viewport]:pt-48 lg:-mr-48 max-lg:**:data-[slot=scroll-area-viewport]:h-97 **:data-[slot=scroll-area-viewport]:box-content max-lg:[mask-image:none]!"
       style={{
         maskImage:
           "linear-gradient(to right, transparent 0%, black calc(var(--spacing)*12), black calc(100% - var(--spacing)*64), transparent 100%)",
