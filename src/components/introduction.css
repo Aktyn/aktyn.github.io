@@ -1,5 +1,3 @@
-@import "~/style/animation.css";
-
 .full-name-container,
 .role-container {
   animation: enter-view ease-in;

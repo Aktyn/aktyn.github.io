@@ -1,5 +1,3 @@
-@import "~/style/animation.css";
-
 .social-links-container {
   animation: enter-view ease-in;
   animation-duration: 0.5s;

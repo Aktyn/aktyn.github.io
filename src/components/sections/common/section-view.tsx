@@ -12,7 +12,7 @@ export function SectionView({ section }: SectionViewProps) {
       id={section}
       className="w-full py-14 flex flex-col items-center justify-center gap-y-8 scroll-mt-16"
     >
-      <p className="text-xl font-medium mb-4 text-balance tracking-wide w-160 max-w-screen px-4 drop-shadow-[0_0_2px_#000a]">
+      <p className="view-based-animation text-xl font-medium mb-4 text-balance tracking-wide w-160 max-w-screen px-4 drop-shadow-[0_0_2px_#000a]">
         {Sections[section].description}
       </p>
       {Component ? (

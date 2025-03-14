@@ -116,7 +116,7 @@ function App() {
     <Background className="flex flex-col items-center justify-center">
       <ScrollArea
         ref={scrollAreaRef}
-        className="neon-scrollbar w-full h-full text-center"
+        className="neon-scrollbar w-full h-full text-center **:data[slot=scroll-area-viewport]:overflow-x-hidden max-w-screen"
       >
         <Introduction />
         <Navigation

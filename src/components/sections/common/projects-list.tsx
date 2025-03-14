@@ -20,31 +20,31 @@ type ProjectsListProps = {
 }
 
 export function ProjectsList({ projects }: ProjectsListProps) {
+  const firstFlippedIndex: 0 | 1 = 1
+
   return (
     <div className="flex flex-col gap-4 w-full">
-      {projects.map((project) => (
+      {projects.map((project, index) => (
         <div
           key={project.title}
-          className="grid grid-cols-2 max-lg:grid-cols-1 items-center justify-stretch *:first:justify-self-stretch *:last:justify-self-start max-lg:min-xs:*:last:justify-self-center gap-x-16 mx-8 pr-8 max-lg:pr-0 max-lg:gap-x-8 max-lg:mx-4 max-lg:*:first:row-start-2 max-lg:*:last:row-start-1 bg-background/20 rounded-2xl border mx-auto w-[calc(100%-var(--spacing)*8)] max-w-full backdrop-blur-sm overflow-hidden shadow-xl"
+          dir={index % 2 === firstFlippedIndex ? "rtl" : "ltr"}
+          className={cn(
+            "view-based-animation",
+            index % 2 === firstFlippedIndex
+              ? "slide-in-from-right"
+              : "slide-in-from-left",
+            "grid grid-cols-2 max-lg:grid-cols-1 items-center justify-stretch *:first:justify-self-stretch *:last:justify-self-start max-lg:min-xs:*:last:justify-self-center gap-x-16 mx-8  max-lg:pr-0 max-lg:gap-x-8 max-lg:mx-4 max-lg:*:first:row-start-2 max-lg:*:last:row-start-1 bg-background/20 rounded-2xl border mx-auto w-[calc(100%-var(--spacing)*8)] max-w-full backdrop-blur-sm overflow-hidden shadow-xl",
+            index % 2 === firstFlippedIndex ? "pl-8" : "pr-8",
+          )}
         >
           <Suspense fallback={<div>...</div>}>
-            <Gallery images={project.images} />
+            <Gallery
+              images={project.images}
+              rtl={index % 2 === firstFlippedIndex}
+            />
           </Suspense>
           <ScrollBar orientation="horizontal" />
-          {/* <div className="grid grid-cols-[auto_1fr]">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  //TODO: (only when screen size allows horizontal placement) hide most of info panel behind right screen edge to reveal more of horizontal gallery
-                  variant="ghost"
-                  className="h-full rounded-l-none px-1! hover:*:[svg]:translate-x-2"
-                >
-                  <ChevronRight className="size-8 transition-transform" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Reveal more photos</TooltipContent>
-            </Tooltip> */}
-          <div className="flex flex-col items-start max-lg:items-center gap-y-4 z-10 max-lg:p-4 max-lg:-mb-44 max-w-160">
+          <div className="flex flex-col items-start max-lg:items-center gap-y-4 z-10 px-4 max-lg:p-4 max-lg:-mb-44 max-w-160">
             <div className="flex flex-row items-center justify-between gap-4">
               <h3 className="text-2xl font-bold tracking-wide">
                 {project.title}
@@ -67,7 +67,7 @@ export function ProjectsList({ projects }: ProjectsListProps) {
                 </Tooltip>
               )}
             </div>
-            <p className="text-balance font-medium lg:text-left leading-relaxed drop-shadow-[0_0_2px_#000a]">
+            <p className="text-balance font-medium lg:text-left rtl:lg:text-right leading-relaxed drop-shadow-[0_0_2px_#000a]">
               {project.description}
             </p>
             {!!project.techStack?.length && (
@@ -92,7 +92,6 @@ export function ProjectsList({ projects }: ProjectsListProps) {
               </div>
             )}
           </div>
-          {/* </div> */}
         </div>
       ))}
     </div>

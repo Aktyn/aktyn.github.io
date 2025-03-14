@@ -34,6 +34,16 @@ export const projectsData: { [key in SectionType]: ProjectSchema[] } = {
         "discordjs",
       ],
     },
+    {
+      title: "Project  Paradise",
+      description:
+        "Just a simple website for another GTA V roleplaying server. It was just a presentation homepage with some information about the server. There was a stunning parallax effect that looked like a sunset over the ocean.",
+      linkToGithubRepo: "https://github.com/Aktyn/ProjectParadise",
+      images: Promise.all([
+        import("~/img/websites/project-paradise.webp"),
+      ]).then((modules) => modules.map((module) => module.default)),
+      techStack: ["typescript", "react", "sass", "webpack"],
+    },
   ],
   [SectionType.GameDevelopment]: [
     // {

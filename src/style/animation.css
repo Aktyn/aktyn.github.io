@@ -4,6 +4,22 @@
     animation-timeline: scroll(nearest block) !important;
     animation-delay: 0 !important;
   }
+
+  .view-based-animation {
+    animation-name: fifo-view;
+    animation-timing-function: ease-in-out;
+    animation-duration: 0.5s;
+    animation-timeline: view();
+    animation-delay: 0;
+    animation-range: normal normal;
+    animation-fill-mode: both;
+  }
+  .slide-in-from-left {
+    animation-name: slide-in-from-left-view;
+  }
+  .slide-in-from-right {
+    animation-name: slide-in-from-right-view;
+  }
 }
 
 @keyframes enter-view {
@@ -20,9 +36,43 @@
 }
 @keyframes exit {
   to {
-    /* translateY(25dvh) */
     transform: scale(0.618);
     filter: blur(12px);
     opacity: 0;
+  }
+}
+
+@keyframes fifo-view {
+  0% {
+    opacity: 0;
+    transform: scale(0.618);
+    filter: blur(12px);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes slide-in-from-left-view {
+  0% {
+    transform: translateX(calc(var(--spacing) * -100));
+    opacity: 0;
+  }
+  30% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-from-right-view {
+  0% {
+    transform: translateX(calc(var(--spacing) * 100));
+    opacity: 0;
+  }
+  30% {
+    transform: translateX(0);
+    opacity: 1;
   }
 }

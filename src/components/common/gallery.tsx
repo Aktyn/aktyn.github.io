@@ -6,9 +6,10 @@ import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area"
 
 type GalleryProps = {
   images: Promise<string[]>
+  rtl?: boolean
 }
 
-export function Gallery({ images }: GalleryProps) {
+export function Gallery({ images, rtl = false }: GalleryProps) {
   const scrollAreaContainerRef = useRef<HTMLDivElement>(null)
 
   const [loadedImages, setLoadedImages] = useState<string[]>([])
@@ -63,11 +64,17 @@ export function Gallery({ images }: GalleryProps) {
   return (
     <ScrollArea
       ref={scrollAreaContainerRef}
-      dir="rtl"
-      className="**:data-[orientation=vertical]:hidden **:data-[slot=scroll-area-viewport]:py-8 max-lg:**:data-[slot=scroll-area-viewport]:py-4 **:data-[slot=scroll-area-viewport]:pl-8 max-lg:**:data-[slot=scroll-area-viewport]:pl-4 max-lg:**:data-[slot=scroll-area-viewport]:pt-48 lg:-mr-48 max-lg:**:data-[slot=scroll-area-viewport]:h-97 **:data-[slot=scroll-area-viewport]:box-content max-lg:[mask-image:none]!"
+      dir={rtl ? "ltr" : "rtl"}
+      className={cn(
+        "**:data-[orientation=vertical]:hidden **:data-[slot=scroll-area-viewport]:py-8 max-lg:**:data-[slot=scroll-area-viewport]:py-4 max-lg:**:data-[slot=scroll-area-viewport]:pt-48 max-lg:**:data-[slot=scroll-area-viewport]:h-97 **:data-[slot=scroll-area-viewport]:box-content max-lg:[mask-image:none]!",
+        rtl
+          ? "lg:-ml-48 **:data-[slot=scroll-area-viewport]:pr-8 max-lg:**:data-[slot=scroll-area-viewport]:pr-4"
+          : "lg:-mr-48 **:data-[slot=scroll-area-viewport]:pl-8 max-lg:**:data-[slot=scroll-area-viewport]:pl-4",
+      )}
       style={{
-        maskImage:
-          "linear-gradient(to right, transparent 0%, black calc(var(--spacing)*12), black calc(100% - var(--spacing)*64), transparent 100%)",
+        maskImage: rtl
+          ? "linear-gradient(to left, transparent 0%, black calc(var(--spacing)*12), black calc(100% - var(--spacing)*64), transparent 100%)"
+          : "linear-gradient(to right, transparent 0%, black calc(var(--spacing)*12), black calc(100% - var(--spacing)*64), transparent 100%)",
       }}
     >
       <div className="flex flex-row justify-start items-center *:shrink-0 gap-x-4">
@@ -102,7 +109,7 @@ function Image({ src }: { src: string }) {
 
   return (
     <>
-      <div className="relative *:rounded-lg w-fit md:justify-self-end inline-grid grid-rows-1 hover:*:[div]:opacity-100 hover:*:[div]:translate-y-0 hover:*:[div]:*:[svg]:scale-100 hover:*:[div]:*:[svg]:rotate-0 hover:*:[div]:*:[p]:scale-100 *:[img]:h-96">
+      <div className="max-lg:mx-auto relative *:rounded-lg w-fit md:justify-self-end inline-grid grid-rows-1 hover:*:[div]:opacity-100 hover:*:[div]:translate-y-0 hover:*:[div]:*:[svg]:scale-100 hover:*:[div]:*:[svg]:rotate-0 hover:*:[div]:*:[p]:scale-100 *:[img]:h-96">
         <img
           src={src}
           loading="lazy"
