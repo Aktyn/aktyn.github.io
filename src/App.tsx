@@ -102,7 +102,6 @@ function App() {
 
   // TODO: smart back-to-top button
   // TODO: explain logo (used by me as a signature); perhaps in summary in the bottom of the page (footer-like)
-  // TODO: scroll snapping for sections
 
   const scrollToSection = (section: SectionType) => {
     const sectionElement = document.getElementById(section)
@@ -116,7 +115,7 @@ function App() {
     <Background className="flex flex-col items-center justify-center">
       <ScrollArea
         ref={scrollAreaRef}
-        className="neon-scrollbar w-full h-full text-center **:data[slot=scroll-area-viewport]:overflow-x-hidden max-w-screen"
+        className="neon-scrollbar w-full h-full text-center *:data-[slot=scroll-area-viewport]:overflow-x-hidden *:data-[slot=scroll-area-viewport]:max-w-screen"
       >
         <Introduction />
         <Navigation

@@ -27,6 +27,14 @@ export const techStack = {
     icon: "devicon-discordjs-plain",
     name: "Discord.js",
   },
+  nodejs: {
+    icon: "devicon-nodejs-plain",
+    name: "Node.js",
+  },
+  electron: {
+    icon: "devicon-electron-original",
+    name: "Electron",
+  },
 } as const satisfies Record<
   string,
   {

@@ -119,6 +119,10 @@ function Image({ src }: { src: string }) {
           src={src}
           loading="lazy"
           className="w-auto ml-auto max-md:mx-auto object-cover"
+          onDoubleClick={() => {
+            setIsExpanded(true)
+            setIsClosing(false)
+          }}
         />
         <div
           className="absolute inset-x-2 top-2 ml-auto w-fit inline-flex flex-row items-center justify-center gap-4 px-4 py-2 overflow-hidden border border-transparent drop-shadow-[0_0_12px_var(--primary-color)] bg-background/50 backdrop-blur-xs opacity-0 translate-y-full transition-[opacity,translate,border-color,background-color] duration-300 cursor-pointer hover:border-primary hover:bg-primary/50 hover:*:[svg]:scale-120!"

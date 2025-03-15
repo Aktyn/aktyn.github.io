@@ -23,7 +23,7 @@ export const Sections: { [key in SectionType]: SectionSchema } = {
   [SectionType.WebDevelopment]: {
     title: "Web development",
     description:
-      "I'm a frontend developer, although these are not my work projects, but rather something I did before officially beginning my journey into the world of web development.",
+      "I'm a frontend developer, although these are not my work projects, but rather something I did before officially beginning my journey into the world of web development.\n\nNote that the projects listed on this page are old and based on outdated technologies. The tech stack I'm working with today is quite different.",
     icon: "globe",
   },
   [SectionType.GameDevelopment]: {
