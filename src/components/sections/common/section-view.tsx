@@ -5,8 +5,6 @@ import { ProjectsList } from "./projects-list"
 type SectionViewProps = { section: SectionType }
 
 export function SectionView({ section }: SectionViewProps) {
-  const Component = Sections[section].component
-
   return (
     <section
       id={section}
@@ -15,11 +13,7 @@ export function SectionView({ section }: SectionViewProps) {
       <p className="view-based-animation text-xl font-medium mb-4 text-balance tracking-wide w-160 max-w-screen px-4 drop-shadow-[0_0_2px_#000a] whitespace-pre-wrap">
         {Sections[section].description}
       </p>
-      {Component ? (
-        <Component />
-      ) : (
-        <ProjectsList projects={projectsData[section]} />
-      )}
+      <ProjectsList projects={projectsData[section]} />
     </section>
   )
 }

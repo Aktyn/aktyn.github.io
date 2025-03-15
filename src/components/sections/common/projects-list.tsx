@@ -67,14 +67,14 @@ export function ProjectsList({ projects }: ProjectsListProps) {
             </div>
             <p
               dir="ltr"
-              className="text-balance font-medium lg:text-left rtl:lg:text-right leading-relaxed drop-shadow-[0_0_2px_#000a]"
+              className="text-balance font-medium lg:text-left rtl:lg:text-right leading-relaxed drop-shadow-[0_0_2px_#000a] whitespace-pre-wrap"
             >
               {project.description}
             </p>
             {!!project.techStack?.length && (
               <div className="flex flex-row flex-wrap items-center max-lg:justify-center gap-2 **:[i]:text-xl *:text-base *:gap-x-2 *:p-1 *:px-3 *:rounded-lg *:bg-background/50 *:relative">
                 {project.techStack.map((tech) => (
-                  <Badge key={tech} variant="outline">
+                  <Badge key={tech} dir="ltr" variant="outline">
                     <i
                       className={cn(
                         techStack[tech].icon,

@@ -28,12 +28,20 @@ export const techStack = {
     name: "Discord.js",
   },
   nodejs: {
-    icon: "devicon-nodejs-plain",
+    icon: "devicon-nodejs-plain colored",
     name: "Node.js",
   },
   electron: {
     icon: "devicon-electron-original",
     name: "Electron",
+  },
+  java: {
+    icon: "devicon-java-plain colored",
+    name: "Java",
+  },
+  opengl: {
+    icon: "devicon-opengl-plain colored",
+    name: "OpenGL",
   },
 } as const satisfies Record<
   string,
