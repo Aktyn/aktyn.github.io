@@ -16,9 +16,11 @@
   }
   .slide-in-from-left {
     animation-name: slide-in-from-left-view;
+    animation-timing-function: ease-out;
   }
   .slide-in-from-right {
     animation-name: slide-in-from-right-view;
+    animation-timing-function: ease-out;
   }
 }
 
@@ -45,8 +47,8 @@
 @keyframes fifo-view {
   0% {
     opacity: 0;
-    transform: scale(0.618);
-    filter: blur(12px);
+    transform: scale(1.618);
+    filter: blur(6px);
   }
   30% {
     opacity: 1;
@@ -57,22 +59,22 @@
 
 @keyframes slide-in-from-left-view {
   0% {
-    transform: translateX(calc(var(--spacing) * -100));
+    transform: scale(1.618) translate(calc(var(--spacing) * -100), 38.2%);
     opacity: 0;
   }
   30% {
-    transform: translateX(0);
+    transform: translate(0, 0) scale(1);
     opacity: 1;
   }
 }
 
 @keyframes slide-in-from-right-view {
   0% {
-    transform: translateX(calc(var(--spacing) * 100));
+    transform: scale(1.618) translate(calc(var(--spacing) * 100), 38.2%);
     opacity: 0;
   }
   30% {
-    transform: translateX(0);
+    transform: translate(0, 0) scale(1);
     opacity: 1;
   }
 }

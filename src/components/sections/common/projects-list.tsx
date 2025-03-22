@@ -12,7 +12,7 @@ import { type ProjectSchema } from "~/lib/projects-info"
 import "devicon/devicon.min.css"
 import { Badge } from "~/components/ui/badge"
 import { techStack } from "~/lib/tech-stack"
-import { cn } from "~/lib/utils"
+import { cn, forceArray } from "~/lib/utils"
 
 type ProjectsListProps = {
   projects: ProjectSchema[]
@@ -47,8 +47,8 @@ export function ProjectsList({ projects }: ProjectsListProps) {
               <h3 className="text-2xl font-bold tracking-wide">
                 {project.title}
               </h3>
-              {project.linkToGithubRepo && (
-                <Tooltip>
+              {forceArray(project.linkToGithubRepo ?? []).map((link) => (
+                <Tooltip key={link}>
                   <TooltipTrigger asChild>
                     <Button
                       asChild
@@ -56,14 +56,14 @@ export function ProjectsList({ projects }: ProjectsListProps) {
                       variant="ghost"
                       className="hover:text-primary rounded-full p-2 size-auto"
                     >
-                      <a href={project.linkToGithubRepo} target="_blank">
+                      <a href={link} target="_blank">
                         <Github className="size-6" />
                       </a>
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>View on GitHub</TooltipContent>
                 </Tooltip>
-              )}
+              ))}
             </div>
             <p
               dir="ltr"

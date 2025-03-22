@@ -82,6 +82,7 @@ export function Gallery({ images, rtl = false }: GalleryProps) {
         {loadedImages.map((src) => (
           <Image key={src} src={src} />
         ))}
+        <span className="block w-13 max-lg:w-1">&nbsp;</span>
       </div>
       <div className="max-lg:hidden" />
       <ScrollBar orientation="horizontal" />

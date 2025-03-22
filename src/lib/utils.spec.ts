@@ -1,4 +1,4 @@
-import { clamp, compareArrays, debounce } from "./utils"
+import { clamp, compareArrays, debounce, forceArray } from "./utils"
 
 describe("clamp", () => {
   it("should return the value if it is within the range", () => {
@@ -92,5 +92,15 @@ describe("debounce", () => {
 
     const negativeDebouncedFn = debounce(mockFn, -100)
     expect(negativeDebouncedFn).toBe(mockFn)
+  })
+})
+
+describe("forceArray", () => {
+  it("should return an array if the value is an array", () => {
+    expect(forceArray([1, 2, 3])).toEqual([1, 2, 3])
+  })
+
+  it("should return an array with the value if the value is not an array", () => {
+    expect(forceArray(1)).toEqual([1])
   })
 })
