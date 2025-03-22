@@ -87,6 +87,9 @@ function SectionLink({
           section === SectionType.ComputerGraphics &&
             headerMode &&
             "drop-shadow-[0_0_calc(var(--spacing)*7)_oklch(var(--green-400))]",
+          section === SectionType.RaspberryPi &&
+            headerMode &&
+            "drop-shadow-[0_0_calc(var(--spacing)*7)_oklch(var(--yellow-400))]",
         )}
         style={{
           width: `${sectionVisibilityFactor * 100}%`,

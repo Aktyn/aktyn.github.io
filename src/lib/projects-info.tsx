@@ -115,7 +115,6 @@ export const projectsData: { [key in SectionType]: ProjectSchema[] } = {
       title: "Astro kulka",
       description:
         "My second game written in java and opengl. Made one year after Kulka w tarapatach. It has 3D graphics with custom GLSL shaders, 2D physics engine and advanced particles system.\nThere is also a map creator built in the game.",
-      //TODO: find more screenshots
       images: importImages([import("~/img/games/astro-kulka.webp")]),
       techStack: ["java", "opengl"],
     },
@@ -239,7 +238,23 @@ export const projectsData: { [key in SectionType]: ProjectSchema[] } = {
       ]),
       techStack: ["raspberrypi", "cplusplus"],
     },
-    //TODO: drone
+    {
+      title: "Aktyn drone",
+      description:
+        "My most ambitious project so far (not finished yet). A custom built drone controlled by Raspberry Pi via UART protocol. It is equipped with a GPS module, a raspberry pi camera and a mobile network module that allows access to the internet from almost anywhere in the world, giving the drone unlimited range.\nThere is also a web interface for controlling the drone and showing live stream from the camera and other sensors.",
+      linkToGithubRepo: "https://github.com/Aktyn/aktyn-drone",
+      images: importImages([
+        import("~/img/rpi-projects/aktyn-drone/1.webp"),
+        import("~/img/rpi-projects/aktyn-drone/ui1.webp"),
+        import("~/img/rpi-projects/aktyn-drone/2.webp"),
+        import("~/img/rpi-projects/aktyn-drone/ui2.webp"),
+        import("~/img/rpi-projects/aktyn-drone/3.webp"),
+        import("~/img/rpi-projects/aktyn-drone/4.webp"),
+        import("~/img/rpi-projects/aktyn-drone/5.webp"),
+        import("~/img/rpi-projects/aktyn-drone/6.webp"),
+      ]),
+      techStack: ["raspberrypi", "python", "typescript", "react"],
+    },
   ],
 }
 

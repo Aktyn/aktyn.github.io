@@ -1,4 +1,4 @@
-import { ChevronsDown } from "lucide-react"
+import { ChevronsDown, ChevronsUp, ExternalLink, Github } from "lucide-react"
 import { Fragment, useEffect, useRef, useState } from "react"
 import { Background } from "./components/background/background"
 import { Introduction } from "./components/introduction"
@@ -13,7 +13,7 @@ import { ScrollArea } from "./components/ui/scroll-area"
 import { Separator } from "./components/ui/separator"
 import { isFirefox } from "./lib/consts"
 import { SectionType } from "./lib/sections-info"
-import { clamp, compareArrays, debounce } from "./lib/utils"
+import { clamp, cn, compareArrays, debounce } from "./lib/utils"
 
 const seeProjectsButtonThreshold = 128
 
@@ -26,6 +26,7 @@ function App() {
   const [sectionVisibilityFactors, setSectionVisibilityFactors] = useState(
     buildSectionVisibilityFactors(),
   )
+  const [showBackToTopButton, setShowBackToTopButton] = useState(false)
 
   useEffect(() => {
     const scrollArea = scrollAreaRef.current?.querySelector(
@@ -55,6 +56,7 @@ function App() {
         const scrollPosition = scrollArea?.scrollTop
 
         setHeaderMode(nav.getBoundingClientRect().top < headerModeThreshold)
+        setShowBackToTopButton(scrollPosition > window.innerHeight * 2)
 
         seeProjectsButton.style.opacity = `${Math.max(
           0,
@@ -100,7 +102,6 @@ function App() {
     }
   }, [])
 
-  // TODO: smart back-to-top button
   // TODO: explain logo (used by me as a signature); perhaps in summary in the bottom of the page (footer-like)
 
   const scrollToSection = (section: SectionType) => {
@@ -112,7 +113,7 @@ function App() {
   }
 
   return (
-    <Background className="flex flex-col items-center justify-center">
+    <Background className="flex flex-col items-center justify-center overflow-hidden">
       <ScrollArea
         ref={scrollAreaRef}
         className="neon-scrollbar w-full h-full text-center *:data-[slot=scroll-area-viewport]:overflow-x-hidden *:data-[slot=scroll-area-viewport]:max-w-screen"
@@ -150,7 +151,43 @@ function App() {
             </Fragment>
           )
         })}
+        <Separator />
+        <div className="p-8">
+          <Button asChild variant="link" size="sm" className="gap-x-3">
+            <a
+              href="https://github.com/aktyn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Github className="size-8" />
+              There are more projects on my GitHub
+              <ExternalLink />
+            </a>
+          </Button>
+        </div>
+        <div className="h-[25vh]" />
       </ScrollArea>
+      <div
+        className={cn(
+          "absolute bottom-0 inset-x-0 grid grid-cols-[1fr_auto_auto_auto_1fr] gap-x-2 items-center *:data-[orientation]:bg-foreground/10 *:transition-[background-color,scale] cursor-pointer hover:*:data-[orientation]:bg-primary hover:*:data-[orientation]:scale-x-90 pt-4 bg-linear-to-t from-background to-background/0 *:[svg]:transition-transform hover:*:[svg]:-translate-y-1 transition-[translate,opacity] text-muted-foreground",
+          showBackToTopButton
+            ? "pointer-events-auto opacity-100 translate-y-0"
+            : "pointer-events-none opacity-0 translate-y-full",
+        )}
+        onClick={() => {
+          scrollAreaRef.current
+            ?.querySelector("[data-slot=scroll-area-viewport]")
+            ?.scrollTo({ top: 0, behavior: "smooth" })
+        }}
+      >
+        <Separator />
+        <ChevronsUp />
+        <span className="text-base font-semibold [text-shadow:0_0_4px_#000]">
+          Back to top
+        </span>
+        <ChevronsUp />
+        <Separator />
+      </div>
     </Background>
   )
 }
