@@ -1,6 +1,7 @@
+import { vi } from "vitest"
 import { clamp, compareArrays, debounce, forceArray } from "./utils"
 
-describe("clamp", () => {
+describe(clamp.name, () => {
   it("should return the value if it is within the range", () => {
     expect(clamp(5, 0, 10)).toBe(5)
   })
@@ -18,7 +19,7 @@ describe("clamp", () => {
   })
 })
 
-describe("compareArrays", () => {
+describe(compareArrays.name, () => {
   it("should return true for identical arrays", () => {
     expect(compareArrays([1, 2, 3], [1, 2, 3])).toBe(true)
   })
@@ -53,39 +54,39 @@ describe("compareArrays", () => {
   })
 })
 
-describe("debounce", () => {
+describe(debounce.name, () => {
   beforeEach(() => {
-    jest.useFakeTimers()
+    vi.useFakeTimers()
   })
 
   afterEach(() => {
-    jest.useRealTimers()
+    vi.useRealTimers()
   })
 
   it("should debounce function calls", () => {
-    const mockFn = jest.fn()
+    const mockFn = vi.fn()
     const debouncedFn = debounce(mockFn, 100)
 
     debouncedFn(1, 2, 3)
     expect(mockFn).not.toHaveBeenCalled()
 
-    jest.advanceTimersByTime(50)
+    vi.advanceTimersByTime(50)
     expect(mockFn).not.toHaveBeenCalled()
 
     debouncedFn(4, 5, 6)
-    jest.advanceTimersByTime(50)
+    vi.advanceTimersByTime(50)
     expect(mockFn).not.toHaveBeenCalled()
 
-    jest.advanceTimersByTime(49)
+    vi.advanceTimersByTime(49)
     expect(mockFn).not.toHaveBeenCalled()
 
-    jest.advanceTimersByTime(1)
+    vi.advanceTimersByTime(1)
     expect(mockFn).toHaveBeenCalledTimes(1)
     expect(mockFn).toHaveBeenCalledWith(4, 5, 6)
   })
 
   it("should immediately call the function if delay is 0 or negative", () => {
-    const mockFn = jest.fn()
+    const mockFn = vi.fn()
     const debouncedFn = debounce(mockFn, 0)
 
     expect(debouncedFn).toBe(mockFn)
@@ -95,7 +96,7 @@ describe("debounce", () => {
   })
 })
 
-describe("forceArray", () => {
+describe(forceArray.name, () => {
   it("should return an array if the value is an array", () => {
     expect(forceArray([1, 2, 3])).toEqual([1, 2, 3])
   })

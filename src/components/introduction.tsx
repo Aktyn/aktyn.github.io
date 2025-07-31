@@ -12,7 +12,7 @@ export function Introduction() {
   return (
     <div className="min-h-[calc(50dvh-var(--spacing)*6)] flex flex-col justify-end items-center gap-y-2 pb-4">
       <div
-        className="full-name-container relative *:text-5xl *:font-black *:leading-snug *:tracking-wide *:not-last:absolute *:not-last:inset-0 *:not-last:select-none *:not-last:pointer-events-none"
+        className="full-name-container relative *:text-5xl *:font-black *:leading-snug *:tracking-wider *:not-last:absolute *:not-last:inset-0 *:not-last:select-none *:not-last:pointer-events-none"
         onAnimationEnd={(event) =>
           event.currentTarget.classList.add("scroll-based-animation")
         }
@@ -30,7 +30,7 @@ export function Introduction() {
           event.currentTarget.classList.add("scroll-based-animation")
         }
       >
-        <h3 className="text-3xl font-medium pt-4">{role}</h3>
+        <h3 className="text-3xl font-medium pt-4 tracking-wide">{role}</h3>
         <Tooltip>
           <TooltipTrigger asChild>
             <p className="text-sm text-muted-foreground font-medium flex items-center gap-x-2">
