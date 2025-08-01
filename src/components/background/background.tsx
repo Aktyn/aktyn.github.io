@@ -2,6 +2,7 @@ import { type PropsWithChildren, useEffect, useState } from "react"
 import { isFirefox, LOGO_PATH } from "~/lib/consts"
 import { cn } from "~/lib/utils"
 import { HexagonGrid } from "./hexagon-grid"
+import { DustParticle } from "~/components/background/dust-particle.tsx"
 
 const backlightRadius = 80
 
@@ -42,6 +43,11 @@ export function Background({ children, className }: BackgroundProps) {
         className,
       )}
     >
+      <div className="overflow-hidden absolute inset-0 mix-blend-soft-light">
+        {Array.from({ length: 128 }).map((_, i) => (
+          <DustParticle key={i} />
+        ))}
+      </div>
       <div className="overflow-hidden absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_-10%,oklch(65.39%_0.1926_10_/0.2)_0%,oklch(65.39%_0.1926_10_/0.075)_50%,transparent_100%)] animate-in fade-in slide-in-from-top duration-800 transition-transform" />
       <div
         className={cn(
@@ -75,6 +81,7 @@ export function Background({ children, className }: BackgroundProps) {
       >
         <HexagonGrid id="hexagons-accent" className="**:[path]:stroke-white" />
       </div>
+
       <div
         className={cn(
           "overflow-hidden absolute inset-0 flex items-center justify-center blur-2xl mix-blend-soft-light transition-opacity duration-500",

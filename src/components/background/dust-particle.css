@@ -1,0 +1,23 @@
+@keyframes dust-up {
+  0% {
+    opacity: 0.5;
+    transform: translateY(0vh);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+    transform: translateY(-25vh); /* the value must match -moveUpDistance */
+  }
+}
+
+
+@keyframes dust-scale {
+  25%, 75% {
+    transform: scale(0.75);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+}

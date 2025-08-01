@@ -100,7 +100,7 @@ export const projectsData: { [key in SectionType]: ProjectSchema[] } = {
     {
       title: "Kulka w tarapatach",
       description:
-        "My first game, which I made in high school for a nationwide competition. I won the competition, which gave me confidence and made me never give up on my goal to become a serious software developer.\n\nTextures and all game assets were also made by me.",
+        "I made my first game in high school for a nationwide competition. Winning the competition gave me the confidence to pursue a career as a software developer.\n\nTextures and all game assets were also made by me.",
       linkToGithubRepo: "https://github.com/Aktyn/kulka-w-tarapatach",
       images: importImages([
         import("~/img/games/kulka-w-tarapatach/1.webp"),

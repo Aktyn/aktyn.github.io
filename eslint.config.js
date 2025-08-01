@@ -19,6 +19,12 @@ export default tseslint.config(
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
+      parser: tseslint.parser,
+      parserOptions: {
+        project: "tsconfig.app.json",
+        sourceType: "module",
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     plugins: {
       "react-hooks": reactHooks,
@@ -30,11 +36,12 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       "react-compiler/react-compiler": "error",
       "prettier/prettier": "error",
-      "@typescript-eslint/consistent-type-imports": [
+      eqeqeq: "error",
+      "@typescript-eslint/await-thenable": "error",
+      "@typescript-eslint/no-unused-vars": [
         "error",
         {
-          prefer: "type-imports",
-          fixStyle: "inline-type-imports",
+          argsIgnorePattern: "^_",
         },
       ],
       "no-console": [
@@ -43,6 +50,19 @@ export default tseslint.config(
           allow: ["warn", "error", "info", "debug", "table", "time", "timeEnd"],
         },
       ],
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          prefer: "type-imports",
+          fixStyle: "separate-type-imports",
+        },
+      ],
+      "@typescript-eslint/consistent-type-exports": "error",
+      "@typescript-eslint/no-floating-promises": "error",
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/switch-exhaustiveness-check": "error",
+      "object-shorthand": ["error", "always"],
     },
   },
 )

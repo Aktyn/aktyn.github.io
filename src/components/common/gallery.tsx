@@ -16,11 +16,13 @@ export function Gallery({ images, rtl = false }: GalleryProps) {
 
   useEffect(() => {
     let mounted = true
-    images.then((images) => {
-      if (mounted) {
-        setLoadedImages(images)
-      }
-    })
+    images
+      .then((images) => {
+        if (mounted) {
+          setLoadedImages(images)
+        }
+      })
+      .catch(console.error)
 
     return () => {
       mounted = false
