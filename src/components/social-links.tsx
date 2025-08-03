@@ -1,45 +1,55 @@
 import { Button } from "./ui/button"
 import { GithubIcon } from "~/components/icons/GithubIcon.tsx"
 import { LinkedInIcon } from "~/components/icons/LinkedInIcon.tsx"
-
-import "./social-links.css"
+import type { ComponentProps } from "react"
+import { cn } from "~/lib/utils.ts"
+import { ExternalLink } from "lucide-react"
 
 export function SocialLinks() {
   return (
     <div
-      className="social-links-container min-h-[calc(50dvh-var(--spacing)*6)] flex flex-row items-start justify-center pt-4 gap-2"
+      className="grid grid-cols-2 items-start justify-center mt-4 gap-3"
       onAnimationEnd={(event) =>
         event.currentTarget.classList.add("scroll-based-animation")
       }
     >
-      <Button
-        asChild
-        variant="outline"
-        className="rounded-full bg-card hover:bg-secondary hover:text-primary hover:border-primary transition-colors p3-2! h-auto"
-      >
-        <a
-          href="https://github.com/aktyn"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <GithubIcon className="size-6" />
-          GitHub
-        </a>
-      </Button>
-      <Button
-        asChild
-        variant="outline"
-        className="rounded-full bg-card hover:bg-secondary hover:text-primary hover:border-primary transition-colors p3-2! h-auto"
-      >
-        <a
-          href="https://www.linkedin.com/in/aktyn"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <LinkedInIcon className="size-6" />
-          LinkedIn
-        </a>
-      </Button>
+      <SocialLinkButton href="https://github.com/aktyn">
+        <GithubIcon />
+        GitHub
+      </SocialLinkButton>
+      <SocialLinkButton href="https://www.linkedin.com/in/aktyn">
+        <LinkedInIcon />
+        LinkedIn
+      </SocialLinkButton>
     </div>
+  )
+}
+
+type SocialLinkButtonProps = ComponentProps<typeof Button> & { href: string }
+
+function SocialLinkButton({
+  children,
+  className,
+  href,
+  ...buttonProps
+}: SocialLinkButtonProps) {
+  return (
+    <Button
+      asChild
+      variant="outline"
+      {...buttonProps}
+      className={cn(
+        "rounded-full bg-accent/30 backdrop-blur-sm hover:bg-secondary hover:border-primary transition-colors h-auto **:[svg]:size-5! relative shadow-[0_0_calc(var(--spacing)*8)_#38251988]",
+        "*:transition-[opacity,scale,box-shadow] *:ease-out duration-400 hover:*:first:opacity-0 hover:*:first:scale-0 hover:*:last:opacity-100 hover:*:last:scale-100 hover:shadow-[0_0_calc(var(--spacing)*8)_#192c38]",
+        className,
+      )}
+    >
+      <a href={href} target="_blank" rel="noopener noreferrer">
+        <div className="inline-flex items-center justify-center gap-2 whitespace-nowrap">
+          {children}
+        </div>
+        <ExternalLink className="absolute inset-auto pointer-events-none opacity-0 scale-0 text-primary" />
+      </a>
+    </Button>
   )
 }

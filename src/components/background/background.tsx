@@ -1,4 +1,5 @@
-import { type PropsWithChildren, useEffect, useState } from "react"
+import type { ComponentProps } from "react"
+import { useEffect, useState } from "react"
 import { isFirefox, LOGO_PATH } from "~/lib/consts"
 import { cn } from "~/lib/utils"
 import { HexagonGrid } from "./hexagon-grid"
@@ -6,11 +7,39 @@ import { DustParticle } from "~/components/background/dust-particle.tsx"
 
 const backlightRadius = 80
 
-type BackgroundProps = PropsWithChildren<{
-  className?: string
-}>
+export function Background({
+  children,
+  className,
+  ...divProps
+}: ComponentProps<"div">) {
+  return (
+    <div
+      {...divProps}
+      className={cn(
+        "relative w-dvw h-dvh *:absolute *:inset-0 *:last:z-20",
+        className,
+      )}
+    >
+      <div
+        className={cn(
+          "bg-linear-to-b from-[oklch(0.13_0.04_264)] to-[oklch(0.22_0.03_263)] *:z-10 **:[.logo]:aspect-square **:[.logo]:w-auto **:[.logo]:h-[61.8%] **:[.logo]:max-w-[61.8%] pointer-events-none",
+          !isFirefox && //TODO: check whether it still doesn't work on firefox
+            "**:[.logo]:animate-in **:[.logo]:fade-in **:[.logo]:zoom-in-125 **:[.logo]:duration-1500 **:[.logo]:fill-mode-both",
+        )}
+      >
+        <div className="overflow-hidden absolute inset-0 mix-blend-soft-light">
+          {Array.from({ length: 128 }).map((_, i) => (
+            <DustParticle key={i} />
+          ))}
+        </div>
+        <FancyBackground />
+      </div>
+      {children}
+    </div>
+  )
+}
 
-export function Background({ children, className }: BackgroundProps) {
+function FancyBackground() {
   const [cursorPosition, setCursorPosition] = useState<{
     x: number
     y: number
@@ -35,19 +64,7 @@ export function Background({ children, className }: BackgroundProps) {
   const centerFactor = Math.max(0.3, cursorPosition.centerFactor)
 
   return (
-    <div
-      className={cn(
-        "bg-linear-to-b from-[oklch(0.13_0.04_264)] to-[oklch(0.22_0.03_263)] relative w-dvw h-dvh *:z-10 **:[.logo]:aspect-square **:[.logo]:w-auto **:[.logo]:h-[61.8%] **:[.logo]:max-w-[61.8%]",
-        !isFirefox &&
-          "**:[.logo]:animate-in **:[.logo]:fade-in **:[.logo]:zoom-in-125 **:[.logo]:duration-1500 **:[.logo]:fill-mode-both",
-        className,
-      )}
-    >
-      <div className="overflow-hidden absolute inset-0 mix-blend-soft-light">
-        {Array.from({ length: 128 }).map((_, i) => (
-          <DustParticle key={i} />
-        ))}
-      </div>
+    <>
       <div className="overflow-hidden absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_-10%,oklch(65.39%_0.1926_10_/0.2)_0%,oklch(65.39%_0.1926_10_/0.075)_50%,transparent_100%)] animate-in fade-in slide-in-from-top duration-800 transition-transform" />
       <div
         className={cn(
@@ -81,7 +98,6 @@ export function Background({ children, className }: BackgroundProps) {
       >
         <HexagonGrid id="hexagons-accent" className="**:[path]:stroke-white" />
       </div>
-
       <div
         className={cn(
           "overflow-hidden absolute inset-0 flex items-center justify-center blur-2xl mix-blend-soft-light transition-opacity duration-500",
@@ -143,7 +159,6 @@ export function Background({ children, className }: BackgroundProps) {
           />
         </svg>
       </div>
-      {children}
-    </div>
+    </>
   )
 }

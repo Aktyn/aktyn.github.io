@@ -1,201 +1,149 @@
-import { ChevronsDown, ChevronsUp, ExternalLink, Github } from "lucide-react"
-import { Fragment, useEffect, useRef, useState } from "react"
-import { Background } from "./components/background/background"
-import { Introduction } from "./components/introduction"
-import {
-  buildSectionVisibilityFactors,
-  Navigation,
-} from "./components/navigation"
-import { SectionView } from "./components/sections/common/section-view"
-import { SocialLinks } from "./components/social-links"
-import { Button } from "./components/ui/button"
-import { ScrollArea } from "./components/ui/scroll-area"
-import { Separator } from "./components/ui/separator"
-import { isFirefox } from "./lib/consts"
-import { SectionType } from "./lib/sections-info"
-import { clamp, cn, compareArrays, debounce } from "./lib/utils"
+import { ViewModule } from "~/modules/view.module.tsx"
+import { Background } from "~/components/background/background.tsx"
+import { Intro } from "~/components/views/intro.tsx"
+import type { ComponentProps, UIEventHandler } from "react"
+import { useEffect, useRef, useState } from "react"
+import { cn } from "~/lib/utils.ts"
 
-const seeProjectsButtonThreshold = 128
+export function App() {
+  const backgroundRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const lastScrollTop = useRef(0)
+  const { view, setView } = ViewModule.useView()
 
-function App() {
-  const scrollAreaRef = useRef<HTMLDivElement>(null)
-  const navRef = useRef<HTMLDivElement>(null)
-  const seeProjectsButtonRef = useRef<HTMLButtonElement>(null)
+  const showNavigation = view !== ViewModule.View.Intro
 
-  const [headerMode, setHeaderMode] = useState(false)
-  const [sectionVisibilityFactors, setSectionVisibilityFactors] = useState(
-    buildSectionVisibilityFactors(),
-  )
-  const [showBackToTopButton, setShowBackToTopButton] = useState(false)
+  const handleScroll: UIEventHandler<HTMLDivElement> = (event) => {
+    const closestView = getClosestView(event.currentTarget)
+
+    const scrollTop = event.currentTarget.scrollTop
+
+    // const bg =
+    //   backgroundRef.current?.querySelector<HTMLDivElement>(":first-child")
+    // if (bg) {
+    //   const rotation =
+    //     ((scrollTop / event.currentTarget.clientHeight) * 30) % 360
+    //   console.log("rotation:", rotation)
+    //   bg.style.filter = `hue-rotate(${360 - rotation}deg)`
+    // }
+
+    if (view !== closestView) {
+      const viewsChangeDirection = Math.sign(
+        ViewsArray.indexOf(closestView) - ViewsArray.indexOf(view),
+      )
+      const scrollChangeDirection = Math.sign(scrollTop - lastScrollTop.current)
+      if (viewsChangeDirection === scrollChangeDirection) {
+        setView(closestView)
+      }
+    }
+
+    lastScrollTop.current = scrollTop
+  }
 
   useEffect(() => {
-    const scrollArea = scrollAreaRef.current?.querySelector(
-      "[data-slot=scroll-area-viewport]",
-    )
-    const nav = navRef.current
-    const seeProjectsButton = seeProjectsButtonRef.current
-
-    const sectionContainers = Object.values(SectionType).map((section) =>
-      document.getElementById(section),
-    )
-
-    if (
-      !scrollArea ||
-      !nav ||
-      !seeProjectsButton ||
-      !allElementsFound(sectionContainers)
-    ) {
+    if (!containerRef.current) {
       return
     }
 
-    const update = debounce(
-      () => {
-        const headerModeThreshold = window.innerHeight / 4
-        const sectionVisibilityThreshold = window.innerHeight / 2
+    const closestView = getClosestView(containerRef.current)
 
-        const scrollPosition = scrollArea?.scrollTop
-
-        setHeaderMode(nav.getBoundingClientRect().top < headerModeThreshold)
-        setShowBackToTopButton(scrollPosition > window.innerHeight * 2)
-
-        seeProjectsButton.style.opacity = `${Math.max(
-          0,
-          1 - scrollPosition / seeProjectsButtonThreshold,
-        )}`
-        seeProjectsButton.style.pointerEvents =
-          scrollPosition >= seeProjectsButtonThreshold ? "none" : "auto"
-
-        let offsetY = 0
-        const factors: number[] = []
-        for (const sectionContainer of sectionContainers) {
-          const rect = sectionContainer.getBoundingClientRect()
-          const s = scrollPosition - offsetY
-          const factor =
-            clamp(s / sectionVisibilityThreshold, 0, 1) *
-            clamp(
-              (rect.height - s + window.innerHeight) /
-                sectionVisibilityThreshold,
-              0,
-              1,
-            )
-          factors.push(factor)
-
-          offsetY += rect.height
-        }
-
-        setSectionVisibilityFactors((prev) => {
-          const values = Object.values(prev)
-          if (compareArrays(values, factors)) {
-            return prev
-          }
-          return buildSectionVisibilityFactors(factors)
-        })
-      },
-      isFirefox ? 100 : 4,
-    )
-
-    update()
-
-    scrollArea.addEventListener("scroll", update)
-    return () => {
-      scrollArea.removeEventListener("scroll", update)
+    if (closestView === view) {
+      return
     }
-  }, [])
 
-  // TODO: explain logo (used by me as a signature); perhaps in summary in the bottom of the page (footer-like)
-
-  const scrollToSection = (section: SectionType) => {
-    const sectionElement = document.getElementById(section)
-    sectionElement?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    })
-  }
+    const viewContainer = document.getElementById(`view-${view}`)
+    if (viewContainer) {
+      viewContainer.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      })
+    }
+  }, [view])
 
   return (
-    <Background className="flex flex-col items-center justify-center overflow-hidden">
-      <ScrollArea
-        ref={scrollAreaRef}
-        className="neon-scrollbar w-full h-full text-center *:data-[slot=scroll-area-viewport]:overflow-x-hidden *:data-[slot=scroll-area-viewport]:max-w-screen"
-      >
-        <Introduction />
-        <Navigation
-          ref={navRef}
-          headerMode={headerMode}
-          onSectionLinkClick={scrollToSection}
-          sectionVisibilityFactors={sectionVisibilityFactors}
-          className="h-12 max-lg:min-xs:h-24"
-        />
-        <SocialLinks />
-
-        <Button
-          ref={seeProjectsButtonRef}
-          size="lg"
-          variant="outline"
-          className="fixed bottom-8 mx-auto left-0 right-0 w-fit flex-col h-auto pt-4 pb-1 rounded-full hover:*:[svg]:translate-y-0 bg-background/25 backdrop-blur-sm shadow-lg hover:bg-background/50 hover:text-primary hover:border-primary hover:shadow-[0_0_calc(var(--spacing)*8)_oklch(var(--primary)/0.25)] transition-[color,border-color,background-color,box-shadow] overflow-hidden animate-in fade-in slide-in-from-bottom delay-800 ease-out fill-mode-both"
-          onClick={() => {
-            scrollToSection(SectionType.WebDevelopment)
-          }}
-          onAnimationEnd={(event) =>
-            event.currentTarget.classList.remove("delay-800")
-          }
-        >
-          <span className="px-8">Check out some of my projects</span>
-          <ChevronsDown className="size-6 -translate-y-1 transition-transform" />
-        </Button>
-        {Object.values(SectionType).map((section, index) => {
-          return (
-            <Fragment key={section}>
-              {index > 0 && <Separator />}
-              <SectionView section={section} />
-            </Fragment>
-          )
-        })}
-        <Separator />
-        <div className="p-8">
-          <Button asChild variant="link" size="sm" className="gap-x-3">
-            <a
-              href="https://github.com/aktyn"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Github className="size-8" />
-              There are more projects on my GitHub
-              <ExternalLink />
-            </a>
-          </Button>
-        </div>
-        <div className="h-[25vh]" />
-      </ScrollArea>
+    <Background ref={backgroundRef}>
       <div
-        className={cn(
-          "absolute bottom-0 inset-x-0 grid grid-cols-[1fr_auto_auto_auto_1fr] gap-x-2 items-center *:data-[orientation]:bg-foreground/10 *:transition-[background-color,scale] cursor-pointer hover:*:data-[orientation]:bg-primary hover:*:data-[orientation]:scale-x-90 pt-4 bg-linear-to-t from-background to-background/0 *:[svg]:transition-transform hover:*:[svg]:-translate-y-1 transition-[translate,opacity] text-muted-foreground",
-          showBackToTopButton
-            ? "pointer-events-auto opacity-100 translate-y-0"
-            : "pointer-events-none opacity-0 translate-y-full",
-        )}
-        onClick={() => {
-          scrollAreaRef.current
-            ?.querySelector("[data-slot=scroll-area-viewport]")
-            ?.scrollTo({ top: 0, behavior: "smooth" })
-        }}
+        ref={containerRef}
+        className="w-dvw h-dvh overflow-y-scroll no-scrollbar scroll-smooth snap-y snap-mandatory"
+        onScroll={handleScroll}
       >
-        <Separator />
-        <ChevronsUp />
-        <span className="text-base font-semibold [text-shadow:0_0_4px_#000]">
-          Back to top
-        </span>
-        <ChevronsUp />
-        <Separator />
+        <ViewContainer view={ViewModule.View.Intro}>
+          <Intro />
+        </ViewContainer>
+        <div className="grid grid-cols-[1fr_auto_1fr] gap-2">
+          <aside
+            className={cn(
+              "bg-blue-500/20 h-dvh sticky top-0 fill-mode-both",
+              showNavigation
+                ? "animate-in slide-in-from-left"
+                : "animate-out slide-out-to-left",
+            )}
+          >
+            TODO - navigation
+          </aside>
+          <div className="flex flex-col">
+            <ViewContainer view={ViewModule.View.PublicProjects}>
+              <span>todo - no commercial projects</span>
+            </ViewContainer>
+            <ViewContainer view={ViewModule.View.MyJourney}>
+              <span>todo - my journey</span>
+            </ViewContainer>
+            <ViewContainer view={ViewModule.View.TechStack}>
+              <span>todo - tech stack</span>
+            </ViewContainer>
+          </div>
+        </div>
       </div>
     </Background>
   )
 }
 
-export default App
+const ViewsArray = Object.values(ViewModule.View)
 
-function allElementsFound(
-  elements: (HTMLElement | null)[],
-): elements is HTMLElement[] {
-  return elements.every(Boolean)
+function getClosestView(container: HTMLDivElement) {
+  const viewPosition = Math.round(container.scrollTop / container.clientHeight)
+  return ViewsArray[viewPosition] ?? ViewsArray[0]
+}
+
+type ViewContainerProps = ComponentProps<"div"> & {
+  view: ViewModule.View
+}
+
+function ViewContainer({
+  view,
+  children,
+  className,
+  ...divProps
+}: ViewContainerProps) {
+  const { view: currentView } = ViewModule.useView()
+  const current = view === currentView
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    if (current) {
+      setMounted(true)
+      return
+    }
+
+    const unmountTimeout = setTimeout(() => {
+      setMounted(false)
+    }, 1000)
+
+    return () => clearTimeout(unmountTimeout)
+  }, [current])
+
+  return (
+    <div
+      {...divProps}
+      id={`view-${view}`}
+      data-current={current}
+      className={cn(
+        "size-full h-dvh flex flex-col items-center justify-center snap-start",
+        className,
+      )}
+    >
+      {mounted && children}
+    </div>
+  )
 }

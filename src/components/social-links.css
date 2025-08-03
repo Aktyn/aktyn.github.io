@@ -1,7 +1,0 @@
-.social-links-container {
-  animation: enter-view ease-in;
-  animation-duration: 0.5s;
-  animation-delay: 0.3s;
-  animation-range: calc(var(--spacing) * 28) calc(50dvh + var(--spacing) * 28);
-  animation-fill-mode: both;
-}

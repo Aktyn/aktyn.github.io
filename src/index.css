@@ -35,6 +35,10 @@
 }
 
 @theme inline {
+
+
+
+
   --color-background: oklch(var(--background));
   --color-foreground: oklch(var(--foreground));
   --color-card: oklch(var(--card));
@@ -60,7 +64,12 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
+  --backdrop-blur-xs: 2px;
+
+  --ease-bounce: cubic-bezier(.5, -0.5, .5, 1.5);
+  --transition-duration-bounce: 600ms;
   --default-transition-duration: 0.3s;
+  --default-transition-timing-function: ease-in-out;
   --breakpoint-xs: 480px;
 }
 
@@ -82,12 +91,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground
-
-      **:data-[slot=scroll-area-thumb]:transition-[background-color,box-shadow]
-      **:data-[slot=scroll-area-thumb]:[.neon-scrollbar]:shadow-[calc(var(--spacing)*4)_0_calc(var(--spacing)*4)_var(--color-primary)]
-      **:data-[slot=scroll-area-thumb]:[.neon-scrollbar]:hover:shadow-[0_0_calc(var(--spacing)*4)_var(--color-primary)]
-      **:data-[slot=scroll-area-thumb]:hover:bg-primary!;
+    @apply bg-background text-foreground;
   }
 
   [data-slot="button"] {
@@ -95,10 +99,18 @@
   }
 
   [data-slot="tooltip-content"] {
-    @apply bg-card/50! backdrop-blur-sm text-foreground! border **:[svg]:hidden!;
+    @apply bg-card/50! backdrop-blur-sm text-foreground! border border-muted **:[svg]:hidden!;
+  }
+
+  [data-slot="scroll-area-thumb"] {
+    @apply transition-[background-color,box-shadow] [.neon-scrollbar]:shadow-[calc(var(--spacing)*4)_0_calc(var(--spacing)*4)_var(--color-primary)] [.neon-scrollbar]:hover:shadow-[0_0_calc(var(--spacing)*4)_var(--color-primary)] hover:bg-primary!;
   }
 }
 
 @utility fixed-stroke {
   vector-effect: non-scaling-stroke;
+}
+
+@utility no-scrollbar {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }
