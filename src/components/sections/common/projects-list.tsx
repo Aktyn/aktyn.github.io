@@ -8,11 +8,11 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip"
 import { type ProjectSchema } from "~/lib/projects-info"
-
-import "devicon/devicon.min.css"
 import { Badge } from "~/components/ui/badge"
 import { techStack } from "~/lib/tech-stack"
 import { cn, forceArray } from "~/lib/utils"
+
+import "devicon/devicon.min.css"
 
 type ProjectsListProps = {
   projects: ProjectSchema[]

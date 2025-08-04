@@ -1,7 +1,7 @@
 import { ChevronsDown, ChevronsUp, ExternalLink, Github } from "lucide-react"
 import { Fragment, useEffect, useRef, useState } from "react"
 import { Background } from "./components/background/background"
-import { Introduction } from "./components/views/introduction.tsx"
+import { Introduction } from "./components/views/introduction"
 import {
   buildSectionVisibilityFactors,
   Navigation,

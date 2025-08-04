@@ -1,8 +1,8 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
-import { App } from "./App.tsx"
+import { App } from "./App"
 import { TooltipProvider } from "./components/ui/tooltip"
-import { ViewModule } from "~/modules/view.module.tsx"
+import { ViewModule } from "./modules/view.module"
 
 import "./index.css"
 

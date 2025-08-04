@@ -1,5 +1,5 @@
 import { useMemo } from "react"
-import { randomFloat, randomInt } from "~/lib/random.ts"
+import { randomFloat, randomInt } from "~/lib/random"
 
 import "./dust-particle.css"
 

@@ -6,6 +6,7 @@ import tseslint from "typescript-eslint"
 import reactCompiler from "eslint-plugin-react-compiler"
 import prettier from "eslint-plugin-prettier"
 import eslintConfigPrettier from "eslint-config-prettier"
+import importPlugin from "eslint-plugin-import"
 
 export default tseslint.config(
   { ignores: ["dist"] },
@@ -31,6 +32,7 @@ export default tseslint.config(
       "react-refresh": reactRefresh,
       "react-compiler": reactCompiler,
       prettier,
+      import: importPlugin,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -63,6 +65,21 @@ export default tseslint.config(
       "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/switch-exhaustiveness-check": "error",
       "object-shorthand": ["error", "always"],
+      "import/extensions": [
+        "error",
+        "never",
+        {
+          css: "always",
+          json: "always",
+          webp: "always",
+          png: "always",
+          jpg: "always",
+          jpeg: "always",
+          gif: "always",
+          svg: "always",
+          module: "always",
+        },
+      ],
     },
   },
 )

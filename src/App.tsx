@@ -1,9 +1,9 @@
-import { ViewModule } from "~/modules/view.module.tsx"
-import { Background } from "~/components/background/background.tsx"
-import { Intro } from "~/components/views/intro.tsx"
+import { ViewModule } from "~/modules/view.module"
+import { Background } from "~/components/background/background"
+import { Intro } from "~/components/views/intro"
 import type { ComponentProps, UIEventHandler } from "react"
 import { useEffect, useRef, useState } from "react"
-import { cn } from "~/lib/utils.ts"
+import { cn } from "~/lib/utils"
 
 export function App() {
   const backgroundRef = useRef<HTMLDivElement>(null)
@@ -29,7 +29,8 @@ export function App() {
 
     if (view !== closestView) {
       const viewsChangeDirection = Math.sign(
-        ViewsArray.indexOf(closestView) - ViewsArray.indexOf(view),
+        ViewModule.ViewsArray.indexOf(closestView) -
+          ViewModule.ViewsArray.indexOf(view),
       )
       const scrollChangeDirection = Math.sign(scrollTop - lastScrollTop.current)
       if (viewsChangeDirection === scrollChangeDirection) {
@@ -98,11 +99,9 @@ export function App() {
   )
 }
 
-const ViewsArray = Object.values(ViewModule.View)
-
 function getClosestView(container: HTMLDivElement) {
   const viewPosition = Math.round(container.scrollTop / container.clientHeight)
-  return ViewsArray[viewPosition] ?? ViewsArray[0]
+  return ViewModule.ViewsArray[viewPosition] ?? ViewModule.ViewsArray[0]
 }
 
 type ViewContainerProps = ComponentProps<"div"> & {

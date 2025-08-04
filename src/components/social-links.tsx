@@ -1,18 +1,13 @@
 import { Button } from "./ui/button"
-import { GithubIcon } from "~/components/icons/GithubIcon.tsx"
-import { LinkedInIcon } from "~/components/icons/LinkedInIcon.tsx"
+import { GithubIcon } from "~/components/icons/GithubIcon"
+import { LinkedInIcon } from "~/components/icons/LinkedInIcon"
 import type { ComponentProps } from "react"
-import { cn } from "~/lib/utils.ts"
+import { cn } from "~/lib/utils"
 import { ExternalLink } from "lucide-react"
 
 export function SocialLinks() {
   return (
-    <div
-      className="grid grid-cols-2 items-start justify-center mt-4 gap-3"
-      onAnimationEnd={(event) =>
-        event.currentTarget.classList.add("scroll-based-animation")
-      }
-    >
+    <div className="w-full mx-auto grid grid-cols-[repeat(auto-fit,calc(var(--spacing)*32))] items-start justify-center gap-x-3 gap-y-2">
       <SocialLinkButton href="https://github.com/aktyn">
         <GithubIcon />
         GitHub

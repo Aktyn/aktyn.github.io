@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { isFirefox, LOGO_PATH } from "~/lib/consts"
 import { cn } from "~/lib/utils"
 import { HexagonGrid } from "./hexagon-grid"
-import { DustParticle } from "~/components/background/dust-particle.tsx"
+import { DustParticle } from "~/components/background/dust-particle"
 
 const backlightRadius = 80
 
