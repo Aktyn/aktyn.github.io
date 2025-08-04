@@ -1,5 +1,11 @@
 import { differenceInYears, format } from "date-fns"
-import { CalendarHeart, CalendarRange, Map, MapPinHouse } from "lucide-react"
+import {
+  CalendarHeart,
+  CalendarRange,
+  Languages,
+  Map,
+  MapPinHouse,
+} from "lucide-react"
 import {
   Tooltip,
   TooltipContent,
@@ -15,7 +21,7 @@ export function QuickPersonalInfo({
   experienceStartDate: Date
 }) {
   return (
-    <div className="w-2xl! max-w-full flex flex-row flex-wrap *:flex-1 items-center justify-start gap-x-8">
+    <div className="max-w-full flex flex-row flex-wrap *:flex-1 items-center justify-start gap-x-8">
       <QuickInfoLabel>
         <MapPinHouse />
         <span>Poland, Łódź</span>
@@ -35,6 +41,20 @@ export function QuickPersonalInfo({
           </a>
         </Button>
       </QuickInfoLabel>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <QuickInfoLabel>
+            <Languages />
+            <span>Polish, English</span>
+          </QuickInfoLabel>
+        </TooltipTrigger>
+        <TooltipContent className="text-sm grid grid-cols-[auto_auto] items-center justify-center gap-x-1">
+          <span>Polish:</span>
+          <b>native</b>
+          <span>English:</span>
+          <b>C1</b>
+        </TooltipContent>
+      </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
           <QuickInfoLabel>

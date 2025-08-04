@@ -1,3 +1,35 @@
+import reactThumbnail from "~/img/quick-access-thumbnails/react.webp"
+import nodejsThumbnail from "~/img/quick-access-thumbnails/nodejs.webp"
+import postgresThumbnail from "~/img/quick-access-thumbnails/postgres.webp"
+import jiraThumbnail from "~/img/quick-access-thumbnails/jira.webp"
+
+export enum TechStackCategory {
+  Frontend = "frontend",
+  Backend = "backend",
+  Database = "database",
+  KnownTools = "known-tools",
+  // Other = "other" //TODO: consider using this category
+}
+
+export const techStackInfo = {
+  [TechStackCategory.Frontend]: {
+    title: "Frontend",
+    thumbnail: reactThumbnail,
+  },
+  [TechStackCategory.Backend]: {
+    title: "Backend",
+    thumbnail: nodejsThumbnail,
+  },
+  [TechStackCategory.Database]: {
+    title: "Databases",
+    thumbnail: postgresThumbnail,
+  },
+  [TechStackCategory.KnownTools]: {
+    title: "Known tools",
+    thumbnail: jiraThumbnail,
+  },
+} as const satisfies { [key in TechStackCategory]: object }
+
 export const techStack = {
   html: {
     icon: "devicon-html5-plain colored",

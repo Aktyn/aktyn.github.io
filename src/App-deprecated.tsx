@@ -1,7 +1,6 @@
 import { ChevronsDown, ChevronsUp, ExternalLink, Github } from "lucide-react"
 import { Fragment, useEffect, useRef, useState } from "react"
 import { Background } from "./components/background/background"
-import { Introduction } from "./components/views/introduction"
 import {
   buildSectionVisibilityFactors,
   Navigation,
@@ -118,7 +117,7 @@ function App() {
         ref={scrollAreaRef}
         className="neon-scrollbar w-full h-full text-center *:data-[slot=scroll-area-viewport]:overflow-x-hidden *:data-[slot=scroll-area-viewport]:max-w-screen"
       >
-        <Introduction />
+        {/*<Introduction />*/}
         <Navigation
           ref={navRef}
           headerMode={headerMode}

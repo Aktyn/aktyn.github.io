@@ -30,9 +30,9 @@ const viewData = {
   [View.PublicProjects]: {
     extendedTitle: "Explore my noncommercial projects",
   },
-  [View.MyJourney]: { extendedTitle: "Take a look at my journey" },
+  [View.MyJourney]: { extendedTitle: "My journey in the software world" },
   [View.TechStack]: {
-    extendedTitle: "See my skills stack for more technical details",
+    extendedTitle: "See my skills stack for more technical info",
   },
 } as const satisfies { [key in View]: object }
 
