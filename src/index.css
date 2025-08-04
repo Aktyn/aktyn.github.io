@@ -108,7 +108,7 @@
   }
 
   [data-slot="scroll-area-thumb"] {
-    @apply transition-colors [.neon-scrollbar]:shadow-[calc(var(--spacing)*4)_0_calc(var(--spacing)*4)_var(--color-primary)] [.neon-scrollbar]:hover:shadow-[0_0_calc(var(--spacing)*4)_var(--color-primary)] hover:bg-primary!;
+    @apply transition-colors hover:bg-primary/50! active:bg-primary!;
   }
 }
 

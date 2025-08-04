@@ -5,7 +5,7 @@ enum View {
   Intro = "intro",
   PublicProjects = "public-projects",
   MyJourney = "my-journey",
-  TechStack = "tech-stack", //TODO - groups: web development, backend development, databases, known tools
+  TechStack = "tech-stack",
 }
 
 const ViewsArray = Object.values(View)

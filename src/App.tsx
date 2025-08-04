@@ -4,6 +4,8 @@ import { Intro } from "~/components/views/intro"
 import type { ComponentProps, UIEventHandler } from "react"
 import { useEffect, useRef, useState } from "react"
 import { cn } from "~/lib/utils"
+import { ChevronDown } from "lucide-react"
+import { ScrollArea } from "~/components/ui/scroll-area"
 
 export function App() {
   const backgroundRef = useRef<HTMLDivElement>(null)
@@ -71,7 +73,7 @@ export function App() {
         <ViewContainer view={ViewModule.View.Intro}>
           <Intro />
         </ViewContainer>
-        <div className="grid grid-cols-[1fr_auto_1fr] gap-2">
+        <div className="grid grid-cols-[1fr_auto_1fr] grid-rows-[auto] gap-2">
           <aside
             className={cn(
               "bg-blue-500/20 h-dvh sticky top-0 fill-mode-both",
@@ -84,15 +86,35 @@ export function App() {
           </aside>
           <div className="flex flex-col">
             <ViewContainer view={ViewModule.View.PublicProjects}>
-              <span>todo - no commercial projects</span>
+              <span>todo - non commercial projects</span>
             </ViewContainer>
             <ViewContainer view={ViewModule.View.MyJourney}>
-              <span>todo - my journey</span>
+              <span>
+                todo - my journey (write about 3d graphics aspirations, school
+                and university, work experience, etc.)
+              </span>
             </ViewContainer>
             <ViewContainer view={ViewModule.View.TechStack}>
-              <span>todo - tech stack</span>
+              <span>
+                todo - tech stack; divided into the following groups: groups:
+                web development, backend development, databases, known tools
+              </span>
             </ViewContainer>
           </div>
+        </div>
+
+        <div
+          className={cn(
+            "flex flex-col items-center justify-self-center fixed bottom-2 inset-x-auto cursor-pointer text-muted-foreground hover:text-primary hover:scale-110 transition-[color,scale,opacity] ease-bounce *:animate-bounce *:animation-duration-2000",
+            view === ViewModule.View.Intro
+              ? "opacity-100 scale-100"
+              : "pointer-events-none opacity-0 scale-0",
+          )}
+          onClick={() => setView(ViewModule.View.PublicProjects)}
+        >
+          <p className="text-xs font-medium">Scroll for more</p>
+          <ChevronDown className="size-4 delay-[-100ms]!" />
+          <ChevronDown className="size-4 -mt-2 delay-[-300ms]!" />
         </div>
       </div>
     </Background>
@@ -133,16 +155,18 @@ function ViewContainer({
   }, [current])
 
   return (
-    <div
-      {...divProps}
-      id={`view-${view}`}
-      data-current={current}
-      className={cn(
-        "size-full h-dvh flex flex-col items-center justify-center snap-start",
-        className,
-      )}
-    >
-      {mounted && children}
-    </div>
+    <ScrollArea className="snap-start size-full min-h-dvh overflow-hidden **:data-[slot=scroll-area-viewport]:*:min-h-full **:data-[slot=scroll-area-viewport]:*:max-w-full **:data-[slot=scroll-area-viewport]:*:grid!">
+      <div
+        {...divProps}
+        id={`view-${view}`}
+        data-current={current}
+        className={cn(
+          "size-full max-w-full overflow-hidden flex flex-col items-center justify-center",
+          className,
+        )}
+      >
+        {mounted && children}
+      </div>
+    </ScrollArea>
   )
 }
