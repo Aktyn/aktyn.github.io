@@ -1,7 +1,0 @@
-.navigation-container {
-  animation: enter-view ease-in;
-  animation-duration: 0.5s;
-  animation-delay: 0.2s;
-  animation-range: calc(var(--spacing) * 34) calc(50dvh + var(--spacing) * 34);
-  animation-fill-mode: both;
-}

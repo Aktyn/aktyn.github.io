@@ -6,14 +6,14 @@ import { useEffect, useRef, useState } from "react"
 import { cn } from "~/lib/utils"
 import { ChevronDown } from "lucide-react"
 import { ScrollArea } from "~/components/ui/scroll-area"
+import { Navigation } from "./components/navigation"
 
 export function App() {
+  const firstEffectRef = useRef(true)
   const backgroundRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const lastScrollTop = useRef(0)
   const { view, setView } = ViewModule.useView()
-
-  const showNavigation = view !== ViewModule.View.Intro
 
   const handleScroll: UIEventHandler<HTMLDivElement> = (event) => {
     const closestView = getClosestView(event.currentTarget)
@@ -44,8 +44,18 @@ export function App() {
   }
 
   useEffect(() => {
+    const firstEffect = firstEffectRef.current
+    firstEffectRef.current = false
+
     if (!containerRef.current) {
       return
+    }
+
+    if (view !== ViewModule.View.Intro) {
+      window.location.hash = `#${view}`
+    } else {
+      const noHashURL = window.location.href.replace(/#.*$/, "")
+      window.history.replaceState("", document.title, noHashURL)
     }
 
     const closestView = getClosestView(containerRef.current)
@@ -57,8 +67,8 @@ export function App() {
     const viewContainer = document.getElementById(`view-${view}`)
     if (viewContainer) {
       viewContainer.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
+        behavior: firstEffect ? "instant" : "smooth",
+        block: "start",
       })
     }
   }, [view])
@@ -73,17 +83,8 @@ export function App() {
         <ViewContainer view={ViewModule.View.Intro}>
           <Intro />
         </ViewContainer>
-        <div className="grid grid-cols-[1fr_auto_1fr] grid-rows-[auto] gap-2">
-          <aside
-            className={cn(
-              "bg-blue-500/20 h-dvh sticky top-0 fill-mode-both",
-              showNavigation
-                ? "animate-in slide-in-from-left"
-                : "animate-out slide-out-to-left",
-            )}
-          >
-            TODO - navigation
-          </aside>
+        <div className="grid grid-cols-[calc(var(--spacing)*64)_auto_calc(var(--spacing)*64)] gap-2">
+          <Navigation mainContainerRef={containerRef} />
           <div className="flex flex-col">
             <ViewContainer view={ViewModule.View.PublicProjects}>
               <span>todo - non commercial projects</span>
@@ -157,10 +158,12 @@ function ViewContainer({
   return (
     // Mask is breaking backdrop-blur of child elements
     // **:data-[slot=scroll-area-viewport]:mask-t-from-[calc(100%-var(--spacing)*10)] **:data-[slot=scroll-area-viewport]:mask-b-from-[calc(100%-var(--spacing)*10)]
-    <ScrollArea className="snap-start size-full min-h-dvh overflow-hidden **:data-[slot=scroll-area-viewport]:*:min-h-full **:data-[slot=scroll-area-viewport]:*:max-w-full **:data-[slot=scroll-area-viewport]:*:grid!">
+    <ScrollArea
+      id={`view-${view}`}
+      className="snap-start size-full min-h-dvh overflow-hidden **:data-[slot=scroll-area-viewport]:*:min-h-full **:data-[slot=scroll-area-viewport]:*:max-w-full **:data-[slot=scroll-area-viewport]:*:grid!"
+    >
       <div
         {...divProps}
-        id={`view-${view}`}
         data-current={current}
         className={cn(
           "size-full max-w-full overflow-hidden flex flex-col items-center justify-center",

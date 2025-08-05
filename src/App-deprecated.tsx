@@ -3,8 +3,8 @@ import { Fragment, useEffect, useRef, useState } from "react"
 import { Background } from "./components/background/background"
 import {
   buildSectionVisibilityFactors,
-  Navigation,
-} from "./components/navigation"
+  NavigationDeprecated,
+} from "./components/navigation-deprecated"
 import { SectionView } from "./components/sections/common/section-view"
 import { SocialLinks } from "./components/social-links"
 import { Button } from "./components/ui/button"
@@ -118,7 +118,7 @@ function App() {
         className="neon-scrollbar w-full h-full text-center *:data-[slot=scroll-area-viewport]:overflow-x-hidden *:data-[slot=scroll-area-viewport]:max-w-screen"
       >
         {/*<Introduction />*/}
-        <Navigation
+        <NavigationDeprecated
           ref={navRef}
           headerMode={headerMode}
           onSectionLinkClick={scrollToSection}

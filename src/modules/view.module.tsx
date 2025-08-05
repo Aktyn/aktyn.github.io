@@ -16,7 +16,16 @@ const ViewContext = createContext({
 })
 
 function ViewProvider({ children }: PropsWithChildren) {
-  const [view, setView] = useState(View.Intro)
+  const viewFromHash =
+    ((window.location.hash?.replace(/^#(.*)/, "$1") ?? "") as View) || ""
+
+  const [view, setView] = useState(
+    viewFromHash
+      ? ViewsArray.includes(viewFromHash)
+        ? (viewFromHash as View)
+        : View.Intro
+      : View.Intro,
+  )
 
   return <ViewContext value={{ view, setView }}>{children}</ViewContext>
 }
@@ -26,12 +35,17 @@ function useView() {
 }
 
 const viewData = {
-  [View.Intro]: { extendedTitle: "" },
+  [View.Intro]: { title: "", extendedTitle: "" },
   [View.PublicProjects]: {
+    title: "Projects",
     extendedTitle: "Explore my noncommercial projects",
   },
-  [View.MyJourney]: { extendedTitle: "My journey in the software world" },
+  [View.MyJourney]: {
+    title: "Experience",
+    extendedTitle: "My journey in the software world",
+  },
   [View.TechStack]: {
+    title: "Tech stack",
     extendedTitle: "See my skills stack for more technical info",
   },
 } as const satisfies { [key in View]: object }

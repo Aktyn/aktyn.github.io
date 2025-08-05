@@ -65,7 +65,7 @@
   --backdrop-blur-xs: 2px;
 
   --ease-bounce: cubic-bezier(.5, -0.5, .5, 1.5);
-  --transition-duration-bounce: 600ms;
+  --transition-duration-bounce: 400ms;
   --default-transition-duration: 0.3s;
   --default-transition-timing-function: ease-in-out;
   --breakpoint-xs: 480px;
@@ -123,14 +123,18 @@
   @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }
 
-@utility in-data-animate {
-  @apply in-data-[current=true]:animate-in in-data-[current=false]:animate-out fill-mode-both duration-800 origin-center;
+@utility animate-data {
+  @apply in-data-[current*=true]:animate-in in-data-[current=false]:animate-out fill-mode-both duration-800 origin-center;
 }
 
 @utility view-transition-base {
-  @apply in-data-animate zoom-in-160 fade-in zoom-out-60 fade-out;
+  @apply animate-data zoom-in-160 fade-in zoom-out-60 fade-out;
 }
 
 @utility view-transition-separator {
-  @apply in-data-animate zoom-in-0;
+  @apply animate-data zoom-in-0;
+}
+
+@utility navigation-transition {
+  @apply animate-data slide-in-from-left fade-in slide-out-to-left fade-out;
 }
