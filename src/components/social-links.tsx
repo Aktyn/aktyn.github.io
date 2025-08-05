@@ -5,9 +5,15 @@ import type { ComponentProps } from "react"
 import { cn } from "~/lib/utils"
 import { ExternalLink } from "lucide-react"
 
-export function SocialLinks() {
+export function SocialLinks(props: ComponentProps<"div">) {
   return (
-    <div className="w-full mx-auto grid grid-cols-[repeat(auto-fit,calc(var(--spacing)*32))] items-start justify-center gap-x-3 gap-y-2">
+    <div
+      {...props}
+      className={cn(
+        "w-full mx-auto grid grid-cols-[repeat(auto-fit,calc(var(--spacing)*32))] items-start justify-center gap-x-3 gap-y-2",
+        props.className,
+      )}
+    >
       <SocialLinkButton href="https://github.com/aktyn">
         <GithubIcon />
         GitHub
@@ -34,8 +40,8 @@ function SocialLinkButton({
       variant="outline"
       {...buttonProps}
       className={cn(
-        "rounded-full bg-accent/30 backdrop-blur-sm hover:bg-secondary hover:border-primary transition-colors h-auto **:[svg]:size-5! relative shadow-[0_0_calc(var(--spacing)*8)_#38251988]",
-        "*:transition-[opacity,scale,box-shadow] *:ease-out duration-400 hover:*:first:opacity-0 hover:*:first:scale-0 hover:*:last:opacity-100 hover:*:last:scale-100 hover:shadow-[0_0_calc(var(--spacing)*8)_#192c38]",
+        "rounded-full bg-accent/30 backdrop-blur-sm hover:bg-secondary hover:border-primary transition-colors h-auto **:[svg]:size-5! relative shadow-[0_0_calc(var(--spacing)*8)_#38251988] ",
+        "*:transition-[opacity,scale,box-shadow] *:ease-out hover:duration-400 hover:delay-0 hover:*:first:opacity-0 hover:*:first:scale-0 hover:*:last:opacity-100 hover:*:last:scale-100 hover:shadow-[0_0_calc(var(--spacing)*8)_#192c38]",
         className,
       )}
     >

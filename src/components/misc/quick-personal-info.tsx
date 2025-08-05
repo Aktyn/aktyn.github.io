@@ -15,13 +15,22 @@ import type { ComponentProps } from "react"
 import { cn } from "~/lib/utils"
 import { Button } from "~/components/ui/button"
 
+type QuickPersonalInfoProps = {
+  experienceStartDate: Date
+  className?: string
+}
+
 export function QuickPersonalInfo({
   experienceStartDate,
-}: {
-  experienceStartDate: Date
-}) {
+  className,
+}: QuickPersonalInfoProps) {
   return (
-    <div className="max-w-full flex flex-row flex-wrap *:flex-1 items-center justify-start gap-x-8">
+    <div
+      className={cn(
+        "max-w-full flex flex-row flex-wrap *:flex-1 items-center justify-start gap-x-8",
+        className,
+      )}
+    >
       <QuickInfoLabel>
         <MapPinHouse />
         <span>Poland, Łódź</span>

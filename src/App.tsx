@@ -149,12 +149,14 @@ function ViewContainer({
 
     const unmountTimeout = setTimeout(() => {
       setMounted(false)
-    }, 1000)
+    }, 800)
 
     return () => clearTimeout(unmountTimeout)
   }, [current])
 
   return (
+    // Mask is breaking backdrop-blur of child elements
+    // **:data-[slot=scroll-area-viewport]:mask-t-from-[calc(100%-var(--spacing)*10)] **:data-[slot=scroll-area-viewport]:mask-b-from-[calc(100%-var(--spacing)*10)]
     <ScrollArea className="snap-start size-full min-h-dvh overflow-hidden **:data-[slot=scroll-area-viewport]:*:min-h-full **:data-[slot=scroll-area-viewport]:*:max-w-full **:data-[slot=scroll-area-viewport]:*:grid!">
       <div
         {...divProps}

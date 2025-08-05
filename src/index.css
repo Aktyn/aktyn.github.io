@@ -59,6 +59,9 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
+  --scale-golden: 1.618;
+  --scale-golden-inverse: 0.618;
+
   --backdrop-blur-xs: 2px;
 
   --ease-bounce: cubic-bezier(.5, -0.5, .5, 1.5);
@@ -118,4 +121,16 @@
 
 @utility no-scrollbar {
   @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}
+
+@utility in-data-animate {
+  @apply in-data-[current=true]:animate-in in-data-[current=false]:animate-out fill-mode-both duration-800 origin-center;
+}
+
+@utility view-transition-base {
+  @apply in-data-animate zoom-in-160 fade-in zoom-out-60 fade-out;
+}
+
+@utility view-transition-separator {
+  @apply in-data-animate zoom-in-0;
 }
