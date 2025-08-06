@@ -3,7 +3,7 @@ import type { ComponentProps } from "react"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { clamp, cn } from "~/lib/utils"
 import { MousePointerClick } from "lucide-react"
-import { Sections, SectionType } from "~/lib/sections-info"
+import { projectsGroupsInfo, ProjectsGroup } from "~/lib/projects-info"
 import { journeyInfo, JourneySection } from "~/lib/journey-info"
 import { TechStackCategory, techStackInfo } from "~/lib/tech-stack"
 import { Separator } from "~/components/ui/separator"
@@ -112,10 +112,10 @@ function ViewContent({ view }: { view: keyof typeof ViewModule.viewData }) {
       case ViewModule.View.Intro:
         throw new Error("Intro view has no content")
       case ViewModule.View.PublicProjects:
-        return Object.values(SectionType).map((section) => ({
+        return Object.values(ProjectsGroup).map((section) => ({
           key: section,
-          title: Sections[section].title,
-          thumbnail: Sections[section].thumbnail,
+          title: projectsGroupsInfo[section].title,
+          thumbnail: projectsGroupsInfo[section].thumbnail,
         }))
       case ViewModule.View.MyJourney:
         return Object.values(JourneySection).map((section) => ({

@@ -1,7 +1,12 @@
 import { clamp, cn } from "~/lib/utils"
 import { ViewModule } from "~/modules/view.module"
 import { ScrollArea } from "~/components/ui/scroll-area"
-import { ArrowUpToLine, ChevronRight } from "lucide-react"
+import {
+  ArrowUpToLine,
+  ChevronRight,
+  PanelLeftClose,
+  PanelLeftOpen,
+} from "lucide-react"
 import { Button } from "~/components/ui/button"
 import { Separator } from "~/components/ui/separator"
 import type { RefObject } from "react"
@@ -12,7 +17,7 @@ import {
   useRef,
   useState,
 } from "react"
-import { Sections, SectionType } from "~/lib/sections-info"
+import { ProjectsGroup, projectsGroupsInfo } from "~/lib/projects-info"
 import { journeyInfo, JourneySection } from "~/lib/journey-info"
 import { TechStackCategory, techStackInfo } from "~/lib/tech-stack"
 import { DynamicIcon } from "lucide-react/dynamic"
@@ -26,31 +31,30 @@ type NavigationProps = {
 
 export function Navigation({ mainContainerRef }: NavigationProps) {
   const { view, setView } = ViewModule.useView()
+  const enableNavigation = view !== ViewModule.View.Intro
 
   const navigationContainerRef = useRef<HTMLDivElement>(null)
 
-  /** Percentage - [0, 100] */
+  const [showSidebar, setShowSidebar] = useState(false)
   const [viewportNavigationFrom, setViewportNavigationFrom] = useState(0)
   const [viewportNavigationTo, setViewportNavigationTo] = useState(0)
-
-  const showNavigation = view !== ViewModule.View.Intro
 
   useEffect(() => {
     const container = mainContainerRef.current
     const navigationContainer = navigationContainerRef.current
 
-    if (!container || !navigationContainer || !showNavigation) {
+    if (!container || !navigationContainer || !enableNavigation) {
       return
     }
 
-    const navigationRect = navigationContainer.getBoundingClientRect()
+    let navigationRect = navigationContainer.getBoundingClientRect()
 
     let from = 0,
       to = 0,
       targetFrom = 0,
       targetTo = 0
     const accuracy = (1 / navigationRect.height) * 0.5,
-      updateSpeed = 5
+      updateSpeed = 10
 
     const startAnchors = navigationContainer.querySelectorAll(
       ":scope > * > button:first-child > *:first-child",
@@ -63,21 +67,26 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
       throw new Error("Number of start and end anchors do not match")
     }
 
-    //TODO: recalculate after certain detail (when all entry animations are done)
-    const viewSegments: Array<{ from: number; to: number }> = Array.from(
-      startAnchors,
-    ).map((startAnchor, index) => {
-      const startY = getVerticalCenter(startAnchor)
-      const endY = getVerticalCenter(endAnchors[index]!)
+    const lastElement = Array.from(endAnchors).at(-1)
 
-      const from = (startY - navigationRect.top) / navigationRect.height
-      const to = (endY - navigationRect.top) / navigationRect.height
+    const buildSegmentsBounds = () => {
+      navigationRect = navigationContainer.getBoundingClientRect()
 
-      return {
-        from,
-        to,
-      }
-    })
+      return Array.from(startAnchors).map((startAnchor, index) => {
+        const startY = getVerticalCenter(startAnchor)
+        const endY = getVerticalCenter(endAnchors[index]!)
+
+        const from = (startY - navigationRect.top) / navigationRect.height
+        const to = (endY - navigationRect.top) / navigationRect.height
+
+        return {
+          from,
+          to,
+        }
+      })
+    }
+
+    let viewSegments = buildSegmentsBounds()
 
     const alignToSegments = (value: number) => {
       const segmentIndex = clamp(
@@ -134,78 +143,112 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
     }
     update(0)
 
+    const onAnimationEnd = () => {
+      viewSegments = buildSegmentsBounds()
+      handleContainerScroll()
+    }
+
     container.addEventListener("scroll", handleContainerScroll)
+    lastElement?.addEventListener("animationend", onAnimationEnd)
 
     return () => {
       container.removeEventListener("scroll", handleContainerScroll)
+      lastElement?.removeEventListener("animationend", onAnimationEnd)
     }
-  }, [mainContainerRef, showNavigation])
+  }, [mainContainerRef, enableNavigation])
 
   //TODO: hide over the left side of the screen on smaller screens (detached mode)
 
   return (
-    <ScrollArea
-      className={cn(
-        "h-dvh sticky! top-0 w-full",
-        // "backdrop-blur-md border-r border-foreground/10", //TODO: different styles for detached sidebar
-      )}
-    >
-      <aside
-        data-current={showNavigation}
-        className="flex flex-col items-center justify-start *:data-[slot=separator]:bg-foreground/20 p-4 gap-y-4 text-muted-foreground"
+    <>
+      <ScrollArea
+        className={cn(
+          "fixed! left-0 h-dvh xl:sticky! inset-0 w-fit xl:w-full z-10",
+          "max-xl:backdrop-blur-md max-xl:bg-foreground/5 max-xl:border-r max-xl:border-foreground/10 max-xl:shadow-lg transition-transform",
+          (!enableNavigation || !showSidebar) && "max-xl:-translate-x-full",
+        )}
       >
-        <NavButton
-          className="navigation-transition -my-2 py-4"
-          onClick={() => setView(ViewModule.View.Intro)}
+        <aside
+          data-current={enableNavigation}
+          className="flex flex-col items-center justify-start *:data-[slot=separator]:bg-foreground/20 p-4 gap-y-4 text-muted-foreground"
         >
-          <ArrowUpToLine />
-          Back to top
-        </NavButton>
-        <Separator className="navigation-transition fade-in-100 delay-900 mask-linear-[to_right,black,#000a,transparent] -mx-4 w-[calc(100%_+_var(--spacing)*8)]!" />
-        <div className="w-full flex flex-row items-stretch gap-x-2">
-          <div className="flex flex-col items-center justify-center text-center h-auto navigation-transition zoom-in-60 zoom-out-60 delay-800 relative text-[color-mix(in_oklab,_var(--color-primary),_var(--color-secondary)_80%)]">
-            <div
-              className="block absolute inset-0 inset-x-auto w-px"
-              style={{
-                // maskImage: `linear-gradient(to bottom, transparent, black ${viewportNavigationFrom}%, black ${viewportNavigationTo}%, transparent)`,
-                //center: oklch(var(--primary) / 0.75) ${(viewportNavigationFrom + viewportNavigationTo) / 2}%,
-                backgroundImage: `linear-gradient(to bottom, 
+          <div className="flex flex-row items-center justify-between w-full gap-x-2">
+            <NavButton
+              className="navigation-transition -my-2 py-4 max-xl:w-auto! w-auto grow"
+              onClick={() => setView(ViewModule.View.Intro)}
+            >
+              <ArrowUpToLine />
+              Back to start
+            </NavButton>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowSidebar(false)}
+              className="xl:hidden hover:backdrop-blur-sm hover:bg-foreground/10 hover:text-foreground"
+            >
+              <PanelLeftClose />
+            </Button>
+          </div>
+          <Separator className="navigation-transition fade-in-100 delay-900 mask-linear-[to_right,black,#000a,transparent] -mx-4 w-[calc(100%_+_var(--spacing)*8)]!" />
+          <div className="w-full flex flex-row items-stretch gap-x-4 -ml-2">
+            <div className="flex flex-col items-center justify-center text-center h-auto navigation-transition fade-in fade-out delay-1500 relative text-[color-mix(in_oklab,_var(--color-primary),_var(--color-secondary)_80%)]">
+              <div
+                className="block absolute inset-0 inset-x-auto w-px"
+                style={{
+                  // maskImage: `linear-gradient(to bottom, transparent, black ${viewportNavigationFrom}%, black ${viewportNavigationTo}%, transparent)`,
+                  //center: oklch(var(--primary) / 0.75) ${(viewportNavigationFrom + viewportNavigationTo) / 2}%,
+                  backgroundImage: `linear-gradient(to bottom, 
                   transparent,
                     currentColor ${(3 * viewportNavigationFrom - viewportNavigationTo) / 2}%,
                       var(--color-muted-foreground) ${viewportNavigationFrom}%,
                       var(--color-muted-foreground) ${viewportNavigationTo}%,
                     currentColor ${(3 * viewportNavigationTo - viewportNavigationFrom) / 2}%,
                   transparent)`,
-              }}
-            />
-            {/*transition-[top] ease-in-out duration-400*/}
-            <span
-              className="inline absolute top-0 inset-x-0 size-2 rounded-full bg-muted-foreground -translate-1/2"
-              style={{
-                top: `${viewportNavigationFrom}%`,
-              }}
-            />
-            <span
-              className="inline absolute top-0 inset-x-0 size-2 rounded-full bg-muted-foreground -translate-1/2"
-              style={{
-                top: `${viewportNavigationTo}%`,
-              }}
-            />
+                }}
+              />
+              {/*transition-[top] ease-in-out duration-400*/}
+              <span
+                className="inline absolute top-0 inset-x-0 size-2 rounded-full bg-muted-foreground -translate-1/2"
+                style={{
+                  top: `${viewportNavigationFrom}%`,
+                }}
+              />
+              <span
+                className="inline absolute top-0 inset-x-0 size-2 rounded-full bg-muted-foreground -translate-1/2"
+                style={{
+                  top: `${viewportNavigationTo}%`,
+                }}
+              />
+            </div>
+            <div
+              ref={navigationContainerRef}
+              className="grow flex flex-col items-stretch text-left"
+            >
+              {ViewModule.ViewsArray.map(
+                (view) =>
+                  view !== ViewModule.View.Intro && (
+                    <ViewNavigation key={view} view={view} />
+                  ),
+              )}
+            </div>
           </div>
-          <div
-            ref={navigationContainerRef}
-            className="grow flex flex-col items-stretch text-left"
-          >
-            {ViewModule.ViewsArray.map(
-              (view) =>
-                view !== ViewModule.View.Intro && (
-                  <ViewNavigation key={view} view={view} />
-                ),
-            )}
-          </div>
-        </div>
-      </aside>
-    </ScrollArea>
+        </aside>
+      </ScrollArea>
+      {enableNavigation && (
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setShowSidebar(true)}
+          className={cn(
+            "xl:hidden fixed top-4 left-4 z-90 text-muted-foreground transition-[translate,color,opacity] delay-400 hover:backdrop-blur-sm hover:bg-foreground/10 hover:text-foreground",
+            showSidebar &&
+              "opacity-0 -translate-x-13 pointer-events-none delay-0",
+          )}
+        >
+          <PanelLeftOpen />
+        </Button>
+      )}
+    </>
   )
 }
 
@@ -247,15 +290,17 @@ type SubNavigationProps = {
 }
 
 function SubNavigation({ view, delayOffset }: SubNavigationProps) {
+  const { setView } = ViewModule.useView()
+
   const data = useMemo(() => {
     switch (view) {
       case ViewModule.View.Intro:
         throw new Error("Intro view has no sub navigation")
       case ViewModule.View.PublicProjects:
-        return Object.values(SectionType).map((section) => ({
+        return Object.values(ProjectsGroup).map((section) => ({
           key: section,
-          title: Sections[section].title,
-          icon: Sections[section].icon,
+          title: projectsGroupsInfo[section].title,
+          icon: projectsGroupsInfo[section].icon,
         }))
       case ViewModule.View.MyJourney:
         return Object.values(JourneySection).map((section) => ({
@@ -278,11 +323,11 @@ function SubNavigation({ view, delayOffset }: SubNavigationProps) {
         <NavButton
           key={key}
           size="sm"
-          //slide-in-from-bottom-16 - this messes with initial measurements for navigation indicator positioning
-          className="navigation-transition p-2 rounded-full"
+          className="navigation-transition slide-in-from-bottom-16 p-2 rounded-full"
           style={{
             animationDelay: `${delayOffset + index * delayStep}ms`,
           }}
+          onClick={() => setView(view)}
         >
           {typeof icon === "string" ? (
             <DynamicIcon name={icon} />

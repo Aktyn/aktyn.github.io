@@ -7,6 +7,7 @@ import { cn } from "~/lib/utils"
 import { ChevronDown } from "lucide-react"
 import { ScrollArea } from "~/components/ui/scroll-area"
 import { Navigation } from "./components/navigation"
+import { Projects } from "~/components/views/projects"
 
 export function App() {
   const firstEffectRef = useRef(true)
@@ -44,6 +45,26 @@ export function App() {
   }
 
   useEffect(() => {
+    const handleHashChange = (event: HashChangeEvent) => {
+      const hash = new URL(event.newURL).hash
+
+      const viewFromHash =
+        ((hash.replace(/^#(.*)/, "$1") ??
+          "") as keyof typeof ViewModule.viewData) || ViewModule.View.Intro
+
+      if (ViewModule.ViewsArray.includes(viewFromHash)) {
+        setView(viewFromHash)
+      }
+    }
+
+    window.addEventListener("hashchange", handleHashChange)
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange)
+    }
+  }, [])
+
+  useEffect(() => {
     const firstEffect = firstEffectRef.current
     firstEffectRef.current = false
 
@@ -55,7 +76,7 @@ export function App() {
       window.location.hash = `#${view}`
     } else {
       const noHashURL = window.location.href.replace(/#.*$/, "")
-      window.history.replaceState("", document.title, noHashURL)
+      window.history.pushState("", document.title, noHashURL)
     }
 
     const closestView = getClosestView(containerRef.current)
@@ -83,11 +104,11 @@ export function App() {
         <ViewContainer view={ViewModule.View.Intro}>
           <Intro />
         </ViewContainer>
-        <div className="grid grid-cols-[calc(var(--spacing)*64)_auto_calc(var(--spacing)*64)] gap-2">
+        <div className="grid grid-cols-1 xl:grid-cols-[calc(var(--spacing)*64)_auto] 2xl:grid-cols-[calc(var(--spacing)*64)_auto_calc(var(--spacing)*64)] gap-2">
           <Navigation mainContainerRef={containerRef} />
           <div className="flex flex-col">
             <ViewContainer view={ViewModule.View.PublicProjects}>
-              <span>todo - non commercial projects</span>
+              <Projects />
             </ViewContainer>
             <ViewContainer view={ViewModule.View.MyJourney}>
               <span>
@@ -166,7 +187,7 @@ function ViewContainer({
         {...divProps}
         data-current={current}
         className={cn(
-          "size-full max-w-full overflow-hidden flex flex-col items-center justify-center",
+          "size-full max-w-full *:max-w-7xl overflow-hidden flex flex-col items-center justify-center",
           className,
         )}
       >

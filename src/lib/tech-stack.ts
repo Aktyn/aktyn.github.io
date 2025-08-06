@@ -1,14 +1,16 @@
 import reactThumbnail from "~/img/quick-access-thumbnails/react.webp"
 import nodejsThumbnail from "~/img/quick-access-thumbnails/nodejs.webp"
-import postgresThumbnail from "~/img/quick-access-thumbnails/postgres.webp"
 import jiraThumbnail from "~/img/quick-access-thumbnails/jira.webp"
 import type { ComponentProps } from "react"
 import type { DynamicIcon } from "lucide-react/dynamic"
 
+//TODO: remove file
+// import postgresThumbnail from "~/img/quick-access-thumbnails/postgres.webp"
+
 export enum TechStackCategory {
   Frontend = "frontend",
   Backend = "backend",
-  Database = "database",
+  // Database = "database",
   KnownTools = "known-tools",
   // Other = "other" //TODO: consider using this category
 }
@@ -24,11 +26,11 @@ export const techStackInfo = {
     thumbnail: nodejsThumbnail,
     icon: "server-cog",
   },
-  [TechStackCategory.Database]: {
-    title: "Databases",
-    thumbnail: postgresThumbnail,
-    icon: "database",
-  },
+  // [TechStackCategory.Database]: {
+  //   title: "Databases",
+  //   thumbnail: postgresThumbnail,
+  //   icon: "database",
+  // },
   [TechStackCategory.KnownTools]: {
     title: "Known tools",
     thumbnail: jiraThumbnail,

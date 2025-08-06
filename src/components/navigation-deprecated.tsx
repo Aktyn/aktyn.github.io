@@ -1,7 +1,7 @@
 import { Forward } from "lucide-react"
 import { DynamicIcon } from "lucide-react/dynamic"
 import { Fragment, type RefObject } from "react"
-import { Sections, SectionType } from "~/lib/sections-info"
+import { projectsGroupsInfo, ProjectsGroup } from "~/lib/sections-info"
 import { cn } from "~/lib/utils"
 import { IconFromPath } from "./common/icon-from-path"
 import { SlashSeparator } from "./common/slash-separator"
@@ -12,7 +12,7 @@ import "./navigation.css"
 type NavigationProps = {
   ref: RefObject<HTMLDivElement | null>
   headerMode: boolean
-  onSectionLinkClick: (section: SectionType) => void
+  onSectionLinkClick: (section: ProjectsGroup) => void
   sectionVisibilityFactors: ReturnType<typeof buildSectionVisibilityFactors>
   className?: string
 }
@@ -36,7 +36,7 @@ export function NavigationDeprecated({
     >
       <ScrollArea className="h-full **:data-[radix-scroll-area-viewport]:*:h-full **:data-[radix-scroll-area-viewport]:*:grid!">
         <div className="inline-grid grid-cols-[repeat(3,1fr_auto)_1fr] max-lg:min-xs:grid-cols-[1fr_auto_1fr] max-lg:min-xs:*:[svg]:nth-[4n]:hidden justify-center items-center text-center xs:*:not-[svg]:flex-1 whitespace-nowrap gap-x-2 gap-y-6 h-full overflow-y-hidden rounded-full px-8 max-lg:min-xs:pb-3">
-          {Object.values(SectionType).map((section, index) => (
+          {Object.values(ProjectsGroup).map((section, index) => (
             <Fragment key={section}>
               {index > 0 && <SlashSeparator straight={headerMode} />}
               <SectionLink
@@ -54,7 +54,7 @@ export function NavigationDeprecated({
 }
 
 type SectionLinkProps = {
-  section: SectionType
+  section: ProjectsGroup
   sectionVisibilityFactor: number
   headerMode: boolean
   onClick: () => void
@@ -79,15 +79,15 @@ function SectionLink({
       <div
         className={cn(
           "absolute inset-0 m-auto -mb-3 bg-white rounded-xs h-4 max-lg:h-1 pointer-events-none",
-          section === SectionType.WebDevelopment &&
+          section === ProjectsGroup.WebDevelopment &&
             "drop-shadow-[0_0_calc(var(--spacing)*7)_oklch(var(--blue-400))]",
-          section === SectionType.GameDevelopment &&
+          section === ProjectsGroup.GameDevelopment &&
             headerMode &&
             "drop-shadow-[0_0_calc(var(--spacing)*7)_oklch(var(--red-400))]",
-          section === SectionType.ComputerGraphics &&
+          section === ProjectsGroup.ComputerGraphics &&
             headerMode &&
             "drop-shadow-[0_0_calc(var(--spacing)*7)_oklch(var(--green-400))]",
-          section === SectionType.RaspberryPi &&
+          section === ProjectsGroup.RaspberryPi &&
             headerMode &&
             "drop-shadow-[0_0_calc(var(--spacing)*7)_oklch(var(--yellow-400))]",
         )}
@@ -98,19 +98,21 @@ function SectionLink({
         }}
       />
       <span className="z-1 drop-shadow-[0_0_2px_#0008] flex flex-row items-center gap-x-2">
-        {typeof Sections[section].icon === "string" ? (
+        {typeof projectsGroupsInfo[section].icon === "string" ? (
           <DynamicIcon
-            name={Sections[section].icon}
+            name={projectsGroupsInfo[section].icon}
             className="size-5 inline"
           />
         ) : (
           <IconFromPath
-            d={Sections[section].icon.svgPath}
+            d={projectsGroupsInfo[section].icon.svgPath}
             viewBox="0 0 50 50"
             className="size-5 inline"
           />
         )}
-        <span className="max-xs:hidden">{Sections[section].title}</span>
+        <span className="max-xs:hidden">
+          {projectsGroupsInfo[section].title}
+        </span>
       </span>
       <div className="max-xs:hidden z-2 flex flex-row items-start gap-x-2 font-light text-sm h-0 translate-y-2 opacity-0 text-primary">
         <Forward className="size-5" />
@@ -121,11 +123,11 @@ function SectionLink({
 }
 
 export function buildSectionVisibilityFactors(factors?: number[]) {
-  return Object.values(SectionType).reduce(
+  return Object.values(ProjectsGroup).reduce(
     (acc, section, index) => {
       acc[section] = factors?.[index] ?? 0
       return acc
     },
-    {} as { [key in SectionType]: number },
+    {} as { [key in ProjectsGroup]: number },
   )
 }
