@@ -22,6 +22,11 @@ import { journeyInfo, JourneySection } from "~/lib/journey-info"
 import { TechStackCategory, techStackInfo } from "~/lib/tech-stack"
 import { DynamicIcon } from "lucide-react/dynamic"
 import { IconFromPath } from "~/components/common/icon-from-path"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "~/components/ui/tooltip"
 
 const delayStep = 50
 
@@ -38,6 +43,12 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
   const [showSidebar, setShowSidebar] = useState(false)
   const [viewportNavigationFrom, setViewportNavigationFrom] = useState(0)
   const [viewportNavigationTo, setViewportNavigationTo] = useState(0)
+
+  useEffect(() => {
+    if (!enableNavigation) {
+      setShowSidebar(false)
+    }
+  }, [enableNavigation])
 
   useEffect(() => {
     const container = mainContainerRef.current
@@ -157,15 +168,14 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
     }
   }, [mainContainerRef, enableNavigation])
 
-  //TODO: hide over the left side of the screen on smaller screens (detached mode)
-
   return (
     <>
       <ScrollArea
         className={cn(
           "fixed! left-0 h-dvh xl:sticky! inset-0 w-fit xl:w-full z-10",
-          "max-xl:backdrop-blur-md max-xl:bg-foreground/5 max-xl:border-r max-xl:border-foreground/10 max-xl:shadow-lg transition-transform",
-          (!enableNavigation || !showSidebar) && "max-xl:-translate-x-full",
+          "max-xl:backdrop-blur-lg max-xl:bg-foreground/5 max-xl:border-r max-xl:border-foreground/10 max-xl:shadow-lg transition-[translate] ease-out duration-400",
+          (!enableNavigation || !showSidebar) &&
+            "max-xl:-translate-x-full ease-in",
         )}
       >
         <aside
@@ -180,14 +190,19 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
               <ArrowUpToLine />
               Back to start
             </NavButton>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setShowSidebar(false)}
-              className="xl:hidden hover:backdrop-blur-sm hover:bg-foreground/10 hover:text-foreground"
-            >
-              <PanelLeftClose />
-            </Button>
+            <Tooltip disableHoverableContent>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setShowSidebar(false)}
+                  className="xl:hidden hover:backdrop-blur-sm hover:bg-foreground/10 hover:text-foreground cursor-pointer"
+                >
+                  <PanelLeftClose />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Close sidebar navigation</TooltipContent>
+            </Tooltip>
           </div>
           <Separator className="navigation-transition fade-in-100 delay-900 mask-linear-[to_right,black,#000a,transparent] -mx-4 w-[calc(100%_+_var(--spacing)*8)]!" />
           <div className="w-full flex flex-row items-stretch gap-x-4 -ml-2">
@@ -234,20 +249,37 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
           </div>
         </aside>
       </ScrollArea>
-      {enableNavigation && (
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setShowSidebar(true)}
-          className={cn(
-            "xl:hidden fixed top-4 left-4 z-90 text-muted-foreground transition-[translate,color,opacity] delay-400 hover:backdrop-blur-sm hover:bg-foreground/10 hover:text-foreground",
-            showSidebar &&
-              "opacity-0 -translate-x-13 pointer-events-none delay-0",
-          )}
-        >
-          <PanelLeftOpen />
-        </Button>
-      )}
+      <Tooltip disableHoverableContent>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setShowSidebar(true)}
+            className={cn(
+              "xl:hidden fixed top-4 left-4 z-90 text-muted-foreground transition-[translate,color,opacity] hover:backdrop-blur-sm hover:bg-foreground/10 hover:text-foreground cursor-pointer",
+              (showSidebar || !enableNavigation) &&
+                "text-primary opacity-0 -translate-x-13 pointer-events-none",
+            )}
+          >
+            <PanelLeftOpen />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>Open sidebar navigation</TooltipContent>
+      </Tooltip>
+      <Tooltip disableHoverableContent>
+        <TooltipTrigger asChild>
+          <div
+            className={cn(
+              "xl:hidden fixed inset-y-0 left-0 z-80 w-0.5 bg-transparent transition-[background-color,box_shadow,opacity]",
+              enableNavigation && !showSidebar
+                ? "hover:bg-primary shadow-none hover:shadow-[calc(var(--spacing)*0.5)_0_calc(var(--spacing)*4)_var(--color-foreground),calc(var(--spacing)*0.5)_0_calc(var(--spacing)*2)_var(--color-primary)]"
+                : "opacity-0 pointer-events-none",
+            )}
+            onClick={() => setShowSidebar(true)}
+          />
+        </TooltipTrigger>
+        <TooltipContent>Open sidebar navigation</TooltipContent>
+      </Tooltip>
     </>
   )
 }
