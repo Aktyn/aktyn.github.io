@@ -4,7 +4,7 @@ import { createPortal } from "react-dom"
 type RootPortalProps = PropsWithChildren
 
 export function RootPortal({ children }: RootPortalProps) {
-  const root = document.getElementById("root")
+  const root = document.getElementById("root") || document.body
 
   if (!root) {
     return children

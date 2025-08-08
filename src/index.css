@@ -113,6 +113,10 @@
   [data-slot="scroll-area-thumb"] {
     @apply transition-colors hover:bg-primary/50! active:bg-primary!;
   }
+
+  [data-slot="skeleton"] {
+    @apply bg-[color-mix(in_oklch,var(--color-muted-foreground)_50%,_var(--color-background))]!;
+  }
 }
 
 @utility fixed-stroke {

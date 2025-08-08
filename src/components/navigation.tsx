@@ -256,7 +256,7 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
             size="icon"
             onClick={() => setShowSidebar(true)}
             className={cn(
-              "xl:hidden fixed top-4 left-4 z-90 text-muted-foreground transition-[translate,color,opacity] hover:backdrop-blur-sm hover:bg-foreground/10 hover:text-foreground cursor-pointer",
+              "xl:hidden fixed top-1 left-1 z-90 text-muted-foreground transition-[translate,color,opacity] hover:backdrop-blur-sm hover:bg-foreground/10 hover:text-foreground cursor-pointer",
               (showSidebar || !enableNavigation) &&
                 "text-primary opacity-0 -translate-x-13 pointer-events-none",
             )}

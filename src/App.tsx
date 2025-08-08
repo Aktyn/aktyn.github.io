@@ -112,14 +112,18 @@ export function App() {
             </ViewContainer>
             <ViewContainer view={ViewModule.View.MyJourney}>
               <span>
-                todo - my journey (write about 3d graphics aspirations, school
-                and university, work experience, etc.)
+                My journey, 3d graphics aspirations, school, university and work
+                experience
+                <br />
+                Coming soon...
               </span>
             </ViewContainer>
             <ViewContainer view={ViewModule.View.TechStack}>
               <span>
-                todo - tech stack; divided into the following groups: groups:
-                web development, backend development, databases, known tools
+                Tech stack divided into web development, backend development,
+                databases and known tools
+                <br />
+                Coming soon...
               </span>
             </ViewContainer>
           </div>
@@ -181,7 +185,7 @@ function ViewContainer({
     // **:data-[slot=scroll-area-viewport]:mask-t-from-[calc(100%-var(--spacing)*10)] **:data-[slot=scroll-area-viewport]:mask-b-from-[calc(100%-var(--spacing)*10)]
     <ScrollArea
       id={`view-${view}`}
-      className="snap-start size-full min-h-dvh overflow-hidden **:data-[slot=scroll-area-viewport]:*:min-h-full **:data-[slot=scroll-area-viewport]:*:max-w-full **:data-[slot=scroll-area-viewport]:*:grid!"
+      className="snap-start size-full h-dvh overflow-hidden **:data-[slot=scroll-area-viewport]:*:min-h-full **:data-[slot=scroll-area-viewport]:*:max-w-full **:data-[slot=scroll-area-viewport]:*:grid!"
     >
       <div
         {...divProps}
