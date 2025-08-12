@@ -29,6 +29,28 @@ export function MaximizedGallery({
   const [entryAnimation, setEntryAnimation] = useState(true)
   const [slidingDirection, setSlidingDirection] = useState(0)
 
+  const handleNavigate = (dir: 1 | -1) => {
+    const target = clamp(index + dir, 0, images.length - 1)
+    if (target === index) {
+      return
+    }
+
+    onIndexChange(target)
+
+    setSlidingDirection(dir)
+
+    if (slidingTimeoutRef.current) {
+      clearTimeout(slidingTimeoutRef.current)
+
+      slidingTimeoutRef.current = setTimeout(() => {
+        setSlidingDirection(0)
+        slidingTimeoutRef.current = null
+      }, 400)
+    }
+  }
+
+  const navigateWithRefs = useStateToRef(handleNavigate)
+
   const onCloseRef = useStateToRef(onClose)
   useEffect(() => {
     if (open) {
@@ -38,6 +60,18 @@ export function MaximizedGallery({
       const handleKeyDown = (event: globalThis.KeyboardEvent) => {
         if (event.key === "Escape") {
           onCloseRef.current()
+          return
+        }
+
+        if (event.key === "ArrowLeft") {
+          event.preventDefault()
+          navigateWithRefs.current(-1)
+          return
+        }
+
+        if (event.key === "ArrowRight") {
+          event.preventDefault()
+          navigateWithRefs.current(1)
         }
       }
 
@@ -62,7 +96,7 @@ export function MaximizedGallery({
     }, 600)
 
     return () => clearTimeout(timeout)
-  }, [onCloseRef, open])
+  }, [navigateWithRefs, onCloseRef, open])
 
   if (!mounted) {
     return null
@@ -90,26 +124,6 @@ export function MaximizedGallery({
     }, 16)
   }
 
-  const handleNavigate = (dir: 1 | -1) => {
-    const target = clamp(index + dir, 0, images.length - 1)
-    if (target === index) {
-      return
-    }
-
-    onIndexChange(target)
-
-    setSlidingDirection(dir)
-
-    if (slidingTimeoutRef.current) {
-      clearTimeout(slidingTimeoutRef.current)
-
-      slidingTimeoutRef.current = setTimeout(() => {
-        setSlidingDirection(0)
-        slidingTimeoutRef.current = null
-      }, 400)
-    }
-  }
-
   return (
     <div className={cn("fixed inset-0 z-90", !open && "pointer-events-none")}>
       <div className="size-full relative *:absolute flex flex-col items-center justify-center">
@@ -123,13 +137,13 @@ export function MaximizedGallery({
           <Fragment key={img}>
             <div
               className={cn(
-                "inset-0 flex items-center justify-center overflow-hidden z-10 duration-400 fill-mode-both",
+                "inset-0 overflow-hidden z-10 duration-400 fill-mode-both",
                 open ? "animate-in fade-in delay-300" : "animate-out fade-out",
               )}
             >
               <div
                 className={cn(
-                  "size-full ease-in-out duration-500 select-none transition-transform",
+                  "size-full flex items-center justify-center ease-in-out duration-500 select-none transition-transform",
                 )}
                 style={{
                   transform: `translate(${(imgIndex - index) * 100}%, 0)`,
@@ -161,7 +175,7 @@ export function MaximizedGallery({
                   alt="maximized-image"
                   src={img}
                   className={cn(
-                    "max-h-full fill-mode-both duration-400 not-data-[state=positioned]:transition-[transform,opacity]",
+                    "max-h-full max-w-full h-auto object-contain fill-mode-both duration-400 not-data-[state=positioned]:transition-[transform,opacity]",
                     entryAnimation
                       ? "starting:opacity-0"
                       : "starting:opacity-100",

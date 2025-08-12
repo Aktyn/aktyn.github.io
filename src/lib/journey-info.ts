@@ -37,7 +37,8 @@ export const journeyInfo = {
   },
 } as const satisfies {
   [key in JourneySection]: {
-    [_: string]: unknown
+    title: string
+    thumbnail: string
     icon: ComponentProps<typeof DynamicIcon>["name"] | { svgPath: string }
   }
 }
