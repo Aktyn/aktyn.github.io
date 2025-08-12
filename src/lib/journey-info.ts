@@ -5,7 +5,7 @@ import type { ComponentProps } from "react"
 import type { DynamicIcon } from "lucide-react/dynamic"
 
 //TODO: remove file
-import graphicsAspirationsThumbnail from "~/img/quick-access-thumbnails/graphics-aspirations.webp"
+// import graphicsAspirationsThumbnail from "~/img/quick-access-thumbnails/graphics-aspirations.webp"
 
 export enum JourneySection {
   // GraphicsAspirations = "graphics-aspirations",

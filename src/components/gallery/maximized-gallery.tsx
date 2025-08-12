@@ -1,7 +1,7 @@
 import { Button } from "~/components/ui/button"
 import { X } from "lucide-react"
-import { useEffect, useState } from "react"
-import { cn } from "~/lib/utils"
+import { Fragment, useEffect, useRef, useState } from "react"
+import { clamp, cn } from "~/lib/utils"
 import { GalleryPagination } from "~/components/gallery/gallery-pagination"
 import { DynamicIcon } from "lucide-react/dynamic"
 import { useStateToRef } from "~/hooks/useStateToRef"
@@ -23,12 +23,17 @@ export function MaximizedGallery({
   index,
   onIndexChange,
 }: MaximizedGalleryProps) {
+  const slidingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
   const [mounted, setMounted] = useState(false)
+  const [entryAnimation, setEntryAnimation] = useState(true)
+  const [slidingDirection, setSlidingDirection] = useState(0)
 
   const onCloseRef = useStateToRef(onClose)
   useEffect(() => {
     if (open) {
       setMounted(true)
+      // setPendingIndex(null)
 
       const handleKeyDown = (event: globalThis.KeyboardEvent) => {
         if (event.key === "Escape") {
@@ -36,14 +41,25 @@ export function MaximizedGallery({
         }
       }
 
-      document.addEventListener("keydown", handleKeyDown)
+      setEntryAnimation(true)
 
-      return () => document.removeEventListener("keydown", handleKeyDown)
+      const timeout = setTimeout(() => {
+        setEntryAnimation(false)
+      }, 800)
+
+      document.addEventListener("keydown", handleKeyDown)
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown)
+        clearTimeout(timeout)
+      }
+    } else {
+      // setEntryAnimation(true)
+      setSlidingDirection(0)
     }
 
     const timeout = setTimeout(() => {
       setMounted(false)
-    }, 1000)
+    }, 600)
 
     return () => clearTimeout(timeout)
   }, [onCloseRef, open])
@@ -74,73 +90,129 @@ export function MaximizedGallery({
     }, 16)
   }
 
+  const handleNavigate = (dir: 1 | -1) => {
+    const target = clamp(index + dir, 0, images.length - 1)
+    if (target === index) {
+      return
+    }
+
+    onIndexChange(target)
+
+    setSlidingDirection(dir)
+
+    if (slidingTimeoutRef.current) {
+      clearTimeout(slidingTimeoutRef.current)
+
+      slidingTimeoutRef.current = setTimeout(() => {
+        setSlidingDirection(0)
+        slidingTimeoutRef.current = null
+      }, 400)
+    }
+  }
+
   return (
     <div className={cn("fixed inset-0 z-90", !open && "pointer-events-none")}>
       <div className="size-full relative *:absolute flex flex-col items-center justify-center">
         <div
           className={cn(
-            "bg-background inset-0 transition-opacity ease-in-out duration-600 starting:opacity-0",
+            "bg-background inset-0 transition-opacity ease-in-out duration-400 starting:opacity-0",
             open ? "opacity-100" : "opacity-0",
           )}
         />
-        <div className="inset-0 flex items-center justify-center overflow-hidden">
-          <img
-            alt="maximized-image"
-            src={images[index]}
-            className={cn(
-              "blur-3xl fill-mode-both duration-600 scale-110",
-              open ? "animate-in fade-in delay-300" : "animate-out fade-out",
-            )}
-          />
-        </div>
-        <div className="inset-0 flex items-center justify-center overflow-hidden">
-          <img
-            ref={onImageRef}
-            alt="maximized-image"
-            src={images[index]}
-            className={cn(
-              "max-h-full fill-mode-both duration-400 starting:opacity-0 not-data-[state=positioned]:transition-[transform,opacity]",
-              sourceBounds && open
-                ? "transition-none"
-                : "transition-opacity opacity-0",
-              open && "opacity-100",
-            )}
-          />
-        </div>
+        {images.map((img, imgIndex) => (
+          <Fragment key={img}>
+            <div
+              className={cn(
+                "inset-0 flex items-center justify-center overflow-hidden z-10 duration-400 fill-mode-both",
+                open ? "animate-in fade-in delay-300" : "animate-out fade-out",
+              )}
+            >
+              <div
+                className={cn(
+                  "size-full ease-in-out duration-500 select-none transition-transform",
+                )}
+                style={{
+                  transform: `translate(${(imgIndex - index) * 100}%, 0)`,
+                }}
+              >
+                {(index === imgIndex ||
+                  index === imgIndex + slidingDirection) && (
+                  <img
+                    ref={onImageRef}
+                    alt="maximized-image-blur"
+                    src={img}
+                    className="absolute blur-3xl scale-110"
+                  />
+                )}
+              </div>
+            </div>
+            <div
+              className={cn(
+                "inset-0 flex items-center justify-center overflow-hidden transition-transform ease-in-out duration-500 select-none z-20",
+              )}
+              style={{
+                transform: `translate(${(imgIndex - index) * 100}%, 0)`,
+              }}
+            >
+              {(index === imgIndex ||
+                index === imgIndex + slidingDirection) && (
+                <img
+                  ref={entryAnimation ? onImageRef : undefined}
+                  alt="maximized-image"
+                  src={img}
+                  className={cn(
+                    "max-h-full fill-mode-both duration-400 not-data-[state=positioned]:transition-[transform,opacity]",
+                    entryAnimation
+                      ? "starting:opacity-0"
+                      : "starting:opacity-100",
+                    sourceBounds && open
+                      ? "transition-none"
+                      : "transition-opacity opacity-0",
+                    open && "opacity-100",
+                  )}
+                />
+              )}
+            </div>
+          </Fragment>
+        ))}
         {images.length > 1 && (
           <GalleryPagination
             count={images.length}
             index={index}
             className={cn(
-              "bottom-2 fill-mode-both duration-600",
+              "bottom-2 fill-mode-both duration-600 z-30",
               open
                 ? "animate-in fade-in slide-in-from-bottom"
                 : "animate-out fade-out slide-out-to-bottom",
             )}
           />
         )}
-        {arrows.map((arrow, arrowIndex) => (
-          <Button
-            key={arrowIndex}
-            variant="outline"
-            size="icon"
-            className={cn(
-              "fill-mode-both duration-600 inset-y-auto fade-in fade-out bg-background/50",
-              arrow.className,
-              open && (arrowIndex === 0 ? index > 0 : index < images.length - 1)
-                ? "animate-in"
-                : "animate-out pointer-events-none",
-            )}
-            onClick={() => onIndexChange(index + arrow.direction)}
-          >
-            <DynamicIcon name={arrow.icon} />
-          </Button>
-        ))}
+        {arrows.map((arrow, arrowIndex) => {
+          const allowed =
+            arrowIndex === 0 ? index > 0 : index < images.length - 1
+          return (
+            <Button
+              key={arrowIndex}
+              variant="outline"
+              size="icon"
+              className={cn(
+                "fill-mode-both duration-600 inset-y-auto fade-in fade-out bg-background/50 z-30",
+                arrow.className,
+                open && allowed
+                  ? "animate-in"
+                  : "animate-out pointer-events-none",
+              )}
+              onClick={() => handleNavigate(arrow.direction)}
+            >
+              <DynamicIcon name={arrow.icon} />
+            </Button>
+          )
+        })}
         <Button
           variant="outline"
           size="icon"
           className={cn(
-            "top-2 right-2 fill-mode-both duration-600",
+            "top-2 right-2 fill-mode-both duration-600 z-30",
             open
               ? "animate-in fade-in slide-in-from-top slide-in-from-right ease-out"
               : "animate-out fade-out slide-out-to-top slide-out-to-right ease-in",
