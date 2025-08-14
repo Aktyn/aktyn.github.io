@@ -4,10 +4,10 @@ import { Intro } from "~/components/views/intro"
 import type { ComponentProps, UIEventHandler } from "react"
 import { useEffect, useRef, useState } from "react"
 import { cn } from "~/lib/utils"
-import { ChevronDown } from "lucide-react"
 import { ScrollArea } from "~/components/ui/scroll-area"
 import { Navigation } from "./components/navigation"
 import { Projects } from "~/components/views/projects"
+import { ScreenEdgeButton } from "~/components/buttons/ScreenEdgeButton"
 
 export function App() {
   const firstEffectRef = useRef(true)
@@ -62,7 +62,7 @@ export function App() {
     return () => {
       window.removeEventListener("hashchange", handleHashChange)
     }
-  }, [])
+  }, [setView])
 
   useEffect(() => {
     const firstEffect = firstEffectRef.current
@@ -129,19 +129,17 @@ export function App() {
           </div>
         </div>
 
-        <div
+        <ScreenEdgeButton
           className={cn(
-            "flex flex-col items-center justify-self-center fixed bottom-2 inset-x-auto cursor-pointer text-muted-foreground hover:text-primary hover:scale-110 transition-[color,scale,opacity] ease-bounce *:animate-bounce *:animation-duration-2000",
+            "fixed bottom-2 inset-x-auto",
             view === ViewModule.View.Intro
               ? "opacity-100 scale-100"
               : "pointer-events-none opacity-0 scale-0",
           )}
           onClick={() => setView(ViewModule.View.PublicProjects)}
         >
-          <p className="text-xs font-medium">Scroll for more</p>
-          <ChevronDown className="size-4 delay-[-100ms]!" />
-          <ChevronDown className="size-4 -mt-2 delay-[-300ms]!" />
-        </div>
+          Scroll for more
+        </ScreenEdgeButton>
       </div>
     </Background>
   )
@@ -162,7 +160,9 @@ function ViewContainer({
   className,
   ...divProps
 }: ViewContainerProps) {
-  const { view: currentView } = ViewModule.useView()
+  const scrollAreaRef = useRef<HTMLDivElement>(null)
+
+  const { view: currentView, viewChangeDirection } = ViewModule.useView()
   const current = view === currentView
 
   const [mounted, setMounted] = useState(false)
@@ -180,11 +180,30 @@ function ViewContainer({
     return () => clearTimeout(unmountTimeout)
   }, [current])
 
+  useEffect(() => {
+    if (!current || !mounted || viewChangeDirection !== -1) {
+      return
+    }
+
+    const scrollArea = scrollAreaRef.current?.querySelector(
+      '[data-slot="scroll-area-viewport"]',
+    )
+
+    if (scrollArea) {
+      scrollArea.scrollTo({
+        top: scrollArea.scrollHeight,
+        behavior: "instant",
+      })
+    }
+  }, [current, mounted, viewChangeDirection])
+
   return (
     // Mask is breaking backdrop-blur of child elements
     // **:data-[slot=scroll-area-viewport]:mask-t-from-[calc(100%-var(--spacing)*10)] **:data-[slot=scroll-area-viewport]:mask-b-from-[calc(100%-var(--spacing)*10)]
     <ScrollArea
+      ref={scrollAreaRef}
       id={`view-${view}`}
+      data-view={view}
       className="snap-start size-full h-dvh overflow-hidden **:data-[slot=scroll-area-viewport]:*:min-h-full **:data-[slot=scroll-area-viewport]:*:max-w-full **:data-[slot=scroll-area-viewport]:*:grid!"
     >
       <div

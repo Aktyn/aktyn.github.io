@@ -65,10 +65,11 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
       targetFrom = 0,
       targetTo = 0
     const accuracy = (1 / navigationRect.height) * 0.5,
-      updateSpeed = 10
+      updateSpeed = 3
 
     const startAnchors = navigationContainer.querySelectorAll(
-      ":scope > * > button:first-child > *:first-child",
+      // ":scope > * > button:first-child > *:first-child",
+      ":scope > * > div[data-slot=sub-navigation] > button:first-child",
     )
     const endAnchors = navigationContainer.querySelectorAll(
       ":scope > * > div[data-slot=sub-navigation] > button:last-child",
@@ -123,13 +124,60 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
       const viewportEnd =
         (scrollTop - rect.top) / (container.scrollHeight - rect.height)
 
-      //TODO: adjust viewportStart and viewportEnd according to scroll position of current view container (nested scroll container)
-
       targetFrom = alignToSegments(viewportStart + 0.01)
       targetTo = alignToSegments(viewportEnd - 0.01)
     }
 
+    const viewContainerViewportsPerView = ViewModule.ViewsArray.filter(
+      (view) => view !== ViewModule.View.Intro,
+    ).map((view) => ({
+      view,
+      from: 0,
+      to: 1,
+    }))
+
+    const updateViewContainerViewport = (viewScrollArea: HTMLElement) => {
+      const view = viewScrollArea.parentElement?.dataset[
+        "view"
+      ] as ViewModule.View
+
+      if (!view) {
+        return
+      }
+
+      const fromFactor = viewScrollArea.scrollTop / viewScrollArea.scrollHeight
+      const toFactor =
+        (viewScrollArea.scrollTop + viewScrollArea.clientHeight) /
+        viewScrollArea.scrollHeight
+
+      const relativeIndex = viewContainerViewportsPerView.findIndex(
+        ({ view: _view }) => _view === view,
+      )
+      viewContainerViewportsPerView[relativeIndex].from = fromFactor
+      viewContainerViewportsPerView[relativeIndex].to = toFactor
+    }
+
+    const handleViewContainerScroll = (event: Event) => {
+      if (!event.target || !(event.target instanceof HTMLElement)) {
+        return
+      }
+
+      updateViewContainerViewport(event.target)
+    }
+
+    const getSegmentIndex = (value: number) => {
+      for (let i = 0; i < viewSegments.length; i++) {
+        if (value > viewSegments[i].to) {
+          continue
+        }
+        return i
+      }
+
+      return viewSegments.length - 1
+    }
+
     let lastTime = 0
+    let running = true
     const update = (time: number) => {
       const delta = (time - lastTime) / 1000
       lastTime = time
@@ -138,19 +186,31 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
         return
       }
 
-      const fromDiff = targetFrom - from
+      const fromSegmentIndex = getSegmentIndex(targetFrom)
+      const toSegmentIndex = getSegmentIndex(targetTo)
+
+      const relativeFrom = viewContainerViewportsPerView[fromSegmentIndex].from
+      const relativeTo = viewContainerViewportsPerView[toSegmentIndex].to
+
+      const preciseTargetFrom =
+        targetFrom + relativeFrom * (targetTo - targetFrom)
+      const preciseTargetTo = targetFrom + relativeTo * (targetTo - targetFrom)
+
+      const fromDiff = preciseTargetFrom - from
       if (Math.abs(fromDiff) > accuracy) {
         from += fromDiff * delta * updateSpeed
         setViewportNavigationFrom(from * 100)
       }
 
-      const toDiff = targetTo - to
+      const toDiff = preciseTargetTo - to
       if (Math.abs(toDiff) > accuracy) {
         to += toDiff * delta * updateSpeed
         setViewportNavigationTo(to * 100)
       }
 
-      requestAnimationFrame(update)
+      if (running) {
+        requestAnimationFrame(update)
+      }
     }
     update(0)
 
@@ -159,12 +219,50 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
       handleContainerScroll()
     }
 
+    const viewContainers = ViewModule.ViewsArray.reduce((acc, view) => {
+      if (view === ViewModule.View.Intro) {
+        return acc
+      }
+
+      const viewContainer = container.querySelector(
+        `#view-${view} > [data-slot='scroll-area-viewport']`,
+      )
+      if (viewContainer) {
+        acc.push(viewContainer as HTMLElement)
+      }
+      return acc
+    }, [] as HTMLElement[])
+
+    const resizeObservers: ResizeObserver[] = []
+
+    for (const viewContainer of viewContainers) {
+      viewContainer.addEventListener("scroll", handleViewContainerScroll)
+
+      const ro = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          const el = entry.target
+          if (el instanceof HTMLElement && el === viewContainer) {
+            updateViewContainerViewport(el)
+          }
+        }
+      })
+
+      ro.observe(viewContainer)
+      resizeObservers.push(ro)
+    }
+
     container.addEventListener("scroll", handleContainerScroll)
     lastElement?.addEventListener("animationend", onAnimationEnd)
 
     return () => {
       container.removeEventListener("scroll", handleContainerScroll)
       lastElement?.removeEventListener("animationend", onAnimationEnd)
+      viewContainers.forEach((viewContainer) =>
+        viewContainer.removeEventListener("scroll", handleViewContainerScroll),
+      )
+      resizeObservers.forEach((ro) => ro.disconnect())
+
+      running = false
     }
   }, [mainContainerRef, enableNavigation])
 
@@ -293,10 +391,12 @@ function ViewNavigation({ view }: { view: keyof typeof ViewModule.viewData }) {
 
   return (
     <div
-      className="flex flex-col items-stretch justify-center gap-y-0.5 not-first:*:first:mt-4"
+      data-slot="view-navigation-group"
+      className="flex flex-col items-stretch justify-center gap-y-0.5 not-first:*:first:mt-4 cursor-pointer"
       style={{
         color: `oklch(from var(--color-accent) calc(l + 0.8) calc(c + 0.01) calc(h - ${hueShift}) / 0.5)`,
       }}
+      onClick={() => setView(view)}
     >
       <NavButton
         className={cn(
@@ -306,7 +406,6 @@ function ViewNavigation({ view }: { view: keyof typeof ViewModule.viewData }) {
         style={{
           animationDelay: `${delayStep + index * 5 * delayStep}ms`,
         }}
-        onClick={() => setView(view)}
         disabled={current}
       >
         {ViewModule.viewData[view].title}
@@ -350,12 +449,13 @@ function SubNavigation({ view, delayOffset }: SubNavigationProps) {
   }, [view])
 
   return (
-    <div data-slot="sub-navigation" className="flex flex-col gap-y-0.5 pl-3">
+    <div data-slot="sub-navigation" className="flex flex-col pl-3 gap-y-0.5">
       {data.map(({ key, title, icon }, index) => (
         <NavButton
           key={key}
           size="sm"
-          className="navigation-transition slide-in-from-bottom-16 p-2 rounded-full"
+          nested
+          className="navigation-transition slide-in-from-bottom-16 p-2 rounded-full pointer-events-none"
           style={{
             animationDelay: `${delayOffset + index * delayStep}ms`,
           }}
@@ -380,14 +480,17 @@ function SubNavigation({ view, delayOffset }: SubNavigationProps) {
 function NavButton({
   children,
   className,
+  nested,
   ...buttonProps
-}: ComponentProps<typeof Button>) {
+}: ComponentProps<typeof Button> & { nested?: boolean }) {
   return (
     <Button
       variant="ghost"
       {...buttonProps}
       className={cn(
         "w-full h-auto justify-between hover:backdrop-blur-sm hover:bg-foreground/10 hover:text-foreground hover:duration-400 hover:delay-0 hover:*:translate-x-0 hover:*:[svg]:opacity-50 hover:*:ease-out hover:*:delay-0",
+        !nested &&
+          "in-[[data-slot=view-navigation-group]:hover]:backdrop-blur-sm in-[[data-slot=view-navigation-group]:hover]:bg-foreground/10 in-[[data-slot=view-navigation-group]:hover]:text-foreground in-[[data-slot=view-navigation-group]:hover]:duration-400 in-[[data-slot=view-navigation-group]:hover]:delay-0 in-[[data-slot=view-navigation-group]:hover]:*:translate-x-0 in-[[data-slot=view-navigation-group]:hover]:*:[svg]:opacity-50 in-[[data-slot=view-navigation-group]:hover]:*:ease-out in-[[data-slot=view-navigation-group]:hover]:*:delay-0",
         className,
       )}
     >

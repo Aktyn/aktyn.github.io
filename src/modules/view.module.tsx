@@ -1,5 +1,7 @@
 import type { PropsWithChildren } from "react"
+import { useCallback } from "react"
 import { createContext, useContext, useState } from "react"
+import { clamp } from "~/lib/utils"
 
 enum View {
   Intro = "intro",
@@ -13,21 +15,44 @@ const ViewsArray = Object.values(View)
 const ViewContext = createContext({
   view: View.Intro,
   setView: (_view: View) => {},
+  viewChangeDirection: 0,
 })
 
 function ViewProvider({ children }: PropsWithChildren) {
   const viewFromHash =
     ((window.location.hash?.replace(/^#(.*)/, "$1") ?? "") as View) || ""
 
-  const [view, setView] = useState(
+  const [view, setViewInternal] = useState(
     viewFromHash
       ? ViewsArray.includes(viewFromHash)
         ? (viewFromHash as View)
         : View.Intro
       : View.Intro,
   )
+  const [viewChangeDirection, setViewChangeDirection] = useState(0)
 
-  return <ViewContext value={{ view, setView }}>{children}</ViewContext>
+  const setView = useCallback((newView: View) => {
+    setViewInternal((currentView) => {
+      if (currentView === newView) {
+        return currentView
+      }
+
+      setViewChangeDirection(
+        clamp(
+          ViewsArray.indexOf(newView) - ViewsArray.indexOf(currentView),
+          -1,
+          1,
+        ),
+      )
+      return newView
+    })
+  }, [])
+
+  return (
+    <ViewContext value={{ view, setView, viewChangeDirection }}>
+      {children}
+    </ViewContext>
+  )
 }
 
 function useView() {
