@@ -8,6 +8,8 @@ import { ScrollArea } from "~/components/ui/scroll-area"
 import { Navigation } from "./components/navigation"
 import { Projects } from "~/components/views/projects"
 import { ScreenEdgeButton } from "~/components/buttons/ScreenEdgeButton"
+import underConstructionSvg from "~/img/journey/under-construction.svg"
+import { TechStack } from "~/components/views/tech-stack"
 
 export function App() {
   const firstEffectRef = useRef(true)
@@ -111,20 +113,20 @@ export function App() {
               <Projects />
             </ViewContainer>
             <ViewContainer view={ViewModule.View.MyJourney}>
-              <span>
-                My journey, 3d graphics aspirations, school, university and work
-                experience
-                <br />
-                Coming soon...
-              </span>
+              {/*TODO: My journey, 3d graphics aspirations, school, university and work experience*/}
+              <div className="max-w-full w-xl flex flex-col items-center justify-center gap-y-4">
+                <img
+                  alt="Under construction"
+                  src={underConstructionSvg}
+                  className="view-transition-base slide-in-from-top h-auto"
+                />
+                <p className="view-transition-base slide-in-from-top delay-200 font-bold text-2xl text-muted-foreground">
+                  Under construction
+                </p>
+              </div>
             </ViewContainer>
             <ViewContainer view={ViewModule.View.TechStack}>
-              <span>
-                Tech stack divided into web development, backend development,
-                databases and known tools
-                <br />
-                Coming soon...
-              </span>
+              <TechStack />
             </ViewContainer>
           </div>
         </div>

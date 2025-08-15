@@ -1,7 +1,7 @@
 import { Suspense, use, useMemo, useState } from "react"
 import { ProjectsGroup, projectsGroupsInfo } from "~/lib/projects-info"
-import { ScrollArea } from "~/components/ui/scroll-area"
-import { cn, forceArray } from "~/lib/utils"
+import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area"
+import { forceArray } from "~/lib/utils"
 import {
   Tooltip,
   TooltipContent,
@@ -9,13 +9,13 @@ import {
 } from "~/components/ui/tooltip"
 import { Button } from "~/components/ui/button"
 import { GithubIcon } from "~/components/icons/GithubIcon"
-import { techStack } from "~/lib/tech-stack"
-import { Badge } from "~/components/ui/badge"
 import { RootPortal } from "~/components/portal/root-portal"
 import { MaximizedGallery } from "~/components/gallery/maximized-gallery"
 import { ViewModule } from "~/modules/view.module"
 import { ScreenEdgeButton } from "~/components/buttons/ScreenEdgeButton"
 import "devicon/devicon.min.css"
+import { TechBadge } from "~/components/badges/tech-badge"
+import { Separator } from "~/components/ui/separator"
 
 const DELAY_BASE = 150
 const projectsGroupsArray = Object.values(ProjectsGroup)
@@ -87,7 +87,7 @@ function ProjectsGroupContainer({ group, delay }: ProjectsGroupContainerProps) {
           {projectsGroupsInfo[group].description}
         </p>
       </div>
-      <div className="grid grid-cols-[repeat(auto-fit,_minmax(calc(var(--spacing)*112),1fr))] items-stretch gap-4">
+      <div className="grid md:grid-cols-[repeat(auto-fit,_minmax(calc(var(--spacing)*112),1fr))] items-stretch gap-4">
         {projectsGroupsInfo[group].projects.map((project, index, arr) => (
           <ProjectCard
             key={project.title}
@@ -115,7 +115,7 @@ type ProjectCardProps = {
 function ProjectCard({ project, delay }: ProjectCardProps) {
   return (
     <div
-      className="view-transition-base inline-grid grid-cols-[1fr_auto] gap-4 p-4 bg-accent/20 backdrop-blur-sm border rounded-lg overflow-hidden min-h-80"
+      className="view-transition-base inline-grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 p-4 bg-accent/20 backdrop-blur-sm border rounded-lg overflow-hidden md:min-h-80"
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className="flex flex-col items-stretch gap-4 grow">
@@ -148,35 +148,18 @@ function ProjectCard({ project, delay }: ProjectCardProps) {
         </div>
         <div className="flex flex-row flex-wrap items-center gap-2 mt-auto">
           {project.techStack?.map((tech) => (
-            <Badge
-              key={tech}
-              dir="ltr"
-              variant="outline"
-              className="text-sm gap-x-2 p-1 px-2 rounded-md bg-background/50 relative"
-            >
-              <i
-                className={cn(
-                  techStack[tech].icon,
-                  "absolute left-2 inset-y-auto blur-md",
-                )}
-              />
-              <i
-                className={cn(
-                  techStack[tech].icon,
-                  "drop-shadow-[0_0_calc(var(--spacing)*0.5)_#000]",
-                )}
-              />
-              <span className="leading-none">{techStack[tech].name}</span>
-            </Badge>
+            <TechBadge key={tech} tech={tech} />
           ))}
         </div>
       </div>
-      <ScrollArea className="overflow-hidden contain-[size] w-96 -m-4 -ml-36 ">
-        <div className="flex flex-col justify-start items-stretch w-full gap-4 p-4 pl-36 my-auto">
+      <Separator className="md:hidden" />
+      <ScrollArea className="overflow-hidden contain-[size] md:w-96 -m-4 md:-ml-36 max-md:h-64 max-md:**:data-[slot=scroll-area-viewport]:*:max-h-full max-md:-mt-16">
+        <div className="flex md:flex-col max-md:flex-row justify-start items-stretch md:w-full gap-4 p-2 md:p-4 md:pl-36 max-md:h-full max-md:mx-auto md:my-auto max-md:pt-16">
           <Suspense fallback={<span />}>
             <ImagesStrip images={project.images} />
           </Suspense>
         </div>
+        <ScrollBar orientation="horizontal" className="md:hidden" />
       </ScrollArea>
     </div>
   )
@@ -194,7 +177,7 @@ function ImagesStrip({ images: imagesPromise }: { images: Promise<string[]> }) {
       {images.map((image, index) => (
         <div
           key={image}
-          className="relative hover:scale-110 hover:z-10 transition-[scale] ease-bounce duration-bounce cursor-pointer *:animate-in *:fade-in *:fill-mode-both *:duration-500"
+          className="relative hover:scale-110 hover:z-10 transition-[scale] ease-bounce duration-bounce cursor-pointer *:animate-in *:fade-in *:fill-mode-both *:duration-500 max-md:max-h-46"
           onClick={(event) => {
             setOpenGallery(true)
             setSourceBounds(event.currentTarget.getBoundingClientRect())
@@ -205,13 +188,13 @@ function ImagesStrip({ images: imagesPromise }: { images: Promise<string[]> }) {
             alt={`project-image-${index}-blur`}
             src={image}
             loading="lazy"
-            className="absolute inset-0 blur-lg scale-110 opacity-50 -z-1 pointer-events-none"
+            className="absolute inset-0 blur-lg scale-110 h-full opacity-50 -z-1 pointer-events-none"
           />
           <img
             alt={`project-image-${index}`}
             src={image}
             loading="lazy"
-            className="w-full max-w-full h-auto rounded-md"
+            className="md:w-full max-w-fit md:max-w-full h-full md:h-auto max-md:max-h-full rounded-md"
           />
         </div>
       ))}
