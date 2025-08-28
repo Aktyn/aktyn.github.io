@@ -115,7 +115,7 @@ type ProjectCardProps = {
 function ProjectCard({ project, delay }: ProjectCardProps) {
   return (
     <div
-      className="view-transition-base inline-grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 p-4 bg-accent/20 backdrop-blur-sm border rounded-lg overflow-hidden md:min-h-80"
+      className="view-transition-base glass-card-dark inline-grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 p-4 overflow-hidden md:min-h-80"
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className="flex flex-col items-stretch gap-4 grow">

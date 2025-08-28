@@ -66,7 +66,7 @@ function StackGroup({ title, stack, ...divProps }: StackGroupProps) {
     <div
       {...divProps}
       className={cn(
-        "view-transition-base flex flex-col items-center gap-2 p-2 bg-accent/20 backdrop-blur-sm border rounded-lg overflow-hidden max-w-full",
+        "view-transition-base glass-card-dark flex flex-col items-center gap-2 p-2 overflow-hidden max-w-full",
         divProps.className,
       )}
     >

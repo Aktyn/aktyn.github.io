@@ -47,6 +47,25 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
   useEffect(() => {
     if (!enableNavigation) {
       setShowSidebar(false)
+    } else {
+      const onPointer = (event: PointerEvent) => {
+        const target = event.target
+        const sideNavigation = document.getElementById("side-navigation")
+
+        if (!sideNavigation || !target || !(target instanceof HTMLElement)) {
+          return
+        }
+
+        if (!sideNavigation.contains(target) && sideNavigation !== target) {
+          setShowSidebar(false)
+        }
+      }
+
+      document.addEventListener("pointerdown", onPointer)
+
+      return () => {
+        document.removeEventListener("pointerdown", onPointer)
+      }
     }
   }, [enableNavigation])
 
@@ -269,6 +288,7 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
   return (
     <>
       <ScrollArea
+        id="side-navigation"
         className={cn(
           "fixed! left-0 h-dvh xl:sticky! inset-0 w-fit xl:w-full z-10",
           "max-xl:backdrop-blur-lg max-xl:bg-foreground/5 max-xl:border-r max-xl:border-foreground/10 max-xl:shadow-lg transition-[translate] ease-out duration-400",

@@ -82,7 +82,7 @@ export const techStackInfo = {
         stack: ["blender", "gimp", "inkscape", "figma"],
       },
       {
-        title: "Project management and VCS",
+        title: "Project management and version control systems",
         stack: ["jira", "linear", "git", "github", "gitlab"],
       },
     ],

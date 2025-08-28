@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"cSpell.words": [
+			"aktyn",
+			"devicon",
+			"grayscale",
+			"Grotesk",
+			"Hoverable",
+			"inkscape",
+			"Microcontrollers",
+			"micropython",
+			"oklch",
+			"raspberrypi",
+			"shadcn"
+		],
+		"typescript.tsdk": "node_modules/typescript/lib"
+	}
+}
