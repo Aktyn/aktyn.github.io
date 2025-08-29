@@ -8,8 +8,8 @@ import { ScrollArea } from "~/components/ui/scroll-area"
 import { Navigation } from "./components/navigation"
 import { Projects } from "~/components/views/projects"
 import { ScreenEdgeButton } from "~/components/buttons/ScreenEdgeButton"
-import underConstructionSvg from "~/img/journey/under-construction.svg"
 import { TechStack } from "~/components/views/tech-stack"
+import { Journey } from "./components/views/journey"
 
 export function App() {
   const firstEffectRef = useRef(true)
@@ -113,17 +113,7 @@ export function App() {
               <Projects />
             </ViewContainer>
             <ViewContainer view={ViewModule.View.MyJourney}>
-              {/*TODO: My journey, 3d graphics aspirations, school, university and work experience*/}
-              <div className="max-w-full w-xl flex flex-col items-center justify-center gap-y-4">
-                <img
-                  alt="Under construction"
-                  src={underConstructionSvg}
-                  className="view-transition-base slide-in-from-top h-auto"
-                />
-                <p className="view-transition-base slide-in-from-top delay-200 font-bold text-2xl text-muted-foreground">
-                  Under construction
-                </p>
-              </div>
+              <Journey />
             </ViewContainer>
             <ViewContainer view={ViewModule.View.TechStack}>
               <TechStack />

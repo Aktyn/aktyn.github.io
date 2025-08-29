@@ -102,6 +102,10 @@
     @apply bg-background text-foreground;
   }
 
+  a {
+    @apply hover:text-primary transition-colors;
+  }
+
   [data-slot="button"] {
     @apply cursor-pointer;
   }

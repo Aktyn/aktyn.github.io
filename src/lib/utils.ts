@@ -31,3 +31,11 @@ export function debounce<ArgsType extends unknown[]>(
 export function forceArray<T>(value: T | T[]): T[] {
   return Array.isArray(value) ? value : [value]
 }
+
+export async function importImages(
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  imports: Array<Promise<typeof import("*.webp")>>,
+) {
+  const modules = await Promise.all(imports)
+  return modules.map((module) => module.default)
+}

@@ -201,27 +201,28 @@ export function MaximizedGallery({
             )}
           />
         )}
-        {arrows.map((arrow, arrowIndex) => {
-          const allowed =
-            arrowIndex === 0 ? index > 0 : index < images.length - 1
-          return (
-            <Button
-              key={arrowIndex}
-              variant="outline"
-              size="icon"
-              className={cn(
-                "fill-mode-both duration-600 inset-y-auto fade-in fade-out bg-background/50 z-30",
-                arrow.className,
-                open && allowed
-                  ? "animate-in"
-                  : "animate-out pointer-events-none",
-              )}
-              onClick={() => handleNavigate(arrow.direction)}
-            >
-              <DynamicIcon name={arrow.icon} />
-            </Button>
-          )
-        })}
+        {images.length > 1 &&
+          arrows.map((arrow, arrowIndex) => {
+            const allowed =
+              arrowIndex === 0 ? index > 0 : index < images.length - 1
+            return (
+              <Button
+                key={arrowIndex}
+                variant="outline"
+                size="icon"
+                className={cn(
+                  "fill-mode-both duration-600 inset-y-auto fade-in fade-out bg-background/50 z-30",
+                  arrow.className,
+                  open && allowed
+                    ? "animate-in"
+                    : "animate-out pointer-events-none",
+                )}
+                onClick={() => handleNavigate(arrow.direction)}
+              >
+                <DynamicIcon name={arrow.icon} />
+              </Button>
+            )
+          })}
         <Button
           variant="outline"
           size="icon"

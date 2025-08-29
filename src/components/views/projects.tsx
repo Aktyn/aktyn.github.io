@@ -1,21 +1,20 @@
-import { Suspense, use, useMemo, useState } from "react"
-import { ProjectsGroup, projectsGroupsInfo } from "~/lib/projects-info"
+import "devicon/devicon.min.css"
+import { Suspense, useMemo } from "react"
+import { TechBadge } from "~/components/badges/tech-badge"
+import { ScreenEdgeButton } from "~/components/buttons/ScreenEdgeButton"
+import { GithubIcon } from "~/components/icons/GithubIcon"
+import { Button } from "~/components/ui/button"
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area"
-import { forceArray } from "~/lib/utils"
+import { Separator } from "~/components/ui/separator"
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip"
-import { Button } from "~/components/ui/button"
-import { GithubIcon } from "~/components/icons/GithubIcon"
-import { RootPortal } from "~/components/portal/root-portal"
-import { MaximizedGallery } from "~/components/gallery/maximized-gallery"
+import { ProjectsGroup, projectsGroupsInfo } from "~/lib/projects-info"
+import { forceArray } from "~/lib/utils"
 import { ViewModule } from "~/modules/view.module"
-import { ScreenEdgeButton } from "~/components/buttons/ScreenEdgeButton"
-import "devicon/devicon.min.css"
-import { TechBadge } from "~/components/badges/tech-badge"
-import { Separator } from "~/components/ui/separator"
+import { ImagesStrip } from "../gallery/images-strip"
 
 const DELAY_BASE = 150
 const projectsGroupsArray = Object.values(ProjectsGroup)
@@ -156,60 +155,11 @@ function ProjectCard({ project, delay }: ProjectCardProps) {
       <ScrollArea className="overflow-hidden contain-[size] md:w-96 -m-4 md:-ml-36 max-md:h-64 max-md:**:data-[slot=scroll-area-viewport]:*:max-h-full max-md:-mt-16">
         <div className="flex md:flex-col max-md:flex-row justify-start items-stretch md:w-full gap-4 p-2 md:p-4 md:pl-36 max-md:h-full max-md:mx-auto md:my-auto max-md:pt-16">
           <Suspense fallback={<span />}>
-            <ImagesStrip images={project.images} />
+            <ImagesStrip images={project.images} altPrefix="project-image" />
           </Suspense>
         </div>
         <ScrollBar orientation="horizontal" className="md:hidden" />
       </ScrollArea>
     </div>
-  )
-}
-
-function ImagesStrip({ images: imagesPromise }: { images: Promise<string[]> }) {
-  const images = use(imagesPromise)
-
-  const [openGallery, setOpenGallery] = useState(false)
-  const [sourceBounds, setSourceBounds] = useState<DOMRect | null>(null)
-  const [focusImageIndex, setFocusImageIndex] = useState(-1)
-
-  return (
-    <>
-      {images.map((image, index) => (
-        <div
-          key={image}
-          className="relative hover:scale-110 hover:z-10 transition-[scale] ease-bounce duration-bounce cursor-pointer *:animate-in *:fade-in *:fill-mode-both *:duration-500 max-md:max-h-46"
-          onClick={(event) => {
-            setOpenGallery(true)
-            setSourceBounds(event.currentTarget.getBoundingClientRect())
-            setFocusImageIndex(index)
-          }}
-        >
-          <img
-            alt={`project-image-${index}-blur`}
-            src={image}
-            loading="lazy"
-            className="absolute inset-0 blur-lg scale-110 h-full opacity-50 -z-1 pointer-events-none"
-          />
-          <img
-            alt={`project-image-${index}`}
-            src={image}
-            loading="lazy"
-            className="md:w-full max-w-fit md:max-w-full h-full md:h-auto max-md:max-h-full rounded-md"
-          />
-        </div>
-      ))}
-      {focusImageIndex !== -1 && (
-        <RootPortal>
-          <MaximizedGallery
-            open={openGallery}
-            onClose={() => setOpenGallery(false)}
-            sourceBounds={sourceBounds}
-            images={images}
-            index={focusImageIndex}
-            onIndexChange={setFocusImageIndex}
-          />
-        </RootPortal>
-      )}
-    </>
   )
 }

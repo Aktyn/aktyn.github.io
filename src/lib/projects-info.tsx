@@ -8,6 +8,7 @@ import raspberrypiThumbnail from "~/img/quick-access-thumbnails/raspberrypi.webp
 import type { techStack } from "~/lib/tech-stack"
 import { Button } from "~/components/ui/button"
 import type { ExtendArray } from "~/lib/types"
+import { importImages } from "./utils"
 
 export enum ProjectsGroup {
   WebDevelopment = "web-development",
@@ -19,7 +20,7 @@ export enum ProjectsGroup {
 type ProjectSchema = {
   title: string
   description: ReactNode
-  linkToGithubRepo?: ExtendArray<`https://github.com/Aktyn/${string}`>
+  linkToGithubRepo: ExtendArray<`https://github.com/Aktyn/${string}`> | null
   images: Promise<string[]>
   techStack?: Array<keyof typeof techStack>
 }
@@ -32,9 +33,7 @@ type ProjectsGroupInfoSchema = {
   projects: Array<ProjectSchema>
 }
 
-export const projectsGroupsInfo: {
-  [key in ProjectsGroup]: ProjectsGroupInfoSchema
-} = {
+export const projectsGroupsInfo = {
   [ProjectsGroup.WebDevelopment]: {
     title: "Web development",
     thumbnail: webDevThumbnail,
@@ -149,6 +148,7 @@ export const projectsGroupsInfo: {
         title: "Astro kulka",
         description:
           "My second game written in java and opengl. Made one year after Kulka w tarapatach. It has 3D graphics with custom GLSL shaders, 2D physics engine and advanced particles system.\nThere is also a map creator built in the game.",
+        linkToGithubRepo: null,
         images: importImages([import("~/img/games/astro-kulka.webp")]),
         techStack: ["java", "opengl"],
       },
@@ -256,6 +256,7 @@ export const projectsGroupsInfo: {
         title: "Experimental robot",
         description:
           "Something I built to learn Raspberry PI.\nIt was a remote controlled robot on wheels with a camera streaming video to the website.",
+        linkToGithubRepo: null,
         images: importImages([import("~/img/rpi-projects/robot.webp")]),
         techStack: ["raspberrypi", "python"],
       },
@@ -306,10 +307,6 @@ export const projectsGroupsInfo: {
       },
     ],
   },
-}
-
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
-async function importImages(imports: Array<Promise<typeof import("*.webp")>>) {
-  const modules = await Promise.all(imports)
-  return modules.map((module) => module.default)
+} as const satisfies {
+  [key in ProjectsGroup]: ProjectsGroupInfoSchema
 }
