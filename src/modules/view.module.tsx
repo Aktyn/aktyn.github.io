@@ -5,8 +5,8 @@ import { clamp } from "~/lib/utils"
 
 enum View {
   Intro = "intro",
-  PublicProjects = "public-projects",
   MyJourney = "my-journey",
+  PublicProjects = "public-projects",
   TechStack = "tech-stack",
 }
 

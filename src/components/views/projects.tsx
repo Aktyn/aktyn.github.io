@@ -12,7 +12,7 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip"
 import { ProjectsGroup, projectsGroupsInfo } from "~/lib/projects-info"
-import { forceArray } from "~/lib/utils"
+import { cn, forceArray } from "~/lib/utils"
 import { ViewModule } from "~/modules/view.module"
 import { ImagesStrip } from "../gallery/images-strip"
 
@@ -20,7 +20,7 @@ const DELAY_BASE = 150
 const projectsGroupsArray = Object.values(ProjectsGroup)
 
 export function Projects() {
-  const { setView, viewChangeDirection } = ViewModule.useView()
+  const { view, setView, viewChangeDirection } = ViewModule.useView()
 
   const delays = useMemo(() => {
     const reverse = viewChangeDirection === -1
@@ -41,6 +41,14 @@ export function Projects() {
 
   return (
     <div className="size-full min-h-full max-w-full flex flex-col items-stretch justify-start gap-y-16 p-6">
+      <div
+        className={cn(
+          "transition-[height] ease-linear",
+          viewChangeDirection === -1 && view === ViewModule.View.PublicProjects
+            ? "h-[12.5dvh]"
+            : "h-[0dvh]",
+        )}
+      />
       {projectsGroupsArray.map((group, index) => {
         return (
           <ProjectsGroupContainer
@@ -52,7 +60,7 @@ export function Projects() {
       })}
       <ScreenEdgeButton
         className="mt-[25dvh]"
-        onClick={() => setView(ViewModule.View.MyJourney)}
+        onClick={() => setView(ViewModule.View.TechStack)}
       >
         Next view
       </ScreenEdgeButton>

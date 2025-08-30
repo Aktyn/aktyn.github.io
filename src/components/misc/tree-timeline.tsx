@@ -1,3 +1,4 @@
+import { MoveDown } from "lucide-react"
 import { type ReactNode } from "react"
 import { cn } from "~/lib/utils"
 import { Separator } from "../ui/separator"
@@ -5,7 +6,7 @@ import { Separator } from "../ui/separator"
 type TreeTimelineProps = {
   header?: ReactNode
   items: Array<{
-    date: string
+    date: string | { start: string; end: string }
     content: ReactNode
   }>
 }
@@ -27,7 +28,15 @@ export function TreeTimeline({ header, items }: TreeTimelineProps) {
             <div className="w-32 grid grid-rows-[1fr_auto_1fr] grid-cols-1 items-stretch justify-center self-stretch">
               <span className="mx-auto w-px min-h-3 bg-foreground/20" />
               <div className="w-full text-center text-sm font-semibold text-foreground/60 bg-muted-foreground/10 border border-foreground/20 rounded-md py-0.5 px-1">
-                {item.date}
+                {typeof item.date === "string" ? (
+                  item.date
+                ) : (
+                  <div className="flex flex-col items-center">
+                    <span>{item.date.start}</span>
+                    <MoveDown className="text-muted-foreground size-4" />
+                    <span>{item.date.end}</span>
+                  </div>
+                )}
               </div>
               <span
                 className={cn(

@@ -447,17 +447,17 @@ function SubNavigation({ view, delayOffset }: SubNavigationProps) {
     switch (view) {
       case ViewModule.View.Intro:
         throw new Error("Intro view has no sub navigation")
-      case ViewModule.View.PublicProjects:
-        return Object.values(ProjectsGroup).map((section) => ({
-          key: section,
-          title: projectsGroupsInfo[section].title,
-          icon: projectsGroupsInfo[section].icon,
-        }))
       case ViewModule.View.MyJourney:
         return Object.values(JourneySection).map((section) => ({
           key: section,
           title: journeyInfo[section].title,
           icon: journeyInfo[section].icon,
+        }))
+      case ViewModule.View.PublicProjects:
+        return Object.values(ProjectsGroup).map((section) => ({
+          key: section,
+          title: projectsGroupsInfo[section].title,
+          icon: projectsGroupsInfo[section].icon,
         }))
       case ViewModule.View.TechStack:
         return Object.values(TechStackCategory).map((category) => ({

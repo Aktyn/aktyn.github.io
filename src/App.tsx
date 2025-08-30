@@ -109,11 +109,11 @@ export function App() {
         <div className="grid grid-cols-1 xl:grid-cols-[calc(var(--spacing)*64)_auto] 2xl:grid-cols-[calc(var(--spacing)*64)_auto_calc(var(--spacing)*64)] gap-2">
           <Navigation mainContainerRef={containerRef} />
           <div className="flex flex-col">
-            <ViewContainer view={ViewModule.View.PublicProjects}>
-              <Projects />
-            </ViewContainer>
             <ViewContainer view={ViewModule.View.MyJourney}>
               <Journey />
+            </ViewContainer>
+            <ViewContainer view={ViewModule.View.PublicProjects}>
+              <Projects />
             </ViewContainer>
             <ViewContainer view={ViewModule.View.TechStack}>
               <TechStack />
@@ -128,7 +128,7 @@ export function App() {
               ? "opacity-100 scale-100"
               : "pointer-events-none opacity-0 scale-0",
           )}
-          onClick={() => setView(ViewModule.View.PublicProjects)}
+          onClick={() => setView(ViewModule.View.MyJourney)}
         >
           Scroll for more
         </ScreenEdgeButton>

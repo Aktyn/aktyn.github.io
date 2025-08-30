@@ -2,10 +2,12 @@ import type { ComponentProps } from "react"
 import { type ReactNode } from "react"
 import {
   CompactImagesStrip,
+  freeTimeProjectsTimelineItems,
   journeyInfo,
   JourneySection,
   schoolTimelineItems,
   universityTimelineItems,
+  workExperienceTimelineItems,
 } from "~/lib/journey-info"
 import { cn } from "~/lib/utils"
 import { ViewModule } from "~/modules/view.module"
@@ -13,22 +15,32 @@ import { ScreenEdgeButton } from "../buttons/ScreenEdgeButton"
 import { TreeTimeline } from "../misc/tree-timeline"
 import { Badge } from "../ui/badge"
 import { Separator } from "../ui/separator"
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
+import { Info } from "lucide-react"
+import { DynamicIcon } from "lucide-react/dynamic"
+import { GithubIcon } from "../icons/GithubIcon"
 
 export function Journey() {
-  // const { setView, viewChangeDirection } = ViewModule.useView()
-  const { setView } = ViewModule.useView()
-
-  //TODO: swap "Projects" and "Experience" sections. In "Free time projects" subsection there should be a mention of next section that is basically an expansions of "Fee time projects" - Projects
+  const { view, setView, viewChangeDirection } = ViewModule.useView()
 
   //TODO: responsiveness
 
   return (
-    <div className="size-full min-h-full max-w-full flex flex-col items-stretch justify-center gap-y-16 p-6">
-      <section className="glass-card flex flex-col gap-2">
+    <div className="size-full min-h-full max-w-full flex flex-col items-stretch justify-center gap-y-8 p-6">
+      <div
+        className={cn(
+          "transition-[height] ease-linear",
+          viewChangeDirection === -1 && view === ViewModule.View.MyJourney
+            ? "h-[12.5dvh]"
+            : "h-[0dvh]",
+        )}
+      />
+      <section className="glass-card overflow-hidden flex flex-col gap-2">
         <DatedTitle
           dateStart="2012"
           dateEnd="2016"
           title="Technical school, IT class"
+          icon="graduation-cap"
         />
         <TreeTimeline
           header={
@@ -102,37 +114,69 @@ export function Journey() {
           items={universityTimelineItems}
         />
       </section>
-      <section className="glass-card flex flex-col gap-2">
-        Work experience, a few days project (Map POI) for recruitment purposes
-      </section>
-      <section className="glass-card flex flex-col gap-2 mb-auto">
-        meanwhile 3d graphics aspirations / blender renders and free time
-        projects
-        <TreeTimeline
-          header={<p className="text-balance">TODO - free time projects</p>}
-          items={[
-            {
-              date: "Games",
-              content: "TODO",
-            },
-            {
-              date: "Websites",
-              content: "TODO",
-            },
-            {
-              date: "Genetic algorithms",
-              content: "TODO",
-            },
-            {
-              date: "Microcontrollers",
-              content: "TODO",
-            },
-          ]}
+      <section className="glass-card overflow-hidden flex flex-col gap-2">
+        <DatedTitle
+          dateStart="2019"
+          dateEnd="2025"
+          title="Work experience in software development"
+          icon="briefcase"
         />
+        <TreeTimeline
+          header={
+            <p className="text-balance">
+              While I was still studying, I registered a{" "}
+              <Tooltip>
+                <TooltipTrigger>
+                  <u>
+                    sole proprietorship{" "}
+                    <Info className="inline size-3 text-muted-foreground" />
+                  </u>
+                </TooltipTrigger>
+                <TooltipContent className="font-semibold">
+                  Jednoosobowa działalność gospodarcza
+                </TooltipContent>
+              </Tooltip>{" "}
+              in order to start working on B2B contracts.
+            </p>
+          }
+          items={workExperienceTimelineItems}
+        />
+      </section>
+      <section className="glass-card overflow-hidden flex flex-col gap-2 mb-auto">
+        <DatedTitle
+          dateStart="In my spare time"
+          title="Personal projects done in free time"
+          icon="user-star"
+        />
+
+        <TreeTimeline
+          header={
+            <div className="text-balance">
+              <p>
+                I'll only group and shortly describe each category of projects,
+                just to give an overall overview.
+              </p>
+              <p>
+                The most complete list can be found on my{" "}
+                <a href="https://github.com/Aktyn" target="_blank">
+                  <b className="inline-flex flex-row items-baseline gap-1">
+                    <GithubIcon className="size-3 -my-1" />
+                    GitHub
+                  </b>
+                  : link
+                </a>
+              </p>
+            </div>
+          }
+          items={freeTimeProjectsTimelineItems}
+        />
+        <div className="text-muted-foreground">
+          More details and images can be found in the next view
+        </div>
       </section>
       <ScreenEdgeButton
         className="mt-[25dvh]"
-        onClick={() => setView(ViewModule.View.TechStack)}
+        onClick={() => setView(ViewModule.View.PublicProjects)}
       >
         Next view
       </ScreenEdgeButton>
@@ -144,12 +188,14 @@ type DatedTitleProps = ComponentProps<"div"> & {
   dateStart: string
   dateEnd?: string
   title: ReactNode
+  icon?: ComponentProps<typeof DynamicIcon>["name"]
 }
 
 function DatedTitle({
   dateStart,
   dateEnd,
   title,
+  icon,
   ...divProps
 }: DatedTitleProps) {
   return (
@@ -168,6 +214,9 @@ function DatedTitle({
         {dateEnd ? ` - ${dateEnd}` : ""}
       </Badge>
       <span className="font-semibold text-lg">{title}</span>
+      {icon && (
+        <DynamicIcon name={icon} className="ml-auto text-muted-foreground" />
+      )}
     </div>
   )
 }
