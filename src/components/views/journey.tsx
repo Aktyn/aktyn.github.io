@@ -19,13 +19,22 @@ import { Badge } from "../ui/badge"
 import { Separator } from "../ui/separator"
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
 
+const DELAY_BASE = 150
+
 export function Journey() {
   const { view, setView, viewChangeDirection } = ViewModule.useView()
 
   //TODO: responsiveness
 
+  const getDelayedStyle = (index: number) => ({
+    animationDelay:
+      viewChangeDirection === -1
+        ? `${(14 - index) * DELAY_BASE}ms` //TODO: adjust 20
+        : `${index * DELAY_BASE}ms`,
+  })
+
   return (
-    <div className="size-full min-h-full max-w-full flex flex-col items-stretch justify-center gap-y-8 p-6">
+    <div className="size-full min-h-full max-w-full flex flex-col items-stretch justify-center gap-y-8 p-6 *:[section]:zoom-in-120 *:[section]:zoom-out-80">
       <div
         className={cn(
           "transition-[height] ease-linear",
@@ -34,12 +43,17 @@ export function Journey() {
             : "h-[0dvh]",
         )}
       />
-      <section className="glass-card overflow-hidden flex flex-col gap-2">
+      <section
+        className="view-transition-base glass-card overflow-hidden flex flex-col gap-2"
+        style={getDelayedStyle(viewChangeDirection === -1 ? 8 : 0)}
+      >
         <DatedTitle
           dateStart="2012"
           dateEnd="2016"
           title="Technical school, IT class"
           icon="graduation-cap"
+          className="view-transition-base"
+          style={getDelayedStyle(1)}
         />
         <TreeTimeline
           header={
@@ -57,9 +71,17 @@ export function Journey() {
             </p>
           }
           items={schoolTimelineItems}
+          className="view-transition-base"
+          style={getDelayedStyle(2)}
         />
-        <Separator className="bg-linear-to-r from-transparent via-foreground/20 to-transparent" />
-        <div className="flex flex-col items-stretch gap-2">
+        <Separator
+          className="view-transition-separator bg-linear-to-r from-transparent via-foreground/20 to-transparent"
+          style={getDelayedStyle(3)}
+        />
+        <div
+          className="view-transition-base flex flex-col items-stretch gap-2"
+          style={getDelayedStyle(4)}
+        >
           <p className="text-pretty text-sm z-10">
             Although I was primarily interested in software development, I had
             another passion throughout my time in school: 3D graphics.
@@ -89,12 +111,16 @@ export function Journey() {
             altPrefix="graphics-aspirations"
           />
         </div>
-        <Separator className="bg-foreground/20 my-2" />
+        <Separator
+          className="view-transition-separator bg-foreground/20 my-2"
+          style={getDelayedStyle(5)}
+        />
         <DatedTitle
           dateStart="2017"
           dateEnd="2020"
           title="University studies"
-          className="z-10"
+          className="view-transition-base z-10"
+          style={getDelayedStyle(6)}
         />
         <TreeTimeline
           header={
@@ -111,14 +137,21 @@ export function Journey() {
             </p>
           }
           items={universityTimelineItems}
+          className="view-transition-base"
+          style={getDelayedStyle(7)}
         />
       </section>
-      <section className="glass-card overflow-hidden flex flex-col gap-2">
+      <section
+        className="view-transition-base glass-card overflow-hidden flex flex-col gap-2"
+        style={getDelayedStyle(viewChangeDirection === -1 ? 11 : 8)}
+      >
         <DatedTitle
           dateStart="2019"
           dateEnd="2025"
           title="Work experience in software development"
           icon="briefcase"
+          className="view-transition-base"
+          style={getDelayedStyle(9)}
         />
         <TreeTimeline
           header={
@@ -139,13 +172,20 @@ export function Journey() {
             </p>
           }
           items={workExperienceTimelineItems}
+          className="view-transition-base"
+          style={getDelayedStyle(10)}
         />
       </section>
-      <section className="glass-card overflow-hidden flex flex-col gap-2 mb-auto">
+      <section
+        className="view-transition-base glass-card overflow-hidden flex flex-col gap-2 mb-auto"
+        style={getDelayedStyle(viewChangeDirection === -1 ? 14 : 11)}
+      >
         <DatedTitle
           dateStart="In my spare time"
           title="Personal and freelance projects"
           icon="user-star"
+          className="view-transition-base"
+          style={getDelayedStyle(12)}
         />
 
         <TreeTimeline
@@ -171,8 +211,13 @@ export function Journey() {
             </div>
           }
           items={freeTimeProjectsTimelineItems}
+          className="view-transition-base"
+          style={getDelayedStyle(12)}
         />
-        <div className="text-muted-foreground">
+        <div
+          className="view-transition-base text-muted-foreground"
+          style={getDelayedStyle(13)}
+        >
           More details and images can be found in the next view
         </div>
       </section>

@@ -18,7 +18,11 @@ export function QuickAccess(props: ComponentProps<"div">) {
       )}
     >
       <div className="flex flex-row flex-wrap items-stretch justify-center gap-8 *:grow max-w-384">
-        {ViewModule.ViewsArray.map(
+        {[
+          ViewModule.View.MyJourney,
+          ViewModule.View.TechStack,
+          ViewModule.View.PublicProjects,
+        ].map(
           (view) =>
             view !== ViewModule.View.Intro && (
               <ViewCard key={view} view={view} />

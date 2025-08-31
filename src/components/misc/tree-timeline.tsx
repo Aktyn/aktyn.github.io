@@ -1,9 +1,10 @@
 import { MoveDown } from "lucide-react"
+import type { ComponentProps } from "react"
 import { type ReactNode } from "react"
 import { cn } from "~/lib/utils"
 import { Separator } from "../ui/separator"
 
-type TreeTimelineProps = {
+type TreeTimelineProps = ComponentProps<"div"> & {
   header?: ReactNode
   items: Array<{
     date: string | { start: string; end: string }
@@ -11,9 +12,13 @@ type TreeTimelineProps = {
   }>
 }
 
-export function TreeTimeline({ header, items }: TreeTimelineProps) {
+export function TreeTimeline({
+  header,
+  items,
+  ...divProps
+}: TreeTimelineProps) {
   return (
-    <div className="flex flex-col">
+    <div {...divProps} className={cn("flex flex-col", divProps.className)}>
       {header}
       <Separator className="max-w-64 bg-linear-to-r from-transparent via-foreground/20 via-25% to-transparent" />
       <div className="flex flex-col">

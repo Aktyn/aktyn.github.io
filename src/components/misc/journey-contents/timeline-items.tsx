@@ -263,8 +263,8 @@ export const freeTimeProjectsTimelineItems = [
     content: (
       <div>
         <p>
-          I was always fascinated by the idea of a program that is able to
-          evolve and improve itself over time.
+          I have always been fascinated by the idea of a program that can evolve
+          and improve over time
         </p>
         <ul className="*:ml-2">
           <QuickProjectInfo
