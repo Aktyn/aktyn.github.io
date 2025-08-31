@@ -5,7 +5,7 @@ import { Skeleton } from "~/components/ui/skeleton"
 import { cn } from "~/lib/utils"
 
 type CompactImagesStripProps = {
-  images: Promise<string[]>
+  images: string[]
   altPrefix: string
   className?: string
 }

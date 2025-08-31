@@ -32,6 +32,7 @@ export function forceArray<T>(value: T | T[]): T[] {
   return Array.isArray(value) ? value : [value]
 }
 
+/** @deprecated images moved to `public` directory */
 export async function importImages(
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   imports: Array<Promise<typeof import("*.webp")>>,

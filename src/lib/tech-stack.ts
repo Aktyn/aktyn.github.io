@@ -1,6 +1,3 @@
-import reactThumbnail from "~/img/quick-access-thumbnails/react.webp"
-import nodejsThumbnail from "~/img/quick-access-thumbnails/nodejs.webp"
-import jiraThumbnail from "~/img/quick-access-thumbnails/jira.webp"
 import type { ComponentProps } from "react"
 import type { DynamicIcon } from "lucide-react/dynamic"
 
@@ -16,7 +13,7 @@ export const techStackInfo = {
     title: "Frontend",
     description:
       "This is my main area of expertise, as well as the type of work I enjoy the most.",
-    thumbnail: reactThumbnail,
+    thumbnail: "/img/quick-access-thumbnails/react.webp",
     icon: "monitor-smartphone",
     stackGroups: [
       {
@@ -49,7 +46,7 @@ export const techStackInfo = {
     title: "Backend",
     description:
       "I've learned backend development through work experience and personal projects.\nHere's what I'm most familiar with.",
-    thumbnail: nodejsThumbnail,
+    thumbnail: "/img/quick-access-thumbnails/nodejs.webp",
     icon: "server-cog",
     stackGroups: [
       {
@@ -74,7 +71,7 @@ export const techStackInfo = {
     title: "Known tools",
     description:
       "Here are some non-coding tools that I have experience using.\nBy the way, I work on Linux.",
-    thumbnail: jiraThumbnail,
+    thumbnail: "/img/quick-access-thumbnails/jira.webp",
     icon: "tool-case",
     stackGroups: [
       {

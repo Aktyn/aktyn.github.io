@@ -1,4 +1,4 @@
-import { useState, use } from "react"
+import { useState } from "react"
 import { AmbientImage } from "~/components/gallery/ambient-image"
 import { MaximizedGallery } from "~/components/gallery/maximized-gallery"
 import { RootPortal } from "~/components/portal/root-portal"
@@ -8,7 +8,7 @@ export function Diploma() {
   const [openGallery, setOpenGallery] = useState(false)
   const [sourceBounds, setSourceBounds] = useState<DOMRect | null>(null)
 
-  const diplomaSrc = use(journeyInfo[JourneySection.Education].images)[0]
+  const diplomaSrc = journeyInfo[JourneySection.Education].images[0]
 
   return (
     <>
@@ -40,9 +40,8 @@ export function GraphicsAspirations() {
   const [openGallery, setOpenGallery] = useState(false)
   const [sourceBounds, setSourceBounds] = useState<DOMRect | null>(null)
 
-  const graphicsAspirationsSrc = use(
-    journeyInfo[JourneySection.FreeTimeProjects].images,
-  )[0]
+  const graphicsAspirationsSrc =
+    journeyInfo[JourneySection.FreeTimeProjects].images[0]
 
   return (
     <>

@@ -1,21 +1,19 @@
-import { use, useState } from "react"
+import { useState } from "react"
 import { RootPortal } from "../portal/root-portal"
 import { AmbientImage } from "./ambient-image"
 import { MaximizedGallery } from "./maximized-gallery"
 
 type ImagesStripProps = {
-  images: Promise<string[]>
+  images: string[]
   altPrefix: string
   ambientOpacity?: number
 }
 
 export function ImagesStrip({
-  images: imagesPromise,
+  images,
   altPrefix,
   ambientOpacity,
 }: ImagesStripProps) {
-  const images = use(imagesPromise)
-
   const [openGallery, setOpenGallery] = useState(false)
   const [sourceBounds, setSourceBounds] = useState<DOMRect | null>(null)
   const [focusImageIndex, setFocusImageIndex] = useState(-1)

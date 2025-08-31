@@ -1,12 +1,12 @@
 import { BicepsFlexed } from "lucide-react"
 import { Suspense } from "react"
+import { GithubProjectLink } from "~/components/common/github-project-link"
 import { LinkedInIcon } from "~/components/icons/LinkedInIcon"
 import { Skeleton } from "~/components/ui/skeleton"
-import { projectsGroupsInfo, ProjectsGroup } from "~/lib/projects-info"
+import { ProjectsGroup, projectsGroupsInfo } from "~/lib/projects-info"
 import { Diploma, GraphicsAspirations } from "./common"
 import { CompactImagesStrip } from "./compact-images-strip"
 import { QuickProjectInfo } from "./quick-project-info"
-import { GithubProjectLink } from "~/components/common/github-project-link"
 
 export const schoolTimelineItems = [
   {
@@ -62,7 +62,7 @@ export const universityTimelineItems = [
           images={
             projectsGroupsInfo[ProjectsGroup.GameDevelopment].projects.find(
               (p) => p.title === "ZeroG Ball",
-            )?.images ?? Promise.resolve([])
+            )?.images ?? []
           }
           altPrefix="ZeroG-Ball"
           className="-ml-3"
@@ -131,7 +131,7 @@ export const workExperienceTimelineItems = [
           images={
             projectsGroupsInfo[ProjectsGroup.WebDevelopment].projects.find(
               (p) => p.title === "Map POI",
-            )?.images ?? Promise.resolve([])
+            )?.images ?? []
           }
           altPrefix="React-Map-POI"
           className="min-w-full -ml-3"

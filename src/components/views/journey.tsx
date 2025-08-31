@@ -105,9 +105,7 @@ export function Journey() {
             and created various graphics.
           </p>
           <CompactImagesStrip
-            images={journeyInfo[JourneySection.Education].images.then(
-              (images) => images.slice(1), //cut off diploma image
-            )}
+            images={journeyInfo[JourneySection.Education].images.slice(1)} //cut off diploma image
             altPrefix="graphics-aspirations"
           />
         </div>
