@@ -1,24 +1,23 @@
+import { Info } from "lucide-react"
+import { DynamicIcon } from "lucide-react/dynamic"
 import type { ComponentProps } from "react"
 import { type ReactNode } from "react"
-import {
-  CompactImagesStrip,
-  freeTimeProjectsTimelineItems,
-  journeyInfo,
-  JourneySection,
-  schoolTimelineItems,
-  universityTimelineItems,
-  workExperienceTimelineItems,
-} from "~/lib/journey-info"
+import { journeyInfo, JourneySection } from "~/lib/journey-info"
 import { cn } from "~/lib/utils"
 import { ViewModule } from "~/modules/view.module"
 import { ScreenEdgeButton } from "../buttons/ScreenEdgeButton"
+import { GithubIcon } from "../icons/GithubIcon"
+import { CompactImagesStrip } from "../misc/journey-contents/compact-images-strip"
+import {
+  freeTimeProjectsTimelineItems,
+  schoolTimelineItems,
+  universityTimelineItems,
+  workExperienceTimelineItems,
+} from "../misc/journey-contents/timeline-items"
 import { TreeTimeline } from "../misc/tree-timeline"
 import { Badge } from "../ui/badge"
 import { Separator } from "../ui/separator"
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
-import { Info } from "lucide-react"
-import { DynamicIcon } from "lucide-react/dynamic"
-import { GithubIcon } from "../icons/GithubIcon"
 
 export function Journey() {
   const { view, setView, viewChangeDirection } = ViewModule.useView()
@@ -145,7 +144,7 @@ export function Journey() {
       <section className="glass-card overflow-hidden flex flex-col gap-2 mb-auto">
         <DatedTitle
           dateStart="In my spare time"
-          title="Personal projects done in free time"
+          title="Personal and freelance projects"
           icon="user-star"
         />
 
@@ -153,12 +152,15 @@ export function Journey() {
           header={
             <div className="text-balance">
               <p>
-                I'll only group and shortly describe each category of projects,
-                just to give an overall overview.
+                I'll only group and shortly describe each category of projects
+                giving few examples in each group.
               </p>
               <p>
-                The most complete list can be found on my{" "}
-                <a href="https://github.com/Aktyn" target="_blank">
+                The most complete and up-to-date list can be found on my{" "}
+                <a
+                  href="https://github.com/Aktyn?tab=repositories"
+                  target="_blank"
+                >
                   <b className="inline-flex flex-row items-baseline gap-1">
                     <GithubIcon className="size-3 -my-1" />
                     GitHub

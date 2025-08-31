@@ -190,7 +190,7 @@ export const projectsGroupsInfo = {
       {
         title: "ZeroG Ball",
         description:
-          "Logic game created for university project. It's unique 2D graphics engine is based on svg. It has a 2D physics engine built from scratch, a complex map editor and it can be partially controlled by voice commands.",
+          "Game created for university project. It's unique 2D graphics engine is based on svg. It has a 2D physics engine built from scratch, a complex map editor and it can be partially controlled by voice commands.",
         linkToGithubRepo: "https://github.com/Aktyn/ZeroG-Ball",
         images: importImages([
           import("~/img/games/zero-g-ball/1.webp"),
