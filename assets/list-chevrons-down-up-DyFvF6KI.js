@@ -1,0 +1,6 @@
+import{c as e}from"./index-D38ieVBW.js";/**
+ * @license lucide-react v0.542.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const o=[["path",{d:"m15 18 3-3 3 3",key:"1jycho"}],["path",{d:"m15 6 3 3 3-3",key:"1e0l95"}],["path",{d:"M3 12h8",key:"1xfjp6"}],["path",{d:"M3 18h8",key:"1wdxr2"}],["path",{d:"M3 6h8",key:"pjp5z6"}]],p=e("list-chevrons-down-up",o);export{o as __iconNode,p as default};
