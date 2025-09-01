@@ -148,7 +148,7 @@
 }
 
 @utility glass-card {
-  @apply bg-linear-150 from-foreground/7 via-foreground/13 to-foreground/7 backdrop-blur-sm p-4 rounded-lg border border-foreground/10 shadow-[0_0_calc(var(--spacing)*6)_oklch(var(--foreground)_/_0.125)];
+  @apply bg-linear-150 from-foreground/7 via-foreground/13 to-foreground/7 backdrop-blur-sm p-2 sm:p-4 rounded-lg border border-foreground/10 shadow-[0_0_calc(var(--spacing)*6)_oklch(var(--foreground)_/_0.125)];
 }
 
 @utility glass-card-dark {

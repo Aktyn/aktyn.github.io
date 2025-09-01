@@ -35,7 +35,7 @@ export const schoolTimelineItems = [
     ),
   },
   {
-    date: "August 2016", //TODO: verify correct month on the document
+    date: "August 2016",
     content: (
       <p>
         After graduating, I was granted a professional qualification as an{" "}
@@ -107,7 +107,7 @@ export const workExperienceTimelineItems = [
     date: { start: "Nov 2019", end: "Aug 2021" },
     content: (
       <div className="flex flex-col items-start">
-        <p className="text-balance font-semibold">
+        <p className="text-balance font-semibold z-10">
           Frontend Developer at{" "}
           <a
             href="https://www.enigma.com.pl/"
@@ -313,7 +313,7 @@ export const freeTimeProjectsTimelineItems = [
   {
     date: "Graphics",
     content: (
-      <div className="flex flex-row flex-wrap items-center gap-x-4 gap-y-1">
+      <div className="flex flex-row max-sm:flex-col flex-wrap sm:items-center gap-x-4 gap-y-1">
         <div className="text-sm text-pretty grow flex-0">
           <p>
             As mentioned in the education section{" "}

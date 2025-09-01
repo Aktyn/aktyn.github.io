@@ -5,7 +5,6 @@ export enum TechStackCategory {
   Frontend = "frontend",
   Backend = "backend",
   KnownTools = "known-tools",
-  // Other = "other" //TODO: consider using this category
 }
 
 export const techStackInfo = {

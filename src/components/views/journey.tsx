@@ -24,17 +24,15 @@ const DELAY_BASE = 150
 export function Journey() {
   const { view, setView, viewChangeDirection } = ViewModule.useView()
 
-  //TODO: responsiveness
-
   const getDelayedStyle = (index: number) => ({
     animationDelay:
       viewChangeDirection === -1
-        ? `${(14 - index) * DELAY_BASE}ms` //TODO: adjust 20
+        ? `${(14 - index) * DELAY_BASE}ms`
         : `${index * DELAY_BASE}ms`,
   })
 
   return (
-    <div className="size-full min-h-full max-w-full flex flex-col items-stretch justify-center gap-y-8 p-6 *:[section]:zoom-in-120 *:[section]:zoom-out-80">
+    <div className="size-full min-h-full max-w-full flex flex-col items-stretch justify-center gap-y-4 sm:gap-y-8 p-2 sm:p-6 *:[section]:zoom-in-120 *:[section]:zoom-out-80">
       <div
         className={cn(
           "transition-[height] ease-linear",
@@ -213,7 +211,7 @@ export function Journey() {
           style={getDelayedStyle(12)}
         />
         <div
-          className="view-transition-base text-muted-foreground"
+          className="view-transition-base text-muted-foreground text-sm"
           style={getDelayedStyle(13)}
         >
           More details and images can be found in the next view
@@ -247,7 +245,7 @@ function DatedTitle({
     <div
       {...divProps}
       className={cn(
-        "flex flex-row items-center gap-4 *:[svg]:size-5 *:[svg]:text-muted-foreground",
+        "flex flex-row flex-wrap-reverse items-center gap-4 *:[svg]:size-5 *:[svg]:min-w-5 *:[svg]:text-muted-foreground",
         divProps.className,
       )}
     >
