@@ -133,6 +133,10 @@
 
 @utility animate-data {
   @apply in-data-[current*=true]:animate-in in-data-[current=false]:animate-out fill-mode-both duration-800 origin-center;
+
+  @supports selector(:-moz-any(&)) {
+    @apply in-data-[current*=true]:animate-none in-data-[current*=false]:animate-none;
+  }
 }
 
 @utility view-transition-base {

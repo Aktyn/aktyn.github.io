@@ -2,6 +2,8 @@ import { useState } from "react"
 import { RootPortal } from "../portal/root-portal"
 import { AmbientImage } from "./ambient-image"
 import { MaximizedGallery } from "./maximized-gallery"
+import { cn } from "~/lib/utils"
+import { isFirefox } from "~/lib/consts"
 
 type ImagesStripProps = {
   images: string[]
@@ -26,7 +28,10 @@ export function ImagesStrip({
           src={image}
           alt={`${altPrefix}-${index}`}
           ambientOpacity={ambientOpacity}
-          className="hover:scale-110 hover:z-10 transition-[scale] ease-bounce duration-bounce cursor-pointer *:animate-in *:fade-in *:fill-mode-both *:duration-500 max-md:max-h-46"
+          className={cn(
+            "hover:scale-110 hover:z-10 transition-[scale] ease-bounce duration-bounce cursor-pointer *:duration-500 max-md:max-h-46",
+            !isFirefox && "*:animate-in *:fade-in *:fill-mode-both",
+          )}
           onClick={(event) => {
             setOpenGallery(true)
             setSourceBounds(event.currentTarget.getBoundingClientRect())
