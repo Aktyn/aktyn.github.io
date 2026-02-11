@@ -1,5 +1,4 @@
-import type { ComponentProps } from "react"
-import { useEffect, useState } from "react"
+import { type ComponentProps, useEffect, useState } from "react"
 import { isFirefox, LOGO_PATH } from "~/lib/consts"
 import { cn } from "~/lib/utils"
 import { HexagonGrid } from "./hexagon-grid"

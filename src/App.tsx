@@ -1,5 +1,10 @@
-import type { ComponentProps, UIEventHandler } from "react"
-import { useEffect, useRef, useState } from "react"
+import {
+  type ComponentProps,
+  type UIEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
 import { Background } from "~/components/background/background"
 import { ScreenEdgeButton } from "~/components/buttons/ScreenEdgeButton"
 import { ScrollArea } from "~/components/ui/scroll-area"
@@ -159,9 +164,12 @@ function ViewContainer({
 
   const [mounted, setMounted] = useState(false)
 
+  if (current && !mounted) {
+    setMounted(true)
+  }
+
   useEffect(() => {
     if (current) {
-      setMounted(true)
       return
     }
 

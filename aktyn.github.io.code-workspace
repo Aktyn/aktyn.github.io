@@ -7,6 +7,8 @@
 	"settings": {
 		"cSpell.words": [
 			"aktyn",
+			"autodocs",
+			"bunx",
 			"devicon",
 			"grayscale",
 			"Grotesk",
@@ -20,6 +22,7 @@
 			"raspberrypi",
 			"shadcn"
 		],
-		"typescript.tsdk": "node_modules/typescript/lib"
+		"typescript.tsdk": "node_modules/typescript/lib",
+		"npm.packageManager": "bun"
 	}
 }

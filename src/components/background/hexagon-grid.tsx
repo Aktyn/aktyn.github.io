@@ -8,6 +8,9 @@ type HexagonGridProps = {
   strokeWidth?: number
 }
 
+const hexagonPath =
+  "M 96,83.13843876330611 48,110.85125168440815 7.105427357601002e-15,83.13843876330614 -1.4210854715202004e-14,27.712812921102053"
+
 export function HexagonGrid({
   id,
   className,
@@ -69,5 +72,3 @@ export function HexagonGrid({
     console.log(points.map(p => `${p[0]},${p[1]}`).join(' '))\
   })()
 */
-const hexagonPath =
-  "M 96,83.13843876330611 48,110.85125168440815 7.105427357601002e-15,83.13843876330614 -1.4210854715202004e-14,27.712812921102053"

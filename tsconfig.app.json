@@ -23,7 +23,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "types": ["vitest/globals"],
+    "types": [
+      "vitest/globals"
+    ],
     "baseUrl": ".",
     "paths": {
       "~/*": [
@@ -32,6 +34,11 @@
     }
   },
   "include": [
-    "src"
+    "src",
+    "eslint.config.js",
+    "vitest.config.ts",
+    "vite.config.ts",
+    ".storybook/**/*",
+    "vitest.shims.d.ts"
   ]
 }

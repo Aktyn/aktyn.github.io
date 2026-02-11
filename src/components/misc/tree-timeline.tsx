@@ -1,6 +1,5 @@
 import { MoveDown, MoveRight } from "lucide-react"
-import type { ComponentProps } from "react"
-import { type ReactNode } from "react"
+import { type ComponentProps, type ReactNode } from "react"
 import { cn } from "~/lib/utils"
 import { Separator } from "../ui/separator"
 

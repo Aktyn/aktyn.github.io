@@ -1,6 +1,10 @@
-import type { PropsWithChildren } from "react"
-import { useCallback } from "react"
-import { createContext, useContext, useState } from "react"
+import {
+  createContext,
+  type PropsWithChildren,
+  useCallback,
+  useContext,
+  useState,
+} from "react"
 import { clamp } from "~/lib/utils"
 
 enum View {

@@ -1,7 +1,6 @@
 import { Info } from "lucide-react"
 import { DynamicIcon } from "lucide-react/dynamic"
-import type { ComponentProps } from "react"
-import { type ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import { journeyInfo, JourneySection } from "~/lib/journey-info"
 import { cn } from "~/lib/utils"
 import { ViewModule } from "~/modules/view.module"
@@ -38,7 +37,7 @@ export function Journey() {
           "transition-[height] ease-linear",
           viewChangeDirection === -1 && view === ViewModule.View.MyJourney
             ? "h-[12.5dvh]"
-            : "h-[0dvh]",
+            : "h-0",
         )}
       />
       <section

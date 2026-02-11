@@ -1,5 +1,8 @@
-import type { techStack } from "~/lib/tech-stack"
-import { TechStackCategory, techStackInfo } from "~/lib/tech-stack"
+import {
+  type techStack,
+  TechStackCategory,
+  techStackInfo,
+} from "~/lib/tech-stack"
 import { TechBadge } from "~/components/badges/tech-badge"
 import type { ComponentProps } from "react"
 import { cn } from "~/lib/utils"
@@ -32,11 +35,11 @@ export function TechStack() {
               <h4 className="text-base font-semibold">
                 {techStackInfo[category].title}
               </h4>
-              <p className="text-sm leading-tight tracking-wide whitespace-pre-wrap text-balance text-center text-[color-mix(in_oklab,_var(--color-foreground)_80%,_var(--color-background))]">
+              <p className="text-sm leading-tight tracking-wide whitespace-pre-wrap text-balance text-center text-[color-mix(in_oklab,var(--color-foreground)_80%,var(--color-background))]">
                 {techStackInfo[category].description}
               </p>
             </div>
-            <div className="grid md:grid-cols-[repeat(auto-fit,_minmax(calc(var(--spacing)*96),1fr))] items-stretch gap-4">
+            <div className="grid md:grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*96),1fr))] items-stretch gap-4">
               {techStackInfo[category].stackGroups.map(
                 (stackGroup, groupIndex) => (
                   <StackGroup

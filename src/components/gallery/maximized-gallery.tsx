@@ -15,6 +15,19 @@ type MaximizedGalleryProps = {
   onIndexChange: (index: number) => void
 }
 
+const arrows = [
+  {
+    direction: -1,
+    className: "left-1 slide-in-from-left slide-out-to-left",
+    icon: "chevron-left",
+  },
+  {
+    direction: 1,
+    className: "right-1 slide-in-from-right slide-out-to-right",
+    icon: "chevron-right",
+  },
+] as const
+
 export function MaximizedGallery({
   open,
   onClose,
@@ -52,9 +65,20 @@ export function MaximizedGallery({
   const navigateWithRefs = useStateToRef(handleNavigate)
 
   const onCloseRef = useStateToRef(onClose)
+  if (open && !mounted) {
+    setMounted(true)
+  }
+
+  if (open && !entryAnimation && !mounted) {
+    setEntryAnimation(true)
+  }
+
+  if (!open && slidingDirection !== 0) {
+    setSlidingDirection(0)
+  }
+
   useEffect(() => {
     if (open) {
-      setMounted(true)
       // setPendingIndex(null)
 
       const handleKeyDown = (event: globalThis.KeyboardEvent) => {
@@ -75,8 +99,6 @@ export function MaximizedGallery({
         }
       }
 
-      setEntryAnimation(true)
-
       const timeout = setTimeout(() => {
         setEntryAnimation(false)
       }, 800)
@@ -88,7 +110,6 @@ export function MaximizedGallery({
       }
     } else {
       // setEntryAnimation(true)
-      setSlidingDirection(0)
     }
 
     const timeout = setTimeout(() => {
@@ -129,7 +150,7 @@ export function MaximizedGallery({
       <div className="size-full relative *:absolute flex flex-col items-center justify-center">
         <div
           className={cn(
-            "bg-background inset-0 transition-opacity ease-in-out duration-400 starting:opacity-0",
+            "bg-background inset-0 transition-opacity ease-in-out duration-bounce starting:opacity-0",
             open ? "opacity-100" : "opacity-0",
           )}
         />
@@ -137,7 +158,7 @@ export function MaximizedGallery({
           <Fragment key={img}>
             <div
               className={cn(
-                "inset-0 overflow-hidden z-10 duration-400 fill-mode-both",
+                "inset-0 overflow-hidden z-10 duration-bounce fill-mode-both",
                 open ? "animate-in fade-in delay-300" : "animate-out fade-out",
               )}
             >
@@ -175,7 +196,7 @@ export function MaximizedGallery({
                   alt="maximized-image"
                   src={img}
                   className={cn(
-                    "max-h-full max-w-full h-auto object-contain fill-mode-both duration-400 not-data-[state=positioned]:transition-[transform,opacity]",
+                    "max-h-full max-w-full h-auto object-contain fill-mode-both duration-bounce not-data-[state=positioned]:transition-[transform,opacity]",
                     entryAnimation
                       ? "starting:opacity-0"
                       : "starting:opacity-100",
@@ -240,16 +261,3 @@ export function MaximizedGallery({
     </div>
   )
 }
-
-const arrows = [
-  {
-    direction: -1,
-    className: "left-1 slide-in-from-left slide-out-to-left",
-    icon: "chevron-left",
-  },
-  {
-    direction: 1,
-    className: "right-1 slide-in-from-right slide-out-to-right",
-    icon: "chevron-right",
-  },
-] as const

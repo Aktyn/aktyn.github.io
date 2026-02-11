@@ -119,7 +119,7 @@
   }
 
   [data-slot="skeleton"] {
-    @apply bg-[color-mix(in_oklch,var(--color-muted-foreground)_50%,_var(--color-background))]!;
+    @apply bg-[color-mix(in_oklch,var(--color-muted-foreground)_50%,var(--color-background))]!;
   }
 }
 
@@ -152,9 +152,9 @@
 }
 
 @utility glass-card {
-  @apply bg-linear-150 from-foreground/7 via-foreground/13 to-foreground/7 backdrop-blur-sm p-2 sm:p-4 rounded-lg border border-foreground/10 shadow-[0_0_calc(var(--spacing)*6)_oklch(var(--foreground)_/_0.125)];
+  @apply bg-linear-150 from-foreground/7 via-foreground/13 to-foreground/7 backdrop-blur-sm p-2 sm:p-4 rounded-lg border border-foreground/10 shadow-[0_0_calc(var(--spacing)*6)_oklch(var(--foreground)/0.125)];
 }
 
 @utility glass-card-dark {
-  @apply bg-accent/20 backdrop-blur-sm border border-border rounded-lg hover:shadow-[0_0_calc(var(--spacing)*12)_var(--color-accent)_inset] transition-[box-shadow];
+  @apply bg-accent/20 backdrop-blur-sm border border-border rounded-lg hover:shadow-[0_0_calc(var(--spacing)*12)_var(--color-accent)_inset] transition-shadow;
 }

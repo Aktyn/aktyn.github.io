@@ -1,22 +1,23 @@
-import js from "@eslint/js"
-import globals from "globals"
-import reactHooks from "eslint-plugin-react-hooks"
-import reactRefresh from "eslint-plugin-react-refresh"
-import tseslint from "typescript-eslint"
-import reactCompiler from "eslint-plugin-react-compiler"
-import prettier from "eslint-plugin-prettier"
+import eslint from "@eslint/js"
 import eslintConfigPrettier from "eslint-config-prettier"
 import importPlugin from "eslint-plugin-import"
+import prettier from "eslint-plugin-prettier"
+import reactCompiler from "eslint-plugin-react-compiler"
+import reactHooks from "eslint-plugin-react-hooks"
+import reactRefresh from "eslint-plugin-react-refresh"
+import storybook from "eslint-plugin-storybook"
+import { defineConfig } from "eslint/config"
+import globals from "globals"
+import tseslint from "typescript-eslint"
 
-export default tseslint.config(
-  { ignores: ["dist"] },
+export default defineConfig(
+  { ignores: ["node_modules", "dist", "!.storybook"] },
+  eslint.configs.recommended,
+  tseslint.configs.recommended,
+  ...storybook.configs["flat/recommended"],
   {
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommended,
-      eslintConfigPrettier,
-    ],
-    files: ["**/*.{ts,tsx}"],
+    extends: [eslintConfigPrettier],
+    files: ["**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}"],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
@@ -28,6 +29,7 @@ export default tseslint.config(
       },
     },
     plugins: {
+      eslint,
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
       "react-compiler": reactCompiler,
@@ -39,7 +41,16 @@ export default tseslint.config(
       "react-compiler/react-compiler": "error",
       "prettier/prettier": "error",
       eqeqeq: "error",
+      curly: "error",
+      "no-duplicate-imports": "warn",
+      "object-shorthand": ["error", "always"],
       "@typescript-eslint/await-thenable": "error",
+      "@typescript-eslint/require-await": "error",
+      "@typescript-eslint/no-non-null-assertion": "error",
+      "@typescript-eslint/no-use-before-define": [
+        "error",
+        { functions: false },
+      ],
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
@@ -53,18 +64,23 @@ export default tseslint.config(
         },
       ],
       "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/consistent-type-exports": "error",
+      "@typescript-eslint/no-floating-promises": "error",
+      "@typescript-eslint/switch-exhaustiveness-check": "error",
+      "@typescript-eslint/no-unsafe-enum-comparison": "error",
+      "@typescript-eslint/no-misused-promises": [
+        "error",
+        {
+          checksVoidReturn: false,
+        },
+      ],
       "@typescript-eslint/consistent-type-imports": [
         "error",
         {
           prefer: "type-imports",
-          fixStyle: "separate-type-imports",
+          fixStyle: "inline-type-imports",
         },
       ],
-      "@typescript-eslint/consistent-type-exports": "error",
-      "@typescript-eslint/no-floating-promises": "error",
-      "@typescript-eslint/no-non-null-assertion": "off",
-      "@typescript-eslint/switch-exhaustiveness-check": "error",
-      "object-shorthand": ["error", "always"],
       "import/extensions": [
         "error",
         "never",

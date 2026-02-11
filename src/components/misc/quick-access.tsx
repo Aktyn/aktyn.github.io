@@ -1,6 +1,11 @@
 import { ViewModule } from "~/modules/view.module"
-import type { ComponentProps } from "react"
-import { useEffect, useMemo, useRef, useState } from "react"
+import {
+  type ComponentProps,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import { clamp, cn } from "~/lib/utils"
 import { MousePointerClick } from "lucide-react"
 import { projectsGroupsInfo, ProjectsGroup } from "~/lib/projects-info"
@@ -72,7 +77,7 @@ function ViewCard({ view }: { view: keyof typeof ViewModule.viewData }) {
     <div
       ref={ref}
       className={cn(
-        "min-w-[calc(50%_-_calc(var(--spacing)*4))] flex flex-col items-center gap-2 backdrop-blur-sm p-4 pt-2 border border-white/20 rounded-2xl text-center not-hover:shadow-lg! relative overflow-visible cursor-pointer hover:*:last:*:last:translate-y-0 hover:*:last:*:first:opacity-100! transition-[border-color,box-shadow] duration-500 hover:border-white/60 hover:*:data-[slot=separator]:opacity-60",
+        "min-w-[calc(50%-calc(var(--spacing)*4))] flex flex-col items-center gap-2 backdrop-blur-sm p-4 pt-2 border border-white/20 rounded-2xl text-center not-hover:shadow-lg! relative overflow-visible cursor-pointer hover:*:last:*:last:translate-y-0 hover:*:last:*:first:opacity-100! transition-[border-color,box-shadow] duration-500 hover:border-white/60 hover:*:data-[slot=separator]:opacity-60",
         view === ViewModule.View.PublicProjects && "min-w-1/2",
       )}
       style={{

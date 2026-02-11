@@ -9,9 +9,9 @@ import {
 } from "lucide-react"
 import { Button } from "~/components/ui/button"
 import { Separator } from "~/components/ui/separator"
-import type { RefObject } from "react"
 import {
   type ComponentProps,
+  type RefObject,
   useEffect,
   useMemo,
   useRef,
@@ -44,10 +44,12 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
   const [viewportNavigationFrom, setViewportNavigationFrom] = useState(0)
   const [viewportNavigationTo, setViewportNavigationTo] = useState(0)
 
+  if (!enableNavigation && showSidebar) {
+    setShowSidebar(false)
+  }
+
   useEffect(() => {
-    if (!enableNavigation) {
-      setShowSidebar(false)
-    } else {
+    if (enableNavigation) {
       const onPointer = (event: PointerEvent) => {
         const target = event.target
         const sideNavigation = document.getElementById("side-navigation")
@@ -104,8 +106,13 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
       navigationRect = navigationContainer.getBoundingClientRect()
 
       return Array.from(startAnchors).map((startAnchor, index) => {
+        const endAnchor = endAnchors[index]
+        if (!endAnchor) {
+          return { from: 0, to: 0 }
+        }
+
         const startY = getVerticalCenter(startAnchor)
-        const endY = getVerticalCenter(endAnchors[index]!)
+        const endY = getVerticalCenter(endAnchor)
 
         const from = (startY - navigationRect.top) / navigationRect.height
         const to = (endY - navigationRect.top) / navigationRect.height
@@ -291,7 +298,7 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
         id="side-navigation"
         className={cn(
           "fixed! left-0 h-dvh xl:sticky! inset-0 w-fit xl:w-full z-10",
-          "max-xl:backdrop-blur-lg max-xl:bg-foreground/5 max-xl:border-r max-xl:border-foreground/10 max-xl:shadow-lg transition-[translate] ease-out duration-400",
+          "max-xl:backdrop-blur-lg max-xl:bg-foreground/5 max-xl:border-r max-xl:border-foreground/10 max-xl:shadow-lg transition-[translate] ease-out duration-bounce",
           (!enableNavigation || !showSidebar) &&
             "max-xl:-translate-x-full ease-in",
         )}
@@ -322,9 +329,9 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
               <TooltipContent>Close sidebar navigation</TooltipContent>
             </Tooltip>
           </div>
-          <Separator className="navigation-transition fade-in-100 delay-900 mask-linear-[to_right,black,#000a,transparent] -mx-4 w-[calc(100%_+_var(--spacing)*8)]!" />
+          <Separator className="navigation-transition fade-in-100 delay-900 mask-linear-[to_right,black,#000a,transparent] -mx-4 w-[calc(100%+var(--spacing)*8)]!" />
           <div className="w-full flex flex-row items-stretch gap-x-4 -ml-2">
-            <div className="flex flex-col items-center justify-center text-center h-auto navigation-transition fade-in fade-out delay-1500 relative text-[color-mix(in_oklab,_var(--color-primary),_var(--color-secondary)_80%)]">
+            <div className="flex flex-col items-center justify-center text-center h-auto navigation-transition fade-in fade-out delay-1500 relative text-[color-mix(in_oklab,var(--color-primary),var(--color-secondary)_80%)]">
               <div
                 className="block absolute inset-0 inset-x-auto w-px"
                 style={{
@@ -421,7 +428,7 @@ function ViewNavigation({ view }: { view: keyof typeof ViewModule.viewData }) {
       <NavButton
         className={cn(
           "text-lg tracking-wide font-light navigation-transition disabled:opacity-100 h-12",
-          current && "text-[oklch(from_currentColor_l_c_h_/_1)]",
+          current && "text-[oklch(from_currentColor_l_c_h/1)]",
         )}
         style={{
           animationDelay: `${delayStep + index * 5 * delayStep}ms`,
@@ -508,9 +515,9 @@ function NavButton({
       variant="ghost"
       {...buttonProps}
       className={cn(
-        "w-full h-auto justify-between hover:backdrop-blur-sm hover:bg-foreground/10 hover:text-foreground hover:duration-400 hover:delay-0 hover:*:translate-x-0 hover:*:[svg]:opacity-50 hover:*:ease-out hover:*:delay-0",
+        "w-full h-auto justify-between hover:backdrop-blur-sm hover:bg-foreground/10 hover:text-foreground hover:duration-bounce hover:delay-0 hover:*:translate-x-0 hover:*:[svg]:opacity-50 hover:*:ease-out hover:*:delay-0",
         !nested &&
-          "in-[[data-slot=view-navigation-group]:hover]:backdrop-blur-sm in-[[data-slot=view-navigation-group]:hover]:bg-foreground/10 in-[[data-slot=view-navigation-group]:hover]:text-foreground in-[[data-slot=view-navigation-group]:hover]:duration-400 in-[[data-slot=view-navigation-group]:hover]:delay-0 in-[[data-slot=view-navigation-group]:hover]:*:translate-x-0 in-[[data-slot=view-navigation-group]:hover]:*:[svg]:opacity-50 in-[[data-slot=view-navigation-group]:hover]:*:ease-out in-[[data-slot=view-navigation-group]:hover]:*:delay-0",
+          "in-[[data-slot=view-navigation-group]:hover]:backdrop-blur-sm in-[[data-slot=view-navigation-group]:hover]:bg-foreground/10 in-[[data-slot=view-navigation-group]:hover]:text-foreground in-[[data-slot=view-navigation-group]:hover]:duration-bounce in-[[data-slot=view-navigation-group]:hover]:delay-0 in-[[data-slot=view-navigation-group]:hover]:*:translate-x-0 in-[[data-slot=view-navigation-group]:hover]:*:[svg]:opacity-50 in-[[data-slot=view-navigation-group]:hover]:*:ease-out in-[[data-slot=view-navigation-group]:hover]:*:delay-0",
         className,
       )}
     >

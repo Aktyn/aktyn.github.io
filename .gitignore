@@ -25,3 +25,5 @@ dist-ssr
 
 # Custom
 .directory
+*storybook.log
+storybook-static
