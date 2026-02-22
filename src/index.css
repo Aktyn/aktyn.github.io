@@ -74,10 +74,39 @@
 @layer utilities {
   @font-face {
     font-family: "Space Grotesk";
-    font-weight: 300 700;
+    font-weight: 300;
     font-display: swap;
     font-style: normal;
-    src: url("/SpaceGrotesk-Variable.ttf") format("truetype");
+    src: url("/font/SpaceGrotesk-Light.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "Space Grotesk";
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+    src: url("/font/SpaceGrotesk-Medium.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "Space Grotesk";
+    /* font-weight: 300 700; */
+    font-weight: 500;
+    font-display: swap;
+    font-style: normal;
+    src: url("/font/SpaceGrotesk-Regular.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "Space Grotesk";
+    font-weight: 600;
+    font-display: swap;
+    font-style: normal;
+    src: url("/font/SpaceGrotesk-SemiBold.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "Space Grotesk";
+    font-weight: 700;
+    font-display: swap;
+    font-style: normal;
+    src: url("/font/SpaceGrotesk-Bold.ttf") format("truetype");
   }
 
   :root {
@@ -118,9 +147,9 @@
     @apply transition-colors hover:bg-primary/50! active:bg-primary!;
   }
 
-  [data-slot="skeleton"] {
+  /* [data-slot="skeleton"] {
     @apply bg-[color-mix(in_oklch,var(--color-muted-foreground)_50%,var(--color-background))]!;
-  }
+  } */
 }
 
 @utility fixed-stroke {

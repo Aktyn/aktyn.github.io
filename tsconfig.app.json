@@ -30,6 +30,9 @@
     "paths": {
       "~/*": [
         "./src/*"
+      ],
+      "three/addons/*": [
+        "node_modules/@types/three/examples/jsm/*"
       ]
     }
   },

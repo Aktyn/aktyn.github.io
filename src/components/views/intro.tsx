@@ -5,7 +5,7 @@ import { QuickAccess } from "~/components/misc/quick-access"
 import { Separator } from "~/components/ui/separator"
 
 const fullName = "Radosław Krajewski"
-const role = "Frontend Developer"
+const role = "Web Developer"
 const experienceStartDate = new Date("2019-10-10")
 
 export function Intro() {

@@ -6,6 +6,8 @@ import { ViewModule } from "./modules/view.module"
 
 import "./index.css"
 
+//TODO: remove @deprecated
+
 createRoot(document.getElementById("root") ?? document.body).render(
   <StrictMode>
     <TooltipProvider delayDuration={0} skipDelayDuration={0}>

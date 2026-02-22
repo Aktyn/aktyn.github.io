@@ -22,6 +22,7 @@ const ViewContext = createContext({
   viewChangeDirection: 0,
 })
 
+/** @deprecated */
 function ViewProvider({ children }: PropsWithChildren) {
   const viewFromHash =
     ((window.location.hash?.replace(/^#(.*)/, "$1") ?? "") as View) || ""
@@ -59,6 +60,7 @@ function ViewProvider({ children }: PropsWithChildren) {
   )
 }
 
+/** @deprecated */
 function useView() {
   return useContext(ViewContext)
 }
