@@ -7,7 +7,10 @@ import {
   GodRaysCombineShader,
   GodRaysGenerateShader,
 } from "three/addons/shaders/GodRaysShader"
-import { loadFont } from "./fonts"
+import { loadFontShapes as loadFontShapes } from "./fonts"
+import { TextObject } from "./text-object"
+import { svgPathToShapePath } from "./graphics-helpers"
+import { SvgObject } from "./svg-object"
 
 interface GodraysUniforms {
   [key: string]: THREE.IUniform
@@ -36,7 +39,7 @@ interface PostprocessingState {
 const BG_COLOR = 0x004d40
 const SUN_COLOR = 0xe0f2f1
 const GODRAY_RENDER_TARGET_RES_MULTIPLIER = 0.5
-const ORBIT_RADIUS = 50
+// const ORBIT_RADIUS = 50
 const SUN_POSITION = new THREE.Vector3(0, 618, -1000)
 
 export class WebScene {
@@ -56,54 +59,26 @@ export class WebScene {
   private readonly windowResizeCallback = this.onWindowResize.bind(this)
 
   constructor(private readonly container: HTMLDivElement) {
-    const textColor = "#001814"
-
     const width = window.innerWidth
     const height = window.innerHeight
 
     this.clipPosition = new THREE.Vector4()
     this.screenSpacePosition = new THREE.Vector3()
 
-    this.camera = new THREE.PerspectiveCamera(70, width / height, 1, 3000)
+    this.camera = new THREE.PerspectiveCamera(70, width / height, 10, 1000)
     this.camera.position.z = 200
 
     this.scene = new THREE.Scene()
     this.materialDepth = new THREE.MeshDepthMaterial()
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 5)
-    this.scene.add(ambientLight)
-    // const dirLight = new THREE.DirectionalLight(0xffffff, 50)
-    // dirLight.position.set(-20, 50, 100)
-    // dirLight.lookAt(0, -20, 0)
-    // this.scene.add(dirLight)
-
-    let textMesh: THREE.Mesh<
-      THREE.BufferGeometry,
-      THREE.MeshBasicMaterial,
-      THREE.Object3DEventMap
-    > | null = null
-
-    loadFont("Aktyn", 40)
-      .then((textGeometry) => {
-        if (!textGeometry) {
-          return
-        }
-
-        const textMaterial = new THREE.MeshBasicMaterial({
-          color: textColor,
-          side: THREE.DoubleSide,
-          fog: true,
-        })
-        textMesh = new THREE.Mesh(textGeometry, textMaterial)
-        textMesh.position.set(0, 0, 0)
-        this.scene.add(textMesh)
-
-        // textMesh.rotation.x = Math.PI / 4
-        textMesh.lookAt(this.camera.position)
-
-        this.meshes.push(textMesh)
-      })
-      .catch(console.error)
+    // const ambientLight = new THREE.AmbientLight(0xffffff, 5)
+    // this.scene.add(ambientLight)
+    const dirLight = new THREE.DirectionalLight(0xffffff, 500)
+    dirLight.position.set(0, 0, 100)
+    dirLight.lookAt(0, 0, 0)
+    // const dirLightHelper = new THREE.DirectionalLightHelper(dirLight, 10)
+    // this.scene.add(dirLightHelper)
+    this.scene.add(dirLight)
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true, depth: false })
     this.renderer.setClearColor(0xb2dfdb)
@@ -291,13 +266,13 @@ export class WebScene {
   }
 
   private render() {
-    const time = Date.now() / 3000
+    // const time = Date.now() / 3000
 
-    for (const mesh of this.meshes) {
-      mesh.position.y = ORBIT_RADIUS * Math.cos(-time)
-      mesh.rotation.x = -Math.cos(time)
-      // textMesh.position.z = ORBIT_RADIUS * Math.sin(-time) - 100
-    }
+    // for (const mesh of this.meshes) {
+    // mesh.position.y = ORBIT_RADIUS * Math.cos(-time)
+    // mesh.rotation.x = -Math.cos(time)
+    // textMesh.position.z = ORBIT_RADIUS * Math.sin(-time) - 100
+    // }
 
     if (this.postprocessing.enabled) {
       this.clipPosition.set(SUN_POSITION.x, SUN_POSITION.y, SUN_POSITION.z, 1)
@@ -416,6 +391,68 @@ export class WebScene {
       this.renderer.clear()
       this.renderer.render(this.scene, this.camera)
     }
+  }
+
+  private shapesToGeometry(shapes: THREE.Shape[]) {
+    const geometry = new THREE.ExtrudeGeometry(shapes, {
+      depth: 2,
+      steps: 2,
+    })
+    geometry.computeVertexNormals()
+    geometry.normalizeNormals()
+    geometry.center()
+    return geometry
+  }
+
+  public async createTextObject(text: string, size: number, color: string) {
+    return loadFontShapes(text, size).then((shapes) => {
+      const geometry = this.shapesToGeometry(shapes)
+
+      //TODO: cache text materials by color
+      const textMaterial = new THREE.MeshBasicMaterial({
+        color,
+        fog: false,
+        depthTest: false,
+        depthWrite: false,
+      })
+
+      const textMesh = new THREE.Mesh(geometry, textMaterial)
+      textMesh.rotateX(Math.PI)
+
+      this.scene.add(textMesh)
+      this.meshes.push(textMesh)
+
+      // Fix origin to left-bottom
+      const size = new THREE.Vector3()
+      geometry.boundingBox?.getSize(size)
+      textMesh.position.set(size.x / 2, size.y / 2, -size.z / 2)
+
+      textMesh.position.y -= 130
+
+      return new TextObject(textMesh)
+    })
+  }
+
+  public createSvgObject(svgPath: string, fillColor: string, isCCW = false) {
+    const shapes = svgPathToShapePath(svgPath).toShapes(isCCW)
+    const geometry = this.shapesToGeometry(shapes)
+    // geometry.rotateX(Math.PI)
+    geometry.center()
+
+    const svgMaterial = new THREE.MeshBasicMaterial({
+      color: fillColor,
+      fog: false,
+      depthTest: false,
+      depthWrite: false,
+    })
+
+    const svgMesh = new THREE.Mesh(geometry, svgMaterial)
+    svgMesh.rotateX(Math.PI)
+
+    this.scene.add(svgMesh)
+    this.meshes.push(svgMesh)
+
+    return new SvgObject(svgMesh)
   }
 }
 

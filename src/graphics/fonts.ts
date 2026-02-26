@@ -1,67 +1,36 @@
 import { load } from "opentype.js"
-import * as THREE from "three"
+import { svgPathToShapePath } from "./graphics-helpers"
 
-export async function loadFont(text: string, fontSize: number) {
-  const font = await load("/font/SpaceGrotesk-Regular.ttf")
+const fontVariants = {
+  light: "/font/SpaceGrotesk-Light.ttf",
+  regular: "/font/SpaceGrotesk-Regular.ttf",
+  medium: "/font/SpaceGrotesk-Medium.ttf",
+  semibold: "/font/SpaceGrotesk-SemiBold.ttf",
+  bold: "/font/SpaceGrotesk-Bold.ttf",
+}
 
+type FontWeight = keyof typeof fontVariants
+
+const fontCache = new Map<FontWeight, opentype.Font>()
+
+export async function loadFontShapes(
+  text: string,
+  fontSize: number,
+  weight: FontWeight = "medium",
+) {
+  let font = fontCache.get(weight)
   if (!font) {
-    return
+    font = await load(fontVariants[weight])
+    if (!font) {
+      throw new Error(`Failed to load font ${weight}`)
+    }
+    fontCache.set(weight, font)
   }
 
   const shapes = font.getPaths(text, 0, 0, fontSize).flatMap((path) => {
-    const shapePath = new THREE.ShapePath()
-    path.commands.forEach((command) => {
-      switch (command.type) {
-        case "M":
-          shapePath.moveTo(command.x, command.y)
-          break
-        case "L":
-          shapePath.lineTo(command.x, command.y)
-          break
-        case "Q":
-          shapePath.quadraticCurveTo(
-            command.x1,
-            command.y1,
-            command.x,
-            command.y,
-          )
-          break
-        case "C":
-          shapePath.bezierCurveTo(
-            command.x1,
-            command.y1,
-            command.x2,
-            command.y2,
-            command.x,
-            command.y,
-          )
-          break
-        case "Z":
-          if (shapePath.currentPath) {
-            shapePath.currentPath.closePath()
-          }
-          break
-      }
-    })
+    const shapePath = svgPathToShapePath(path)
     return shapePath.toShapes(true)
   })
 
-  const geometry = new THREE.ExtrudeGeometry(shapes, {
-    depth: 4,
-    steps: 2,
-    bevelEnabled: false,
-    bevelThickness: 2,
-    bevelSize: 1,
-    bevelOffset: 0,
-    bevelSegments: 3,
-  })
-  // const geometry = new THREE.ShapeGeometry(shapes)
-  geometry.center()
-  // geometry.computeVertexNormals()
-  // geometry.normalizeNormals()
-
-  // Invert Y axis for text
-  geometry.scale(1, -1, 1)
-
-  return geometry
+  return shapes
 }
