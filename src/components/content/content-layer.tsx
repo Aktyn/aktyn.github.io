@@ -1,21 +1,19 @@
-import { useMemo } from "react"
-import { ProjectedText, type ProjectedTextProps } from "./projected-text"
-import { isWebglAvailable } from "~/graphics/graphics-helpers"
-import { cn } from "~/lib/utils"
+import { useMemo } from 'react'
+import { ProjectedText, type ProjectedTextProps } from './projected-text'
+import { isWebglAvailable } from '~/graphics/graphics-helpers'
+import { cn } from '~/lib/utils'
 
-export function ContentLayer({
-  webScene,
-}: Pick<ProjectedTextProps, "webScene">) {
+export function ContentLayer({ webScene }: Pick<ProjectedTextProps, 'webScene'>) {
   const webGLAvailable = useMemo(() => isWebglAvailable(), [])
 
   return (
     <div
       className={cn(
-        "h-screen w-full overflow-hidden print:**:[span]:text-[#001814]",
-        webGLAvailable && "not-print:text-transparent",
+        'h-screen w-full overflow-hidden print:**:[span]:text-[#001814]',
+        webGLAvailable && 'not-print:text-transparent',
       )}
     >
-      <div className="text-center mt-40">
+      <div className="mt-40 text-center">
         <ProjectedText
           text="Aktyn"
           webScene={webScene}

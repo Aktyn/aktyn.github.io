@@ -1,5 +1,5 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -35,7 +35,7 @@ export function forceArray<T>(value: T | T[]): T[] {
 /** @deprecated images moved to `public` directory */
 export async function importImages(
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-  imports: Array<Promise<typeof import("*.webp")>>,
+  imports: Array<Promise<typeof import('*.webp')>>,
 ) {
   const modules = await Promise.all(imports)
   return modules.map((module) => module.default)

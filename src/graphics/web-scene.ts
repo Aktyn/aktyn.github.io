@@ -1,17 +1,17 @@
-import * as THREE from "three"
-import { OrbitControls } from "three/addons/controls/OrbitControls"
-import Stats from "three/addons/libs/stats.module"
+import * as THREE from 'three'
+import { OrbitControls } from 'three/addons/controls/OrbitControls'
+import Stats from 'three/addons/libs/stats.module'
 import {
   GodRaysFakeSunShader,
   GodRaysDepthMaskShader,
   GodRaysCombineShader,
   GodRaysGenerateShader,
-} from "three/addons/shaders/GodRaysShader"
-import { type FontWeight, loadFontShapes, getFontMetrics } from "./fonts"
-import { TextObject } from "./text-object"
-import { svgPathToShapePath } from "./graphics-helpers"
-import { SvgObject } from "./svg-object"
-import { buildCaches } from "./caches"
+} from 'three/addons/shaders/GodRaysShader'
+import { type FontWeight, loadFontShapes, getFontMetrics } from './fonts'
+import { TextObject } from './text-object'
+import { svgPathToShapePath } from './graphics-helpers'
+import { SvgObject } from './svg-object'
+import { buildCaches } from './caches'
 
 interface GodraysUniforms {
   [key: string]: THREE.IUniform
@@ -107,11 +107,11 @@ export class WebScene {
 
     this.renderer.setAnimationLoop(animate)
 
-    window.addEventListener("resize", this.windowResizeCallback)
+    window.addEventListener('resize', this.windowResizeCallback)
   }
 
   dispose() {
-    window.removeEventListener("resize", this.windowResizeCallback)
+    window.removeEventListener('resize', this.windowResizeCallback)
     this.renderer.setAnimationLoop(null)
     this.container.removeChild(this.renderer.domElement)
     this.container.removeChild(this.stats.dom)
@@ -165,18 +165,10 @@ export class WebScene {
     const adjustedWidth = w * GODRAY_RENDER_TARGET_RES_MULTIPLIER
     const adjustedHeight = h * GODRAY_RENDER_TARGET_RES_MULTIPLIER
 
-    const godrayMaskUniforms = THREE.UniformsUtils.clone(
-      GodRaysDepthMaskShader.uniforms,
-    )
-    const godrayGenUniforms = THREE.UniformsUtils.clone(
-      GodRaysGenerateShader.uniforms,
-    )
-    const godrayCombineUniforms = THREE.UniformsUtils.clone(
-      GodRaysCombineShader.uniforms,
-    )
-    const godraysFakeSunUniforms = THREE.UniformsUtils.clone(
-      GodRaysFakeSunShader.uniforms,
-    )
+    const godrayMaskUniforms = THREE.UniformsUtils.clone(GodRaysDepthMaskShader.uniforms)
+    const godrayGenUniforms = THREE.UniformsUtils.clone(GodRaysGenerateShader.uniforms)
+    const godrayCombineUniforms = THREE.UniformsUtils.clone(GodRaysCombineShader.uniforms)
+    const godraysFakeSunUniforms = THREE.UniformsUtils.clone(GodRaysFakeSunShader.uniforms)
 
     godraysFakeSunUniforms.bgColor.value.setHex(BG_COLOR)
     godraysFakeSunUniforms.sunColor.value.setHex(SUN_COLOR)
@@ -203,16 +195,12 @@ export class WebScene {
         type: THREE.HalfFloatType,
       }),
 
-      rtTextureGodRays1: new THREE.WebGLRenderTarget(
-        adjustedWidth,
-        adjustedHeight,
-        { type: THREE.HalfFloatType },
-      ),
-      rtTextureGodRays2: new THREE.WebGLRenderTarget(
-        adjustedWidth,
-        adjustedHeight,
-        { type: THREE.HalfFloatType },
-      ),
+      rtTextureGodRays1: new THREE.WebGLRenderTarget(adjustedWidth, adjustedHeight, {
+        type: THREE.HalfFloatType,
+      }),
+      rtTextureGodRays2: new THREE.WebGLRenderTarget(adjustedWidth, adjustedHeight, {
+        type: THREE.HalfFloatType,
+      }),
 
       godrayMaskUniforms,
       materialGodraysDepthMask: new THREE.ShaderMaterial({
@@ -238,10 +226,7 @@ export class WebScene {
         fragmentShader: GodRaysFakeSunShader.fragmentShader,
       }),
 
-      quad: new THREE.Mesh(
-        new THREE.PlaneGeometry(1.0, 1.0),
-        materialGodraysGenerate,
-      ),
+      quad: new THREE.Mesh(new THREE.PlaneGeometry(1.0, 1.0), materialGodraysGenerate),
     }
 
     postprocessing.camera.position.z = 100
@@ -258,8 +243,7 @@ export class WebScene {
     renderTarget: THREE.WebGLRenderTarget,
     stepSize: number,
   ) {
-    this.postprocessing.scene.overrideMaterial =
-      this.postprocessing.materialGodraysGenerate
+    this.postprocessing.scene.overrideMaterial = this.postprocessing.materialGodraysGenerate
     this.postprocessing.godrayGenUniforms.fStepSize.value = stepSize
     this.postprocessing.godrayGenUniforms.tInput.value = inputTex
 
@@ -297,23 +281,14 @@ export class WebScene {
       const sunX = this.screenSpacePosition.x * window.innerWidth
       const sunY = this.screenSpacePosition.y * window.innerHeight
 
-      this.renderer.setScissor(
-        sunX - sunSQW / 2,
-        sunY - sunSQH / 2,
-        sunSQW,
-        sunSQH,
-      )
+      this.renderer.setScissor(sunX - sunSQW / 2, sunY - sunSQH / 2, sunSQW, sunSQH)
       this.renderer.setScissorTest(true)
 
       this.postprocessing.godraysFakeSunUniforms.fAspect.value =
         window.innerWidth / window.innerHeight
-      this.postprocessing.scene.overrideMaterial =
-        this.postprocessing.materialGodraysFakeSun
+      this.postprocessing.scene.overrideMaterial = this.postprocessing.materialGodraysFakeSun
       this.renderer.setRenderTarget(this.postprocessing.rtTextureColors)
-      this.renderer.render(
-        this.postprocessing.scene,
-        this.postprocessing.camera,
-      )
+      this.renderer.render(this.postprocessing.scene, this.postprocessing.camera)
       this.renderer.setScissorTest(false)
 
       // for (const mesh of this.meshes) {
@@ -334,13 +309,9 @@ export class WebScene {
 
       this.postprocessing.godrayMaskUniforms.tInput.value =
         this.postprocessing.rtTextureDepth.texture
-      this.postprocessing.scene.overrideMaterial =
-        this.postprocessing.materialGodraysDepthMask
+      this.postprocessing.scene.overrideMaterial = this.postprocessing.materialGodraysDepthMask
       this.renderer.setRenderTarget(this.postprocessing.rtTextureDepthMask)
-      this.renderer.render(
-        this.postprocessing.scene,
-        this.postprocessing.camera,
-      )
+      this.renderer.render(this.postprocessing.scene, this.postprocessing.camera)
 
       const filterLen = 0.5
       const TAPS_PER_PASS = 5.0
@@ -366,13 +337,9 @@ export class WebScene {
       this.postprocessing.godrayCombineUniforms.tGodRays.value =
         this.postprocessing.rtTextureGodRays2.texture
 
-      this.postprocessing.scene.overrideMaterial =
-        this.postprocessing.materialGodraysCombine
+      this.postprocessing.scene.overrideMaterial = this.postprocessing.materialGodraysCombine
       this.renderer.setRenderTarget(null)
-      this.renderer.render(
-        this.postprocessing.scene,
-        this.postprocessing.camera,
-      )
+      this.renderer.render(this.postprocessing.scene, this.postprocessing.camera)
       this.postprocessing.scene.overrideMaterial = null
 
       // Final pass: render objects on top of everything without additive blending
@@ -409,12 +376,7 @@ export class WebScene {
     return this.camera
   }
 
-  public async createTextObject(
-    text: string,
-    size: number,
-    color: string,
-    weight: FontWeight,
-  ) {
+  public async createTextObject(text: string, size: number, color: string, weight: FontWeight) {
     return loadFontShapes(text, size, weight).then((shapes) => {
       const geometry = this.shapesToGeometry(shapes)
 

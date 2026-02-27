@@ -1,17 +1,11 @@
-import {
-  createContext,
-  type PropsWithChildren,
-  useCallback,
-  useContext,
-  useState,
-} from "react"
-import { clamp } from "~/lib/utils"
+import { createContext, type PropsWithChildren, useCallback, useContext, useState } from 'react'
+import { clamp } from '~/lib/utils'
 
 enum View {
-  Intro = "intro",
-  MyJourney = "my-journey",
-  PublicProjects = "public-projects",
-  TechStack = "tech-stack",
+  Intro = 'intro',
+  MyJourney = 'my-journey',
+  PublicProjects = 'public-projects',
+  TechStack = 'tech-stack',
 }
 
 const ViewsArray = Object.values(View)
@@ -24,8 +18,7 @@ const ViewContext = createContext({
 
 /** @deprecated */
 function ViewProvider({ children }: PropsWithChildren) {
-  const viewFromHash =
-    ((window.location.hash?.replace(/^#(.*)/, "$1") ?? "") as View) || ""
+  const viewFromHash = ((window.location.hash?.replace(/^#(.*)/, '$1') ?? '') as View) || ''
 
   const [view, setViewInternal] = useState(
     viewFromHash
@@ -43,21 +36,13 @@ function ViewProvider({ children }: PropsWithChildren) {
       }
 
       setViewChangeDirection(
-        clamp(
-          ViewsArray.indexOf(newView) - ViewsArray.indexOf(currentView),
-          -1,
-          1,
-        ),
+        clamp(ViewsArray.indexOf(newView) - ViewsArray.indexOf(currentView), -1, 1),
       )
       return newView
     })
   }, [])
 
-  return (
-    <ViewContext value={{ view, setView, viewChangeDirection }}>
-      {children}
-    </ViewContext>
-  )
+  return <ViewContext value={{ view, setView, viewChangeDirection }}>{children}</ViewContext>
 }
 
 /** @deprecated */
@@ -66,18 +51,18 @@ function useView() {
 }
 
 const viewData = {
-  [View.Intro]: { title: "", extendedTitle: "" },
+  [View.Intro]: { title: '', extendedTitle: '' },
   [View.PublicProjects]: {
-    title: "Projects",
-    extendedTitle: "Explore my noncommercial projects",
+    title: 'Projects',
+    extendedTitle: 'Explore my noncommercial projects',
   },
   [View.MyJourney]: {
-    title: "Experience",
-    extendedTitle: "My journey in the software world",
+    title: 'Experience',
+    extendedTitle: 'My journey in the software world',
   },
   [View.TechStack]: {
-    title: "Tech stack",
-    extendedTitle: "See my skills stack for more technical info",
+    title: 'Tech stack',
+    extendedTitle: 'See my skills stack for more technical info',
   },
 } as const satisfies { [key in View]: object }
 

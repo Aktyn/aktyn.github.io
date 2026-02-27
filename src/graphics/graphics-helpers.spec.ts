@@ -1,29 +1,31 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest"
-import { svgPathToShapePath } from "./graphics-helpers"
-import * as THREE from "three"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { describe, it, expect, spyOn, beforeEach, afterEach } from 'bun:test'
+import { svgPathToShapePath } from './graphics-helpers'
+import * as THREE from 'three'
 
-describe("svgPathToShapePath", () => {
-  let moveToSpy: ReturnType<typeof vi.spyOn>
-  let lineToSpy: ReturnType<typeof vi.spyOn>
-  let bezierCurveToSpy: ReturnType<typeof vi.spyOn>
-  let quadraticCurveToSpy: ReturnType<typeof vi.spyOn>
+describe('svgPathToShapePath', () => {
+  let moveToSpy: any
+  let lineToSpy: any
+  let bezierCurveToSpy: any
+  let quadraticCurveToSpy: any
 
   beforeEach(() => {
-    moveToSpy = vi.spyOn(THREE.ShapePath.prototype, "moveTo")
-    lineToSpy = vi.spyOn(THREE.ShapePath.prototype, "lineTo")
-    bezierCurveToSpy = vi.spyOn(THREE.ShapePath.prototype, "bezierCurveTo")
-    quadraticCurveToSpy = vi.spyOn(
-      THREE.ShapePath.prototype,
-      "quadraticCurveTo",
-    )
+    moveToSpy = spyOn(THREE.ShapePath.prototype as any, 'moveTo')
+    lineToSpy = spyOn(THREE.ShapePath.prototype as any, 'lineTo')
+    bezierCurveToSpy = spyOn(THREE.ShapePath.prototype as any, 'bezierCurveTo')
+    quadraticCurveToSpy = spyOn(THREE.ShapePath.prototype as any, 'quadraticCurveTo')
   })
 
   afterEach(() => {
-    vi.restoreAllMocks()
+    // Bun cleans up mocks by default or use .mockRestore() on spies
+    moveToSpy.mockRestore()
+    lineToSpy.mockRestore()
+    bezierCurveToSpy.mockRestore()
+    quadraticCurveToSpy.mockRestore()
   })
 
-  it("parses the example absolute SVG path correctly", () => {
-    const pathStr = "M 10 20 L 30 40 L 50 60"
+  it('parses the example absolute SVG path correctly', () => {
+    const pathStr = 'M 10 20 L 30 40 L 50 60'
     svgPathToShapePath(pathStr)
 
     expect(moveToSpy).toHaveBeenCalledWith(10, 20)
@@ -31,15 +33,15 @@ describe("svgPathToShapePath", () => {
     expect(lineToSpy).toHaveBeenCalledWith(50, 60)
   })
 
-  it("handles relative path commands", () => {
-    const pathStr = "m 10 10 l 5 5"
+  it('handles relative path commands', () => {
+    const pathStr = 'm 10 10 l 5 5'
     svgPathToShapePath(pathStr)
     expect(moveToSpy).toHaveBeenCalledWith(10, 10)
     expect(lineToSpy).toHaveBeenCalledWith(15, 15) // 10+5, 10+5
   })
 
-  it("handles consecutive coordinates for M and m as L and l", () => {
-    const pathStr = "M 10 10 20 20 m 5 5 10 10"
+  it('handles consecutive coordinates for M and m as L and l', () => {
+    const pathStr = 'M 10 10 20 20 m 5 5 10 10'
     svgPathToShapePath(pathStr)
     expect(moveToSpy).toHaveBeenNthCalledWith(1, 10, 10)
     expect(lineToSpy).toHaveBeenNthCalledWith(1, 20, 20) // Implicit L from M
@@ -47,8 +49,8 @@ describe("svgPathToShapePath", () => {
     expect(lineToSpy).toHaveBeenNthCalledWith(2, 35, 35) // Implicit l from m
   })
 
-  it("handles H, V, h, v commands", () => {
-    const pathStr = "M 10 10 H 20 V 30 h 5 v 5"
+  it('handles H, V, h, v commands', () => {
+    const pathStr = 'M 10 10 H 20 V 30 h 5 v 5'
     svgPathToShapePath(pathStr)
     expect(lineToSpy).toHaveBeenNthCalledWith(1, 20, 10) // H 20
     expect(lineToSpy).toHaveBeenNthCalledWith(2, 20, 30) // V 30
@@ -56,9 +58,8 @@ describe("svgPathToShapePath", () => {
     expect(lineToSpy).toHaveBeenNthCalledWith(4, 25, 35) // v 5
   })
 
-  it("handles C, c, Q, q, Z, z commands", () => {
-    const pathStr =
-      "M 10 10 C 20 20 30 30 40 40 Q 50 50 60 60 c 10 10 20 20 30 30 q 10 10 20 20 Z"
+  it('handles C, c, Q, q, Z, z commands', () => {
+    const pathStr = 'M 10 10 C 20 20 30 30 40 40 Q 50 50 60 60 c 10 10 20 20 30 30 q 10 10 20 20 Z'
     const shapePath = svgPathToShapePath(pathStr)
     expect(bezierCurveToSpy).toHaveBeenNthCalledWith(1, 20, 20, 30, 30, 40, 40)
     expect(quadraticCurveToSpy).toHaveBeenNthCalledWith(1, 50, 50, 60, 60)
@@ -72,19 +73,19 @@ describe("svgPathToShapePath", () => {
     expect(shapePath.subPaths.length).toBeGreaterThan(0)
   })
 
-  it("parses the specific string from the feature request", () => {
-    const pathStr = "M17.8764 22.3069L17.915 15.3908L23.83 15.3908"
+  it('parses the specific string from the feature request', () => {
+    const pathStr = 'M17.8764 22.3069L17.915 15.3908L23.83 15.3908'
     svgPathToShapePath(pathStr)
     expect(moveToSpy).toHaveBeenCalledWith(17.8764, 22.3069)
     expect(lineToSpy).toHaveBeenCalledWith(17.915, 15.3908)
     expect(lineToSpy).toHaveBeenCalledWith(23.83, 15.3908)
   })
 
-  it("handles the opentype Path object properly", () => {
+  it('handles the opentype Path object properly', () => {
     const mockOpenTypePath = {
       commands: [
-        { type: "M", x: 10, y: 10 },
-        { type: "L", x: 20, y: 20 },
+        { type: 'M', x: 10, y: 10 },
+        { type: 'L', x: 20, y: 20 },
       ],
     } as Parameters<typeof svgPathToShapePath>[0]
     svgPathToShapePath(mockOpenTypePath)

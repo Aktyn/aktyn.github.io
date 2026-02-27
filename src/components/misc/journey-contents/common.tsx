@@ -1,8 +1,8 @@
-import { useState } from "react"
-import { AmbientImage } from "~/components/gallery/ambient-image"
-import { MaximizedGallery } from "~/components/gallery/maximized-gallery"
-import { RootPortal } from "~/components/portal/root-portal"
-import { journeyInfo, JourneySection } from "~/lib/journey-info"
+import { useState } from 'react'
+import { AmbientImage } from '~/components/gallery/ambient-image'
+import { MaximizedGallery } from '~/components/gallery/maximized-gallery'
+import { RootPortal } from '~/components/portal/root-portal'
+import { journeyInfo, JourneySection } from '~/lib/journey-info'
 
 export function Diploma() {
   const [openGallery, setOpenGallery] = useState(false)
@@ -15,7 +15,7 @@ export function Diploma() {
       <AmbientImage
         src={diplomaSrc}
         alt="diploma"
-        className="hover:scale-110 hover:z-10 transition-[scale] ease-bounce duration-bounce cursor-pointer h-48 *:max-h-48"
+        className="h-48 cursor-pointer transition-[scale] duration-bounce ease-bounce *:max-h-48 hover:z-10 hover:scale-110"
         ambientOpacity={0.3}
         onClick={(event) => {
           setOpenGallery(true)
@@ -40,15 +40,14 @@ export function GraphicsAspirations() {
   const [openGallery, setOpenGallery] = useState(false)
   const [sourceBounds, setSourceBounds] = useState<DOMRect | null>(null)
 
-  const graphicsAspirationsSrc =
-    journeyInfo[JourneySection.FreeTimeProjects].images[0]
+  const graphicsAspirationsSrc = journeyInfo[JourneySection.FreeTimeProjects].images[0]
 
   return (
     <>
       <AmbientImage
         src={graphicsAspirationsSrc}
         alt="graphics aspirations"
-        className="hover:scale-110 hover:z-10 transition-[scale] ease-bounce duration-bounce cursor-pointer h-32 *:max-h-32"
+        className="h-32 cursor-pointer transition-[scale] duration-bounce ease-bounce *:max-h-32 hover:z-10 hover:scale-110"
         ambientOpacity={0.3}
         onClick={(event) => {
           setOpenGallery(true)

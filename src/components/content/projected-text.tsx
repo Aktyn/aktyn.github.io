@@ -1,11 +1,11 @@
-import { Fragment, useEffect, useRef, type ComponentProps } from "react"
-import { fontWeightValues, type FontWeight } from "~/graphics/fonts"
-import { type SceneObject } from "~/graphics/scene-object"
-import { type WebScene } from "~/graphics/web-scene"
-import { omit } from "~/lib/utils"
+import { Fragment, useEffect, useRef, type ComponentProps } from 'react'
+import { fontWeightValues, type FontWeight } from '~/graphics/fonts'
+import { type SceneObject } from '~/graphics/scene-object'
+import { type WebScene } from '~/graphics/web-scene'
+import { omit } from '~/lib/utils'
 
 const defaultFontSize = 16
-const defaultFontWeight: FontWeight = "medium"
+const defaultFontWeight: FontWeight = 'medium'
 
 export type ProjectedTextProps = {
   text: string
@@ -13,24 +13,22 @@ export type ProjectedTextProps = {
   fontSize?: number
   fontWeight?: FontWeight
   webScene: WebScene
-} & ComponentProps<"span">
+} & ComponentProps<'span'>
 
 export function ProjectedText(props: ProjectedTextProps) {
-  const words = props.text.split(" ")
+  const words = props.text.split(' ')
 
   return words.map((word, index) => (
     <Fragment key={index}>
       <ProjectedWord {...props} text={word} />
-      {index < words.length - 1 && (
-        <Space {...omit(props, "text", "color", "webScene")} />
-      )}
+      {index < words.length - 1 && <Space {...omit(props, 'text', 'color', 'webScene')} />}
     </Fragment>
   ))
 }
 
 function ProjectedWord({
   text: word,
-  color = "#001814",
+  color = '#001814',
   fontSize = defaultFontSize,
   fontWeight = defaultFontWeight,
   webScene,
@@ -98,7 +96,7 @@ function Space({
   fontSize = defaultFontSize,
   fontWeight = defaultFontWeight,
   ...spanProps
-}: Omit<ProjectedTextProps, "text" | "color" | "webScene">) {
+}: Omit<ProjectedTextProps, 'text' | 'color' | 'webScene'>) {
   return (
     <span
       {...spanProps}
@@ -109,7 +107,7 @@ function Space({
         ...spanProps.style,
       }}
     >
-      {" "}
+      {' '}
     </span>
   )
 }

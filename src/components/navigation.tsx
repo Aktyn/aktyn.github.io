@@ -1,32 +1,20 @@
-import { clamp, cn } from "~/lib/utils"
-import { ViewModule } from "~/modules/view.module"
-import { ScrollArea } from "~/components/ui/scroll-area"
+import { clamp, cn } from '~/lib/utils'
+import { ViewModule } from '~/modules/view.module'
 import {
-  ArrowUpToLine,
-  ChevronRight,
-  PanelLeftClose,
-  PanelLeftOpen,
-} from "lucide-react"
-import { Button } from "~/components/ui/button"
-import { Separator } from "~/components/ui/separator"
-import {
-  type ComponentProps,
-  type RefObject,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react"
-import { ProjectsGroup, projectsGroupsInfo } from "~/lib/projects-info"
-import { journeyInfo, JourneySection } from "~/lib/journey-info"
-import { TechStackCategory, techStackInfo } from "~/lib/tech-stack"
-import { DynamicIcon } from "lucide-react/dynamic"
-import { IconFromPath } from "~/components/common/icon-from-path"
-import {
+  ScrollArea,
+  Button,
+  Separator,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "~/components/ui/tooltip"
+} from '~/components/common/ui'
+import { ArrowUpToLine, ChevronRight, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
+import { type ComponentProps, type RefObject, useEffect, useMemo, useRef, useState } from 'react'
+import { ProjectsGroup, projectsGroupsInfo } from '~/lib/projects-info'
+import { journeyInfo, JourneySection } from '~/lib/journey-info'
+import { TechStackCategory, techStackInfo } from '~/lib/tech-stack'
+import { DynamicIcon } from 'lucide-react/dynamic'
+import { IconFromPath } from '~/components/common/icon-from-path'
 
 const delayStep = 50
 
@@ -52,7 +40,7 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
     if (enableNavigation) {
       const onPointer = (event: PointerEvent) => {
         const target = event.target
-        const sideNavigation = document.getElementById("side-navigation")
+        const sideNavigation = document.getElementById('side-navigation')
 
         if (!sideNavigation || !target || !(target instanceof HTMLElement)) {
           return
@@ -63,10 +51,10 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
         }
       }
 
-      document.addEventListener("pointerdown", onPointer)
+      document.addEventListener('pointerdown', onPointer)
 
       return () => {
-        document.removeEventListener("pointerdown", onPointer)
+        document.removeEventListener('pointerdown', onPointer)
       }
     }
   }, [enableNavigation])
@@ -90,14 +78,14 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
 
     const startAnchors = navigationContainer.querySelectorAll(
       // ":scope > * > button:first-child > *:first-child",
-      ":scope > * > div[data-slot=sub-navigation] > button:first-child",
+      ':scope > * > div[data-slot=sub-navigation] > button:first-child',
     )
     const endAnchors = navigationContainer.querySelectorAll(
-      ":scope > * > div[data-slot=sub-navigation] > button:last-child",
+      ':scope > * > div[data-slot=sub-navigation] > button:last-child',
     )
 
     if (startAnchors.length !== endAnchors.length) {
-      throw new Error("Number of start and end anchors do not match")
+      throw new Error('Number of start and end anchors do not match')
     }
 
     const lastElement = Array.from(endAnchors).at(-1)
@@ -144,11 +132,9 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
       const scrollTop = container.scrollTop ?? 0
 
       const viewportStart =
-        (scrollTop - (rect.top + rect.height)) /
-        (container.scrollHeight - rect.height)
+        (scrollTop - (rect.top + rect.height)) / (container.scrollHeight - rect.height)
 
-      const viewportEnd =
-        (scrollTop - rect.top) / (container.scrollHeight - rect.height)
+      const viewportEnd = (scrollTop - rect.top) / (container.scrollHeight - rect.height)
 
       targetFrom = alignToSegments(viewportStart + 0.01)
       targetTo = alignToSegments(viewportEnd - 0.01)
@@ -163,9 +149,7 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
     }))
 
     const updateViewContainerViewport = (viewScrollArea: HTMLElement) => {
-      const view = viewScrollArea.parentElement?.dataset[
-        "view"
-      ] as ViewModule.View
+      const view = viewScrollArea.parentElement?.dataset['view'] as ViewModule.View
 
       if (!view) {
         return
@@ -173,8 +157,7 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
 
       const fromFactor = viewScrollArea.scrollTop / viewScrollArea.scrollHeight
       const toFactor =
-        (viewScrollArea.scrollTop + viewScrollArea.clientHeight) /
-        viewScrollArea.scrollHeight
+        (viewScrollArea.scrollTop + viewScrollArea.clientHeight) / viewScrollArea.scrollHeight
 
       const relativeIndex = viewContainerViewportsPerView.findIndex(
         ({ view: _view }) => _view === view,
@@ -218,8 +201,7 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
       const relativeFrom = viewContainerViewportsPerView[fromSegmentIndex].from
       const relativeTo = viewContainerViewportsPerView[toSegmentIndex].to
 
-      const preciseTargetFrom =
-        targetFrom + relativeFrom * (targetTo - targetFrom)
+      const preciseTargetFrom = targetFrom + relativeFrom * (targetTo - targetFrom)
       const preciseTargetTo = targetFrom + relativeTo * (targetTo - targetFrom)
 
       const fromDiff = preciseTargetFrom - from
@@ -262,7 +244,7 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
     const resizeObservers: ResizeObserver[] = []
 
     for (const viewContainer of viewContainers) {
-      viewContainer.addEventListener("scroll", handleViewContainerScroll)
+      viewContainer.addEventListener('scroll', handleViewContainerScroll)
 
       const ro = new ResizeObserver((entries) => {
         for (const entry of entries) {
@@ -277,14 +259,14 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
       resizeObservers.push(ro)
     }
 
-    container.addEventListener("scroll", handleContainerScroll)
-    lastElement?.addEventListener("animationend", onAnimationEnd)
+    container.addEventListener('scroll', handleContainerScroll)
+    lastElement?.addEventListener('animationend', onAnimationEnd)
 
     return () => {
-      container.removeEventListener("scroll", handleContainerScroll)
-      lastElement?.removeEventListener("animationend", onAnimationEnd)
+      container.removeEventListener('scroll', handleContainerScroll)
+      lastElement?.removeEventListener('animationend', onAnimationEnd)
       viewContainers.forEach((viewContainer) =>
-        viewContainer.removeEventListener("scroll", handleViewContainerScroll),
+        viewContainer.removeEventListener('scroll', handleViewContainerScroll),
       )
       resizeObservers.forEach((ro) => ro.disconnect())
 
@@ -297,19 +279,18 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
       <ScrollArea
         id="side-navigation"
         className={cn(
-          "fixed! left-0 h-dvh xl:sticky! inset-0 w-fit xl:w-full z-10",
-          "max-xl:backdrop-blur-lg max-xl:bg-foreground/5 max-xl:border-r max-xl:border-foreground/10 max-xl:shadow-lg transition-[translate] ease-out duration-bounce",
-          (!enableNavigation || !showSidebar) &&
-            "max-xl:-translate-x-full ease-in",
+          'fixed! inset-0 left-0 z-10 h-dvh w-fit xl:sticky! xl:w-full',
+          'transition-[translate] duration-bounce ease-out max-xl:border-r max-xl:border-foreground/10 max-xl:bg-foreground/5 max-xl:shadow-lg max-xl:backdrop-blur-lg',
+          (!enableNavigation || !showSidebar) && 'ease-in max-xl:-translate-x-full',
         )}
       >
         <aside
           data-current={enableNavigation}
-          className="flex flex-col items-center justify-start *:data-[slot=separator]:bg-foreground/20 p-4 gap-y-4 text-muted-foreground"
+          className="flex flex-col items-center justify-start gap-y-4 p-4 text-muted-foreground *:data-[slot=separator]:bg-foreground/20"
         >
-          <div className="flex flex-row items-center justify-between w-full gap-x-2">
+          <div className="flex w-full flex-row items-center justify-between gap-x-2">
             <NavButton
-              className="navigation-transition -my-2 py-4 max-xl:w-auto! w-auto grow"
+              className="-my-2 w-auto grow navigation-transition py-4 max-xl:w-auto!"
               onClick={() => setView(ViewModule.View.Intro)}
             >
               <ArrowUpToLine />
@@ -321,7 +302,7 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
                   variant="ghost"
                   size="icon"
                   onClick={() => setShowSidebar(false)}
-                  className="xl:hidden hover:backdrop-blur-sm hover:bg-foreground/10 hover:text-foreground cursor-pointer"
+                  className="cursor-pointer hover:bg-foreground/10 hover:text-foreground hover:backdrop-blur-sm xl:hidden"
                 >
                   <PanelLeftClose />
                 </Button>
@@ -329,11 +310,11 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
               <TooltipContent>Close sidebar navigation</TooltipContent>
             </Tooltip>
           </div>
-          <Separator className="navigation-transition fade-in-100 delay-900 mask-linear-[to_right,black,#000a,transparent] -mx-4 w-[calc(100%+var(--spacing)*8)]!" />
-          <div className="w-full flex flex-row items-stretch gap-x-4 -ml-2">
-            <div className="flex flex-col items-center justify-center text-center h-auto navigation-transition fade-in fade-out delay-1500 relative text-[color-mix(in_oklab,var(--color-primary),var(--color-secondary)_80%)]">
+          <Separator className="-mx-4 w-[calc(100%+var(--spacing)*8)]! navigation-transition mask-linear-[to_right,black,#000a,transparent] delay-900 fade-in-100" />
+          <div className="-ml-2 flex w-full flex-row items-stretch gap-x-4">
+            <div className="relative flex h-auto navigation-transition flex-col items-center justify-center text-center text-[color-mix(in_oklab,var(--color-primary),var(--color-secondary)_80%)] delay-1500 fade-in fade-out">
               <div
-                className="block absolute inset-0 inset-x-auto w-px"
+                className="absolute inset-0 inset-x-auto block w-px"
                 style={{
                   // maskImage: `linear-gradient(to bottom, transparent, black ${viewportNavigationFrom}%, black ${viewportNavigationTo}%, transparent)`,
                   //center: oklch(var(--primary) / 0.75) ${(viewportNavigationFrom + viewportNavigationTo) / 2}%,
@@ -348,13 +329,13 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
               />
               {/*transition-[top] ease-in-out duration-400*/}
               <span
-                className="inline absolute top-0 inset-x-0 size-2 rounded-full bg-muted-foreground -translate-1/2"
+                className="absolute inset-x-0 top-0 inline size-2 -translate-1/2 rounded-full bg-muted-foreground"
                 style={{
                   top: `${viewportNavigationFrom}%`,
                 }}
               />
               <span
-                className="inline absolute top-0 inset-x-0 size-2 rounded-full bg-muted-foreground -translate-1/2"
+                className="absolute inset-x-0 top-0 inline size-2 -translate-1/2 rounded-full bg-muted-foreground"
                 style={{
                   top: `${viewportNavigationTo}%`,
                 }}
@@ -362,13 +343,11 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
             </div>
             <div
               ref={navigationContainerRef}
-              className="grow flex flex-col items-stretch text-left"
+              className="flex grow flex-col items-stretch text-left"
             >
               {ViewModule.ViewsArray.map(
                 (view) =>
-                  view !== ViewModule.View.Intro && (
-                    <ViewNavigation key={view} view={view} />
-                  ),
+                  view !== ViewModule.View.Intro && <ViewNavigation key={view} view={view} />,
               )}
             </div>
           </div>
@@ -381,9 +360,9 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
             size="icon"
             onClick={() => setShowSidebar(true)}
             className={cn(
-              "xl:hidden fixed top-1 left-1 z-90 text-muted-foreground transition-[translate,color,opacity] hover:backdrop-blur-sm hover:bg-foreground/10 hover:text-foreground cursor-pointer",
+              'fixed top-1 left-1 z-90 cursor-pointer text-muted-foreground transition-[translate,color,opacity] hover:bg-foreground/10 hover:text-foreground hover:backdrop-blur-sm xl:hidden',
               (showSidebar || !enableNavigation) &&
-                "text-primary opacity-0 -translate-x-13 pointer-events-none",
+                'pointer-events-none -translate-x-13 text-primary opacity-0',
             )}
           >
             <PanelLeftOpen />
@@ -395,10 +374,10 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
         <TooltipTrigger asChild>
           <div
             className={cn(
-              "xl:hidden fixed inset-y-0 left-0 z-80 w-0.5 bg-transparent transition-[background-color,box_shadow,opacity]",
+              'fixed inset-y-0 left-0 z-80 w-0.5 bg-transparent transition-[background-color,box_shadow,opacity] xl:hidden',
               enableNavigation && !showSidebar
-                ? "hover:bg-primary shadow-none hover:shadow-[calc(var(--spacing)*0.5)_0_calc(var(--spacing)*4)_var(--color-foreground),calc(var(--spacing)*0.5)_0_calc(var(--spacing)*2)_var(--color-primary)]"
-                : "opacity-0 pointer-events-none",
+                ? 'shadow-none hover:bg-primary hover:shadow-[calc(var(--spacing)*0.5)_0_calc(var(--spacing)*4)_var(--color-foreground),calc(var(--spacing)*0.5)_0_calc(var(--spacing)*2)_var(--color-primary)]'
+                : 'pointer-events-none opacity-0',
             )}
             onClick={() => setShowSidebar(true)}
           />
@@ -419,7 +398,7 @@ function ViewNavigation({ view }: { view: keyof typeof ViewModule.viewData }) {
   return (
     <div
       data-slot="view-navigation-group"
-      className="flex flex-col items-stretch justify-center gap-y-0.5 not-first:*:first:mt-4 cursor-pointer"
+      className="flex cursor-pointer flex-col items-stretch justify-center gap-y-0.5 not-first:*:first:mt-4"
       style={{
         color: `oklch(from var(--color-accent) calc(l + 0.8) calc(c + 0.01) calc(h - ${hueShift}) / 0.5)`,
       }}
@@ -427,8 +406,8 @@ function ViewNavigation({ view }: { view: keyof typeof ViewModule.viewData }) {
     >
       <NavButton
         className={cn(
-          "text-lg tracking-wide font-light navigation-transition disabled:opacity-100 h-12",
-          current && "text-[oklch(from_currentColor_l_c_h/1)]",
+          'h-12 navigation-transition text-lg font-light tracking-wide disabled:opacity-100',
+          current && 'text-[oklch(from_currentColor_l_c_h/1)]',
         )}
         style={{
           animationDelay: `${delayStep + index * 5 * delayStep}ms`,
@@ -453,7 +432,7 @@ function SubNavigation({ view, delayOffset }: SubNavigationProps) {
   const data = useMemo(() => {
     switch (view) {
       case ViewModule.View.Intro:
-        throw new Error("Intro view has no sub navigation")
+        throw new Error('Intro view has no sub navigation')
       case ViewModule.View.MyJourney:
         return Object.values(JourneySection).map((section) => ({
           key: section,
@@ -476,26 +455,22 @@ function SubNavigation({ view, delayOffset }: SubNavigationProps) {
   }, [view])
 
   return (
-    <div data-slot="sub-navigation" className="flex flex-col pl-3 gap-y-0.5">
+    <div data-slot="sub-navigation" className="flex flex-col gap-y-0.5 pl-3">
       {data.map(({ key, title, icon }, index) => (
         <NavButton
           key={key}
           size="sm"
           nested
-          className="navigation-transition slide-in-from-bottom-16 p-2 rounded-full pointer-events-none"
+          className="pointer-events-none navigation-transition rounded-full p-2 slide-in-from-bottom-16"
           style={{
             animationDelay: `${delayOffset + index * delayStep}ms`,
           }}
           onClick={() => setView(view)}
         >
-          {typeof icon === "string" ? (
+          {typeof icon === 'string' ? (
             <DynamicIcon name={icon} />
           ) : (
-            <IconFromPath
-              d={icon.svgPath}
-              viewBox="0 0 50 50"
-              className="size-4"
-            />
+            <IconFromPath d={icon.svgPath} viewBox="0 0 50 50" className="size-4" />
           )}
           {title}
         </NavButton>
@@ -515,16 +490,16 @@ function NavButton({
       variant="ghost"
       {...buttonProps}
       className={cn(
-        "w-full h-auto justify-between hover:backdrop-blur-sm hover:bg-foreground/10 hover:text-foreground hover:duration-bounce hover:delay-0 hover:*:translate-x-0 hover:*:[svg]:opacity-50 hover:*:ease-out hover:*:delay-0",
+        'h-auto w-full justify-between hover:bg-foreground/10 hover:text-foreground hover:backdrop-blur-sm hover:delay-0 hover:duration-bounce hover:*:translate-x-0 hover:*:delay-0 hover:*:ease-out hover:*:[svg]:opacity-50',
         !nested &&
-          "in-[[data-slot=view-navigation-group]:hover]:backdrop-blur-sm in-[[data-slot=view-navigation-group]:hover]:bg-foreground/10 in-[[data-slot=view-navigation-group]:hover]:text-foreground in-[[data-slot=view-navigation-group]:hover]:duration-bounce in-[[data-slot=view-navigation-group]:hover]:delay-0 in-[[data-slot=view-navigation-group]:hover]:*:translate-x-0 in-[[data-slot=view-navigation-group]:hover]:*:[svg]:opacity-50 in-[[data-slot=view-navigation-group]:hover]:*:ease-out in-[[data-slot=view-navigation-group]:hover]:*:delay-0",
+          'in-[[data-slot=view-navigation-group]:hover]:bg-foreground/10 in-[[data-slot=view-navigation-group]:hover]:text-foreground in-[[data-slot=view-navigation-group]:hover]:backdrop-blur-sm in-[[data-slot=view-navigation-group]:hover]:delay-0 in-[[data-slot=view-navigation-group]:hover]:duration-bounce in-[[data-slot=view-navigation-group]:hover]:*:translate-x-0 in-[[data-slot=view-navigation-group]:hover]:*:delay-0 in-[[data-slot=view-navigation-group]:hover]:*:ease-out in-[[data-slot=view-navigation-group]:hover]:*:[svg]:opacity-50',
         className,
       )}
     >
-      <div className="inline-flex flex-row items-center gap-2 -translate-x-2 transition-transform ease-in-out delay-200">
+      <div className="inline-flex -translate-x-2 flex-row items-center gap-2 transition-transform delay-200 ease-in-out">
         {children}
       </div>
-      <ChevronRight className="opacity-0 -translate-x-4 transition-[opacity,translate] ease-in-out delay-200" />
+      <ChevronRight className="-translate-x-4 opacity-0 transition-[opacity,translate] delay-200 ease-in-out" />
     </Button>
   )
 }

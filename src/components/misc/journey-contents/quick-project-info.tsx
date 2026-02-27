@@ -1,6 +1,6 @@
-import type { ElementType } from "react"
-import { GithubProjectLink } from "~/components/common/github-project-link"
-import { cn } from "~/lib/utils"
+import type { ElementType } from 'react'
+import { GithubProjectLink } from '~/components/common/github-project-link'
+import { cn } from '~/lib/utils'
 
 type QuickProjectInfoProps = {
   component?: ElementType
@@ -17,20 +17,13 @@ export function QuickProjectInfo({
   description,
   githubLink,
 }: QuickProjectInfoProps) {
-  const Comp = component ?? "div"
+  const Comp = component ?? 'div'
 
   return (
-    <Comp className={cn("text-balance leading-none my-0.5", className)}>
-      <GithubProjectLink
-        href={githubLink}
-        title={title}
-        className="font-medium"
-      />
+    <Comp className={cn('my-0.5 leading-none text-balance', className)}>
+      <GithubProjectLink href={githubLink} title={title} className="font-medium" />
       {description && (
-        <span className="text-xs text-muted-foreground whitespace-pre-wrap">
-          {" "}
-          - {description}
-        </span>
+        <span className="text-xs whitespace-pre-wrap text-muted-foreground"> - {description}</span>
       )}
     </Comp>
   )

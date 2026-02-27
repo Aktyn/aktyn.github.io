@@ -1,6 +1,6 @@
-import type { ComponentProps } from "react"
+import type { ComponentProps } from 'react'
 
-export function GithubIcon(props: ComponentProps<"svg">) {
+export function GithubIcon(props: ComponentProps<'svg'>) {
   return (
     <svg viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path

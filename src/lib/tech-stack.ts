@@ -1,85 +1,84 @@
-import type { ComponentProps } from "react"
-import type { DynamicIcon } from "lucide-react/dynamic"
+import type { ComponentProps } from 'react'
+import type { DynamicIcon } from 'lucide-react/dynamic'
 
 export enum TechStackCategory {
-  Frontend = "frontend",
-  Backend = "backend",
-  KnownTools = "known-tools",
+  Frontend = 'frontend',
+  Backend = 'backend',
+  KnownTools = 'known-tools',
 }
 
 export const techStackInfo = {
   [TechStackCategory.Frontend]: {
-    title: "Frontend",
-    description:
-      "This is my main area of expertise, as well as the type of work I enjoy the most.",
-    thumbnail: "/img/quick-access-thumbnails/react.webp",
-    icon: "monitor-smartphone",
+    title: 'Frontend',
+    description: 'This is my main area of expertise, as well as the type of work I enjoy the most.',
+    thumbnail: '/img/quick-access-thumbnails/react.webp',
+    icon: 'monitor-smartphone',
     stackGroups: [
       {
-        title: "Languages & Markup",
-        stack: ["html", "javascript", "typescript"],
+        title: 'Languages & Markup',
+        stack: ['html', 'javascript', 'typescript'],
       },
       {
-        title: "Frameworks & Tooling",
-        stack: ["react", "vite", "webpack", "electron"],
+        title: 'Frameworks & Tooling',
+        stack: ['react', 'vite', 'webpack', 'electron'],
       },
       {
-        title: "Styling and components",
-        stack: ["css", "sass", "tailwindcss", "shadcn", "materialui"],
+        title: 'Styling and components',
+        stack: ['css', 'sass', 'tailwindcss', 'shadcn', 'materialui'],
       },
       {
-        title: "Advanced graphics",
-        stack: ["svg", "threejs", "opengl+webgl", "glsl"],
+        title: 'Advanced graphics',
+        stack: ['svg', 'threejs', 'opengl+webgl', 'glsl'],
       },
       {
-        title: "Testing (full stack)",
-        stack: ["vitest", "jest", "storybook"],
+        title: 'Testing (full stack)',
+        stack: ['vitest', 'jest', 'storybook'],
       },
       {
-        title: "Mobile",
-        stack: ["react-native", "expo"],
+        title: 'Mobile',
+        stack: ['react-native', 'expo'],
       },
     ],
   },
   [TechStackCategory.Backend]: {
-    title: "Backend",
+    title: 'Backend',
     description:
       "I've learned backend development through work experience and personal projects.\nHere's what I'm most familiar with.",
-    thumbnail: "/img/quick-access-thumbnails/nodejs.webp",
-    icon: "server-cog",
+    thumbnail: '/img/quick-access-thumbnails/nodejs.webp',
+    icon: 'server-cog',
     stackGroups: [
       {
-        title: "Languages & Platforms",
-        stack: ["python", "java", "cplusplus"],
+        title: 'Languages & Platforms',
+        stack: ['python', 'java', 'cplusplus'],
       },
       {
-        title: "Runtimes & Frameworks",
-        stack: ["nodejs", "fastify", "express", "puppeteer"],
+        title: 'Runtimes & Frameworks',
+        stack: ['nodejs', 'fastify', 'express', 'puppeteer'],
       },
       {
-        title: "Databases",
-        stack: ["postgresql", "sqlite", "mongodb"],
+        title: 'Databases',
+        stack: ['postgresql', 'sqlite', 'mongodb'],
       },
       {
-        title: "Microcontrollers / Single board computers",
-        stack: ["raspberrypi", "micropython"],
+        title: 'Microcontrollers / Single board computers',
+        stack: ['raspberrypi', 'micropython'],
       },
     ],
   },
   [TechStackCategory.KnownTools]: {
-    title: "Known tools",
+    title: 'Known tools',
     description:
-      "Here are some non-coding tools that I have experience using.\nBy the way, I work on Linux.",
-    thumbnail: "/img/quick-access-thumbnails/jira.webp",
-    icon: "tool-case",
+      'Here are some non-coding tools that I have experience using.\nBy the way, I work on Linux.',
+    thumbnail: '/img/quick-access-thumbnails/jira.webp',
+    icon: 'tool-case',
     stackGroups: [
       {
-        title: "Graphics and design",
-        stack: ["blender", "gimp", "inkscape", "figma"],
+        title: 'Graphics and design',
+        stack: ['blender', 'gimp', 'inkscape', 'figma'],
       },
       {
-        title: "Project management and version control systems",
-        stack: ["jira", "linear", "git", "github", "gitlab"],
+        title: 'Project management and version control systems',
+        stack: ['jira', 'linear', 'git', 'github', 'gitlab'],
       },
     ],
   },
@@ -88,7 +87,7 @@ export const techStackInfo = {
     title: string
     description: string
     thumbnail: string
-    icon: ComponentProps<typeof DynamicIcon>["name"] | { svgPath: string }
+    icon: ComponentProps<typeof DynamicIcon>['name'] | { svgPath: string }
     stackGroups: Array<{
       title?: string
       stack: Array<keyof typeof techStack>
@@ -98,184 +97,184 @@ export const techStackInfo = {
 
 export const techStack = {
   html: {
-    icon: "devicon-html5-plain colored",
-    name: "HTML",
+    icon: 'devicon-html5-plain colored',
+    name: 'HTML',
   },
   javascript: {
-    icon: "devicon-javascript-plain colored",
-    name: "JavaScript",
+    icon: 'devicon-javascript-plain colored',
+    name: 'JavaScript',
   },
   typescript: {
-    icon: "devicon-typescript-plain colored",
-    name: "TypeScript",
+    icon: 'devicon-typescript-plain colored',
+    name: 'TypeScript',
   },
   react: {
-    icon: "devicon-react-original colored",
-    name: "React",
+    icon: 'devicon-react-original colored',
+    name: 'React',
   },
   vite: {
-    icon: "devicon-vitejs-plain colored",
-    name: "Vite",
+    icon: 'devicon-vitejs-plain colored',
+    name: 'Vite',
   },
   css: {
-    icon: "devicon-css3-plain-wordmark colored",
-    name: "CSS",
+    icon: 'devicon-css3-plain-wordmark colored',
+    name: 'CSS',
   },
   sass: {
-    icon: "devicon-sass-original colored",
-    name: "Sass",
+    icon: 'devicon-sass-original colored',
+    name: 'Sass',
   },
   tailwindcss: {
-    icon: "devicon-tailwindcss-original colored",
-    name: "Tailwind",
+    icon: 'devicon-tailwindcss-original colored',
+    name: 'Tailwind',
   },
   shadcn: {
-    icon: "",
-    name: "shadcn",
+    icon: '',
+    name: 'shadcn',
   },
   materialui: {
-    icon: "devicon-materialui-plain colored",
-    name: "Material UI",
+    icon: 'devicon-materialui-plain colored',
+    name: 'Material UI',
   },
   webpack: {
-    icon: "devicon-webpack-plain colored",
-    name: "Webpack",
+    icon: 'devicon-webpack-plain colored',
+    name: 'Webpack',
   },
   express: {
-    icon: "devicon-express-original",
-    name: "Express",
+    icon: 'devicon-express-original',
+    name: 'Express',
   },
   fastify: {
-    icon: "devicon-fastify-plain",
-    name: "Fastify",
+    icon: 'devicon-fastify-plain',
+    name: 'Fastify',
   },
-  "react-native": {
-    icon: "devicon-react-original colored",
-    name: "React Native",
+  'react-native': {
+    icon: 'devicon-react-original colored',
+    name: 'React Native',
   },
   expo: {
-    icon: "devicon-expo-original",
-    name: "Expo + EAS",
+    icon: 'devicon-expo-original',
+    name: 'Expo + EAS',
   },
   mysql: {
-    icon: "devicon-mysql-plain colored",
-    name: "MySQL",
+    icon: 'devicon-mysql-plain colored',
+    name: 'MySQL',
   },
   postgresql: {
-    icon: "devicon-postgresql-plain colored",
-    name: "PostgreSQL",
+    icon: 'devicon-postgresql-plain colored',
+    name: 'PostgreSQL',
   },
   sqlite: {
-    icon: "devicon-sqlite-plain colored",
-    name: "SQLite",
+    icon: 'devicon-sqlite-plain colored',
+    name: 'SQLite',
   },
   discordjs: {
-    icon: "devicon-discordjs-plain",
-    name: "Discord.js",
+    icon: 'devicon-discordjs-plain',
+    name: 'Discord.js',
   },
   nodejs: {
-    icon: "devicon-nodejs-plain colored",
-    name: "Node.js",
+    icon: 'devicon-nodejs-plain colored',
+    name: 'Node.js',
   },
   electron: {
-    icon: "devicon-electron-original",
-    name: "Electron",
+    icon: 'devicon-electron-original',
+    name: 'Electron',
   },
   puppeteer: {
-    icon: "devicon-puppeteer-plain colored",
-    name: "Puppeteer",
+    icon: 'devicon-puppeteer-plain colored',
+    name: 'Puppeteer',
   },
   mongodb: {
-    icon: "devicon-mongodb-plain colored",
-    name: "MongoDB",
+    icon: 'devicon-mongodb-plain colored',
+    name: 'MongoDB',
   },
   java: {
-    icon: "devicon-java-plain colored",
-    name: "Java",
+    icon: 'devicon-java-plain colored',
+    name: 'Java',
   },
   opengl: {
-    icon: "devicon-opengl-plain colored",
-    name: "OpenGL",
+    icon: 'devicon-opengl-plain colored',
+    name: 'OpenGL',
   },
   blender: {
-    icon: "devicon-blender-original colored",
-    name: "Blender",
+    icon: 'devicon-blender-original colored',
+    name: 'Blender',
   },
   gimp: {
-    icon: "devicon-gimp-plain colored",
-    name: "GIMP",
+    icon: 'devicon-gimp-plain colored',
+    name: 'GIMP',
   },
   inkscape: {
-    icon: "devicon-inkscape-plain",
-    name: "Inkscape",
+    icon: 'devicon-inkscape-plain',
+    name: 'Inkscape',
   },
   raspberrypi: {
-    icon: "devicon-raspberrypi-plain colored",
-    name: "Raspberry Pi",
+    icon: 'devicon-raspberrypi-plain colored',
+    name: 'Raspberry Pi',
   },
   python: {
-    icon: "devicon-python-plain colored",
-    name: "Python",
+    icon: 'devicon-python-plain colored',
+    name: 'Python',
   },
   micropython: {
-    icon: "devicon-python-plain",
-    name: "MicroPython",
+    icon: 'devicon-python-plain',
+    name: 'MicroPython',
   },
   cplusplus: {
-    icon: "devicon-cplusplus-plain colored",
-    name: "C++",
+    icon: 'devicon-cplusplus-plain colored',
+    name: 'C++',
   },
   threejs: {
-    icon: "devicon-threejs-original",
-    name: "Three.js",
+    icon: 'devicon-threejs-original',
+    name: 'Three.js',
   },
-  "opengl+webgl": {
-    icon: "devicon-opengl-plain colored",
-    name: "OpenGL + WebGL",
+  'opengl+webgl': {
+    icon: 'devicon-opengl-plain colored',
+    name: 'OpenGL + WebGL',
   },
   glsl: {
-    icon: "",
-    name: "GLSL",
+    icon: '',
+    name: 'GLSL',
   },
   svg: {
-    icon: "",
-    name: "SVG",
+    icon: '',
+    name: 'SVG',
   },
   figma: {
-    icon: "devicon-figma-plain colored",
-    name: "Figma",
+    icon: 'devicon-figma-plain colored',
+    name: 'Figma',
   },
   jira: {
-    icon: "devicon-jira-plain colored",
-    name: "Jira",
+    icon: 'devicon-jira-plain colored',
+    name: 'Jira',
   },
   linear: {
-    icon: "",
-    name: "Linear",
+    icon: '',
+    name: 'Linear',
   },
   jest: {
-    icon: "devicon-jest-plain colored",
-    name: "Jest",
+    icon: 'devicon-jest-plain colored',
+    name: 'Jest',
   },
   vitest: {
-    icon: "devicon-vitest-plain colored",
-    name: "Vitest",
+    icon: 'devicon-vitest-plain colored',
+    name: 'Vitest',
   },
   storybook: {
-    icon: "devicon-storybook-plain colored",
-    name: "Storybook",
+    icon: 'devicon-storybook-plain colored',
+    name: 'Storybook',
   },
   git: {
-    icon: "devicon-git-plain colored",
-    name: "Git",
+    icon: 'devicon-git-plain colored',
+    name: 'Git',
   },
   github: {
-    icon: "devicon-github-plain",
-    name: "GitHub",
+    icon: 'devicon-github-plain',
+    name: 'GitHub',
   },
   gitlab: {
-    icon: "devicon-gitlab-plain colored",
-    name: "GitLab",
+    icon: 'devicon-gitlab-plain colored',
+    name: 'GitLab',
   },
 } as const satisfies Record<
   string,

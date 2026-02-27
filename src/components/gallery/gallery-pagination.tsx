@@ -1,16 +1,12 @@
-import type { ComponentProps } from "react"
-import { cn, clamp } from "~/lib/utils"
+import type { ComponentProps } from 'react'
+import { cn, clamp } from '~/lib/utils'
 
 type GalleryPaginationProps = {
   count: number
   index: number
-} & ComponentProps<"div">
+} & ComponentProps<'div'>
 
-export function GalleryPagination({
-  count,
-  index,
-  ...divProps
-}: GalleryPaginationProps) {
+export function GalleryPagination({ count, index, ...divProps }: GalleryPaginationProps) {
   if (!Number.isFinite(count) || count <= 1) {
     return null
   }
@@ -22,7 +18,7 @@ export function GalleryPagination({
       role="group"
       aria-label={`Image ${current + 1} of ${count}`}
       className={cn(
-        "inline-flex flex-row items-center gap-1 bg-card border border-muted p-1.5 rounded-full pointer-events-none select-none",
+        'pointer-events-none inline-flex flex-row items-center gap-1 rounded-full border border-muted bg-card p-1.5 select-none',
         divProps.className,
       )}
     >
@@ -32,10 +28,8 @@ export function GalleryPagination({
           key={i}
           aria-hidden="true"
           className={cn(
-            "block rounded-full transition-[background-color,scale] ease-in-out size-1.5",
-            i === current
-              ? "scale-120 bg-foreground"
-              : "scale-100 bg-muted-foreground",
+            'block size-1.5 rounded-full transition-[background-color,scale] ease-in-out',
+            i === current ? 'scale-120 bg-foreground' : 'scale-100 bg-muted-foreground',
           )}
         />
       ))}

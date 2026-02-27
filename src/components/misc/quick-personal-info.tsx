@@ -1,33 +1,19 @@
-import { differenceInYears, format } from "date-fns"
-import {
-  CalendarHeart,
-  CalendarRange,
-  Languages,
-  Map,
-  MapPinHouse,
-} from "lucide-react"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "~/components/ui/tooltip"
-import type { ComponentProps } from "react"
-import { cn } from "~/lib/utils"
-import { Button } from "~/components/ui/button"
+import { differenceInYears, format } from 'date-fns'
+import { CalendarHeart, CalendarRange, Languages, Map, MapPinHouse } from 'lucide-react'
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from '~/components/common/ui'
+import type { ComponentProps } from 'react'
+import { cn } from '~/lib/utils'
 
 type QuickPersonalInfoProps = {
   experienceStartDate: Date
   className?: string
 }
 
-export function QuickPersonalInfo({
-  experienceStartDate,
-  className,
-}: QuickPersonalInfoProps) {
+export function QuickPersonalInfo({ experienceStartDate, className }: QuickPersonalInfoProps) {
   return (
     <div
       className={cn(
-        "max-w-full flex flex-row flex-wrap *:flex-1 items-center justify-start gap-x-8",
+        'flex max-w-full flex-row flex-wrap items-center justify-start gap-x-8 *:flex-1',
         className,
       )}
     >
@@ -38,7 +24,7 @@ export function QuickPersonalInfo({
           asChild
           variant="link"
           size="sm"
-          className="text-xs text-muted-foreground hover:text-primary hover:no-underline px-1!"
+          className="px-1! text-xs text-muted-foreground hover:text-primary hover:no-underline"
         >
           <a
             href="https://maps.app.goo.gl/HngK9DdmwfTJpXhA9"
@@ -57,7 +43,7 @@ export function QuickPersonalInfo({
             <span>Polish, English</span>
           </QuickInfoLabel>
         </TooltipTrigger>
-        <TooltipContent className="text-sm grid grid-cols-[auto_auto] items-center justify-center gap-x-1">
+        <TooltipContent className="grid grid-cols-[auto_auto] items-center justify-center gap-x-1 text-sm">
           <span>Polish:</span>
           <b>native</b>
           <span>English:</span>
@@ -68,30 +54,27 @@ export function QuickPersonalInfo({
         <TooltipTrigger asChild>
           <QuickInfoLabel>
             <CalendarRange />
-            <span>
-              {differenceInYears(new Date(), experienceStartDate)} years in the
-              business
-            </span>
+            <span>{differenceInYears(new Date(), experienceStartDate)} years in the business</span>
           </QuickInfoLabel>
         </TooltipTrigger>
         <TooltipContent className="text-sm">
-          <b>{format(experienceStartDate, "dd.MM.yyyy")}</b> till now
+          <b>{format(experienceStartDate, 'dd.MM.yyyy')}</b> till now
         </TooltipContent>
       </Tooltip>
       <QuickInfoLabel>
         <CalendarHeart />
-        <span>{calculateAge(new Date("1996-02-14"))} years old</span>
+        <span>{calculateAge(new Date('1996-02-14'))} years old</span>
       </QuickInfoLabel>
     </div>
   )
 }
 
-function QuickInfoLabel(props: ComponentProps<"p">) {
+function QuickInfoLabel(props: ComponentProps<'p'>) {
   return (
     <p
       {...props}
       className={cn(
-        "text-sm text-muted-foreground font-medium flex items-center justify-center gap-x-2 whitespace-nowrap *:[svg]:min-w-5 *:[svg]:size-5 *:[svg]:aspect-square",
+        'flex items-center justify-center gap-x-2 text-sm font-medium whitespace-nowrap text-muted-foreground *:[svg]:aspect-square *:[svg]:size-5 *:[svg]:min-w-5',
         props.className,
       )}
     />

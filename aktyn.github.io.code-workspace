@@ -25,7 +25,8 @@
 			"Radosław",
 			"raspberrypi",
 			"raycaster",
-			"shadcn"
+			"shadcn",
+			"Stylesheet"
 		],
 		"typescript.tsdk": "node_modules/typescript/lib",
 		"npm.packageManager": "bun"

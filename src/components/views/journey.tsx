@@ -1,22 +1,20 @@
-import { Info } from "lucide-react"
-import { DynamicIcon } from "lucide-react/dynamic"
-import type { ComponentProps, ReactNode } from "react"
-import { journeyInfo, JourneySection } from "~/lib/journey-info"
-import { cn } from "~/lib/utils"
-import { ViewModule } from "~/modules/view.module"
-import { ScreenEdgeButton } from "../buttons/ScreenEdgeButton"
-import { GithubIcon } from "../icons/GithubIcon"
-import { CompactImagesStrip } from "../misc/journey-contents/compact-images-strip"
+import { Info } from 'lucide-react'
+import { DynamicIcon } from 'lucide-react/dynamic'
+import type { ComponentProps, ReactNode } from 'react'
+import { journeyInfo, JourneySection } from '~/lib/journey-info'
+import { cn } from '~/lib/utils'
+import { ViewModule } from '~/modules/view.module'
+import { ScreenEdgeButton } from '../buttons/ScreenEdgeButton'
+import { GithubIcon } from '../icons/GithubIcon'
+import { CompactImagesStrip } from '../misc/journey-contents/compact-images-strip'
 import {
   freeTimeProjectsTimelineItems,
   schoolTimelineItems,
   universityTimelineItems,
   workExperienceTimelineItems,
-} from "../misc/journey-contents/timeline-items"
-import { TreeTimeline } from "../misc/tree-timeline"
-import { Badge } from "../ui/badge"
-import { Separator } from "../ui/separator"
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
+} from '../misc/journey-contents/timeline-items'
+import { TreeTimeline } from '../misc/tree-timeline'
+import { Badge, Separator, Tooltip, TooltipContent, TooltipTrigger } from '~/components/common/ui'
 
 const DELAY_BASE = 150
 
@@ -25,23 +23,19 @@ export function Journey() {
 
   const getDelayedStyle = (index: number) => ({
     animationDelay:
-      viewChangeDirection === -1
-        ? `${(14 - index) * DELAY_BASE}ms`
-        : `${index * DELAY_BASE}ms`,
+      viewChangeDirection === -1 ? `${(14 - index) * DELAY_BASE}ms` : `${index * DELAY_BASE}ms`,
   })
 
   return (
-    <div className="size-full min-h-full max-w-full flex flex-col items-stretch justify-center gap-y-4 sm:gap-y-8 p-2 sm:p-6 *:[section]:zoom-in-120 *:[section]:zoom-out-80">
+    <div className="flex size-full min-h-full max-w-full flex-col items-stretch justify-center gap-y-4 p-2 sm:gap-y-8 sm:p-6 *:[section]:zoom-out-80 *:[section]:zoom-in-120">
       <div
         className={cn(
-          "transition-[height] ease-linear",
-          viewChangeDirection === -1 && view === ViewModule.View.MyJourney
-            ? "h-[12.5dvh]"
-            : "h-0",
+          'transition-[height] ease-linear',
+          viewChangeDirection === -1 && view === ViewModule.View.MyJourney ? 'h-[12.5dvh]' : 'h-0',
         )}
       />
       <section
-        className="view-transition-base glass-card overflow-hidden flex flex-col gap-2"
+        className="flex view-transition-base flex-col gap-2 overflow-hidden glass-card"
         style={getDelayedStyle(viewChangeDirection === -1 ? 8 : 0)}
       >
         <DatedTitle
@@ -55,16 +49,13 @@ export function Journey() {
         <TreeTimeline
           header={
             <p className="text-balance">
-              I attended{" "}
+              I attended{' '}
               <b>
                 <a href="http://www.warecka.edu.pl/" target="_blank">
-                  Zespół szkół ponadgimnazjalnych imienia Marszalka Józefa
-                  Piłsudzkiego
+                  Zespół szkół ponadgimnazjalnych imienia Marszalka Józefa Piłsudzkiego
                 </a>
-              </b>{" "}
-              <span className="text-sm text-muted-foreground">
-                (September 2012 - August 2016)
-              </span>
+              </b>{' '}
+              <span className="text-sm text-muted-foreground">(September 2012 - August 2016)</span>
             </p>
           }
           items={schoolTimelineItems}
@@ -76,29 +67,21 @@ export function Journey() {
           style={getDelayedStyle(3)}
         />
         <div
-          className="view-transition-base flex flex-col items-stretch gap-2"
+          className="flex view-transition-base flex-col items-stretch gap-2"
           style={getDelayedStyle(4)}
         >
-          <p className="text-pretty text-sm z-10">
-            Although I was primarily interested in software development, I had
-            another passion throughout my time in school: 3D graphics.
+          <p className="z-10 text-sm text-pretty">
+            Although I was primarily interested in software development, I had another passion
+            throughout my time in school: 3D graphics.
             <br />
-            In my free time, I experimented with{" "}
-            <a
-              href="https://www.blender.org/"
-              target="_blank"
-              className="font-semibold"
-            >
+            In my free time, I experimented with{' '}
+            <a href="https://www.blender.org/" target="_blank" className="font-semibold">
               Blender
-            </a>{" "}
-            and{" "}
-            <a
-              href="https://www.gimp.org/"
-              target="_blank"
-              className="font-semibold"
-            >
+            </a>{' '}
+            and{' '}
+            <a href="https://www.gimp.org/" target="_blank" className="font-semibold">
               Gimp
-            </a>{" "}
+            </a>{' '}
             and created various graphics.
           </p>
           <CompactImagesStrip
@@ -107,23 +90,23 @@ export function Journey() {
           />
         </div>
         <Separator
-          className="view-transition-separator bg-foreground/20 my-2"
+          className="my-2 view-transition-separator bg-foreground/20"
           style={getDelayedStyle(5)}
         />
         <DatedTitle
           dateStart="2017"
           dateEnd="2020"
           title="University studies"
-          className="view-transition-base z-10"
+          className="z-10 view-transition-base"
           style={getDelayedStyle(6)}
         />
         <TreeTimeline
           header={
             <p className="text-balance">
-              I studied at{" "}
+              I studied at{' '}
               <b>
                 <a href="https://www.math.uni.lodz.pl/" target="_blank">
-                  Faculty of Mathematics and Computer Science{" "}
+                  Faculty of Mathematics and Computer Science{' '}
                   <span className="text-sm font-normal">
                     (Wydział Matematyki i Informatyki Uniwersytetu Łódzkiego)
                   </span>
@@ -137,7 +120,7 @@ export function Journey() {
         />
       </section>
       <section
-        className="view-transition-base glass-card overflow-hidden flex flex-col gap-2"
+        className="flex view-transition-base flex-col gap-2 overflow-hidden glass-card"
         style={getDelayedStyle(viewChangeDirection === -1 ? 11 : 8)}
       >
         <DatedTitle
@@ -151,18 +134,17 @@ export function Journey() {
         <TreeTimeline
           header={
             <p className="text-balance">
-              While I was still studying, I registered a{" "}
+              While I was still studying, I registered a{' '}
               <Tooltip>
                 <TooltipTrigger>
                   <u>
-                    sole proprietorship{" "}
-                    <Info className="inline size-3 text-muted-foreground" />
+                    sole proprietorship <Info className="inline size-3 text-muted-foreground" />
                   </u>
                 </TooltipTrigger>
                 <TooltipContent className="font-semibold">
                   Jednoosobowa działalność gospodarcza
                 </TooltipContent>
-              </Tooltip>{" "}
+              </Tooltip>{' '}
               in order to start working on B2B contracts.
             </p>
           }
@@ -172,7 +154,7 @@ export function Journey() {
         />
       </section>
       <section
-        className="view-transition-base glass-card overflow-hidden flex flex-col gap-2 mb-auto"
+        className="mb-auto flex view-transition-base flex-col gap-2 overflow-hidden glass-card"
         style={getDelayedStyle(viewChangeDirection === -1 ? 14 : 11)}
       >
         <DatedTitle
@@ -187,17 +169,14 @@ export function Journey() {
           header={
             <div className="text-balance">
               <p>
-                I'll only group and shortly describe each category of projects
-                giving few examples in each group.
+                I'll only group and shortly describe each category of projects giving few examples
+                in each group.
               </p>
               <p>
-                The most complete and up-to-date list can be found on my{" "}
-                <a
-                  href="https://github.com/Aktyn?tab=repositories"
-                  target="_blank"
-                >
+                The most complete and up-to-date list can be found on my{' '}
+                <a href="https://github.com/Aktyn?tab=repositories" target="_blank">
                   <b className="inline-flex flex-row items-baseline gap-1">
-                    <GithubIcon className="size-3 -my-1" />
+                    <GithubIcon className="-my-1 size-3" />
                     GitHub
                   </b>
                   : link
@@ -210,7 +189,7 @@ export function Journey() {
           style={getDelayedStyle(12)}
         />
         <div
-          className="view-transition-base text-muted-foreground text-sm"
+          className="view-transition-base text-sm text-muted-foreground"
           style={getDelayedStyle(13)}
         >
           More details and images can be found in the next view
@@ -226,39 +205,31 @@ export function Journey() {
   )
 }
 
-type DatedTitleProps = ComponentProps<"div"> & {
+type DatedTitleProps = ComponentProps<'div'> & {
   dateStart: string
   dateEnd?: string
   title: ReactNode
-  icon?: ComponentProps<typeof DynamicIcon>["name"]
+  icon?: ComponentProps<typeof DynamicIcon>['name']
 }
 
-function DatedTitle({
-  dateStart,
-  dateEnd,
-  title,
-  icon,
-  ...divProps
-}: DatedTitleProps) {
+function DatedTitle({ dateStart, dateEnd, title, icon, ...divProps }: DatedTitleProps) {
   return (
     <div
       {...divProps}
       className={cn(
-        "flex flex-row flex-wrap-reverse items-center gap-4 *:[svg]:size-5 *:[svg]:min-w-5 *:[svg]:text-muted-foreground",
+        'flex flex-row flex-wrap-reverse items-center gap-4 *:[svg]:size-5 *:[svg]:min-w-5 *:[svg]:text-muted-foreground',
         divProps.className,
       )}
     >
       <Badge
         variant="outline"
-        className="font-semibold border border-foreground/20 bg-foreground/5"
+        className="border border-foreground/20 bg-foreground/5 font-semibold"
       >
         {dateStart}
-        {dateEnd ? ` - ${dateEnd}` : ""}
+        {dateEnd ? ` - ${dateEnd}` : ''}
       </Badge>
-      <span className="font-semibold text-lg">{title}</span>
-      {icon && (
-        <DynamicIcon name={icon} className="ml-auto text-muted-foreground" />
-      )}
+      <span className="text-lg font-semibold">{title}</span>
+      {icon && <DynamicIcon name={icon} className="ml-auto text-muted-foreground" />}
     </div>
   )
 }

@@ -1,12 +1,12 @@
-import { load } from "opentype.js"
-import { svgPathToShapePath } from "./graphics-helpers"
+import { load } from 'opentype.js'
+import { svgPathToShapePath } from './graphics-helpers'
 
 const fontVariants = {
-  light: "/font/SpaceGrotesk-Light.ttf",
-  regular: "/font/SpaceGrotesk-Regular.ttf",
-  medium: "/font/SpaceGrotesk-Medium.ttf",
-  semibold: "/font/SpaceGrotesk-SemiBold.ttf",
-  bold: "/font/SpaceGrotesk-Bold.ttf",
+  light: '/font/SpaceGrotesk-Light.ttf',
+  regular: '/font/SpaceGrotesk-Regular.ttf',
+  medium: '/font/SpaceGrotesk-Medium.ttf',
+  semibold: '/font/SpaceGrotesk-SemiBold.ttf',
+  bold: '/font/SpaceGrotesk-Bold.ttf',
 }
 
 export const fontWeightValues: { [key in FontWeight]: number } = {
@@ -27,7 +27,7 @@ const fontCache = new Map<
 export async function loadFontShapes(
   text: string,
   fontSize: number,
-  weight: FontWeight = "medium",
+  weight: FontWeight = 'medium',
 ) {
   let fontPromise = fontCache.get(weight)
   if (!fontPromise) {

@@ -1,16 +1,16 @@
-import { BicepsFlexed } from "lucide-react"
-import { Suspense } from "react"
-import { GithubProjectLink } from "~/components/common/github-project-link"
-import { LinkedInIcon } from "~/components/icons/LinkedInIcon"
-import { Skeleton } from "~/components/ui/skeleton"
-import { ProjectsGroup, projectsGroupsInfo } from "~/lib/projects-info"
-import { Diploma, GraphicsAspirations } from "./common"
-import { CompactImagesStrip } from "./compact-images-strip"
-import { QuickProjectInfo } from "./quick-project-info"
+import { BicepsFlexed } from 'lucide-react'
+import { Suspense } from 'react'
+import { GithubProjectLink } from '~/components/common/github-project-link'
+import { LinkedInIcon } from '~/components/icons/LinkedInIcon'
+import { Skeleton } from '~/components/common/ui'
+import { ProjectsGroup, projectsGroupsInfo } from '~/lib/projects-info'
+import { Diploma, GraphicsAspirations } from './common'
+import { CompactImagesStrip } from './compact-images-strip'
+import { QuickProjectInfo } from './quick-project-info'
 
 export const schoolTimelineItems = [
   {
-    date: "May 2015",
+    date: 'May 2015',
     content: (
       <p>
         1 month of apprenticeship at <b>GE Power Controls Sp. z o.o.</b>
@@ -18,28 +18,27 @@ export const schoolTimelineItems = [
     ),
   },
   {
-    date: "June 2015",
+    date: 'June 2015',
     content: (
       <div className="flex flex-col items-start">
         <p>Winning a programming competition</p>
         <div className="flex flex-row flex-wrap-reverse items-center gap-x-4 gap-y-1">
-          <Suspense fallback={<Skeleton className="w-32 h-48" />}>
+          <Suspense fallback={<Skeleton className="h-48 w-32" />}>
             <Diploma />
           </Suspense>
-          <span className="text-sm text-pretty grow flex-0 max-w-80">
-            First Place in the Entertainment Program Category at the 15th
-            National Programming Competition for Upper Secondary Schools.
+          <span className="max-w-80 flex-0 grow text-sm text-pretty">
+            First Place in the Entertainment Program Category at the 15th National Programming
+            Competition for Upper Secondary Schools.
           </span>
         </div>
       </div>
     ),
   },
   {
-    date: "August 2016",
+    date: 'August 2016',
     content: (
       <p>
-        After graduating, I was granted a professional qualification as an{" "}
-        <b>IT technician</b>{" "}
+        After graduating, I was granted a professional qualification as an <b>IT technician</b>{' '}
         <span className="text-sm">(Technik Informatyk)</span>
       </p>
     ),
@@ -48,20 +47,17 @@ export const schoolTimelineItems = [
 
 export const universityTimelineItems = [
   {
-    date: "May 2019",
+    date: 'May 2019',
     content: (
       <div className="flex flex-col items-stretch">
         <div className="z-20 font-semibold">
-          <GithubProjectLink
-            title="ZeroG Ball"
-            href="https://github.com/Aktyn/ZeroG-Ball"
-          />{" "}
+          <GithubProjectLink title="ZeroG Ball" href="https://github.com/Aktyn/ZeroG-Ball" />{' '}
           <span>- game created as a university project</span>
         </div>
         <CompactImagesStrip
           images={
             projectsGroupsInfo[ProjectsGroup.GameDevelopment].projects.find(
-              (p) => p.title === "ZeroG Ball",
+              (p) => p.title === 'ZeroG Ball',
             )?.images ?? []
           }
           altPrefix="ZeroG-Ball"
@@ -71,31 +67,27 @@ export const universityTimelineItems = [
     ),
   },
   {
-    date: "October 2019",
+    date: 'October 2019',
     content: (
-      <p className="z-30">
-        This is when I started my first IT job. More info in the next section.
-      </p>
+      <p className="z-30">This is when I started my first IT job. More info in the next section.</p>
     ),
   },
   {
-    date: "Jan 2020",
+    date: 'Jan 2020',
     content: (
       <div>
         <p className="font-semibold text-balance">
           <GithubProjectLink
             href="https://github.com/Aktyn/AsystentGlosowy"
             title="Asystent głosowy"
-          />{" "}
-          <span>
-            - another university project. This time, it was a group effort{" "}
-          </span>
-          <BicepsFlexed className="size-4 inline fill-foreground/25" />
+          />{' '}
+          <span>- another university project. This time, it was a group effort </span>
+          <BicepsFlexed className="inline size-4 fill-foreground/25" />
         </p>
         <p className="text-sm text-pretty">
-          It was a fully voice-controlled music player that could control played
-          audio and manage playlists. All of this was possible with predefined
-          voice commands. It was created before LLM models became popular.
+          It was a fully voice-controlled music player that could control played audio and manage
+          playlists. All of this was possible with predefined voice commands. It was created before
+          LLM models became popular.
         </p>
       </div>
     ),
@@ -104,22 +96,18 @@ export const universityTimelineItems = [
 
 export const workExperienceTimelineItems = [
   {
-    date: { start: "Nov 2019", end: "Aug 2021" },
+    date: { start: 'Nov 2019', end: 'Aug 2021' },
     content: (
       <div className="flex flex-col items-start">
-        <p className="text-balance font-semibold z-10">
-          Frontend Developer at{" "}
-          <a
-            href="https://www.enigma.com.pl/"
-            target="_blank"
-            className="underline"
-          >
+        <p className="z-10 font-semibold text-balance">
+          Frontend Developer at{' '}
+          <a href="https://www.enigma.com.pl/" target="_blank" className="underline">
             Enigma Systemy Ochrony Informacji Sp. z o. o.
           </a>
         </p>
-        <p className="text-sm text-pretty z-10 mb-1">
-          During the recruitment process, I was tasked with creating a small{" "}
-          <i>React+TypeScript</i> project in a few days. The project was called{" "}
+        <p className="z-10 mb-1 text-sm text-pretty">
+          During the recruitment process, I was tasked with creating a small <i>React+TypeScript</i>{' '}
+          project in a few days. The project was called{' '}
           <GithubProjectLink
             href="https://github.com/Aktyn/React-Map-POI"
             title="React-Map-POI"
@@ -130,39 +118,37 @@ export const workExperienceTimelineItems = [
         <CompactImagesStrip
           images={
             projectsGroupsInfo[ProjectsGroup.WebDevelopment].projects.find(
-              (p) => p.title === "Map POI",
+              (p) => p.title === 'Map POI',
             )?.images ?? []
           }
           altPrefix="React-Map-POI"
-          className="min-w-full -ml-3"
+          className="-ml-3 min-w-full"
         />
-        <p className="mt-4 z-10 text-sm text-pretty">
-          For most of the time, I was part of a team of front-end developers
-          working on the project website. I gained valuable experience with
-          modern web technologies.
+        <p className="z-10 mt-4 text-sm text-pretty">
+          For most of the time, I was part of a team of front-end developers working on the project
+          website. I gained valuable experience with modern web technologies.
         </p>
-        <p className="text-sm z-10 text-pretty">
-          As the project was coming to an end, I needed to expand my skillset
-          since there was a period of time when there was no need for front-end
-          developers.
+        <p className="z-10 text-sm text-pretty">
+          As the project was coming to an end, I needed to expand my skillset since there was a
+          period of time when there was no need for front-end developers.
           <br />
-          Over the last couple of months, I have been coding{" "}
-          <span className="font-semibold">PostgreSQL</span> queries, which has
-          given me real-world experience with databases.
+          Over the last couple of months, I have been coding{' '}
+          <span className="font-semibold">PostgreSQL</span> queries, which has given me real-world
+          experience with databases.
         </p>
       </div>
     ),
   },
   {
-    date: { start: "Aug 2021", end: "Apr 2025" },
+    date: { start: 'Aug 2021', end: 'Apr 2025' },
     content: (
       <div>
         <p className="font-semibold">
-          Back to the world of Frontend Development at{" "}
+          Back to the world of Frontend Development at{' '}
           <a
             href="https://www.linkedin.com/company/night-woods/"
             target="_blank"
-            className="underline inline-flex flex-row items-center gap-1"
+            className="inline-flex flex-row items-center gap-1 underline"
           >
             <LinkedInIcon className="size-3" />
             Night Woods
@@ -173,11 +159,9 @@ export const workExperienceTimelineItems = [
             To avoid going into too much detail, I'll provide a brief summary.
           </span>
           <br />
-          During that time, I worked on several projects. My primary focus was
-          on the web front end, though I occasionally assisted with{" "}
-          <u>back-end</u> and <u>mobile</u> app development.
-          <br />I also spent a significant amount of time creating{" "}
-          <u>UI designs</u> (mostly in{" "}
+          During that time, I worked on several projects. My primary focus was on the web front end,
+          though I occasionally assisted with <u>back-end</u> and <u>mobile</u> app development.
+          <br />I also spent a significant amount of time creating <u>UI designs</u> (mostly in{' '}
           <span className="font-semibold">Figma</span>).
         </p>
       </div>
@@ -187,18 +171,18 @@ export const workExperienceTimelineItems = [
 
 export const freeTimeProjectsTimelineItems = [
   {
-    date: "Games",
+    date: 'Games',
     content: (
       <div>
         <p>
-          Creating games was always my ultimate career goal{" "}
+          Creating games was always my ultimate career goal{' '}
           <span className="text-sm text-muted-foreground">(still pursued)</span>
         </p>
         <div>
           <div>
             <p className="text-sm">
-              Fortunately, game development is possible solo so throughout my
-              life I've turned a few ideas into game projects.
+              Fortunately, game development is possible solo so throughout my life I've turned a few
+              ideas into game projects.
             </p>
             <ul className="*:ml-2">
               <QuickProjectInfo
@@ -227,13 +211,13 @@ export const freeTimeProjectsTimelineItems = [
     ),
   },
   {
-    date: "Web apps",
+    date: 'Web apps',
     content: (
       <div>
         <p>
-          Before I was employed as a front-end developer, I created a few
-          websites as a freelancer. I also worked on some full-stack projects
-          for personal use, which I've included in the list below.
+          Before I was employed as a front-end developer, I created a few websites as a freelancer.
+          I also worked on some full-stack projects for personal use, which I've included in the
+          list below.
         </p>
         <ul className="*:ml-2">
           <QuickProjectInfo
@@ -259,12 +243,12 @@ export const freeTimeProjectsTimelineItems = [
     ),
   },
   {
-    date: "Genetic algorithms",
+    date: 'Genetic algorithms',
     content: (
       <div>
         <p>
-          I have always been fascinated by the idea of a program that can evolve
-          and improve over time
+          I have always been fascinated by the idea of a program that can evolve and improve over
+          time
         </p>
         <ul className="*:ml-2">
           <QuickProjectInfo
@@ -278,11 +262,11 @@ export const freeTimeProjectsTimelineItems = [
     ),
   },
   {
-    date: "Microcontrollers",
+    date: 'Microcontrollers',
     content: (
       <div>
         <p>
-          My most recent hobby that started when I bought my first{" "}
+          My most recent hobby that started when I bought my first{' '}
           <a
             href="https://www.raspberrypi.com/"
             target="_blank"
@@ -311,27 +295,26 @@ export const freeTimeProjectsTimelineItems = [
     ),
   },
   {
-    date: "Graphics",
+    date: 'Graphics',
     content: (
-      <div className="flex flex-row max-sm:flex-col flex-wrap sm:items-center gap-x-4 gap-y-1">
-        <div className="text-sm text-pretty grow flex-0">
+      <div className="flex flex-row flex-wrap gap-x-4 gap-y-1 max-sm:flex-col sm:items-center">
+        <div className="flex-0 grow text-sm text-pretty">
           <p>
-            As mentioned in the education section{" "}
-            <span className="text-sm">(the first one)</span>, I enjoy creating
-            amateur 3D graphics in my free time.
+            As mentioned in the education section <span className="text-sm">(the first one)</span>,
+            I enjoy creating amateur 3D graphics in my free time.
           </p>
           <p>
-            When developing games, I often use my graphics-related abilities to
-            create custom models and textures.
+            When developing games, I often use my graphics-related abilities to create custom models
+            and textures.
           </p>
-          <ul className="*:ml-2 mt-2">
+          <ul className="mt-2 *:ml-2">
             <QuickProjectInfo
               githubLink="https://github.com/Aktyn/Blender-portfolio"
               title="My Blender renders"
             />
           </ul>
         </div>
-        <Suspense fallback={<Skeleton className="w-58 h-32" />}>
+        <Suspense fallback={<Skeleton className="h-32 w-58" />}>
           <GraphicsAspirations />
         </Suspense>
       </div>

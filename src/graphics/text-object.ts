@@ -1,5 +1,5 @@
-import * as THREE from "three"
-import { SceneObject } from "./scene-object"
+import * as THREE from 'three'
+import { SceneObject } from './scene-object'
 
 export interface FontMetrics {
   ascender: number
@@ -16,10 +16,7 @@ export class TextObject extends SceneObject {
     super(mesh)
   }
 
-  override alignToElement(
-    element: HTMLElement,
-    camera: THREE.PerspectiveCamera,
-  ) {
+  override alignToElement(element: HTMLElement, camera: THREE.PerspectiveCamera) {
     const rect = element.getBoundingClientRect()
     if (rect.width === 0 || rect.height === 0) {
       return

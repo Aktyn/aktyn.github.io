@@ -1,16 +1,16 @@
-import { Button } from "./ui/button"
-import { GithubIcon } from "~/components/icons/GithubIcon"
-import { LinkedInIcon } from "~/components/icons/LinkedInIcon"
-import type { ComponentProps } from "react"
-import { cn } from "~/lib/utils"
-import { ExternalLink } from "lucide-react"
+import { Button } from '~/components/common/ui'
+import { GithubIcon } from '~/components/icons/GithubIcon'
+import { LinkedInIcon } from '~/components/icons/LinkedInIcon'
+import type { ComponentProps } from 'react'
+import { cn } from '~/lib/utils'
+import { ExternalLink } from 'lucide-react'
 
-export function SocialLinks(props: ComponentProps<"div">) {
+export function SocialLinks(props: ComponentProps<'div'>) {
   return (
     <div
       {...props}
       className={cn(
-        "w-full mx-auto grid grid-cols-[repeat(auto-fit,calc(var(--spacing)*32))] items-start justify-center gap-x-3 gap-y-2",
+        'mx-auto grid w-full grid-cols-[repeat(auto-fit,calc(var(--spacing)*32))] items-start justify-center gap-x-3 gap-y-2',
         props.className,
       )}
     >
@@ -28,20 +28,15 @@ export function SocialLinks(props: ComponentProps<"div">) {
 
 type SocialLinkButtonProps = ComponentProps<typeof Button> & { href: string }
 
-function SocialLinkButton({
-  children,
-  className,
-  href,
-  ...buttonProps
-}: SocialLinkButtonProps) {
+function SocialLinkButton({ children, className, href, ...buttonProps }: SocialLinkButtonProps) {
   return (
     <Button
       asChild
       variant="outline"
       {...buttonProps}
       className={cn(
-        "rounded-full bg-accent/30 backdrop-blur-sm hover:bg-secondary hover:border-primary transition-colors h-auto **:[svg]:size-5! relative shadow-[0_0_calc(var(--spacing)*8)_#38251988] ",
-        "*:transition-[opacity,scale,box-shadow] *:ease-out hover:duration-400 hover:delay-0 hover:*:first:opacity-0 hover:*:first:scale-0 hover:*:last:opacity-100 hover:*:last:scale-100 hover:shadow-[0_0_calc(var(--spacing)*8)_#192c38]",
+        'relative h-auto rounded-full bg-accent/30 shadow-[0_0_calc(var(--spacing)*8)_#38251988] backdrop-blur-sm transition-colors hover:border-primary hover:bg-secondary **:[svg]:size-5!',
+        '*:transition-[opacity,scale,box-shadow] *:ease-out hover:shadow-[0_0_calc(var(--spacing)*8)_#192c38] hover:delay-0 hover:duration-bounce hover:*:first:scale-0 hover:*:first:opacity-0 hover:*:last:scale-100 hover:*:last:opacity-100',
         className,
       )}
     >
@@ -49,7 +44,7 @@ function SocialLinkButton({
         <div className="inline-flex items-center justify-center gap-2 whitespace-nowrap">
           {children}
         </div>
-        <ExternalLink className="absolute inset-auto pointer-events-none opacity-0 scale-0 text-primary" />
+        <ExternalLink className="pointer-events-none absolute inset-auto scale-0 text-primary opacity-0" />
       </a>
     </Button>
   )

@@ -1,9 +1,9 @@
-import { MoveDown, MoveRight } from "lucide-react"
-import { type ComponentProps, type ReactNode } from "react"
-import { cn } from "~/lib/utils"
-import { Separator } from "../ui/separator"
+import { MoveDown, MoveRight } from 'lucide-react'
+import { type ComponentProps, type ReactNode } from 'react'
+import { cn } from '~/lib/utils'
+import { Separator } from '~/components/common/ui'
 
-type TreeTimelineProps = ComponentProps<"div"> & {
+type TreeTimelineProps = ComponentProps<'div'> & {
   header?: ReactNode
   items: Array<{
     date: string | { start: string; end: string }
@@ -11,55 +11,51 @@ type TreeTimelineProps = ComponentProps<"div"> & {
   }>
 }
 
-export function TreeTimeline({
-  header,
-  items,
-  ...divProps
-}: TreeTimelineProps) {
+export function TreeTimeline({ header, items, ...divProps }: TreeTimelineProps) {
   return (
-    <div {...divProps} className={cn("flex flex-col", divProps.className)}>
+    <div {...divProps} className={cn('flex flex-col', divProps.className)}>
       {header}
-      <Separator className="sm:max-w-64 bg-linear-to-r from-transparent via-foreground/20 sm:via-25% max-sm:via-[calc(var(--spacing)*2)] to-transparent" />
+      <Separator className="bg-linear-to-r from-transparent via-foreground/20 to-transparent max-sm:via-[calc(var(--spacing)*2)] sm:max-w-64 sm:via-25%" />
       <div className="flex flex-col">
-        <div className="w-32 flex sm:justify-center">
-          <span className="w-px h-4 bg-foreground/20 max-sm:ml-2" />
+        <div className="flex w-32 sm:justify-center">
+          <span className="h-4 w-px bg-foreground/20 max-sm:ml-2" />
         </div>
         {items.map((item, index) => (
           <div
             key={index}
-            className="flex flex-row max-sm:flex-wrap items-center justify-stretch gap-0 *:last:flex-0 *:last:grow"
+            className="flex flex-row items-center justify-stretch gap-0 *:last:flex-0 *:last:grow max-sm:flex-wrap"
           >
-            <div className="w-auto sm:w-32 grid sm:grid-rows-[1fr_auto_1fr] grid-cols-1 items-stretch sm:justify-center self-stretch">
+            <div className="grid w-auto grid-cols-1 items-stretch self-stretch sm:w-32 sm:grid-rows-[1fr_auto_1fr] sm:justify-center">
               <span
                 className={cn(
-                  "sm:mx-auto max-sm:ml-2 w-px min-h-3 max-sm:min-h-6 bg-foreground/20",
-                  index === 0 && "max-sm:min-h-0",
+                  'min-h-3 w-px bg-foreground/20 max-sm:ml-2 max-sm:min-h-6 sm:mx-auto',
+                  index === 0 && 'max-sm:min-h-0',
                 )}
               />
-              <div className="w-full text-center text-sm font-semibold text-foreground/60 bg-muted-foreground/10 border border-foreground/20 rounded-md py-0.5 px-2 sm:px-1">
-                {typeof item.date === "string" ? (
+              <div className="w-full rounded-md border border-foreground/20 bg-muted-foreground/10 px-2 py-0.5 text-center text-sm font-semibold text-foreground/60 sm:px-1">
+                {typeof item.date === 'string' ? (
                   item.date
                 ) : (
-                  <div className="flex sm:flex-col items-center justify-stretch sm:w-auto max-sm:gap-1">
+                  <div className="flex items-center justify-stretch max-sm:gap-1 sm:w-auto sm:flex-col">
                     <span>{item.date.start}</span>
-                    <MoveDown className="text-muted-foreground size-4 max-sm:hidden" />
-                    <MoveRight className="text-muted-foreground size-4 sm:hidden" />
+                    <MoveDown className="size-4 text-muted-foreground max-sm:hidden" />
+                    <MoveRight className="size-4 text-muted-foreground sm:hidden" />
                     <span>{item.date.end}</span>
                   </div>
                 )}
               </div>
               <span
                 className={cn(
-                  "sm:mx-auto max-sm:ml-2 max-sm:min-h-2 max-sm:bg-foreground/20 w-px",
-                  index < items.length - 1 && "sm:min-h-3 bg-foreground/20",
+                  'w-px max-sm:ml-2 max-sm:min-h-2 max-sm:bg-foreground/20 sm:mx-auto',
+                  index < items.length - 1 && 'bg-foreground/20 sm:min-h-3',
                 )}
               />
             </div>
-            <div className="w-8 h-full mr-3 flex flex-row items-center max-sm:hidden">
-              <span className="grow h-px bg-foreground/20" />
+            <div className="mr-3 flex h-full w-8 flex-row items-center max-sm:hidden">
+              <span className="h-px grow bg-foreground/20" />
               <span className="h-full w-px bg-linear-to-b from-transparent via-foreground/20 to-transparent" />
             </div>
-            <div className="max-sm:min-w-[calc(100%-var(--spacing)*2-1px)] sm:my-2 max-sm:ml-2 max-sm:pl-2 max-sm:border-l max-sm:border-foreground/20 text-balance">
+            <div className="text-balance max-sm:ml-2 max-sm:min-w-[calc(100%-var(--spacing)*2-1px)] max-sm:border-l max-sm:border-foreground/20 max-sm:pl-2 sm:my-2">
               {item.content}
             </div>
           </div>

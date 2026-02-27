@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from "@storybook/react-vite"
-import { GithubIcon } from "./GithubIcon"
-import { LinkedInIcon } from "./LinkedInIcon"
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { GithubIcon } from './GithubIcon'
+import { LinkedInIcon } from './LinkedInIcon'
 
 const meta: Meta = {
-  title: "Components/Icons",
+  title: 'Components/Icons',
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
 }
 

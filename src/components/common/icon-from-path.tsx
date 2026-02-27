@@ -1,7 +1,7 @@
-import { type ComponentProps } from "react"
-import { cn } from "~/lib/utils"
+import { type ComponentProps } from 'react'
+import { cn } from '~/lib/utils'
 
-type IconFromPathProps = ComponentProps<"svg"> & {
+type IconFromPathProps = ComponentProps<'svg'> & {
   d: string
 }
 
@@ -12,7 +12,7 @@ export function IconFromPath({ d, ...svgProps }: IconFromPathProps) {
       viewBox="0 0 24 24"
       strokeWidth={1}
       {...svgProps}
-      className={cn("size-6 stroke-foreground", svgProps.className)}
+      className={cn('size-6 stroke-foreground', svgProps.className)}
     >
       <path d={d} />
     </svg>

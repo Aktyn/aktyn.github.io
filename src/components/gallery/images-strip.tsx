@@ -1,9 +1,9 @@
-import { useState } from "react"
-import { RootPortal } from "../portal/root-portal"
-import { AmbientImage } from "./ambient-image"
-import { MaximizedGallery } from "./maximized-gallery"
-import { cn } from "~/lib/utils"
-import { isFirefox } from "~/lib/consts"
+import { useState } from 'react'
+import { RootPortal } from '../portal/root-portal'
+import { AmbientImage } from './ambient-image'
+import { MaximizedGallery } from './maximized-gallery'
+import { cn } from '~/lib/utils'
+import { isFirefox } from '~/lib/consts'
 
 type ImagesStripProps = {
   images: string[]
@@ -11,11 +11,7 @@ type ImagesStripProps = {
   ambientOpacity?: number
 }
 
-export function ImagesStrip({
-  images,
-  altPrefix,
-  ambientOpacity,
-}: ImagesStripProps) {
+export function ImagesStrip({ images, altPrefix, ambientOpacity }: ImagesStripProps) {
   const [openGallery, setOpenGallery] = useState(false)
   const [sourceBounds, setSourceBounds] = useState<DOMRect | null>(null)
   const [focusImageIndex, setFocusImageIndex] = useState(-1)
@@ -29,8 +25,8 @@ export function ImagesStrip({
           alt={`${altPrefix}-${index}`}
           ambientOpacity={ambientOpacity}
           className={cn(
-            "hover:scale-110 hover:z-10 transition-[scale] ease-bounce duration-bounce cursor-pointer *:duration-500 max-md:max-h-46",
-            !isFirefox && "*:animate-in *:fade-in *:fill-mode-both",
+            'cursor-pointer transition-[scale] duration-bounce ease-bounce *:duration-500 hover:z-10 hover:scale-110 max-md:max-h-46',
+            !isFirefox && '*:animate-in *:fill-mode-both *:fade-in',
           )}
           onClick={(event) => {
             setOpenGallery(true)

@@ -1,20 +1,21 @@
-import "devicon/devicon.min.css"
-import { Suspense, useMemo } from "react"
-import { TechBadge } from "~/components/badges/tech-badge"
-import { ScreenEdgeButton } from "~/components/buttons/ScreenEdgeButton"
-import { GithubIcon } from "~/components/icons/GithubIcon"
-import { Button } from "~/components/ui/button"
-import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area"
-import { Separator } from "~/components/ui/separator"
+import 'devicon/devicon.min.css'
+import { Suspense, useMemo } from 'react'
+import { TechBadge } from '~/components/badges/tech-badge'
+import { ScreenEdgeButton } from '~/components/buttons/ScreenEdgeButton'
+import { GithubIcon } from '~/components/icons/GithubIcon'
 import {
+  Button,
+  ScrollArea,
+  ScrollBar,
+  Separator,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "~/components/ui/tooltip"
-import { ProjectsGroup, projectsGroupsInfo } from "~/lib/projects-info"
-import { cn, forceArray } from "~/lib/utils"
-import { ViewModule } from "~/modules/view.module"
-import { ImagesStrip } from "../gallery/images-strip"
+} from '~/components/common/ui'
+import { ProjectsGroup, projectsGroupsInfo } from '~/lib/projects-info'
+import { cn, forceArray } from '~/lib/utils'
+import { ViewModule } from '~/modules/view.module'
+import { ImagesStrip } from '../gallery/images-strip'
 
 const DELAY_BASE = 150
 const projectsGroupsArray = Object.values(ProjectsGroup)
@@ -26,42 +27,32 @@ export function Projects() {
     const reverse = viewChangeDirection === -1
 
     let acc = 0
-    const mapped = (
-      reverse ? [...projectsGroupsArray].reverse() : projectsGroupsArray
-    ).map((group) => {
-      const duration =
-        (projectsGroupsInfo[group].projects.length + 1) * DELAY_BASE
-      const prevAcc = acc
-      acc += duration
-      return prevAcc
-    })
+    const mapped = (reverse ? [...projectsGroupsArray].reverse() : projectsGroupsArray).map(
+      (group) => {
+        const duration = (projectsGroupsInfo[group].projects.length + 1) * DELAY_BASE
+        const prevAcc = acc
+        acc += duration
+        return prevAcc
+      },
+    )
 
     return reverse ? mapped.reverse() : mapped
   }, [viewChangeDirection])
 
   return (
-    <div className="size-full min-h-full max-w-full flex flex-col items-stretch justify-start gap-y-16 p-6">
+    <div className="flex size-full min-h-full max-w-full flex-col items-stretch justify-start gap-y-16 p-6">
       <div
         className={cn(
-          "transition-[height] ease-linear",
+          'transition-[height] ease-linear',
           viewChangeDirection === -1 && view === ViewModule.View.PublicProjects
-            ? "h-[12.5dvh]"
-            : "h-[0dvh]",
+            ? 'h-[12.5dvh]'
+            : 'h-0',
         )}
       />
       {projectsGroupsArray.map((group, index) => {
-        return (
-          <ProjectsGroupContainer
-            key={group}
-            group={group}
-            delay={delays[index]}
-          />
-        )
+        return <ProjectsGroupContainer key={group} group={group} delay={delays[index]} />
       })}
-      <ScreenEdgeButton
-        className="mt-[25dvh]"
-        onClick={() => setView(ViewModule.View.TechStack)}
-      >
+      <ScreenEdgeButton className="mt-[25dvh]" onClick={() => setView(ViewModule.View.TechStack)}>
         Next view
       </ScreenEdgeButton>
     </div>
@@ -82,27 +73,22 @@ function ProjectsGroupContainer({ group, delay }: ProjectsGroupContainerProps) {
   return (
     <div className="flex flex-col gap-4">
       <div
-        className="view-transition-base glass-card flex flex-col items-center gap-4"
+        className="flex view-transition-base flex-col items-center gap-4 glass-card"
         style={{
           animationDelay: `${reverse ? delay + projectsGroupsInfo[group].projects.length * DELAY_BASE : delay}ms`,
         }}
       >
-        <h4 className="text-base font-semibold">
-          {projectsGroupsInfo[group].title}
-        </h4>
-        <p className="text-sm leading-tight tracking-wide whitespace-pre-wrap text-balance text-center text-[color-mix(in_oklab,_var(--color-foreground)_80%,_var(--color-background))]">
+        <h4 className="text-base font-semibold">{projectsGroupsInfo[group].title}</h4>
+        <p className="text-center text-sm leading-tight tracking-wide text-balance whitespace-pre-wrap text-[color-mix(in_oklab,var(--color-foreground)_80%,var(--color-background))]">
           {projectsGroupsInfo[group].description}
         </p>
       </div>
-      <div className="grid md:grid-cols-[repeat(auto-fit,_minmax(calc(var(--spacing)*112),1fr))] items-stretch gap-4">
+      <div className="grid items-stretch gap-4 md:grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*112),1fr))]">
         {projectsGroupsInfo[group].projects.map((project, index, arr) => (
           <ProjectCard
             key={project.title}
             project={project}
-            delay={
-              delay +
-              (reverse ? arr.length - 1 - index : index + 1) * DELAY_BASE
-            }
+            delay={delay + (reverse ? arr.length - 1 - index : index + 1) * DELAY_BASE}
           />
         ))}
       </div>
@@ -110,8 +96,7 @@ function ProjectsGroupContainer({ group, delay }: ProjectsGroupContainerProps) {
   )
 }
 
-type ProjectType =
-  (typeof projectsGroupsInfo)[ProjectsGroup]["projects"][number]
+type ProjectType = (typeof projectsGroupsInfo)[ProjectsGroup]['projects'][number]
 
 type ProjectCardProps = {
   project: ProjectType
@@ -122,11 +107,11 @@ type ProjectCardProps = {
 function ProjectCard({ project, delay }: ProjectCardProps) {
   return (
     <div
-      className="view-transition-base glass-card-dark inline-grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 p-4 overflow-hidden md:min-h-80"
+      className="inline-grid view-transition-base grid-cols-1 gap-4 overflow-hidden glass-card-dark p-4 md:min-h-80 md:grid-cols-[1fr_auto]"
       style={{ animationDelay: `${delay}ms` }}
     >
-      <div className="flex flex-col items-stretch gap-4 grow">
-        <div className="grid grid-cols-[auto_1fr] justify-start items-center gap-x-4">
+      <div className="flex grow flex-col items-stretch gap-4">
+        <div className="grid grid-cols-[auto_1fr] items-center justify-start gap-x-4">
           {!!project.linkToGithubRepo?.length && (
             <div className="flex flex-row items-center gap-2">
               {forceArray(project.linkToGithubRepo ?? []).map((link) => (
@@ -136,7 +121,7 @@ function ProjectCard({ project, delay }: ProjectCardProps) {
                       asChild
                       size="icon"
                       variant="ghost"
-                      className="hover:text-primary rounded-full p-2 size-auto"
+                      className="size-auto rounded-full p-2 hover:text-primary"
                     >
                       <a href={link} target="_blank">
                         <GithubIcon className="size-5" />
@@ -150,18 +135,16 @@ function ProjectCard({ project, delay }: ProjectCardProps) {
           )}
           <p className="font-semibold">{project.title}</p>
         </div>
-        <div className="text-pretty text-sm tracking-wide">
-          {project.description}
-        </div>
-        <div className="flex flex-row flex-wrap items-center gap-2 mt-auto">
+        <div className="text-sm tracking-wide text-pretty">{project.description}</div>
+        <div className="mt-auto flex flex-row flex-wrap items-center gap-2">
           {project.techStack?.map((tech) => (
             <TechBadge key={tech} tech={tech} />
           ))}
         </div>
       </div>
       <Separator className="md:hidden" />
-      <ScrollArea className="overflow-hidden contain-[size] md:w-96 -m-4 md:-ml-36 max-md:h-64 max-md:**:data-[slot=scroll-area-viewport]:*:max-h-full max-md:-mt-16">
-        <div className="flex md:flex-col max-md:flex-row justify-start items-stretch md:w-full gap-4 p-2 md:p-4 md:pl-36 max-md:h-full max-md:mx-auto md:my-auto max-md:pt-16">
+      <ScrollArea className="-m-4 overflow-hidden contain-[size] max-md:-mt-16 max-md:h-64 max-md:**:data-[slot=scroll-area-viewport]:*:max-h-full md:-ml-36 md:w-96">
+        <div className="flex items-stretch justify-start gap-4 p-2 max-md:mx-auto max-md:h-full max-md:flex-row max-md:pt-16 md:my-auto md:w-full md:flex-col md:p-4 md:pl-36">
           <Suspense fallback={<span />}>
             <ImagesStrip images={project.images} altPrefix="project-image" />
           </Suspense>

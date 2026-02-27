@@ -1,11 +1,9 @@
-import { cn } from "~/lib/utils"
-import { techStack } from "~/lib/tech-stack"
-import { Badge } from "~/components/ui/badge"
-import type { ComponentProps } from "react"
+import { cn } from '~/lib/utils'
+import { techStack } from '~/lib/tech-stack'
+import { Badge } from '~/components/common/ui'
+import type { ComponentProps } from 'react'
 
-type TechBadgeProps = { tech: keyof typeof techStack } & ComponentProps<
-  typeof Badge
->
+type TechBadgeProps = { tech: keyof typeof techStack } & ComponentProps<typeof Badge>
 
 export function TechBadge({ tech, ...badgeProps }: TechBadgeProps) {
   return (
@@ -14,23 +12,15 @@ export function TechBadge({ tech, ...badgeProps }: TechBadgeProps) {
       variant="outline"
       {...badgeProps}
       className={cn(
-        "text-sm gap-x-2 p-1 px-2 rounded-md bg-background/50 relative",
+        'relative gap-x-2 rounded-md bg-background/50 p-1 px-2 text-sm',
         badgeProps.className,
       )}
     >
       {techStack[tech].icon && (
         <>
+          <i className={cn(techStack[tech].icon, 'absolute inset-y-auto left-2 blur-md')} />
           <i
-            className={cn(
-              techStack[tech].icon,
-              "absolute left-2 inset-y-auto blur-md",
-            )}
-          />
-          <i
-            className={cn(
-              techStack[tech].icon,
-              "drop-shadow-[0_0_calc(var(--spacing)*0.5)_#000]",
-            )}
+            className={cn(techStack[tech].icon, 'drop-shadow-[0_0_calc(var(--spacing)*0.5)_#000]')}
           />
         </>
       )}
