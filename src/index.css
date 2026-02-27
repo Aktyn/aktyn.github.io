@@ -81,18 +81,18 @@
   }
   @font-face {
     font-family: "Space Grotesk";
+    /* font-weight: 300 700; */
     font-weight: 400;
     font-display: swap;
     font-style: normal;
-    src: url("/font/SpaceGrotesk-Medium.ttf") format("truetype");
+    src: url("/font/SpaceGrotesk-Regular.ttf") format("truetype");
   }
   @font-face {
     font-family: "Space Grotesk";
-    /* font-weight: 300 700; */
     font-weight: 500;
     font-display: swap;
     font-style: normal;
-    src: url("/font/SpaceGrotesk-Regular.ttf") format("truetype");
+    src: url("/font/SpaceGrotesk-Medium.ttf") format("truetype");
   }
   @font-face {
     font-family: "Space Grotesk";

@@ -7,10 +7,11 @@ import {
   GodRaysCombineShader,
   GodRaysGenerateShader,
 } from "three/addons/shaders/GodRaysShader"
-import { loadFontShapes as loadFontShapes } from "./fonts"
+import { type FontWeight, loadFontShapes, getFontMetrics } from "./fonts"
 import { TextObject } from "./text-object"
 import { svgPathToShapePath } from "./graphics-helpers"
 import { SvgObject } from "./svg-object"
+import { buildCaches } from "./caches"
 
 interface GodraysUniforms {
   [key: string]: THREE.IUniform
@@ -39,8 +40,9 @@ interface PostprocessingState {
 const BG_COLOR = 0x004d40
 const SUN_COLOR = 0xe0f2f1
 const GODRAY_RENDER_TARGET_RES_MULTIPLIER = 0.5
-// const ORBIT_RADIUS = 50
 const SUN_POSITION = new THREE.Vector3(0, 618, -1000)
+
+//TODO: particles bouncing of off the text
 
 export class WebScene {
   private readonly renderer: THREE.WebGLRenderer
@@ -55,6 +57,7 @@ export class WebScene {
   private readonly stats: Stats
 
   private readonly meshes: Array<THREE.Mesh> = []
+  private readonly caches = buildCaches()
 
   private readonly windowResizeCallback = this.onWindowResize.bind(this)
 
@@ -266,14 +269,6 @@ export class WebScene {
   }
 
   private render() {
-    // const time = Date.now() / 3000
-
-    // for (const mesh of this.meshes) {
-    // mesh.position.y = ORBIT_RADIUS * Math.cos(-time)
-    // mesh.rotation.x = -Math.cos(time)
-    // textMesh.position.z = ORBIT_RADIUS * Math.sin(-time) - 100
-    // }
-
     if (this.postprocessing.enabled) {
       this.clipPosition.set(SUN_POSITION.x, SUN_POSITION.y, SUN_POSITION.z, 1)
       this.clipPosition
@@ -397,39 +392,44 @@ export class WebScene {
     const geometry = new THREE.ExtrudeGeometry(shapes, {
       depth: 2,
       steps: 2,
+      bevelEnabled: false,
+      // bevelThickness: 1,
+      // bevelSize: 1,
+      // bevelOffset: 0,
+      // bevelSegments: 1,
     })
     geometry.computeVertexNormals()
     geometry.normalizeNormals()
-    geometry.center()
+    // DO NOT center() here because it breaks TextObject baseline alignment.
+    // SVG objects will center themselves separately.
     return geometry
   }
 
-  public async createTextObject(text: string, size: number, color: string) {
-    return loadFontShapes(text, size).then((shapes) => {
+  public getCamera() {
+    return this.camera
+  }
+
+  public async createTextObject(
+    text: string,
+    size: number,
+    color: string,
+    weight: FontWeight,
+  ) {
+    return loadFontShapes(text, size, weight).then((shapes) => {
       const geometry = this.shapesToGeometry(shapes)
 
-      //TODO: cache text materials by color
-      const textMaterial = new THREE.MeshBasicMaterial({
-        color,
-        fog: false,
-        depthTest: false,
-        depthWrite: false,
-      })
+      const textMaterial = this.caches.getBasicMaterial(color)
 
       const textMesh = new THREE.Mesh(geometry, textMaterial)
       textMesh.rotateX(Math.PI)
 
+      geometry.computeBoundingBox()
+
       this.scene.add(textMesh)
       this.meshes.push(textMesh)
 
-      // Fix origin to left-bottom
-      const size = new THREE.Vector3()
-      geometry.boundingBox?.getSize(size)
-      textMesh.position.set(size.x / 2, size.y / 2, -size.z / 2)
-
-      textMesh.position.y -= 130
-
-      return new TextObject(textMesh)
+      const metrics = getFontMetrics(weight)
+      return new TextObject(textMesh, size, metrics)
     })
   }
 
@@ -439,12 +439,7 @@ export class WebScene {
     // geometry.rotateX(Math.PI)
     geometry.center()
 
-    const svgMaterial = new THREE.MeshBasicMaterial({
-      color: fillColor,
-      fog: false,
-      depthTest: false,
-      depthWrite: false,
-    })
+    const svgMaterial = this.caches.getBasicMaterial(fillColor)
 
     const svgMesh = new THREE.Mesh(geometry, svgMaterial)
     svgMesh.rotateX(Math.PI)

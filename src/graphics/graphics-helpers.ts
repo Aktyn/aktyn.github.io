@@ -1,6 +1,19 @@
 import { type Path } from "opentype.js"
 import * as THREE from "three"
 
+export function isWebglAvailable() {
+  try {
+    const canvas = document.createElement("canvas")
+    return Boolean(
+      window.WebGLRenderingContext &&
+      (canvas.getContext("webgl") || canvas.getContext("experimental-webgl")),
+    )
+  } catch (error) {
+    console.error("WebGL not available:", error)
+    return false
+  }
+}
+
 export function svgPathToShapePath(path: Path | string) {
   const shapePath = new THREE.ShapePath()
 

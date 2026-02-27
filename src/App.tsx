@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { ContentLayer } from "./components/content/content-layer"
-import { Core } from "./core-logic/core"
+import { WebScene } from "./graphics/web-scene"
 
 export function App() {
   const sceneContainerRef = useRef<HTMLDivElement>(null)
+  const [webScene, setWebScene] = useState<WebScene | null>(null)
   // const windowSize = useWindowSize()
 
   useEffect(() => {
@@ -12,18 +13,19 @@ export function App() {
       return
     }
 
-    const core = new Core(container)
+    const webScene = new WebScene(container)
+    setWebScene(webScene)
 
     return () => {
-      core.dispose()
+      webScene.dispose()
+      setWebScene(null)
     }
   }, [])
 
   return (
     <div className="relative w-dvw h-dvh *:absolute *:inset-0 *:last:z-20 overflow-hidden">
-      {/* TODO: pointer-events-none */}
-      <div ref={sceneContainerRef} className="z-10" />
-      <ContentLayer />
+      <div ref={sceneContainerRef} className="pointer-events-none" />
+      {webScene && <ContentLayer webScene={webScene} />}
     </div>
   )
 }

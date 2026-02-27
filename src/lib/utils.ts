@@ -40,3 +40,27 @@ export async function importImages(
   const modules = await Promise.all(imports)
   return modules.map((module) => module.default)
 }
+
+export function omit<ObjectType extends object, Key extends keyof ObjectType>(
+  source: ObjectType,
+  ...keys: Key[]
+): Omit<ObjectType, Key> {
+  const result = { ...source }
+  for (const key of keys) {
+    delete result[key]
+  }
+  return result as Omit<ObjectType, Key>
+}
+
+export function pick<ObjectType extends object, Key extends keyof ObjectType>(
+  source: ObjectType,
+  ...keys: Key[]
+): Pick<ObjectType, Key> {
+  const result = {} as Pick<ObjectType, Key>
+  for (const key of keys) {
+    if (key in source) {
+      result[key] = source[key]
+    }
+  }
+  return result
+}

@@ -24,6 +24,7 @@
 			"opentype",
 			"Radosław",
 			"raspberrypi",
+			"raycaster",
 			"shadcn"
 		],
 		"typescript.tsdk": "node_modules/typescript/lib",
