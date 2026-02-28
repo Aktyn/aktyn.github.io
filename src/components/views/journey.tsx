@@ -14,7 +14,7 @@ import {
   workExperienceTimelineItems,
 } from '../misc/journey-contents/timeline-items'
 import { TreeTimeline } from '../misc/tree-timeline'
-import { Badge, Separator, Tooltip, TooltipContent, TooltipTrigger } from '~/components/common/ui'
+import { Badge, Separator, Tooltip, TooltipContent, TooltipTrigger } from '~/components/common/tooltip'
 
 const DELAY_BASE = 150
 

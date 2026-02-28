@@ -11,7 +11,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '~/components/common/ui'
+} from '~/components/common/tooltip'
 import { ProjectsGroup, projectsGroupsInfo } from '~/lib/projects-info'
 import { cn, forceArray } from '~/lib/utils'
 import { ViewModule } from '~/modules/view.module'

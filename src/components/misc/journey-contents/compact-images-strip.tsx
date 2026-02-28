@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { ImagesStrip } from '~/components/gallery/images-strip'
-import { ScrollArea, ScrollBar, Skeleton } from '~/components/common/ui'
+import { ScrollArea, ScrollBar, Skeleton } from '~/components/common/tooltip'
 import { cn } from '~/lib/utils'
 
 type CompactImagesStripProps = {

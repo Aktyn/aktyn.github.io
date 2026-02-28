@@ -1,17 +1,16 @@
 import * as THREE from 'three'
-import { OrbitControls } from 'three/addons/controls/OrbitControls'
 import Stats from 'three/addons/libs/stats.module'
 import {
-  GodRaysFakeSunShader,
-  GodRaysDepthMaskShader,
   GodRaysCombineShader,
+  GodRaysDepthMaskShader,
+  GodRaysFakeSunShader,
   GodRaysGenerateShader,
 } from 'three/addons/shaders/GodRaysShader'
-import { type FontWeight, loadFontShapes, getFontMetrics } from './fonts'
-import { TextObject } from './text-object'
+import { buildCaches } from './caches'
+import { type FontWeight, getFontMetrics, loadFontShapes } from './fonts'
 import { svgPathToShapePath } from './graphics-helpers'
 import { SvgObject } from './svg-object'
-import { buildCaches } from './caches'
+import { TextObject } from './text-object'
 
 interface GodraysUniforms {
   [key: string]: THREE.IUniform
@@ -90,9 +89,9 @@ export class WebScene {
     container.appendChild(this.renderer.domElement)
     this.renderer.autoClear = false
 
-    const controls = new OrbitControls(this.camera, this.renderer.domElement)
-    controls.minDistance = 50
-    controls.maxDistance = 500
+    // const controls = new OrbitControls(this.camera, this.renderer.domElement)
+    // controls.minDistance = 50
+    // controls.maxDistance = 500
 
     this.stats = new Stats()
     container.appendChild(this.stats.dom)

@@ -2,7 +2,7 @@ import type { DynamicIcon } from 'lucide-react/dynamic'
 import type { ComponentProps, ReactNode } from 'react'
 import { raspberryPiIconPath } from './consts'
 import type { techStack } from '~/lib/tech-stack'
-import { Button } from '~/components/common/ui'
+import { Button } from '~/components/common/tooltip'
 import type { ExtendArray } from '~/lib/types'
 
 export enum ProjectsGroup {

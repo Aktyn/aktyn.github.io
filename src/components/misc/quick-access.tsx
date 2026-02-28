@@ -5,7 +5,7 @@ import { MousePointerClick } from 'lucide-react'
 import { projectsGroupsInfo, ProjectsGroup } from '~/lib/projects-info'
 import { journeyInfo, JourneySection } from '~/lib/journey-info'
 import { TechStackCategory, techStackInfo } from '~/lib/tech-stack'
-import { Separator } from '~/components/common/ui'
+import { Separator } from '~/components/common/tooltip'
 
 export function QuickAccess(props: ComponentProps<'div'>) {
   return (

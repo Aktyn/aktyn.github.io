@@ -2,7 +2,7 @@ import { SocialLinks } from '~/components/social-links'
 import { ShiningText } from '~/components/text-effects/shining-text'
 import { QuickPersonalInfo } from '~/components/misc/quick-personal-info'
 import { QuickAccess } from '~/components/misc/quick-access'
-import { Separator } from '~/components/common/ui'
+import { Separator } from '~/components/common/tooltip'
 
 const fullName = 'Radosław Krajewski'
 const role = 'Web Developer'

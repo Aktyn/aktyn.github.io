@@ -1,4 +1,4 @@
-import { Button } from '~/components/common/ui'
+import { Button } from '~/components/common/tooltip'
 import { GithubIcon } from '~/components/icons/GithubIcon'
 import { LinkedInIcon } from '~/components/icons/LinkedInIcon'
 import type { ComponentProps } from 'react'

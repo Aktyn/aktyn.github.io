@@ -1,4 +1,4 @@
-import { Button } from '~/components/common/ui'
+import { Button } from '~/components/common/tooltip'
 import { X } from 'lucide-react'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { clamp, cn } from '~/lib/utils'

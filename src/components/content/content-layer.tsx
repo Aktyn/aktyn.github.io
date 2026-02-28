@@ -13,6 +13,11 @@ export function ContentLayer({ webScene }: Pick<ProjectedTextProps, 'webScene'>)
         webGLAvailable && 'not-print:text-transparent',
       )}
     >
+      <header className="flex w-full flex-row items-center justify-end p-4">
+        <button className="cursor-pointer text-red-300 print:hidden" onClick={() => window.print()}>
+          Print CV
+        </button>
+      </header>
       <div className="mt-40 text-center">
         <ProjectedText
           text="Aktyn"

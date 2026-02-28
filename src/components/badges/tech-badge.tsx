@@ -1,6 +1,6 @@
 import { cn } from '~/lib/utils'
 import { techStack } from '~/lib/tech-stack'
-import { Badge } from '~/components/common/ui'
+import { Badge } from '~/components/common/tooltip'
 import type { ComponentProps } from 'react'
 
 type TechBadgeProps = { tech: keyof typeof techStack } & ComponentProps<typeof Badge>

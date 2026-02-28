@@ -1,6 +1,6 @@
 import { differenceInYears, format } from 'date-fns'
 import { CalendarHeart, CalendarRange, Languages, Map, MapPinHouse } from 'lucide-react'
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from '~/components/common/ui'
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from '~/components/common/tooltip'
 import type { ComponentProps } from 'react'
 import { cn } from '~/lib/utils'
 

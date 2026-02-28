@@ -1,7 +1,7 @@
 import { MoveDown, MoveRight } from 'lucide-react'
 import { type ComponentProps, type ReactNode } from 'react'
 import { cn } from '~/lib/utils'
-import { Separator } from '~/components/common/ui'
+import { Separator } from '~/components/common/tooltip'
 
 type TreeTimelineProps = ComponentProps<'div'> & {
   header?: ReactNode

@@ -7,7 +7,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '~/components/common/ui'
+} from '~/components/common/tooltip'
 import { ArrowUpToLine, ChevronRight, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import { type ComponentProps, type RefObject, useEffect, useMemo, useRef, useState } from 'react'
 import { ProjectsGroup, projectsGroupsInfo } from '~/lib/projects-info'
