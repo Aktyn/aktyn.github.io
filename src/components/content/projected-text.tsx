@@ -1,46 +1,49 @@
 import {
-  type ComponentPropsWithoutRef,
   Fragment,
   useCallback,
   useImperativeHandle,
   useRef,
+  type ComponentPropsWithoutRef,
 } from 'react'
 import { fontWeightValues, type FontWeight } from '~/graphics/fonts'
 import { type WebScene } from '~/graphics/web-scene'
 import { omit } from '~/lib/utils'
 import type { ProjectedComponentProps } from './content-helpers'
 import { useProjectedSceneObject } from './useProjectedSceneObject'
+import { colors } from './colors'
 
 const defaultFontSize = 16
 const defaultFontWeight: FontWeight = 'medium'
 
 export type ProjectedTextProps = ProjectedComponentProps & {
   text: string
+  splitWords?: boolean
   fontSize?: number
   fontWeight?: FontWeight
 } & ComponentPropsWithoutRef<'span'>
 
-export function ProjectedText(props: ProjectedTextProps) {
-  const words = props.text.split(' ')
+export function ProjectedText({ text, splitWords = true, ...props }: ProjectedTextProps) {
+  const words = splitWords ? text.split(' ') : [text]
 
   return words.map((word, index) => (
     <Fragment key={index}>
       <ProjectedWord {...props} text={word} />
-      {index < words.length - 1 && <Space {...omit(props, 'text', 'color', 'frontColor')} />}
+      {index < words.length - 1 && <Space {...omit(props, 'color', 'frontColor')} />}
     </Fragment>
   ))
 }
 
 function ProjectedWord({
   ref: interfaceRef,
+  as: Slot = 'span',
   text: word,
-  color = '#002824',
-  frontColor = '#80CBC4',
+  color = colors.side,
+  frontColor = colors.front,
   fontSize = defaultFontSize,
   fontWeight = defaultFontWeight,
   ...spanProps
 }: ProjectedTextProps) {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<Element>(null)
 
   const objectFactory = useCallback(
     (webScene: WebScene) =>
@@ -49,11 +52,18 @@ function ProjectedWord({
   )
   const sceneObject = useProjectedSceneObject(ref, objectFactory)
 
-  useImperativeHandle(interfaceRef, () => ({ sceneObject }), [sceneObject])
+  useImperativeHandle(
+    interfaceRef,
+    () => ({
+      sceneObject,
+      elementRef: ref,
+    }),
+    [sceneObject, ref],
+  )
 
   return (
-    <span
-      ref={ref}
+    <Slot
+      ref={ref as never}
       {...spanProps}
       className={spanProps.className}
       style={{
@@ -63,7 +73,7 @@ function ProjectedWord({
       }}
     >
       {word}
-    </span>
+    </Slot>
   )
 }
 

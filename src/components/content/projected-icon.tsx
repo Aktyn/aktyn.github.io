@@ -3,6 +3,7 @@ import { type WebScene } from '~/graphics/web-scene'
 import { cn } from '~/lib/utils'
 import { type ProjectedComponentProps } from './content-helpers'
 import { useProjectedSceneObject } from './useProjectedSceneObject'
+import { colors } from './colors'
 
 const defaultSize = 24
 
@@ -14,8 +15,8 @@ type ProjectedIconProps = ProjectedComponentProps & {
 
 export function ProjectedIcon({
   path,
-  color = '#002824',
-  frontColor = '#80CBC4',
+  color = colors.side,
+  frontColor = colors.front,
   size = defaultSize,
   ...svgProps
 }: ProjectedIconProps) {

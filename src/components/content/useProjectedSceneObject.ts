@@ -7,7 +7,7 @@ import { assert } from '~/lib/utils'
 import { SceneContext } from './scene-provider'
 
 export function useProjectedSceneObject(
-  elementRef: RefObject<HTMLElement | SVGSVGElement | SVGPathElement | null>,
+  elementRef: RefObject<Element | null>,
   /** Must be memoized */
   objectFactory: (webScene: WebScene) => Promise<SceneObject> | SceneObject,
 ) {
@@ -71,7 +71,7 @@ export function useProjectedSceneObject(
 function keepSceneObjectSynchronized(
   webScene: WebScene,
   sceneObject: SceneObject,
-  anchorElement: HTMLElement | SVGSVGElement | SVGPathElement,
+  anchorElement: Element,
 ) {
   const updatePosition = () => {
     if (!sceneObject.isVisible()) {
@@ -81,7 +81,7 @@ function keepSceneObjectSynchronized(
   }
 
   updatePosition()
-  setTimeout(updatePosition, 1000) // Temporary fix for svg sometimes being rendered after the position has been set
+  setTimeout(updatePosition, 500) // Temporary fix for svg sometimes being rendered after the position has been set
 
   window.addEventListener('resize', updatePosition)
   const scrollableContainers = getScrollableParent(anchorElement, true)

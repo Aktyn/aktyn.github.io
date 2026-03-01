@@ -1,26 +1,38 @@
 import * as THREE from 'three'
 import { EPSILON } from './graphics-helpers'
+import type { GraphicsCaches } from './caches'
 
 export abstract class SceneObject {
   private _disposed = false
+
+  protected originalPosition = new THREE.Vector3()
+  protected originalScale = new THREE.Vector3(1, 1, 1)
 
   /**
    * Position relative to the anchor element\
    * Use to animate the object without compromising the alignment
    */
-  protected relativePosition = new THREE.Vector3(0, 0, 0)
-  private targetRelativePosition = new THREE.Vector3(0, 0, 0)
+  protected relativePosition = new THREE.Vector3()
+  private targetRelativePosition = new THREE.Vector3()
 
-  constructor(protected readonly mesh: THREE.Mesh) {}
+  protected relativeScale = new THREE.Vector3(1, 1, 1)
+  private targetRelativeScale = new THREE.Vector3(1, 1, 1)
+
+  private transitionSpeed = 10
+
+  constructor(
+    protected readonly mesh: THREE.Mesh,
+    private readonly caches: GraphicsCaches,
+  ) {}
 
   dispose() {
-    console.log('dispose')
     this.mesh.removeFromParent()
 
     this.mesh.geometry.dispose()
-    if (this.mesh.material instanceof THREE.Material) {
-      this.mesh.material.dispose()
-    }
+    // Handled by cache
+    // if (this.mesh.material instanceof THREE.Material) {
+    //   this.mesh.material.dispose()
+    // }
 
     this._disposed = true
   }
@@ -37,10 +49,7 @@ export abstract class SceneObject {
     return this.mesh.visible
   }
 
-  alignToElement(
-    element: HTMLElement | SVGSVGElement | SVGPathElement,
-    camera: THREE.PerspectiveCamera,
-  ) {
+  alignToElement(element: Element, camera: THREE.PerspectiveCamera) {
     const rect = element.getBoundingClientRect()
 
     // Prevent errors for empty dimensions
@@ -75,6 +84,7 @@ export abstract class SceneObject {
       centerY + this.relativePosition.y,
       this.relativePosition.z,
     )
+    this.originalPosition.set(centerX, centerY, 0)
 
     // Calculate scale by comparing 3D geometric size to target 3D size
     if (!this.mesh.geometry.boundingBox) {
@@ -84,23 +94,88 @@ export abstract class SceneObject {
     this.mesh.geometry.boundingBox?.getSize(size)
 
     if (size.x > 0 && size.y > 0) {
-      this.mesh.scale.set(targetWidth / size.x, targetHeight / size.y, 1)
+      this.mesh.scale.set(
+        (targetWidth / size.x) * this.relativeScale.x,
+        (targetHeight / size.y) * this.relativeScale.y,
+        this.relativeScale.z,
+      )
+      this.originalScale.set(targetWidth / size.x, targetHeight / size.y, 1)
     }
 
     return { targetWidth, targetHeight }
   }
 
+  moveTo(x: number, y: number, z: number) {
+    this.targetRelativePosition.set(x, y, z)
+  }
+
+  scaleTo(x: number, y: number, z: number): void
+  scaleTo(scale: number): void
+  scaleTo(x: number, y?: number, z?: number) {
+    if (y === undefined || z === undefined) {
+      this.targetRelativeScale.set(x, x, x)
+    } else {
+      this.targetRelativeScale.set(x, y, z)
+    }
+  }
+
+  setFrontColor(color: string) {
+    const material = this.caches.getBasicMaterial(color)
+
+    if (Array.isArray(this.mesh.material)) {
+      this.mesh.material[0] = material
+    } else {
+      this.mesh.material = material
+    }
+  }
+
+  private updatePosition() {
+    this.mesh.position.set(
+      this.originalPosition.x + this.relativePosition.x,
+      this.originalPosition.y + this.relativePosition.y,
+      this.originalPosition.z + this.relativePosition.z,
+    )
+  }
+
+  private updateScale() {
+    this.mesh.scale.set(
+      this.originalScale.x * this.relativeScale.x,
+      this.originalScale.y * this.relativeScale.y,
+      this.originalScale.z * this.relativeScale.z,
+    )
+  }
+
   /** Delta time represents milliseconds between current and previous frame */
-  update(_deltaTime: number) {
+  update(deltaTime: number) {
     if (!this.isVisible()) {
       return
     }
 
     const dstSquared = this.relativePosition.distanceToSquared(this.targetRelativePosition)
-    if (dstSquared < EPSILON) {
-      return
+    if (dstSquared > 0) {
+      if (dstSquared < EPSILON) {
+        this.relativePosition.copy(this.targetRelativePosition)
+        this.updatePosition()
+        return
+      }
+
+      this.relativePosition.lerp(
+        this.targetRelativePosition,
+        (deltaTime / 1000) * this.transitionSpeed,
+      )
+      this.updatePosition()
     }
 
-    //TODO: update relative position
+    const dstSquaredScale = this.relativeScale.distanceToSquared(this.targetRelativeScale)
+    if (dstSquaredScale > 0) {
+      if (dstSquaredScale < EPSILON ** 2) {
+        this.relativeScale.copy(this.targetRelativeScale)
+        this.updateScale()
+        return
+      }
+
+      this.relativeScale.lerp(this.targetRelativeScale, (deltaTime / 1000) * this.transitionSpeed)
+      this.updateScale()
+    }
   }
 }

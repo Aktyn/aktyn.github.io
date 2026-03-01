@@ -8,7 +8,7 @@ import {
 } from 'three/addons/shaders/GodRaysShader'
 import { buildCaches } from './caches'
 import { type FontWeight, getFontMetrics, loadFontShapes } from './fonts'
-import { svgPathToShapePath } from './graphics-helpers'
+import { EXTRUDE_DEPTH, svgPathToShapePath } from './graphics-helpers'
 import { SvgObject } from './svg-object'
 import { TextObject } from './text-object'
 import { OrbitControls } from 'three/addons/controls/OrbitControls'
@@ -137,6 +137,8 @@ export class WebScene {
       object.dispose()
     })
     this.objects.length = 0
+
+    this.caches.dispose()
 
     this.postprocessing.rtTextureColors.dispose()
     this.postprocessing.rtTextureDepth.dispose()
@@ -385,13 +387,13 @@ export class WebScene {
 
   private shapesToGeometry(shapes: THREE.Shape[]) {
     const geometry = new THREE.ExtrudeGeometry(shapes, {
-      depth: 2,
-      steps: 2,
+      depth: EXTRUDE_DEPTH,
+      steps: 1,
       bevelEnabled: false,
-      bevelThickness: 2,
-      bevelSize: 0.5,
-      bevelOffset: 0,
-      bevelSegments: 4,
+      // bevelThickness: 2,
+      // bevelSize: 0.5,
+      // bevelOffset: 0,
+      // bevelSegments: 4,
     })
     geometry.computeVertexNormals()
     geometry.normalizeNormals()
@@ -424,7 +426,7 @@ export class WebScene {
       this.scene.add(textMesh)
 
       const metrics = getFontMetrics(weight)
-      const sceneObject = new TextObject(textMesh, size, metrics)
+      const sceneObject = new TextObject(textMesh, this.caches, size, metrics)
       this.objects.push(sceneObject)
       return sceneObject
     })
@@ -446,7 +448,7 @@ export class WebScene {
 
     this.scene.add(svgMesh)
 
-    const sceneObject = new SvgObject(svgMesh)
+    const sceneObject = new SvgObject(svgMesh, this.caches)
     this.objects.push(sceneObject)
     return sceneObject
   }

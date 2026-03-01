@@ -1,11 +1,12 @@
+import { FileUser } from 'lucide-react'
 import { useMemo } from 'react'
 import { isWebglAvailable } from '~/graphics/graphics-helpers'
 import { contentViewportID, LOGO_PATH } from '~/lib/consts'
 import { cn } from '~/lib/utils'
+import { ProjectedButton } from './projected-button'
 import { ProjectedIcon } from './projected-icon'
 import { ProjectedText } from './projected-text'
 import { SceneProvider, type SceneProviderProps } from './scene-provider'
-import { ProjectedButton } from './projected-button'
 
 export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>) {
   const webGLAvailable = useMemo(() => isWebglAvailable(), [])
@@ -19,11 +20,12 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
           webGLAvailable && 'not-print:fill-transparent not-print:text-transparent',
         )}
       >
-        <header className="flex w-full flex-row items-center justify-end p-4">
+        <header className="flex w-full flex-row items-center justify-end p-2">
           <button
-            className="cursor-pointer text-red-300 print:hidden"
+            className="flex cursor-pointer flex-row items-center gap-2 rounded-lg px-2 py-1 text-foreground transition-colors hover:bg-foreground/20 print:hidden *:[svg]:size-4"
             onClick={() => window.print()}
           >
+            <FileUser />
             Print or download <b title="Curriculum Vitae">CV</b>
           </button>
         </header>
@@ -43,7 +45,7 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
             <ProjectedText text="Visibility test" fontSize={64} />
           </div>
           <div>
-            <ProjectedButton text="Button test" fontSize={64} frontColor="#E0F2F1" />
+            <ProjectedButton text="Button test" fontSize={64} />
           </div>
         </div>
       </div>

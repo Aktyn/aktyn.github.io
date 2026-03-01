@@ -5,6 +5,11 @@ export function buildCaches() {
   const basicMaterials = new Map<string, THREE.Material>()
 
   return {
+    dispose() {
+      basicMaterials.forEach((material) => material.dispose())
+      basicMaterials.clear()
+    },
+
     getBasicMaterial(color: string) {
       const cached = basicMaterials.get(color)
       if (cached) {
@@ -25,3 +30,5 @@ export function buildCaches() {
     },
   }
 }
+
+export type GraphicsCaches = ReturnType<typeof buildCaches>

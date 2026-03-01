@@ -1,7 +1,8 @@
 import { type Path } from 'opentype.js'
 import * as THREE from 'three'
 
-export const EPSILON = 0.0001
+export const EPSILON = 0.01 // Epsilon can be quite high since the scene scale is large
+export const EXTRUDE_DEPTH = 2
 
 export function isWebglAvailable() {
   try {

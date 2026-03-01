@@ -45,7 +45,7 @@ export async function loadFontShapes(
     fontCache.set(weight, fontPromise)
   }
 
-  const shapes = font.getPaths(text, 0, 0, fontSize).flatMap((path) => {
+  const shapes = font.getPaths(text, 0, 0, fontSize, { kerning: true }).flatMap((path) => {
     const shapePath = svgPathToShapePath(path)
     return shapePath.toShapes(true)
   })

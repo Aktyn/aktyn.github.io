@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import type { GraphicsCaches } from './caches'
 import { SceneObject } from './scene-object'
 
 export interface FontMetrics {
@@ -10,10 +11,11 @@ export interface FontMetrics {
 export class TextObject extends SceneObject {
   constructor(
     mesh: THREE.Mesh,
+    caches: GraphicsCaches,
     private readonly fontSize: number,
     private readonly fontMetrics: FontMetrics | null,
   ) {
-    super(mesh)
+    super(mesh, caches)
   }
 
   override alignToElement(element: HTMLElement, camera: THREE.PerspectiveCamera) {
@@ -47,13 +49,15 @@ export class TextObject extends SceneObject {
 
     targetPos.add(this.relativePosition)
     this.mesh.position.copy(targetPos)
+    this.originalPosition.copy(targetPos)
 
     const vFov = (camera.fov * Math.PI) / 180
     const visibleHeightAtZ0 = 2 * Math.tan(vFov / 2) * camera.position.z
     const unitsPerPixel = visibleHeightAtZ0 / window.innerHeight
 
     const scale = unitsPerPixel
-    this.mesh.scale.set(scale, scale, 1)
+    this.mesh.scale.set(scale * this.relativeScale.x, scale * this.relativeScale.y, 1)
+    this.originalScale.set(scale, scale, 1)
 
     return { targetWidth: rect.width, targetHeight: rect.height }
   }
