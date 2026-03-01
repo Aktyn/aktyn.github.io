@@ -13,6 +13,12 @@ export function compareArrays<T>(a: T[], b: T[]) {
   return a.length === b.length && a.every((value, index) => value === b[index])
 }
 
+export function assert(condition: unknown, message?: string): asserts condition {
+  if (!condition) {
+    throw new Error(message || 'Assertion failed')
+  }
+}
+
 export function debounce<ArgsType extends unknown[]>(
   func: (...args: ArgsType) => void,
   delay: number,

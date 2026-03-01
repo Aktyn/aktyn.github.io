@@ -11,6 +11,8 @@ import { type FontWeight, getFontMetrics, loadFontShapes } from './fonts'
 import { svgPathToShapePath } from './graphics-helpers'
 import { SvgObject } from './svg-object'
 import { TextObject } from './text-object'
+import { OrbitControls } from 'three/addons/controls/OrbitControls'
+import type { SceneObject } from './scene-object'
 
 interface GodraysUniforms {
   [key: string]: THREE.IUniform
@@ -53,12 +55,14 @@ export class WebScene {
   private readonly screenSpacePosition = new THREE.Vector3()
 
   private readonly materialDepth = new THREE.MeshDepthMaterial()
-  private readonly stats: Stats
+  private stats: Stats | null = null
 
-  private readonly meshes: Array<THREE.Mesh> = []
+  private readonly objects: Array<SceneObject> = []
   private readonly caches = buildCaches()
 
   private readonly windowResizeCallback = this.onWindowResize.bind(this)
+
+  private lastTime = 0
 
   constructor(private readonly container: HTMLDivElement) {
     const width = window.innerWidth
@@ -75,33 +79,42 @@ export class WebScene {
 
     // const ambientLight = new THREE.AmbientLight(0xffffff, 5)
     // this.scene.add(ambientLight)
-    const dirLight = new THREE.DirectionalLight(0xffffff, 500)
-    dirLight.position.set(0, 0, 100)
-    dirLight.lookAt(0, 0, 0)
-    // const dirLightHelper = new THREE.DirectionalLightHelper(dirLight, 10)
-    // this.scene.add(dirLightHelper)
-    this.scene.add(dirLight)
+    // const dirLight = new THREE.DirectionalLight(0xffffff, 1)
+    // dirLight.position.set(0, 20, 100)
+    // dirLight.lookAt(0, 0, 0)
+    // // const dirLightHelper = new THREE.DirectionalLightHelper(dirLight, 10)
+    // // this.scene.add(dirLightHelper)
+    // this.scene.add(dirLight)
 
-    this.renderer = new THREE.WebGLRenderer({ antialias: true, depth: false })
+    this.renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      // depth: false,
+      powerPreference: 'low-power',
+      alpha: false,
+      premultipliedAlpha: false,
+    })
     this.renderer.setClearColor(0xb2dfdb)
     this.renderer.setPixelRatio(window.devicePixelRatio)
     this.renderer.setSize(width, height)
     container.appendChild(this.renderer.domElement)
     this.renderer.autoClear = false
 
-    // const controls = new OrbitControls(this.camera, this.renderer.domElement)
-    // controls.minDistance = 50
-    // controls.maxDistance = 500
+    //TODO: remove controls
+    const controls = new OrbitControls(this.camera, this.renderer.domElement)
+    controls.minDistance = 50
+    controls.maxDistance = 500
 
-    this.stats = new Stats()
-    container.appendChild(this.stats.dom)
+    if (import.meta.env.DEV) {
+      this.stats = new Stats()
+      container.appendChild(this.stats.dom)
+    }
 
     this.postprocessing = this.initPostprocessing(width, height)
 
-    const animate = () => {
-      this.stats.begin()
-      this.render()
-      this.stats.end()
+    const animate: XRFrameRequestCallback = (time) => {
+      this.stats?.begin()
+      this.render(time)
+      this.stats?.end()
     }
 
     this.renderer.setAnimationLoop(animate)
@@ -113,17 +126,17 @@ export class WebScene {
     window.removeEventListener('resize', this.windowResizeCallback)
     this.renderer.setAnimationLoop(null)
     this.container.removeChild(this.renderer.domElement)
-    this.container.removeChild(this.stats.dom)
+    if (this.stats) {
+      this.container.removeChild(this.stats.dom)
+    }
 
     // Proper disposal
     this.materialDepth.dispose()
 
-    this.meshes.forEach((mesh) => {
-      mesh.geometry.dispose()
-      if (mesh.material instanceof THREE.Material) {
-        mesh.material.dispose()
-      }
+    this.objects.forEach((object) => {
+      object.dispose()
     })
+    this.objects.length = 0
 
     this.postprocessing.rtTextureColors.dispose()
     this.postprocessing.rtTextureDepth.dispose()
@@ -251,7 +264,19 @@ export class WebScene {
     this.postprocessing.scene.overrideMaterial = null
   }
 
-  private render() {
+  private render(time: DOMHighResTimeStamp) {
+    const deltaTime = time - this.lastTime
+    this.lastTime = time
+
+    for (const sceneObject of this.objects) {
+      if (sceneObject.disposed) {
+        this.objects.splice(this.objects.indexOf(sceneObject), 1)
+        continue
+      }
+
+      sceneObject.update(Math.min(1000, deltaTime))
+    }
+
     if (this.postprocessing.enabled) {
       this.clipPosition.set(SUN_POSITION.x, SUN_POSITION.y, SUN_POSITION.z, 1)
       this.clipPosition
@@ -342,7 +367,7 @@ export class WebScene {
       this.postprocessing.scene.overrideMaterial = null
 
       // Final pass: render objects on top of everything without additive blending
-      if (this.meshes.length > 0) {
+      if (this.objects.length > 0) {
         this.renderer.autoClear = false
         this.scene.overrideMaterial = null
         this.renderer.render(this.scene, this.camera)
@@ -354,61 +379,76 @@ export class WebScene {
     }
   }
 
+  public getCamera() {
+    return this.camera
+  }
+
   private shapesToGeometry(shapes: THREE.Shape[]) {
     const geometry = new THREE.ExtrudeGeometry(shapes, {
       depth: 2,
       steps: 2,
       bevelEnabled: false,
-      // bevelThickness: 1,
-      // bevelSize: 1,
-      // bevelOffset: 0,
-      // bevelSegments: 1,
+      bevelThickness: 2,
+      bevelSize: 0.5,
+      bevelOffset: 0,
+      bevelSegments: 4,
     })
     geometry.computeVertexNormals()
     geometry.normalizeNormals()
-    // DO NOT center() here because it breaks TextObject baseline alignment.
-    // SVG objects will center themselves separately.
     return geometry
   }
 
-  public getCamera() {
-    return this.camera
+  private composeMesh(geometry: THREE.ExtrudeGeometry, ...materials: THREE.Material[]) {
+    return new THREE.Mesh(geometry, materials)
   }
 
-  public async createTextObject(text: string, size: number, color: string, weight: FontWeight) {
+  public async createTextObject(
+    text: string,
+    size: number,
+    color: string,
+    frontColor: string,
+    weight: FontWeight,
+  ) {
     return loadFontShapes(text, size, weight).then((shapes) => {
       const geometry = this.shapesToGeometry(shapes)
 
-      const textMaterial = this.caches.getBasicMaterial(color)
-
-      const textMesh = new THREE.Mesh(geometry, textMaterial)
+      const textMesh = this.composeMesh(
+        geometry,
+        this.caches.getBasicMaterial(frontColor),
+        this.caches.getBasicMaterial(color),
+      )
       textMesh.rotateX(Math.PI)
 
       geometry.computeBoundingBox()
 
       this.scene.add(textMesh)
-      this.meshes.push(textMesh)
 
       const metrics = getFontMetrics(weight)
-      return new TextObject(textMesh, size, metrics)
+      const sceneObject = new TextObject(textMesh, size, metrics)
+      this.objects.push(sceneObject)
+      return sceneObject
     })
   }
 
-  public createSvgObject(svgPath: string, fillColor: string, isCCW = false) {
+  public createSvgObject(svgPath: string, color: string, frontColor: string, isCCW = false) {
     const shapes = svgPathToShapePath(svgPath).toShapes(isCCW)
     const geometry = this.shapesToGeometry(shapes)
-    // geometry.rotateX(Math.PI)
     geometry.center()
 
-    const svgMaterial = this.caches.getBasicMaterial(fillColor)
-
-    const svgMesh = new THREE.Mesh(geometry, svgMaterial)
+    const svgMesh = this.composeMesh(
+      geometry,
+      this.caches.getBasicMaterial(frontColor),
+      this.caches.getBasicMaterial(color),
+    )
     svgMesh.rotateX(Math.PI)
 
-    this.scene.add(svgMesh)
-    this.meshes.push(svgMesh)
+    geometry.computeBoundingBox()
 
-    return new SvgObject(svgMesh)
+    this.scene.add(svgMesh)
+
+    const sceneObject = new SvgObject(svgMesh)
+    this.objects.push(sceneObject)
+    return sceneObject
   }
 }
 

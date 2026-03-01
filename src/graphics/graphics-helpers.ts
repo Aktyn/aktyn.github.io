@@ -1,6 +1,8 @@
 import { type Path } from 'opentype.js'
 import * as THREE from 'three'
 
+export const EPSILON = 0.0001
+
 export function isWebglAvailable() {
   try {
     const canvas = document.createElement('canvas')

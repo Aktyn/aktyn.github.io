@@ -9,7 +9,9 @@
 			"aktyn",
 			"autodocs",
 			"bunx",
+			"cplusplus",
 			"devicon",
+			"glsl",
 			"GODRAY",
 			"Godrays",
 			"grayscale",
@@ -17,6 +19,7 @@
 			"Hoverable",
 			"inkscape",
 			"Krajewski",
+			"materialui",
 			"Microcontrollers",
 			"micropython",
 			"mzlhvcsqta",
@@ -25,8 +28,9 @@
 			"Radosław",
 			"raspberrypi",
 			"raycaster",
-			"shadcn",
-			"Stylesheet"
+			"Stylesheet",
+			"threejs",
+			"wordmark"
 		],
 		"typescript.tsdk": "node_modules/typescript/lib",
 		"npm.packageManager": "bun"

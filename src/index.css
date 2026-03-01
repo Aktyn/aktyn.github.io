@@ -26,7 +26,7 @@
   --ring: 65.92% 0.1455 243.6;
   --radius: 0.625rem;
 
-  /* Outside shadcn theme */
+  /* Outside theme */
   --red-400: 65.39% 0.1926 25.14;
   --green-400: 71.85% 0.1417 144.89;
   --blue-400: 70.02% 0.1488 246.66;
@@ -128,7 +128,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground fill-foreground;
   }
 
   a {
@@ -150,6 +150,18 @@
   /* [data-slot="skeleton"] {
     @apply bg-[color-mix(in_oklch,var(--color-muted-foreground)_50%,var(--color-background))]!;
   } */
+
+  @media print {
+    /* TODO: adjust */
+    @page {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    body  {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
 }
 
 @utility fixed-stroke {

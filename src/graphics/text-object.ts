@@ -10,8 +10,8 @@ export interface FontMetrics {
 export class TextObject extends SceneObject {
   constructor(
     mesh: THREE.Mesh,
-    private fontSize: number,
-    private fontMetrics: FontMetrics | null,
+    private readonly fontSize: number,
+    private readonly fontMetrics: FontMetrics | null,
   ) {
     super(mesh)
   }
@@ -19,7 +19,7 @@ export class TextObject extends SceneObject {
   override alignToElement(element: HTMLElement, camera: THREE.PerspectiveCamera) {
     const rect = element.getBoundingClientRect()
     if (rect.width === 0 || rect.height === 0) {
-      return
+      return null
     }
 
     let baselineYOffset: number
@@ -45,6 +45,7 @@ export class TextObject extends SceneObject {
     const targetPos = new THREE.Vector3()
     raycaster.ray.intersectPlane(plane, targetPos)
 
+    targetPos.add(this.relativePosition)
     this.mesh.position.copy(targetPos)
 
     const vFov = (camera.fov * Math.PI) / 180
@@ -53,5 +54,7 @@ export class TextObject extends SceneObject {
 
     const scale = unitsPerPixel
     this.mesh.scale.set(scale, scale, 1)
+
+    return { targetWidth: rect.width, targetHeight: rect.height }
   }
 }

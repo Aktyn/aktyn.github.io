@@ -24,7 +24,10 @@ export function App() {
 
   return (
     <div className="relative h-dvh w-dvw overflow-hidden *:absolute *:inset-0">
-      <div ref={sceneContainerRef} className="pointer-events-none" />
+      <div
+        ref={sceneContainerRef}
+        // className="pointer-events-none"
+      />
       {webScene && <ContentLayer webScene={webScene} />}
     </div>
   )
