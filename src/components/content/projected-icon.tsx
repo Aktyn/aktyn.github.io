@@ -1,9 +1,9 @@
-import { type ComponentProps, useCallback, useRef } from 'react'
+import { type ComponentPropsWithoutRef, useCallback, useImperativeHandle, useRef } from 'react'
 import { type WebScene } from '~/graphics/web-scene'
 import { cn } from '~/lib/utils'
+import { colors } from './colors'
 import { type ProjectedComponentProps } from './content-helpers'
 import { useProjectedSceneObject } from './useProjectedSceneObject'
-import { colors } from './colors'
 
 const defaultSize = 24
 
@@ -11,9 +11,10 @@ type ProjectedIconProps = ProjectedComponentProps & {
   /** Path of 24x24 icon */
   path: string
   size?: number
-} & ComponentProps<'svg'>
+} & ComponentPropsWithoutRef<'svg'>
 
 export function ProjectedIcon({
+  ref: interfaceRef,
   path,
   color = colors.side,
   frontColor = colors.front,
@@ -26,7 +27,16 @@ export function ProjectedIcon({
     (webScene: WebScene) => webScene.createSvgObject(path, color, frontColor),
     [color, frontColor, path],
   )
-  useProjectedSceneObject(ref, objectFactory)
+  const projectedScene = useProjectedSceneObject(ref, objectFactory)
+
+  useImperativeHandle(
+    interfaceRef,
+    () => ({
+      ...projectedScene,
+      elementRef: ref,
+    }),
+    [projectedScene, ref],
+  )
 
   return (
     <svg

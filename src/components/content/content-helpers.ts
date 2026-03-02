@@ -2,7 +2,8 @@ import type { RefObject } from 'react'
 import type { SceneObject } from '~/graphics/scene-object'
 
 export type ProjectedComponentRef = {
-  sceneObject: SceneObject | null
+  sceneObject?: SceneObject | null
+  updatePosition?: (() => void) | null
   elementRef: RefObject<Element | null>
 }
 

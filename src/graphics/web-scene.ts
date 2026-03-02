@@ -9,10 +9,9 @@ import {
 import { buildCaches } from './caches'
 import { type FontWeight, getFontMetrics, loadFontShapes } from './fonts'
 import { EXTRUDE_DEPTH, svgPathToShapePath } from './graphics-helpers'
+import type { SceneObject } from './scene-object'
 import { SvgObject } from './svg-object'
 import { TextObject } from './text-object'
-import { OrbitControls } from 'three/addons/controls/OrbitControls'
-import type { SceneObject } from './scene-object'
 
 interface GodraysUniforms {
   [key: string]: THREE.IUniform
@@ -42,11 +41,14 @@ const BG_COLOR = 0x004d40
 const SUN_COLOR = 0xe0f2f1
 const GODRAY_RENDER_TARGET_RES_MULTIPLIER = 0.5
 const SUN_POSITION = new THREE.Vector3(0, 618, -1000)
+const HIDE_PROJECTED_OBJECTS = false
 
 //TODO: particles bouncing of off the text
 
 export class WebScene {
   private readonly renderer: THREE.WebGLRenderer
+  /** Rendered before main scene which uses postprocessing */
+  private readonly backgroundScene: THREE.Scene
   private readonly scene: THREE.Scene
   private readonly camera: THREE.PerspectiveCamera
   private readonly postprocessing: PostprocessingState
@@ -56,13 +58,39 @@ export class WebScene {
 
   private readonly materialDepth = new THREE.MeshDepthMaterial()
   private stats: Stats | null = null
+  private visibleObjectsPanel: Stats.Panel | null = null
 
   private readonly objects: Array<SceneObject> = []
+  private readonly hexagons: Array<THREE.Mesh> = []
   private readonly caches = buildCaches()
 
   private readonly windowResizeCallback = this.onWindowResize.bind(this)
 
   private lastTime = 0
+  private maxVisibleObjectsCount = 0
+
+  private transparentMaterial = new THREE.MeshBasicMaterial({
+    fog: false,
+    depthTest: false,
+    depthWrite: false,
+    transparent: true,
+    opacity: 0,
+  })
+  private hexGridMaterial = new THREE.MeshStandardMaterial({
+    color: BG_COLOR,
+    // color: '#fffff',
+    metalness: 0.8,
+    roughness: 0.8,
+    // transparent: true,
+    // opacity: 0.8,
+
+    // premultipliedAlpha: true,
+    // blending: THREE.MultiplyBlending,
+    blending: THREE.CustomBlending,
+    blendSrc: THREE.SrcAlphaFactor,
+    blendDst: THREE.OneMinusSrcAlphaFactor,
+    blendEquation: THREE.MaxEquation,
+  })
 
   constructor(private readonly container: HTMLDivElement) {
     const width = window.innerWidth
@@ -75,6 +103,7 @@ export class WebScene {
     this.camera.position.z = 200
 
     this.scene = new THREE.Scene()
+    this.backgroundScene = new THREE.Scene()
     this.materialDepth = new THREE.MeshDepthMaterial()
 
     // const ambientLight = new THREE.AmbientLight(0xffffff, 5)
@@ -85,6 +114,11 @@ export class WebScene {
     // // const dirLightHelper = new THREE.DirectionalLightHelper(dirLight, 10)
     // // this.scene.add(dirLightHelper)
     // this.scene.add(dirLight)
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 7)
+    dirLight.position.set(0, 0, 40)
+    dirLight.lookAt(0, 0, 0)
+    this.backgroundScene.add(dirLight)
 
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -99,13 +133,17 @@ export class WebScene {
     container.appendChild(this.renderer.domElement)
     this.renderer.autoClear = false
 
-    //TODO: remove controls
-    const controls = new OrbitControls(this.camera, this.renderer.domElement)
-    controls.minDistance = 50
-    controls.maxDistance = 500
+    // const controls = new OrbitControls(this.camera, this.renderer.domElement)
+    // controls.minDistance = 50
+    // controls.maxDistance = 500
 
     if (import.meta.env.DEV) {
       this.stats = new Stats()
+      this.visibleObjectsPanel = new Stats.Panel('visible', '#ff00ff', '#000000')
+      this.stats.addPanel(this.visibleObjectsPanel)
+
+      this.stats.dom.style.top = 'auto'
+      this.stats.dom.style.bottom = '0px'
       container.appendChild(this.stats.dom)
     }
 
@@ -139,6 +177,16 @@ export class WebScene {
     this.objects.length = 0
 
     this.caches.dispose()
+    this.transparentMaterial.dispose()
+    this.hexGridMaterial.dispose()
+
+    this.backgroundScene.traverse((object) => {
+      if (object instanceof THREE.Mesh) {
+        object.geometry.dispose()
+        object.material.dispose()
+      }
+    })
+    this.backgroundScene.clear()
 
     this.postprocessing.rtTextureColors.dispose()
     this.postprocessing.rtTextureDepth.dispose()
@@ -171,6 +219,34 @@ export class WebScene {
     const ah = h * GODRAY_RENDER_TARGET_RES_MULTIPLIER
     this.postprocessing.rtTextureGodRays1.setSize(aw, ah)
     this.postprocessing.rtTextureGodRays2.setSize(aw, ah)
+  }
+
+  public onPointerMove(x: number, y: number) {
+    const normalizedX = (x / window.innerWidth) * 2 - 1
+    const normalizedY = -(y / window.innerHeight) * 2 + 1
+
+    const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0)
+    const raycaster = new THREE.Raycaster()
+
+    const point = new THREE.Vector3()
+    raycaster.setFromCamera(new THREE.Vector2(normalizedX, normalizedY), this.camera)
+    raycaster.ray.intersectPlane(plane, point)
+
+    const distanceCutoff = 60
+
+    for (const hexagon of this.hexagons) {
+      const dX = point.x - hexagon.position.x
+      const dY = point.y - hexagon.position.y
+
+      if (Math.abs(dX) > distanceCutoff || Math.abs(dY) > distanceCutoff) {
+        hexagon.position.setZ(0)
+        continue
+      }
+
+      const dst = Math.sqrt(dX ** 2 + dY ** 2)
+      const zFactor = Math.pow(1 - Math.min(1, dst / distanceCutoff), 3)
+      hexagon.position.setZ(-zFactor * 8)
+    }
   }
 
   private initPostprocessing(w: number, h: number) {
@@ -270,6 +346,7 @@ export class WebScene {
     const deltaTime = time - this.lastTime
     this.lastTime = time
 
+    let visibleObjectsCount = 0
     for (const sceneObject of this.objects) {
       if (sceneObject.disposed) {
         this.objects.splice(this.objects.indexOf(sceneObject), 1)
@@ -277,7 +354,12 @@ export class WebScene {
       }
 
       sceneObject.update(Math.min(1000, deltaTime))
+      if (sceneObject.isVisible()) {
+        visibleObjectsCount++
+      }
     }
+    this.maxVisibleObjectsCount = Math.max(this.maxVisibleObjectsCount, visibleObjectsCount)
+    this.visibleObjectsPanel?.update(visibleObjectsCount, this.maxVisibleObjectsCount)
 
     if (this.postprocessing.enabled) {
       this.clipPosition.set(SUN_POSITION.x, SUN_POSITION.y, SUN_POSITION.z, 1)
@@ -317,16 +399,14 @@ export class WebScene {
       this.renderer.render(this.postprocessing.scene, this.postprocessing.camera)
       this.renderer.setScissorTest(false)
 
-      // for (const mesh of this.meshes) {
-      //   mesh.visible = false
-      // }
-      this.scene.overrideMaterial = null
-      this.renderer.setRenderTarget(this.postprocessing.rtTextureColors)
-      this.renderer.render(this.scene, this.camera)
+      this.backgroundScene.overrideMaterial = this.hexGridMaterial
+      this.renderer.render(this.backgroundScene, this.camera)
 
-      // for (const mesh of this.meshes) {
-      //   mesh.visible = true
-      // }
+      if (!HIDE_PROJECTED_OBJECTS) {
+        this.scene.overrideMaterial = null
+        this.renderer.setRenderTarget(this.postprocessing.rtTextureColors)
+        this.renderer.render(this.scene, this.camera)
+      }
 
       this.scene.overrideMaterial = this.materialDepth
       this.renderer.setRenderTarget(this.postprocessing.rtTextureDepth)
@@ -363,13 +443,15 @@ export class WebScene {
       this.postprocessing.godrayCombineUniforms.tGodRays.value =
         this.postprocessing.rtTextureGodRays2.texture
 
+      //TODO: since no projected objects are visible (only their shadows), some steps may be disabled to optimize entire render process
+
       this.postprocessing.scene.overrideMaterial = this.postprocessing.materialGodraysCombine
       this.renderer.setRenderTarget(null)
       this.renderer.render(this.postprocessing.scene, this.postprocessing.camera)
       this.postprocessing.scene.overrideMaterial = null
 
       // Final pass: render objects on top of everything without additive blending
-      if (this.objects.length > 0) {
+      if (!HIDE_PROJECTED_OBJECTS && this.objects.length > 0) {
         this.renderer.autoClear = false
         this.scene.overrideMaterial = null
         this.renderer.render(this.scene, this.camera)
@@ -377,7 +459,11 @@ export class WebScene {
     } else {
       this.renderer.setRenderTarget(null)
       this.renderer.clear()
-      this.renderer.render(this.scene, this.camera)
+
+      this.renderer.render(this.backgroundScene, this.camera)
+      if (!HIDE_PROJECTED_OBJECTS) {
+        this.renderer.render(this.scene, this.camera)
+      }
     }
   }
 
@@ -407,8 +493,8 @@ export class WebScene {
   public async createTextObject(
     text: string,
     size: number,
-    color: string,
-    frontColor: string,
+    _color: string,
+    _frontColor: string,
     weight: FontWeight,
   ) {
     return loadFontShapes(text, size, weight).then((shapes) => {
@@ -416,8 +502,10 @@ export class WebScene {
 
       const textMesh = this.composeMesh(
         geometry,
-        this.caches.getBasicMaterial(frontColor),
-        this.caches.getBasicMaterial(color),
+        // this.caches.getBasicMaterial(frontColor),
+        // this.caches.getBasicMaterial(color),
+        this.transparentMaterial,
+        this.transparentMaterial,
       )
       textMesh.rotateX(Math.PI)
 
@@ -432,15 +520,17 @@ export class WebScene {
     })
   }
 
-  public createSvgObject(svgPath: string, color: string, frontColor: string, isCCW = false) {
+  public createSvgObject(svgPath: string, _color: string, _frontColor: string, isCCW = false) {
     const shapes = svgPathToShapePath(svgPath).toShapes(isCCW)
     const geometry = this.shapesToGeometry(shapes)
     geometry.center()
 
     const svgMesh = this.composeMesh(
       geometry,
-      this.caches.getBasicMaterial(frontColor),
-      this.caches.getBasicMaterial(color),
+      // this.caches.getBasicMaterial(frontColor),
+      // this.caches.getBasicMaterial(color),
+      this.transparentMaterial,
+      this.transparentMaterial,
     )
     svgMesh.rotateX(Math.PI)
 
@@ -451,6 +541,45 @@ export class WebScene {
     const sceneObject = new SvgObject(svgMesh, this.caches)
     this.objects.push(sceneObject)
     return sceneObject
+  }
+
+  public loadHexagonalGridBackground() {
+    const innerRadius = 24
+    const outerRadius = innerRadius / Math.sqrt(3)
+    const height = 10
+    // const widthPixels = window.innerHeight / outerRadius
+    const scale = 1 //(widthPixels - 1) / widthPixels
+
+    const colSize = 16
+    const rowSize = 8
+
+    // const geometry = new THREE.CircleGeometry(outerRadius * scale, 6)
+    const geometry = new THREE.CylinderGeometry(
+      outerRadius * scale,
+      outerRadius * scale,
+      height,
+      6,
+      undefined,
+      false,
+    )
+    const hexagon = new THREE.Mesh(geometry)
+    hexagon.position.set(0, 0, 0)
+    hexagon.rotateX(Math.PI / 2)
+    // hexagon.rotateZ(Math.PI / 6)
+
+    for (let y = -rowSize; y <= rowSize; y++) {
+      for (let x = -colSize; x <= colSize; x++) {
+        const mesh = hexagon.clone(false)
+        mesh.position.x = innerRadius * x + (y % 2 === 0 ? 0 : innerRadius / 2)
+        mesh.position.y = (innerRadius * y * Math.sqrt(3)) / 2
+        // const dst = Math.sqrt(mesh.position.x * mesh.position.x + mesh.position.y * mesh.position.y)
+        // mesh.position.z = -Math.cos((dst / (innerRadius * colSize)) * Math.PI * 16) * 0
+        // mesh.position.z = randomFloat(0, 2)
+        mesh.position.z = 0
+        this.backgroundScene.add(mesh)
+        this.hexagons.push(mesh)
+      }
+    }
   }
 }
 

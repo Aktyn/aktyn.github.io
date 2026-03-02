@@ -13,12 +13,17 @@ export function useProjectedSceneObject(
 ) {
   const webScene = useContext(SceneContext)
 
-  const [sceneObject, setSceneObject] = useState<SceneObject | null>(null)
+  const [exposedValues, setExposedValues] = useState<{
+    sceneObject: SceneObject
+    updatePosition: () => void
+  } | null>(null)
 
   useEffect(() => {
-    if (!elementRef.current) {
+    const anchor = elementRef.current
+    if (!anchor) {
       return
     }
+
     assert(
       !!webScene,
       'Web scene is not available. Make sure to use this hook inside SceneProvider',
@@ -26,7 +31,6 @@ export function useProjectedSceneObject(
 
     let sceneObject: SceneObject | null = null
     let mounted = true
-    // let animationFrameId: number
 
     let factoryPromise = objectFactory(webScene)
     if (!(factoryPromise instanceof Promise)) {
@@ -42,11 +46,16 @@ export function useProjectedSceneObject(
           return
         }
         sceneObject = object
-        setSceneObject(object)
 
-        if (elementRef.current) {
-          cleanup = keepSceneObjectSynchronized(webScene, sceneObject, elementRef.current)
+        const updatePosition = () => {
+          if (!object.isVisible()) {
+            return
+          }
+          object.alignToElement(anchor, webScene.getCamera())
         }
+
+        setExposedValues({ sceneObject: object, updatePosition })
+        cleanup = keepSceneObjectSynchronized(sceneObject, anchor, updatePosition)
       })
       .catch(console.error)
 
@@ -56,11 +65,11 @@ export function useProjectedSceneObject(
       if (sceneObject) {
         sceneObject.dispose()
       }
-      setSceneObject(null)
+      setExposedValues(null)
     }
   }, [elementRef, objectFactory, webScene])
 
-  return sceneObject
+  return exposedValues
 }
 
 /**
@@ -69,17 +78,10 @@ export function useProjectedSceneObject(
  * Returns cleanup function
  */
 function keepSceneObjectSynchronized(
-  webScene: WebScene,
   sceneObject: SceneObject,
   anchorElement: Element,
+  updatePosition: () => void,
 ) {
-  const updatePosition = () => {
-    if (!sceneObject.isVisible()) {
-      return
-    }
-    sceneObject.alignToElement(anchorElement, webScene.getCamera())
-  }
-
   updatePosition()
   setTimeout(updatePosition, 500) // Temporary fix for svg sometimes being rendered after the position has been set
 

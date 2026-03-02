@@ -50,15 +50,15 @@ function ProjectedWord({
       webScene.createTextObject(word, fontSize, color, frontColor, fontWeight),
     [color, fontSize, fontWeight, frontColor, word],
   )
-  const sceneObject = useProjectedSceneObject(ref, objectFactory)
+  const projectedScene = useProjectedSceneObject(ref, objectFactory)
 
   useImperativeHandle(
     interfaceRef,
     () => ({
-      sceneObject,
+      ...projectedScene,
       elementRef: ref,
     }),
-    [sceneObject, ref],
+    [projectedScene, ref],
   )
 
   return (

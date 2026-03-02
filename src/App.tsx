@@ -14,6 +14,7 @@ export function App() {
     }
 
     const webScene = new WebScene(container)
+    webScene.loadHexagonalGridBackground()
     setWebScene(webScene)
 
     return () => {

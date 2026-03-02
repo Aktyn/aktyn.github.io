@@ -1,8 +1,7 @@
-import { cn } from '~/lib/utils'
-import { ProjectedText, type ProjectedTextProps } from './projected-text'
-import { type ProjectedComponentRef } from './content-helpers'
 import { useEffect, useRef } from 'react'
-import { colors } from './colors'
+import { cn } from '~/lib/utils'
+import { type ProjectedComponentRef } from './content-helpers'
+import { ProjectedText, type ProjectedTextProps } from './projected-text'
 
 type ProjectedButtonProps = ProjectedTextProps & {
   // TODO
@@ -21,13 +20,13 @@ export function ProjectedButton({ ...projectedTextProps }: Omit<ProjectedButtonP
       const offset = (projectedTextProps.fontSize ?? 0) / 12
       projectedTextRef.current?.sceneObject?.scaleTo(1, 1.2, offset)
       projectedTextRef.current?.sceneObject?.moveTo(0, 0, offset)
-      projectedTextRef.current?.sceneObject?.setFrontColor('#E0F2F1')
+      // projectedTextRef.current?.sceneObject?.setFrontColor('#E0F2F1')
     }
 
     const onMouseLeave = () => {
       projectedTextRef.current?.sceneObject?.scaleTo(1)
       projectedTextRef.current?.sceneObject?.moveTo(0, 0, 0)
-      projectedTextRef.current?.sceneObject?.setFrontColor(colors.front)
+      // projectedTextRef.current?.sceneObject?.setFrontColor(colors.front)
     }
 
     element.addEventListener('mouseenter', onMouseEnter)
@@ -45,7 +44,7 @@ export function ProjectedButton({ ...projectedTextProps }: Omit<ProjectedButtonP
       as="button"
       {...projectedTextProps}
       splitWords={false}
-      className={cn('cursor-pointer', projectedTextProps.className)}
+      className={cn('inline', projectedTextProps.className)}
       // onClick={handleClick}
     />
   )

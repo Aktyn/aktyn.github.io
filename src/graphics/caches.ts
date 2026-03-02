@@ -1,5 +1,7 @@
 import * as THREE from 'three'
 
+//TODO: get rid of material logic if only native text will stay visible
+
 export function buildCaches() {
   /** Grouped by color */
   const basicMaterials = new Map<string, THREE.Material>()
@@ -10,7 +12,7 @@ export function buildCaches() {
       basicMaterials.clear()
     },
 
-    getBasicMaterial(color: string) {
+    getBasicMaterial(color: string, options?: THREE.MeshBasicMaterialParameters) {
       const cached = basicMaterials.get(color)
       if (cached) {
         return cached
@@ -23,6 +25,7 @@ export function buildCaches() {
         // depthWrite: false,
         // metalness: 0.5,
         // roughness: 0.4,
+        ...options,
       })
       basicMaterials.set(color, material)
 

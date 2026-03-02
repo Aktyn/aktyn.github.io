@@ -8,6 +8,8 @@ export abstract class SceneObject {
   protected originalPosition = new THREE.Vector3()
   protected originalScale = new THREE.Vector3(1, 1, 1)
 
+  //TODO: remove animation/transition logic if scene objects will not be rendered
+
   /**
    * Position relative to the anchor element\
    * Use to animate the object without compromising the alignment
