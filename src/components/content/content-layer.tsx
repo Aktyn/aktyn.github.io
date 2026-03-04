@@ -26,7 +26,8 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
     const scope = createScope({ root }).add((scope) => {
       animate('header:first-child', {
         y: ['0%', '-100%'],
-        ease: 'easeInOut',
+        // ease: 'easeInOut',
+        ease: 'linear',
         autoplay: onScroll({
           container: scope?.root,
           target: introContainer,
@@ -36,7 +37,8 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
           // leave: { target: 'bottom', container: 'top' }
           enter: { target: 'top-=4rem', container: 'top' },
           leave: { target: 'top', container: 'top' },
-          sync: 0.5,
+          // sync: 0.5,
+          sync: 1,
           debug: import.meta.env.DEV,
         }),
       })

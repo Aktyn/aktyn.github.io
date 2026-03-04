@@ -32,14 +32,14 @@ export function TreeTimeline({ header, items, ...divProps }: TreeTimelineProps) 
                   index === 0 && 'max-sm:min-h-0',
                 )}
               />
-              <div className="bg-muted-foreground/10 w-full rounded-md border border-foreground/20 px-2 py-0.5 text-center text-sm font-semibold text-foreground/60 sm:px-1">
+              <div className="w-full rounded-md border border-foreground/20 bg-muted-foreground/10 px-2 py-0.5 text-center text-sm font-semibold text-foreground/60 sm:px-1">
                 {typeof item.date === 'string' ? (
                   item.date
                 ) : (
                   <div className="flex items-center justify-stretch max-sm:gap-1 sm:w-auto sm:flex-col">
                     <span>{item.date.start}</span>
-                    <MoveDown className="text-muted-foreground size-4 max-sm:hidden" />
-                    <MoveRight className="text-muted-foreground size-4 sm:hidden" />
+                    <MoveDown className="size-4 text-muted-foreground max-sm:hidden" />
+                    <MoveRight className="size-4 text-muted-foreground sm:hidden" />
                     <span>{item.date.end}</span>
                   </div>
                 )}

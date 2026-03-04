@@ -6,13 +6,13 @@ import {
   GodRaysFakeSunShader,
   GodRaysGenerateShader,
 } from 'three/addons/shaders/GodRaysShader'
+import { calculateLinearlyWeightedAverage, forceArray } from '~/lib/utils'
 import { buildCaches } from './caches'
 import { type FontWeight, getFontMetrics, loadFontShapes } from './fonts'
 import { EXTRUDE_DEPTH, svgPathToShapePath } from './graphics-helpers'
 import type { SceneObject } from './scene-object'
 import { SvgObject } from './svg-object'
 import { TextObject } from './text-object'
-import { calculateLinearlyWeightedAverage } from '~/lib/utils'
 
 interface GodraysUniforms {
   [key: string]: THREE.IUniform
@@ -480,8 +480,7 @@ export class WebScene {
       const overallPerformance = calculateLinearlyWeightedAverage(this.performanceMeasurements)
 
       // If rendering takes more than 18ms on average
-      //TODO: 18
-      if (overallPerformance > 3.5) {
+      if (overallPerformance > 18) {
         console.warn(
           'Overall performance is too high:',
           `${overallPerformance.toFixed(2)}ms average render time`,
@@ -527,8 +526,9 @@ export class WebScene {
 
       const textMesh = this.composeMesh(
         geometry,
-        // this.caches.getBasicMaterial(frontColor),
-        // this.caches.getBasicMaterial(color),
+        //TODO
+        // this.caches.getBasicMaterial(_frontColor),
+        // this.caches.getBasicMaterial(_color),
         this.transparentMaterial,
         this.transparentMaterial,
       )
@@ -545,15 +545,21 @@ export class WebScene {
     })
   }
 
-  public createSvgObject(svgPath: string, _color: string, _frontColor: string, isCCW = false) {
-    const shapes = svgPathToShapePath(svgPath).toShapes(isCCW)
+  public createSvgObject(
+    svgPath: string | string[],
+    _color: string,
+    _frontColor: string,
+    isCCW = false,
+  ) {
+    const shapes = forceArray(svgPath).flatMap((path) => svgPathToShapePath(path).toShapes(isCCW))
     const geometry = this.shapesToGeometry(shapes)
     geometry.center()
 
     const svgMesh = this.composeMesh(
       geometry,
-      // this.caches.getBasicMaterial(frontColor),
-      // this.caches.getBasicMaterial(color),
+      //TODO
+      // this.caches.getBasicMaterial(_frontColor),
+      // this.caches.getBasicMaterial(_color),
       this.transparentMaterial,
       this.transparentMaterial,
     )
@@ -577,7 +583,6 @@ export class WebScene {
     const rowSize = 8
     const colSize = rowSize * HEX_GRID_RATIO
 
-    // const geometry = new THREE.CircleGeometry(outerRadius * scale, 6)
     const geometry = new THREE.CylinderGeometry(
       outerRadius * scale,
       outerRadius * scale,
@@ -589,16 +594,13 @@ export class WebScene {
     const hexagon = new THREE.Mesh(geometry)
     hexagon.position.set(0, 0, 0)
     hexagon.rotateX(Math.PI / 2)
-    // hexagon.rotateZ(Math.PI / 6)
 
     for (let y = -rowSize; y <= rowSize; y++) {
       for (let x = -colSize; x <= colSize; x++) {
         const mesh = hexagon.clone(false)
         mesh.position.x = innerRadius * x + (y % 2 === 0 ? 0 : innerRadius / 2)
         mesh.position.y = (innerRadius * y * Math.sqrt(3)) / 2
-        // const dst = Math.sqrt(mesh.position.x * mesh.position.x + mesh.position.y * mesh.position.y)
-        // mesh.position.z = -Math.cos((dst / (innerRadius * colSize)) * Math.PI * 16) * 0
-        // mesh.position.z = randomFloat(0, 2)
+        // mesh.position.z = randomFloat(-5, 5) //TODO: entry animation moving on Z axis smoothly from bottom to 0 with some initial randomness
         mesh.position.z = 0
         this.backgroundScene.add(mesh)
         this.hexagons.push(mesh)

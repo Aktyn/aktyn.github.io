@@ -41,7 +41,7 @@
   --scale-golden: 1.618;
   --scale-golden-inverse: 0.618;
 
-  --default-transition-duration: 0.3s;
+  --default-transition-duration: 0.2s;
   --default-transition-timing-function: ease-in-out;
   --breakpoint-xs: 480px;
 
@@ -121,6 +121,10 @@
       @apply text-background bg-white p-0;
       background-image: none;
       print-color-adjust: economy;
+    }
+
+    canvas, .animejs-onscroll-debug {
+      display: none !important;
     }
   }
 }

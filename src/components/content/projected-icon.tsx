@@ -7,32 +7,36 @@ import { useProjectedSceneObject } from './useProjectedSceneObject'
 
 const defaultSize = 24
 
-type ProjectedIconProps = ProjectedComponentProps & {
-  /** Path of 24x24 icon */
+export type ProjectedIconProps = ProjectedComponentProps & {
+  /** Path of svg icon. Only filled path will work. */
   path: string
+  viewBox?: string
   size?: number
-} & ComponentPropsWithoutRef<'svg'>
+  isCCW?: boolean
+} & Omit<ComponentPropsWithoutRef<'svg'>, 'fontSize'>
 
 export function ProjectedIcon({
   ref: interfaceRef,
   path,
+  viewBox = '0 0 24 24',
   color = colors.side,
   frontColor = colors.front,
   size = defaultSize,
   lowPriority,
+  isCCW,
   ...svgProps
 }: ProjectedIconProps) {
   const ref = useRef<SVGPathElement>(null)
 
   const objectFactory = useCallback(
     (webScene: WebScene) => {
-      const obj = webScene.createSvgObject(path, color, frontColor)
+      const obj = webScene.createSvgObject(path, color, frontColor, isCCW)
       if (lowPriority) {
         obj.setLowPriority()
       }
       return obj
     },
-    [color, frontColor, path, lowPriority],
+    [color, frontColor, path, lowPriority, isCCW],
   )
   const projectedScene = useProjectedSceneObject(ref, objectFactory)
 
@@ -47,7 +51,7 @@ export function ProjectedIcon({
 
   return (
     <svg
-      viewBox="0 0 24 24"
+      viewBox={viewBox}
       {...svgProps}
       className={cn('inline', svgProps.className)}
       style={{ width: size, height: size, ...svgProps.style }}

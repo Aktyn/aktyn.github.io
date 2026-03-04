@@ -29,7 +29,7 @@ export function GalleryPagination({ count, index, ...divProps }: GalleryPaginati
           aria-hidden="true"
           className={cn(
             'block size-1.5 rounded-full transition-[background-color,scale] ease-in-out',
-            i === current ? 'scale-120 bg-foreground' : 'bg-muted-foreground scale-100',
+            i === current ? 'scale-120 bg-foreground' : 'scale-100 bg-muted-foreground',
           )}
         />
       ))}

@@ -3,7 +3,7 @@ import { describe, it, expect, spyOn, beforeEach, afterEach } from 'bun:test'
 import { svgPathToShapePath } from './graphics-helpers'
 import * as THREE from 'three'
 
-describe('svgPathToShapePath', () => {
+describe(svgPathToShapePath, () => {
   let moveToSpy: any
   let lineToSpy: any
   let bezierCurveToSpy: any
@@ -91,5 +91,64 @@ describe('svgPathToShapePath', () => {
     svgPathToShapePath(mockOpenTypePath)
     expect(moveToSpy).toHaveBeenCalledWith(10, 10)
     expect(lineToSpy).toHaveBeenCalledWith(20, 20)
+  })
+
+  it('handles A, a commands (elliptical arcs)', () => {
+    const pathStr = 'M 10 10 A 5 5 0 0 1 20 20 a 5 5 0 0 0 10 10'
+    const absellipseSpy = spyOn(THREE.Path.prototype as any, 'absellipse')
+
+    svgPathToShapePath(pathStr)
+
+    expect(absellipseSpy).toHaveBeenCalledTimes(2)
+
+    absellipseSpy.mockRestore()
+  })
+
+  it('parses the complex arc path from the feature request without throwing', () => {
+    const complexPath =
+      'M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z'
+    const shapePath = svgPathToShapePath(complexPath)
+    expect(shapePath.subPaths.length).toBeGreaterThan(0)
+  })
+
+  it('handles T, t, S, s commands (smooth curves)', () => {
+    // A path using Q followed by T, and C followed by S
+    const pathStr = 'M 10 10 Q 20 20 30 10 T 50 10 C 60 20 70 20 80 10 S 100 0 110 10'
+    svgPathToShapePath(pathStr)
+
+    // M 10 10
+    expect(moveToSpy).toHaveBeenCalledWith(10, 10)
+
+    // Q 20 20 30 10
+    // currentPoint is 30 10. controlPoint is 20 20
+    expect(quadraticCurveToSpy).toHaveBeenCalledWith(20, 20, 30, 10)
+
+    // T 50 10
+    // rx = current.x * 2 - control.x = 30 * 2 - 20 = 40
+    // ry = current.y * 2 - control.y = 10 * 2 - 20 = 0
+    expect(quadraticCurveToSpy).toHaveBeenCalledWith(40, 0, 50, 10)
+
+    // C 60 20 70 20 80 10
+    // currentPoint is 80 10. controlPoint is 70 20
+    expect(bezierCurveToSpy).toHaveBeenCalledWith(60, 20, 70, 20, 80, 10)
+
+    // S 100 0 110 10
+    // rx = 80 * 2 - 70 = 90
+    // ry = 10 * 2 - 20 = 0
+    expect(bezierCurveToSpy).toHaveBeenCalledWith(90, 0, 100, 0, 110, 10)
+  })
+
+  it('prevents infinite loop on unsupported commands', () => {
+    const consoleWarnSpy = spyOn(console, 'warn').mockImplementation(() => {})
+    // 'J' is an unsupported command (fake)
+    const pathStr = 'M 10 10 J 20 20 L 50 50'
+    svgPathToShapePath(pathStr)
+
+    // It should successfully process M and L, skipping J and its arguments.
+    expect(moveToSpy).toHaveBeenCalledWith(10, 10)
+    expect(lineToSpy).toHaveBeenCalledWith(50, 50)
+    expect(consoleWarnSpy).toHaveBeenCalledWith('Unsupported SVG command: J')
+
+    consoleWarnSpy.mockRestore()
   })
 })

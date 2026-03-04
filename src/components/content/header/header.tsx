@@ -1,9 +1,10 @@
 import { createDraggable, createScope, spring } from 'animejs'
-import { FileUser } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import { LOGO_PATH } from '~/lib/consts'
 import type { ProjectedComponentRef } from '../content-helpers'
 import { ProjectedIcon } from '../projected-icon'
+import { materialSymbolIcons, materialSymbolProps } from '~/icons/material-symbol-icons'
+import { ProjectedText } from '../projected-text'
 
 /** Semi sticky behavior */
 export function Header() {
@@ -30,11 +31,23 @@ export function Header() {
     >
       <ProjectedIcon ref={projectedLogoRef} data-id="logo" path={LOGO_PATH} size={32} lowPriority />
       <button
-        className="flex cursor-pointer flex-row items-center gap-2 rounded-lg px-2 py-1 text-foreground transition-colors hover:bg-foreground/20 print:hidden *:[svg]:size-4"
+        className="flex cursor-pointer flex-row items-center gap-1.5 rounded-lg px-2 py-1 text-foreground transition-colors hover:bg-foreground/20 print:hidden *:[svg]:size-4"
         onClick={() => window.print()}
       >
-        <FileUser />
-        Print or download <b title="Curriculum Vitae">CV</b>
+        <ProjectedIcon
+          path={materialSymbolIcons.PictureAsPdf}
+          size={20}
+          lowPriority
+          {...materialSymbolProps}
+        />
+        <ProjectedText text="Print or download" splitWords={false} fontSize={15} lowPriority />
+        <ProjectedText
+          text="CV"
+          fontSize={15}
+          fontWeight="bold"
+          lowPriority
+          title="Curriculum Vitae"
+        />
       </button>
     </header>
   )

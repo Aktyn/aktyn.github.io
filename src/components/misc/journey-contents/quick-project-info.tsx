@@ -23,7 +23,7 @@ export function QuickProjectInfo({
     <Comp className={cn('my-0.5 leading-none text-balance', className)}>
       <GithubProjectLink href={githubLink} title={title} className="font-medium" />
       {description && (
-        <span className="text-muted-foreground text-xs whitespace-pre-wrap"> - {description}</span>
+        <span className="text-xs whitespace-pre-wrap text-muted-foreground"> - {description}</span>
       )}
     </Comp>
   )

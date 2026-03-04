@@ -7,7 +7,7 @@ export function ScreenEdgeButton({ children, className, ...divProps }: Component
     <div
       {...divProps}
       className={cn(
-        'view-transition-base text-muted-foreground ease-bounce hover:text-primary flex cursor-pointer flex-col items-center justify-self-center transition-[color,scale,opacity] *:animate-bounce *:animation-duration-2000 hover:scale-110',
+        'view-transition-base ease-bounce hover:text-primary flex cursor-pointer flex-col items-center justify-self-center text-muted-foreground transition-[color,scale,opacity] *:animate-bounce *:animation-duration-2000 hover:scale-110',
 
         className,
       )}

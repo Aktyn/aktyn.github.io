@@ -286,7 +286,7 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
       >
         <aside
           data-current={enableNavigation}
-          className="text-muted-foreground flex flex-col items-center justify-start gap-y-4 p-4 *:data-[slot=separator]:bg-foreground/20"
+          className="flex flex-col items-center justify-start gap-y-4 p-4 text-muted-foreground *:data-[slot=separator]:bg-foreground/20"
         >
           <div className="flex w-full flex-row items-center justify-between gap-x-2">
             <NavButton
@@ -329,13 +329,13 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
               />
               {/*transition-[top] ease-in-out duration-400*/}
               <span
-                className="bg-muted-foreground absolute inset-x-0 top-0 inline size-2 -translate-1/2 rounded-full"
+                className="absolute inset-x-0 top-0 inline size-2 -translate-1/2 rounded-full bg-muted-foreground"
                 style={{
                   top: `${viewportNavigationFrom}%`,
                 }}
               />
               <span
-                className="bg-muted-foreground absolute inset-x-0 top-0 inline size-2 -translate-1/2 rounded-full"
+                className="absolute inset-x-0 top-0 inline size-2 -translate-1/2 rounded-full bg-muted-foreground"
                 style={{
                   top: `${viewportNavigationTo}%`,
                 }}
@@ -360,7 +360,7 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
             size="icon"
             onClick={() => setShowSidebar(true)}
             className={cn(
-              'text-muted-foreground fixed top-1 left-1 z-90 cursor-pointer transition-[translate,color,opacity] hover:bg-foreground/10 hover:text-foreground hover:backdrop-blur-sm xl:hidden',
+              'fixed top-1 left-1 z-90 cursor-pointer text-muted-foreground transition-[translate,color,opacity] hover:bg-foreground/10 hover:text-foreground hover:backdrop-blur-sm xl:hidden',
               (showSidebar || !enableNavigation) &&
                 'text-primary pointer-events-none -translate-x-13 opacity-0',
             )}

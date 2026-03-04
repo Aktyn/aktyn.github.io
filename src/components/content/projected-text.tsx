@@ -28,7 +28,7 @@ export function ProjectedText({ text, splitWords = true, ...props }: ProjectedTe
   return words.map((word, index) => (
     <Fragment key={index}>
       <ProjectedWord {...props} text={word} />
-      {index < words.length - 1 && <Space {...omit(props, 'color', 'frontColor')} />}
+      {index < words.length - 1 && <Space {...omit(props, 'color', 'frontColor', 'lowPriority')} />}
     </Fragment>
   ))
 }

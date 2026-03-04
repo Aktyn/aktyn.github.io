@@ -61,7 +61,7 @@ export function Journey() {
                   Zespół szkół ponadgimnazjalnych imienia Marszalka Józefa Piłsudzkiego
                 </a>
               </b>{' '}
-              <span className="text-muted-foreground text-sm">(September 2012 - August 2016)</span>
+              <span className="text-sm text-muted-foreground">(September 2012 - August 2016)</span>
             </p>
           }
           items={schoolTimelineItems}
@@ -144,7 +144,7 @@ export function Journey() {
               <Tooltip>
                 <TooltipTrigger>
                   <u>
-                    sole proprietorship <Info className="text-muted-foreground inline size-3" />
+                    sole proprietorship <Info className="inline size-3 text-muted-foreground" />
                   </u>
                 </TooltipTrigger>
                 <TooltipContent className="font-semibold">
@@ -195,7 +195,7 @@ export function Journey() {
           style={getDelayedStyle(12)}
         />
         <div
-          className="view-transition-base text-muted-foreground text-sm"
+          className="view-transition-base text-sm text-muted-foreground"
           style={getDelayedStyle(13)}
         >
           More details and images can be found in the next view
@@ -223,7 +223,7 @@ function DatedTitle({ dateStart, dateEnd, title, icon, ...divProps }: DatedTitle
     <div
       {...divProps}
       className={cn(
-        '*:[svg]:text-muted-foreground flex flex-row flex-wrap-reverse items-center gap-4 *:[svg]:size-5 *:[svg]:min-w-5',
+        'flex flex-row flex-wrap-reverse items-center gap-4 *:[svg]:size-5 *:[svg]:min-w-5 *:[svg]:text-muted-foreground',
         divProps.className,
       )}
     >
@@ -235,7 +235,7 @@ function DatedTitle({ dateStart, dateEnd, title, icon, ...divProps }: DatedTitle
         {dateEnd ? ` - ${dateEnd}` : ''}
       </Badge>
       <span className="text-lg font-semibold">{title}</span>
-      {icon && <DynamicIcon name={icon} className="text-muted-foreground ml-auto" />}
+      {icon && <DynamicIcon name={icon} className="ml-auto text-muted-foreground" />}
     </div>
   )
 }
