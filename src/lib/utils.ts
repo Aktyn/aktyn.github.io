@@ -70,3 +70,13 @@ export function pick<ObjectType extends object, Key extends keyof ObjectType>(
   }
   return result
 }
+
+export function calculateLinearlyWeightedAverage(values: number[]) {
+  let sum = 0,
+    weightsSum = 0
+  for (let i = 0; i < values.length; i++) {
+    sum += values[i] * (i + 1)
+    weightsSum += i + 1
+  }
+  return sum / weightsSum
+}

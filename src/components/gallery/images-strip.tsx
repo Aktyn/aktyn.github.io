@@ -25,7 +25,7 @@ export function ImagesStrip({ images, altPrefix, ambientOpacity }: ImagesStripPr
           alt={`${altPrefix}-${index}`}
           ambientOpacity={ambientOpacity}
           className={cn(
-            'cursor-pointer transition-[scale] duration-bounce ease-bounce *:duration-500 hover:z-10 hover:scale-110 max-md:max-h-46',
+            'duration-bounce ease-bounce cursor-pointer transition-[scale] *:duration-500 hover:z-10 hover:scale-110 max-md:max-h-46',
             !isFirefox && '*:animate-in *:fill-mode-both *:fade-in',
           )}
           onClick={(event) => {

@@ -19,13 +19,20 @@ export function ProjectedIcon({
   color = colors.side,
   frontColor = colors.front,
   size = defaultSize,
+  lowPriority,
   ...svgProps
 }: ProjectedIconProps) {
   const ref = useRef<SVGPathElement>(null)
 
   const objectFactory = useCallback(
-    (webScene: WebScene) => webScene.createSvgObject(path, color, frontColor),
-    [color, frontColor, path],
+    (webScene: WebScene) => {
+      const obj = webScene.createSvgObject(path, color, frontColor)
+      if (lowPriority) {
+        obj.setLowPriority()
+      }
+      return obj
+    },
+    [color, frontColor, path, lowPriority],
   )
   const projectedScene = useProjectedSceneObject(ref, objectFactory)
 

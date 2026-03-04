@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { ContentLayer } from './components/content/content-layer'
+import { SceneProvider } from './components/content/scene-provider'
 import { WebScene } from './graphics/web-scene'
 
 export function App() {
@@ -24,12 +25,36 @@ export function App() {
   }, [])
 
   return (
-    <div className="relative h-dvh w-dvw overflow-hidden *:absolute *:inset-0">
+    <div className="relative h-dvh w-dvw overflow-hidden">
       <div
         ref={sceneContainerRef}
         // className="pointer-events-none"
       />
-      {webScene && <ContentLayer webScene={webScene} />}
+
+      {/* This div hides edge of the hexagonal grid */}
+      <div
+        className="absolute inset-0 size-full"
+        style={{
+          backgroundImage: `linear-gradient(
+              90deg,
+              var(--color-background-visual) 0%,
+              var(--color-background-visual) calc(50% - 140dvh),
+              transparent calc(50% - 100dvh),
+              transparent calc(50% + 100dvh),
+              var(--color-background-visual) calc(50% + 140dvh),
+              var(--color-background-visual) 100%
+            )`,
+        }}
+      />
+
+      {/* Main background colors gradient */}
+      <div className="absolute inset-0 size-full bg-radial-[circle_at_50%_13%] from-[color-mix(in_oklch,var(--color-background-visual)_80%,var(--color-red-400))] to-[color-mix(in_oklch,var(--color-background-visual)_70%,var(--color-blue-600))] mix-blend-color" />
+
+      {webScene && (
+        <SceneProvider webScene={webScene}>
+          <ContentLayer webScene={webScene} />
+        </SceneProvider>
+      )}
     </div>
   )
 }

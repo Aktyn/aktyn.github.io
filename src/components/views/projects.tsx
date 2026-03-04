@@ -73,7 +73,7 @@ function ProjectsGroupContainer({ group, delay }: ProjectsGroupContainerProps) {
   return (
     <div className="flex flex-col gap-4">
       <div
-        className="flex view-transition-base flex-col items-center gap-4 glass-card"
+        className="view-transition-base glass-card flex flex-col items-center gap-4"
         style={{
           animationDelay: `${reverse ? delay + projectsGroupsInfo[group].projects.length * DELAY_BASE : delay}ms`,
         }}
@@ -107,7 +107,7 @@ type ProjectCardProps = {
 function ProjectCard({ project, delay }: ProjectCardProps) {
   return (
     <div
-      className="inline-grid view-transition-base grid-cols-1 gap-4 overflow-hidden glass-card-dark p-4 md:min-h-80 md:grid-cols-[1fr_auto]"
+      className="view-transition-base glass-card-dark inline-grid grid-cols-1 gap-4 overflow-hidden p-4 md:min-h-80 md:grid-cols-[1fr_auto]"
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className="flex grow flex-col items-stretch gap-4">
@@ -121,7 +121,7 @@ function ProjectCard({ project, delay }: ProjectCardProps) {
                       asChild
                       size="icon"
                       variant="ghost"
-                      className="size-auto rounded-full p-2 hover:text-primary"
+                      className="hover:text-primary size-auto rounded-full p-2"
                     >
                       <a href={link} target="_blank">
                         <GithubIcon className="size-5" />

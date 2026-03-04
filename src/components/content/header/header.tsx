@@ -1,9 +1,9 @@
-import { FileUser } from 'lucide-react'
-import { LOGO_PATH } from '~/lib/consts'
-import { ProjectedIcon } from '../projected-icon'
-import { useEffect, useRef } from 'react'
 import { createDraggable, createScope, spring } from 'animejs'
+import { FileUser } from 'lucide-react'
+import { useEffect, useRef } from 'react'
+import { LOGO_PATH } from '~/lib/consts'
 import type { ProjectedComponentRef } from '../content-helpers'
+import { ProjectedIcon } from '../projected-icon'
 
 /** Semi sticky behavior */
 export function Header() {
@@ -26,9 +26,9 @@ export function Header() {
   return (
     <header
       ref={ref}
-      className="sticky top-0 flex w-full flex-row items-center justify-between p-2"
+      className="sticky top-0 bottom-auto -mb-header flex min-h-header w-full flex-row items-center justify-between p-2"
     >
-      <ProjectedIcon ref={projectedLogoRef} data-id="logo" path={LOGO_PATH} size={32} />
+      <ProjectedIcon ref={projectedLogoRef} data-id="logo" path={LOGO_PATH} size={32} lowPriority />
       <button
         className="flex cursor-pointer flex-row items-center gap-2 rounded-lg px-2 py-1 text-foreground transition-colors hover:bg-foreground/20 print:hidden *:[svg]:size-4"
         onClick={() => window.print()}

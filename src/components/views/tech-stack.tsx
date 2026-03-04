@@ -20,7 +20,7 @@ export function TechStack() {
         return (
           <div key={category} className="flex flex-col gap-4">
             <div
-              className="flex view-transition-base flex-col items-center gap-4 glass-card"
+              className="view-transition-base glass-card flex flex-col items-center gap-4"
               style={{
                 animationDelay: `${delay}ms`,
               }}
@@ -58,7 +58,7 @@ function StackGroup({ title, stack, ...divProps }: StackGroupProps) {
     <div
       {...divProps}
       className={cn(
-        'flex max-w-full view-transition-base flex-col items-center gap-2 overflow-hidden glass-card-dark p-2',
+        'view-transition-base glass-card-dark flex max-w-full flex-col items-center gap-2 overflow-hidden p-2',
         divProps.className,
       )}
     >

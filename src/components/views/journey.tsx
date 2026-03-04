@@ -14,7 +14,13 @@ import {
   workExperienceTimelineItems,
 } from '../misc/journey-contents/timeline-items'
 import { TreeTimeline } from '../misc/tree-timeline'
-import { Badge, Separator, Tooltip, TooltipContent, TooltipTrigger } from '~/components/common/tooltip'
+import {
+  Badge,
+  Separator,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '~/components/common/tooltip'
 
 const DELAY_BASE = 150
 
@@ -35,7 +41,7 @@ export function Journey() {
         )}
       />
       <section
-        className="flex view-transition-base flex-col gap-2 overflow-hidden glass-card"
+        className="view-transition-base glass-card flex flex-col gap-2 overflow-hidden"
         style={getDelayedStyle(viewChangeDirection === -1 ? 8 : 0)}
       >
         <DatedTitle
@@ -55,7 +61,7 @@ export function Journey() {
                   Zespół szkół ponadgimnazjalnych imienia Marszalka Józefa Piłsudzkiego
                 </a>
               </b>{' '}
-              <span className="text-sm text-muted-foreground">(September 2012 - August 2016)</span>
+              <span className="text-muted-foreground text-sm">(September 2012 - August 2016)</span>
             </p>
           }
           items={schoolTimelineItems}
@@ -67,7 +73,7 @@ export function Journey() {
           style={getDelayedStyle(3)}
         />
         <div
-          className="flex view-transition-base flex-col items-stretch gap-2"
+          className="view-transition-base flex flex-col items-stretch gap-2"
           style={getDelayedStyle(4)}
         >
           <p className="z-10 text-sm text-pretty">
@@ -90,14 +96,14 @@ export function Journey() {
           />
         </div>
         <Separator
-          className="my-2 view-transition-separator bg-foreground/20"
+          className="view-transition-separator my-2 bg-foreground/20"
           style={getDelayedStyle(5)}
         />
         <DatedTitle
           dateStart="2017"
           dateEnd="2020"
           title="University studies"
-          className="z-10 view-transition-base"
+          className="view-transition-base z-10"
           style={getDelayedStyle(6)}
         />
         <TreeTimeline
@@ -120,7 +126,7 @@ export function Journey() {
         />
       </section>
       <section
-        className="flex view-transition-base flex-col gap-2 overflow-hidden glass-card"
+        className="view-transition-base glass-card flex flex-col gap-2 overflow-hidden"
         style={getDelayedStyle(viewChangeDirection === -1 ? 11 : 8)}
       >
         <DatedTitle
@@ -138,7 +144,7 @@ export function Journey() {
               <Tooltip>
                 <TooltipTrigger>
                   <u>
-                    sole proprietorship <Info className="inline size-3 text-muted-foreground" />
+                    sole proprietorship <Info className="text-muted-foreground inline size-3" />
                   </u>
                 </TooltipTrigger>
                 <TooltipContent className="font-semibold">
@@ -154,7 +160,7 @@ export function Journey() {
         />
       </section>
       <section
-        className="mb-auto flex view-transition-base flex-col gap-2 overflow-hidden glass-card"
+        className="view-transition-base glass-card mb-auto flex flex-col gap-2 overflow-hidden"
         style={getDelayedStyle(viewChangeDirection === -1 ? 14 : 11)}
       >
         <DatedTitle
@@ -189,7 +195,7 @@ export function Journey() {
           style={getDelayedStyle(12)}
         />
         <div
-          className="view-transition-base text-sm text-muted-foreground"
+          className="view-transition-base text-muted-foreground text-sm"
           style={getDelayedStyle(13)}
         >
           More details and images can be found in the next view
@@ -217,7 +223,7 @@ function DatedTitle({ dateStart, dateEnd, title, icon, ...divProps }: DatedTitle
     <div
       {...divProps}
       className={cn(
-        'flex flex-row flex-wrap-reverse items-center gap-4 *:[svg]:size-5 *:[svg]:min-w-5 *:[svg]:text-muted-foreground',
+        '*:[svg]:text-muted-foreground flex flex-row flex-wrap-reverse items-center gap-4 *:[svg]:size-5 *:[svg]:min-w-5',
         divProps.className,
       )}
     >
@@ -229,7 +235,7 @@ function DatedTitle({ dateStart, dateEnd, title, icon, ...divProps }: DatedTitle
         {dateEnd ? ` - ${dateEnd}` : ''}
       </Badge>
       <span className="text-lg font-semibold">{title}</span>
-      {icon && <DynamicIcon name={icon} className="ml-auto text-muted-foreground" />}
+      {icon && <DynamicIcon name={icon} className="text-muted-foreground ml-auto" />}
     </div>
   )
 }

@@ -280,17 +280,17 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
         id="side-navigation"
         className={cn(
           'fixed! inset-0 left-0 z-10 h-dvh w-fit xl:sticky! xl:w-full',
-          'transition-[translate] duration-bounce ease-out max-xl:border-r max-xl:border-foreground/10 max-xl:bg-foreground/5 max-xl:shadow-lg max-xl:backdrop-blur-lg',
+          'duration-bounce transition-[translate] ease-out max-xl:border-r max-xl:border-foreground/10 max-xl:bg-foreground/5 max-xl:shadow-lg max-xl:backdrop-blur-lg',
           (!enableNavigation || !showSidebar) && 'ease-in max-xl:-translate-x-full',
         )}
       >
         <aside
           data-current={enableNavigation}
-          className="flex flex-col items-center justify-start gap-y-4 p-4 text-muted-foreground *:data-[slot=separator]:bg-foreground/20"
+          className="text-muted-foreground flex flex-col items-center justify-start gap-y-4 p-4 *:data-[slot=separator]:bg-foreground/20"
         >
           <div className="flex w-full flex-row items-center justify-between gap-x-2">
             <NavButton
-              className="-my-2 w-auto grow navigation-transition py-4 max-xl:w-auto!"
+              className="navigation-transition -my-2 w-auto grow py-4 max-xl:w-auto!"
               onClick={() => setView(ViewModule.View.Intro)}
             >
               <ArrowUpToLine />
@@ -310,9 +310,9 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
               <TooltipContent>Close sidebar navigation</TooltipContent>
             </Tooltip>
           </div>
-          <Separator className="-mx-4 w-[calc(100%+var(--spacing)*8)]! navigation-transition mask-linear-[to_right,black,#000a,transparent] delay-900 fade-in-100" />
+          <Separator className="navigation-transition -mx-4 w-[calc(100%+var(--spacing)*8)]! mask-linear-[to_right,black,#000a,transparent] delay-900 fade-in-100" />
           <div className="-ml-2 flex w-full flex-row items-stretch gap-x-4">
-            <div className="relative flex h-auto navigation-transition flex-col items-center justify-center text-center text-[color-mix(in_oklab,var(--color-primary),var(--color-secondary)_80%)] delay-1500 fade-in fade-out">
+            <div className="navigation-transition relative flex h-auto flex-col items-center justify-center text-center text-[color-mix(in_oklab,var(--color-primary),var(--color-secondary)_80%)] delay-1500 fade-in fade-out">
               <div
                 className="absolute inset-0 inset-x-auto block w-px"
                 style={{
@@ -329,13 +329,13 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
               />
               {/*transition-[top] ease-in-out duration-400*/}
               <span
-                className="absolute inset-x-0 top-0 inline size-2 -translate-1/2 rounded-full bg-muted-foreground"
+                className="bg-muted-foreground absolute inset-x-0 top-0 inline size-2 -translate-1/2 rounded-full"
                 style={{
                   top: `${viewportNavigationFrom}%`,
                 }}
               />
               <span
-                className="absolute inset-x-0 top-0 inline size-2 -translate-1/2 rounded-full bg-muted-foreground"
+                className="bg-muted-foreground absolute inset-x-0 top-0 inline size-2 -translate-1/2 rounded-full"
                 style={{
                   top: `${viewportNavigationTo}%`,
                 }}
@@ -360,9 +360,9 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
             size="icon"
             onClick={() => setShowSidebar(true)}
             className={cn(
-              'fixed top-1 left-1 z-90 cursor-pointer text-muted-foreground transition-[translate,color,opacity] hover:bg-foreground/10 hover:text-foreground hover:backdrop-blur-sm xl:hidden',
+              'text-muted-foreground fixed top-1 left-1 z-90 cursor-pointer transition-[translate,color,opacity] hover:bg-foreground/10 hover:text-foreground hover:backdrop-blur-sm xl:hidden',
               (showSidebar || !enableNavigation) &&
-                'pointer-events-none -translate-x-13 text-primary opacity-0',
+                'text-primary pointer-events-none -translate-x-13 opacity-0',
             )}
           >
             <PanelLeftOpen />
@@ -376,7 +376,7 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
             className={cn(
               'fixed inset-y-0 left-0 z-80 w-0.5 bg-transparent transition-[background-color,box_shadow,opacity] xl:hidden',
               enableNavigation && !showSidebar
-                ? 'shadow-none hover:bg-primary hover:shadow-[calc(var(--spacing)*0.5)_0_calc(var(--spacing)*4)_var(--color-foreground),calc(var(--spacing)*0.5)_0_calc(var(--spacing)*2)_var(--color-primary)]'
+                ? 'hover:bg-primary shadow-none hover:shadow-[calc(var(--spacing)*0.5)_0_calc(var(--spacing)*4)_var(--color-foreground),calc(var(--spacing)*0.5)_0_calc(var(--spacing)*2)_var(--color-primary)]'
                 : 'pointer-events-none opacity-0',
             )}
             onClick={() => setShowSidebar(true)}
@@ -406,7 +406,7 @@ function ViewNavigation({ view }: { view: keyof typeof ViewModule.viewData }) {
     >
       <NavButton
         className={cn(
-          'h-12 navigation-transition text-lg font-light tracking-wide disabled:opacity-100',
+          'navigation-transition h-12 text-lg font-light tracking-wide disabled:opacity-100',
           current && 'text-[oklch(from_currentColor_l_c_h/1)]',
         )}
         style={{
@@ -461,7 +461,7 @@ function SubNavigation({ view, delayOffset }: SubNavigationProps) {
           key={key}
           size="sm"
           nested
-          className="pointer-events-none navigation-transition rounded-full p-2 slide-in-from-bottom-16"
+          className="navigation-transition pointer-events-none rounded-full p-2 slide-in-from-bottom-16"
           style={{
             animationDelay: `${delayOffset + index * delayStep}ms`,
           }}
@@ -490,9 +490,9 @@ function NavButton({
       variant="ghost"
       {...buttonProps}
       className={cn(
-        'h-auto w-full justify-between hover:bg-foreground/10 hover:text-foreground hover:backdrop-blur-sm hover:delay-0 hover:duration-bounce hover:*:translate-x-0 hover:*:delay-0 hover:*:ease-out hover:*:[svg]:opacity-50',
+        'hover:duration-bounce h-auto w-full justify-between hover:bg-foreground/10 hover:text-foreground hover:backdrop-blur-sm hover:delay-0 hover:*:translate-x-0 hover:*:delay-0 hover:*:ease-out hover:*:[svg]:opacity-50',
         !nested &&
-          'in-[[data-slot=view-navigation-group]:hover]:bg-foreground/10 in-[[data-slot=view-navigation-group]:hover]:text-foreground in-[[data-slot=view-navigation-group]:hover]:backdrop-blur-sm in-[[data-slot=view-navigation-group]:hover]:delay-0 in-[[data-slot=view-navigation-group]:hover]:duration-bounce in-[[data-slot=view-navigation-group]:hover]:*:translate-x-0 in-[[data-slot=view-navigation-group]:hover]:*:delay-0 in-[[data-slot=view-navigation-group]:hover]:*:ease-out in-[[data-slot=view-navigation-group]:hover]:*:[svg]:opacity-50',
+          'in-[[data-slot=view-navigation-group]:hover]:duration-bounce in-[[data-slot=view-navigation-group]:hover]:bg-foreground/10 in-[[data-slot=view-navigation-group]:hover]:text-foreground in-[[data-slot=view-navigation-group]:hover]:backdrop-blur-sm in-[[data-slot=view-navigation-group]:hover]:delay-0 in-[[data-slot=view-navigation-group]:hover]:*:translate-x-0 in-[[data-slot=view-navigation-group]:hover]:*:delay-0 in-[[data-slot=view-navigation-group]:hover]:*:ease-out in-[[data-slot=view-navigation-group]:hover]:*:[svg]:opacity-50',
         className,
       )}
     >

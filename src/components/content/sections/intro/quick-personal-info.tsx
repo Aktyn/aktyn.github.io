@@ -1,8 +1,9 @@
 import { differenceInYears, format } from 'date-fns'
 import { CalendarHeart, CalendarRange, Languages, Map, MapPinHouse } from 'lucide-react'
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from '~/components/common/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/common/tooltip'
 import type { ComponentProps } from 'react'
 import { cn } from '~/lib/utils'
+import { ProjectedText } from '../../projected-text'
 
 type QuickPersonalInfoProps = {
   experienceStartDate: Date
@@ -19,22 +20,16 @@ export function QuickPersonalInfo({ experienceStartDate, className }: QuickPerso
     >
       <QuickInfoLabel>
         <MapPinHouse />
-        <span>Poland, Łódź</span>
-        <Button
-          asChild
-          variant="link"
-          size="sm"
-          className="px-1! text-xs text-muted-foreground hover:text-primary hover:no-underline"
+        <ProjectedText text="Poland, Łódź" fontSize={14} splitWords={false} lowPriority />
+        <a
+          href="https://maps.app.goo.gl/HngK9DdmwfTJpXhA9"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-row items-center gap-1 px-1! text-xs transition-colors hover:text-foreground-complementary hover:no-underline"
         >
-          <a
-            href="https://maps.app.goo.gl/HngK9DdmwfTJpXhA9"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Map className="inline size-4" />
-            Show
-          </a>
-        </Button>
+          <Map className="inline size-4" />
+          <ProjectedText text="Show" fontSize={14} lowPriority />
+        </a>
       </QuickInfoLabel>
       <Tooltip>
         <TooltipTrigger asChild>
@@ -43,7 +38,7 @@ export function QuickPersonalInfo({ experienceStartDate, className }: QuickPerso
             <span>Polish, English</span>
           </QuickInfoLabel>
         </TooltipTrigger>
-        <TooltipContent className="grid grid-cols-[auto_auto] items-center justify-center gap-x-1 text-sm">
+        <TooltipContent className="grid grid-cols-[auto_auto] items-center justify-center gap-x-1 text-left text-sm">
           <span>Polish:</span>
           <b>native</b>
           <span>English:</span>

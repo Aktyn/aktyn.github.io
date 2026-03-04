@@ -15,7 +15,7 @@ export function Diploma() {
       <AmbientImage
         src={diplomaSrc}
         alt="diploma"
-        className="h-48 cursor-pointer transition-[scale] duration-bounce ease-bounce *:max-h-48 hover:z-10 hover:scale-110"
+        className="duration-bounce ease-bounce h-48 cursor-pointer transition-[scale] *:max-h-48 hover:z-10 hover:scale-110"
         ambientOpacity={0.3}
         onClick={(event) => {
           setOpenGallery(true)
@@ -47,7 +47,7 @@ export function GraphicsAspirations() {
       <AmbientImage
         src={graphicsAspirationsSrc}
         alt="graphics aspirations"
-        className="h-32 cursor-pointer transition-[scale] duration-bounce ease-bounce *:max-h-32 hover:z-10 hover:scale-110"
+        className="duration-bounce ease-bounce h-32 cursor-pointer transition-[scale] *:max-h-32 hover:z-10 hover:scale-110"
         ambientOpacity={0.3}
         onClick={(event) => {
           setOpenGallery(true)

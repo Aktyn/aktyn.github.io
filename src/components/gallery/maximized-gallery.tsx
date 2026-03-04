@@ -148,7 +148,7 @@ export function MaximizedGallery({
       <div className="relative flex size-full flex-col items-center justify-center *:absolute">
         <div
           className={cn(
-            'inset-0 bg-background transition-opacity duration-bounce ease-in-out starting:opacity-0',
+            'duration-bounce inset-0 bg-background transition-opacity ease-in-out starting:opacity-0',
             open ? 'opacity-100' : 'opacity-0',
           )}
         />
@@ -156,7 +156,7 @@ export function MaximizedGallery({
           <Fragment key={img}>
             <div
               className={cn(
-                'inset-0 z-10 overflow-hidden duration-bounce fill-mode-both',
+                'duration-bounce inset-0 z-10 overflow-hidden fill-mode-both',
                 open ? 'animate-in delay-300 fade-in' : 'animate-out fade-out',
               )}
             >
@@ -192,7 +192,7 @@ export function MaximizedGallery({
                   alt="maximized-image"
                   src={img}
                   className={cn(
-                    'h-auto max-h-full max-w-full object-contain duration-bounce fill-mode-both not-data-[state=positioned]:transition-[transform,opacity]',
+                    'duration-bounce h-auto max-h-full max-w-full object-contain fill-mode-both not-data-[state=positioned]:transition-[transform,opacity]',
                     entryAnimation ? 'starting:opacity-0' : 'starting:opacity-100',
                     sourceBounds && open ? 'transition-none' : 'opacity-0 transition-opacity',
                     open && 'opacity-100',

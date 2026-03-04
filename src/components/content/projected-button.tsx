@@ -7,6 +7,7 @@ type ProjectedButtonProps = ProjectedTextProps & {
   // TODO
 }
 
+/** @deprecated */
 export function ProjectedButton({ ...projectedTextProps }: Omit<ProjectedButtonProps, 'ref'>) {
   const projectedTextRef = useRef<ProjectedComponentRef>(null)
 

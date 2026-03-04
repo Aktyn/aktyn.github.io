@@ -176,7 +176,7 @@ export const freeTimeProjectsTimelineItems = [
       <div>
         <p>
           Creating games was always my ultimate career goal{' '}
-          <span className="text-sm text-muted-foreground">(still pursued)</span>
+          <span className="text-muted-foreground text-sm">(still pursued)</span>
         </p>
         <div>
           <div>

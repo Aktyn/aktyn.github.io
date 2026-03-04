@@ -1,0 +1,26 @@
+.shining-text {
+  position: relative;
+  /* color: oklch(from var(--color-foreground-complementary) calc(l + 0.025) calc(c - 0.03) h / 0.5); */
+  color: oklch(from var(--color-foreground) l c h / 0.5);
+
+  background-image: linear-gradient(
+    120deg,
+    var(--color-foreground-lighter) 20%,
+    var(--color-foreground-complementary) 50%,
+    var(--color-foreground-lighter) 80%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-size: 200% 100%;
+
+  animation: shine 5s ease-in-out infinite alternate;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 100%;
+  }
+  100% {
+    background-position: -100%;
+  }
+}

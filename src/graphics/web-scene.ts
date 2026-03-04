@@ -12,6 +12,7 @@ import { EXTRUDE_DEPTH, svgPathToShapePath } from './graphics-helpers'
 import type { SceneObject } from './scene-object'
 import { SvgObject } from './svg-object'
 import { TextObject } from './text-object'
+import { calculateLinearlyWeightedAverage } from '~/lib/utils'
 
 interface GodraysUniforms {
   [key: string]: THREE.IUniform
@@ -41,6 +42,7 @@ const BG_COLOR = 0x004d40
 const SUN_COLOR = 0xe0f2f1
 const GODRAY_RENDER_TARGET_RES_MULTIPLIER = 0.5
 const SUN_POSITION = new THREE.Vector3(0, 618, -1000)
+const HEX_GRID_RATIO = 2
 const HIDE_PROJECTED_OBJECTS = false
 
 //TODO: particles bouncing of off the text
@@ -68,6 +70,9 @@ export class WebScene {
 
   private lastTime = 0
   private maxVisibleObjectsCount = 0
+
+  private performanceMeasurements = new Array<number>(100).fill(0)
+  private lowPerformanceMode = false
 
   private transparentMaterial = new THREE.MeshBasicMaterial({
     fog: false,
@@ -346,6 +351,8 @@ export class WebScene {
     const deltaTime = time - this.lastTime
     this.lastTime = time
 
+    const start = performance.now()
+
     let visibleObjectsCount = 0
     for (const sceneObject of this.objects) {
       if (sceneObject.disposed) {
@@ -353,7 +360,7 @@ export class WebScene {
         continue
       }
 
-      sceneObject.update(Math.min(1000, deltaTime))
+      sceneObject.update(Math.min(1000, deltaTime), this.lowPerformanceMode)
       if (sceneObject.isVisible()) {
         visibleObjectsCount++
       }
@@ -465,6 +472,24 @@ export class WebScene {
         this.renderer.render(this.scene, this.camera)
       }
     }
+
+    if (!this.lowPerformanceMode) {
+      const elapsed = performance.now() - start
+      this.performanceMeasurements.shift()
+      this.performanceMeasurements.push(elapsed)
+      const overallPerformance = calculateLinearlyWeightedAverage(this.performanceMeasurements)
+
+      // If rendering takes more than 18ms on average
+      //TODO: 18
+      if (overallPerformance > 3.5) {
+        console.warn(
+          'Overall performance is too high:',
+          `${overallPerformance.toFixed(2)}ms average render time`,
+          '\nSwitching to low performance mode',
+        )
+        this.lowPerformanceMode = true
+      }
+    }
   }
 
   public getCamera() {
@@ -547,11 +572,10 @@ export class WebScene {
     const innerRadius = 24
     const outerRadius = innerRadius / Math.sqrt(3)
     const height = 10
-    // const widthPixels = window.innerHeight / outerRadius
-    const scale = 1 //(widthPixels - 1) / widthPixels
+    const scale = 1
 
-    const colSize = 16
     const rowSize = 8
+    const colSize = rowSize * HEX_GRID_RATIO
 
     // const geometry = new THREE.CircleGeometry(outerRadius * scale, 6)
     const geometry = new THREE.CylinderGeometry(

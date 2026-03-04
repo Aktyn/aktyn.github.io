@@ -13,4 +13,6 @@ export type ProjectedComponentProps = {
   as?: 'div' | 'span' | 'a' | 'button'
   color?: string
   frontColor?: string
+  /** Low priority objects are hidden when rendering frame time exceeds 18ms threshold */
+  lowPriority?: boolean
 }

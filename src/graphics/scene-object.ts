@@ -21,6 +21,8 @@ export abstract class SceneObject {
   private targetRelativeScale = new THREE.Vector3(1, 1, 1)
 
   private transitionSpeed = 10
+  private lowPriority = false
+  private lockVisibility = false
 
   constructor(
     protected readonly mesh: THREE.Mesh,
@@ -44,11 +46,19 @@ export abstract class SceneObject {
   }
 
   setVisibility(visible: boolean) {
+    if (this.lockVisibility) {
+      return
+    }
     this.mesh.visible = visible
   }
 
   isVisible() {
     return this.mesh.visible
+  }
+
+  setLowPriority() {
+    this.lowPriority = true
+    return this
   }
 
   alignToElement(element: Element, camera: THREE.PerspectiveCamera) {
@@ -148,8 +158,14 @@ export abstract class SceneObject {
   }
 
   /** Delta time represents milliseconds between current and previous frame */
-  update(deltaTime: number) {
+  update(deltaTime: number, lowPerformanceMode: boolean) {
     if (!this.isVisible()) {
+      return
+    }
+
+    if (this.lowPriority && lowPerformanceMode) {
+      this.setVisibility(false)
+      this.lockVisibility = true
       return
     }
 

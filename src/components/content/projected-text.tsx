@@ -41,14 +41,17 @@ function ProjectedWord({
   frontColor = colors.front,
   fontSize = defaultFontSize,
   fontWeight = defaultFontWeight,
+  lowPriority,
   ...spanProps
 }: ProjectedTextProps) {
   const ref = useRef<Element>(null)
 
   const objectFactory = useCallback(
     (webScene: WebScene) =>
-      webScene.createTextObject(word, fontSize, color, frontColor, fontWeight),
-    [color, fontSize, fontWeight, frontColor, word],
+      webScene
+        .createTextObject(word, fontSize, color, frontColor, fontWeight)
+        .then((obj) => (lowPriority ? obj.setLowPriority() : obj)),
+    [color, fontSize, fontWeight, frontColor, word, lowPriority],
   )
   const projectedScene = useProjectedSceneObject(ref, objectFactory)
 

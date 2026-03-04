@@ -6,11 +6,16 @@
 
 :root {
   --background: 0.2489 0.0439 184.84;
-  --background-lighter: 0.4668 0.084459 180.3974;
+  --background-lighter: 0.4668 0.084459 180.3974; /* teal 800 */
+  --background-visual: 0.3853 0.0347 173.194;
 
-  --foreground-darker: 0.7912 0.0755 188.24;
-  --foreground: 0.8708 0.047 189.63;
-  --foreground-lighter: 0.9476 0.019 192.81;
+  --foreground-darker: 0.7912 0.0755 188.24; /* teal 200 */
+  --foreground: 0.8708 0.047 189.63; /* teal 100 */
+  --foreground-lighter: 0.9476 0.019 192.81; /* teal 50 */
+
+  --foreground-complementary: 0.8049 0.1526 12.32; /* complementary(--foreground); h+0.1 */
+
+  --muted-foreground: 0.7912 0.0255 188.24; /* teal 200; h-0.05 */
   
   --radius: 0.5rem;
 }
@@ -18,10 +23,15 @@
 @theme inline {
   --color-background: oklch(var(--background));
   --color-background-lighter: oklch(var(--background-lighter));
+  --color-background-visual: oklch(var(--background-visual));
 
   --color-foreground-darker: oklch(var(--foreground-darker));
   --color-foreground: oklch(var(--foreground));
   --color-foreground-lighter: oklch(var(--foreground-lighter));
+
+  --color-foreground-complementary: oklch(var(--foreground-complementary));
+
+  --color-muted-foreground: oklch(var(--muted-foreground));
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -34,6 +44,8 @@
   --default-transition-duration: 0.3s;
   --default-transition-timing-function: ease-in-out;
   --breakpoint-xs: 480px;
+
+  --spacing-header: 3rem;
 }
 
 @layer utilities {
@@ -120,3 +132,5 @@
 @utility no-scrollbar {
   @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }
+
+

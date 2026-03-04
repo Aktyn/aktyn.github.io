@@ -3,6 +3,7 @@ export const LOGO_PATH =
 
 export const isFirefox = 'InternalError' in window
 
+export const headerThresholdID = 'main-header-threshold-element'
 export const contentViewportID = 'content-viewport'
 
 export const raspberryPiIconPath =

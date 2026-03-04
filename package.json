@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "dev": "bun x --bun vite --host",
-    "build": "bun run build:css && bun x --bun vite build",
+    "build": "bun x --bun vite build",
     "preview": "bun x --bun vite preview",
     "predeploy": "bun run build",
     "deploy": "gh-pages -b main -d dist",

@@ -1,4 +1,3 @@
-import { Button } from '~/components/common/tooltip'
 import { GithubIcon } from '~/components/icons/GithubIcon'
 import { LinkedInIcon } from '~/components/icons/LinkedInIcon'
 import type { ComponentProps } from 'react'
@@ -26,17 +25,17 @@ export function SocialLinks(props: ComponentProps<'div'>) {
   )
 }
 
-type SocialLinkButtonProps = ComponentProps<typeof Button> & { href: string }
+type SocialLinkButtonProps = ComponentProps<'button'> & { href: string }
 
 function SocialLinkButton({ children, className, href, ...buttonProps }: SocialLinkButtonProps) {
   return (
-    <Button
-      asChild
-      variant="outline"
+    <button
+      // asChild
+      // variant="outline"
       {...buttonProps}
       className={cn(
-        'relative h-auto rounded-full bg-accent/30 shadow-[0_0_calc(var(--spacing)*8)_#38251988] backdrop-blur-sm transition-colors hover:border-primary hover:bg-secondary **:[svg]:size-5!',
-        '*:transition-[opacity,scale,box-shadow] *:ease-out hover:shadow-[0_0_calc(var(--spacing)*8)_#192c38] hover:delay-0 hover:duration-bounce hover:*:first:scale-0 hover:*:first:opacity-0 hover:*:last:scale-100 hover:*:last:opacity-100',
+        'bg-accent/30 hover:border-primary hover:bg-secondary relative h-auto rounded-full shadow-[0_0_calc(var(--spacing)*8)_#38251988] backdrop-blur-sm transition-colors **:[svg]:size-5!',
+        'hover:duration-bounce *:transition-[opacity,scale,box-shadow] *:ease-out hover:shadow-[0_0_calc(var(--spacing)*8)_#192c38] hover:delay-0 hover:*:first:scale-0 hover:*:first:opacity-0 hover:*:last:scale-100 hover:*:last:opacity-100',
         className,
       )}
     >
@@ -44,8 +43,8 @@ function SocialLinkButton({ children, className, href, ...buttonProps }: SocialL
         <div className="inline-flex items-center justify-center gap-2 whitespace-nowrap">
           {children}
         </div>
-        <ExternalLink className="pointer-events-none absolute inset-auto scale-0 text-primary opacity-0" />
+        <ExternalLink className="text-primary pointer-events-none absolute inset-auto scale-0 opacity-0" />
       </a>
-    </Button>
+    </button>
   )
 }
