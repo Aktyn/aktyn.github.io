@@ -5,7 +5,7 @@ import { journeyInfo, JourneySection } from '~/lib/journey-info'
 import { cn } from '~/lib/utils'
 import { ViewModule } from '~/modules/view.module'
 import { ScreenEdgeButton } from '../buttons/ScreenEdgeButton'
-import { GithubIcon } from '../icons/GithubIcon'
+import { GithubIcon } from '../../icons/GithubIcon'
 import { CompactImagesStrip } from '../misc/journey-contents/compact-images-strip'
 import {
   freeTimeProjectsTimelineItems,

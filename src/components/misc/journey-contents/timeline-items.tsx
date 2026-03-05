@@ -1,7 +1,7 @@
 import { BicepsFlexed } from 'lucide-react'
 import { Suspense } from 'react'
 import { GithubProjectLink } from '~/components/common/github-project-link'
-import { LinkedInIcon } from '~/components/icons/LinkedInIcon'
+import { LinkedInIcon } from '~/icons/LinkedInIcon'
 import { Skeleton } from '~/components/common/tooltip'
 import { ProjectsGroup, projectsGroupsInfo } from '~/lib/projects-info'
 import { Diploma, GraphicsAspirations } from './common'

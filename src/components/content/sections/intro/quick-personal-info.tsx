@@ -103,7 +103,7 @@ function QuickInfoLabel(props: ComponentProps<'p'>) {
     <p
       {...props}
       className={cn(
-        'flex flex-row items-center justify-center gap-x-1.5 text-sm font-medium whitespace-nowrap text-muted-foreground *:[svg]:aspect-square *:[svg]:size-5 *:[svg]:min-w-5',
+        'flex flex-row items-center justify-center gap-x-1.5 fill-muted-foreground text-sm font-medium whitespace-nowrap text-muted-foreground *:[svg]:aspect-square *:[svg]:size-5 *:[svg]:min-w-5',
         props.className,
       )}
     />

@@ -2,7 +2,7 @@ import 'devicon/devicon.min.css'
 import { Suspense, useMemo } from 'react'
 import { TechBadge } from '~/components/badges/tech-badge'
 import { ScreenEdgeButton } from '~/components/buttons/ScreenEdgeButton'
-import { GithubIcon } from '~/components/icons/GithubIcon'
+import { GithubIcon } from '~/icons/GithubIcon'
 import {
   Button,
   ScrollArea,

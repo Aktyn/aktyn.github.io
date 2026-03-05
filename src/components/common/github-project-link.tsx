@@ -1,7 +1,7 @@
 import { ExternalLink } from 'lucide-react'
 import type { ComponentProps } from 'react'
 import { cn } from '~/lib/utils'
-import { GithubIcon } from '../icons/GithubIcon'
+import { GithubIcon } from '../../icons/GithubIcon'
 
 type GithubProjectLinkProps = ComponentProps<'a'> & {
   title: string

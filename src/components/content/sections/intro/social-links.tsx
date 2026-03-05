@@ -1,8 +1,8 @@
-import { GithubIcon } from '~/components/icons/GithubIcon'
-import { LinkedInIcon } from '~/components/icons/LinkedInIcon'
+import { GithubIcon } from '~/icons/GithubIcon'
+import { LinkedInIcon } from '~/icons/LinkedInIcon'
 import type { ComponentProps } from 'react'
 import { cn } from '~/lib/utils'
-import { ExternalLink } from 'lucide-react'
+import { materialSymbolIcons, materialSymbolProps } from '~/icons/material-symbol-icons'
 
 export function SocialLinks(props: ComponentProps<'div'>) {
   return (
@@ -25,26 +25,34 @@ export function SocialLinks(props: ComponentProps<'div'>) {
   )
 }
 
-type SocialLinkButtonProps = ComponentProps<'button'> & { href: string }
+type SocialLinkButtonProps = ComponentProps<'a'> & { href: string }
 
-function SocialLinkButton({ children, className, href, ...buttonProps }: SocialLinkButtonProps) {
+function SocialLinkButton({ children, className, href, ...linkProps }: SocialLinkButtonProps) {
+  //TODO: project rounded shape for light ray casting
   return (
-    <button
-      // asChild
-      // variant="outline"
-      {...buttonProps}
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      {...linkProps}
       className={cn(
-        'bg-accent/30 hover:border-primary hover:bg-secondary relative h-auto rounded-full shadow-[0_0_calc(var(--spacing)*8)_#38251988] backdrop-blur-sm transition-colors **:[svg]:size-5!',
-        'hover:duration-bounce *:transition-[opacity,scale,box-shadow] *:ease-out hover:shadow-[0_0_calc(var(--spacing)*8)_#192c38] hover:delay-0 hover:*:first:scale-0 hover:*:first:opacity-0 hover:*:last:scale-100 hover:*:last:opacity-100',
+        'relative inline-flex flex-row items-center justify-center gap-2 overflow-hidden rounded-full border bg-background-lighter/50 p-1 font-bold whitespace-nowrap text-foreground backdrop-blur-sm transition-colors hover:bg-border hover:text-foreground-lighter',
+        '*:transition-[opacity,scale] hover:*:first:opacity-0 hover:*:last:scale-100 hover:*:last:opacity-100',
         className,
       )}
     >
-      <a href={href} target="_blank" rel="noopener noreferrer">
-        <div className="inline-flex items-center justify-center gap-2 whitespace-nowrap">
-          {children}
-        </div>
-        <ExternalLink className="text-primary pointer-events-none absolute inset-auto scale-0 opacity-0" />
-      </a>
-    </button>
+      <div className="inline-flex items-center justify-center gap-2 whitespace-nowrap *:[svg]:size-5">
+        {children}
+      </div>
+      {/* <ExternalLink className="text-primary pointer-events-none absolute inset-auto scale-0 opacity-0" /> */}
+      <div className="absolute inset-0 flex scale-0 items-center justify-center opacity-0">
+        <svg
+          viewBox={materialSymbolProps.viewBox}
+          className="inline-block size-4.5 fill-foreground-lighter"
+        >
+          <path d={materialSymbolIcons.OpenInNew} />
+        </svg>
+      </div>
+    </a>
   )
 }
