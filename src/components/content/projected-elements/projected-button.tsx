@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { cn } from '~/lib/utils'
-import { type ProjectedComponentRef } from './content-helpers'
+import { type ProjectedComponentRef } from '../content-helpers'
 import { ProjectedText, type ProjectedTextProps } from './projected-text'
 
 type ProjectedButtonProps = ProjectedTextProps & {

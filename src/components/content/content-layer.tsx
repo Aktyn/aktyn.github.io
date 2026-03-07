@@ -3,8 +3,8 @@ import { useEffect, useRef } from 'react'
 import { contentViewportID } from '~/lib/consts'
 import { cn } from '~/lib/utils'
 import { Header } from './header/header'
-import { ProjectedButton } from './projected-button'
-import { ProjectedText } from './projected-text'
+import { ProjectedButton } from './projected-elements/projected-button'
+import { ProjectedText } from './projected-elements/projected-text'
 import { type SceneProviderProps } from './scene-provider'
 import { Intro } from './sections/intro/intro'
 
@@ -61,9 +61,7 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
       ref={root}
       id={contentViewportID}
       className={cn(
-        'pointer-events-auto absolute inset-0 no-scrollbar flex h-svh max-h-svh w-svw max-w-svw flex-col overflow-auto text-shadow-background/20 text-shadow-md print:**:[span]:text-[#001814] print:**:[svg]:fill-[#001814]',
-        // 'text-foreground',
-        // 'text-[#80CBC4]',
+        'pointer-events-auto absolute inset-0 no-scrollbar flex h-svh max-h-svh w-svw max-w-svw flex-col overflow-auto not-print:text-shadow-background/20 not-print:text-shadow-md print:**:[span]:text-[#001814] print:**:[svg]:fill-[#001814]',
         // webGLAvailable && 'not-print:fill-transparent not-print:text-transparent',
       )}
     >

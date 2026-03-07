@@ -9,10 +9,11 @@ import {
 import { calculateLinearlyWeightedAverage, forceArray } from '~/lib/utils'
 import { buildCaches } from './caches'
 import { type FontWeight, getFontMetrics, loadFontShapes } from './fonts'
-import { EXTRUDE_DEPTH, svgPathToShapePath } from './graphics-helpers'
+import { EPSILON, EXTRUDE_DEPTH, svgPathToShapePath } from './graphics-helpers'
 import type { SceneObject } from './scene-object'
 import { SvgObject } from './svg-object'
 import { TextObject } from './text-object'
+import { RectangularObject } from './rectangular-object'
 
 interface GodraysUniforms {
   [key: string]: THREE.IUniform
@@ -479,8 +480,8 @@ export class WebScene {
       this.performanceMeasurements.push(elapsed)
       const overallPerformance = calculateLinearlyWeightedAverage(this.performanceMeasurements)
 
-      // If rendering takes more than 18ms on average
-      if (overallPerformance > 18) {
+      // If rendering takes more than 16ms on average
+      if (overallPerformance > 16) {
         console.warn(
           'Overall performance is too high:',
           `${overallPerformance.toFixed(2)}ms average render time`,
@@ -570,6 +571,76 @@ export class WebScene {
     this.scene.add(svgMesh)
 
     const sceneObject = new SvgObject(svgMesh, this.caches)
+    this.objects.push(sceneObject)
+    return sceneObject
+  }
+
+  public createRectangularObject(
+    width: number,
+    height: number,
+    roundingRadius: number,
+    _color: string,
+    _frontColor: string,
+  ) {
+    roundingRadius = Math.min(roundingRadius, width / 2, height / 2)
+
+    const rectangularShape = new THREE.Shape()
+
+    if (roundingRadius > EPSILON) {
+      const cornerAngle = Math.PI / 2
+      rectangularShape.moveTo(-width / 2 + roundingRadius, -height / 2)
+      rectangularShape.lineTo(width / 2 - roundingRadius, -height / 2)
+      rectangularShape.absarc(
+        width / 2 - roundingRadius,
+        -height / 2 + roundingRadius,
+        roundingRadius,
+        -cornerAngle,
+        0,
+      )
+      rectangularShape.lineTo(width / 2, height / 2 - roundingRadius)
+      rectangularShape.absarc(
+        width / 2 - roundingRadius,
+        height / 2 - roundingRadius,
+        roundingRadius,
+        0,
+        cornerAngle,
+      )
+      rectangularShape.lineTo(-width / 2 + roundingRadius, height / 2)
+      rectangularShape.absarc(
+        -width / 2 + roundingRadius,
+        height / 2 - roundingRadius,
+        roundingRadius,
+        cornerAngle,
+        Math.PI,
+      )
+      rectangularShape.lineTo(-width / 2, -height / 2 + roundingRadius)
+      rectangularShape.absarc(
+        -width / 2 + roundingRadius,
+        -height / 2 + roundingRadius,
+        roundingRadius,
+        Math.PI,
+        Math.PI * 1.5,
+      )
+    } else {
+      rectangularShape.moveTo(-width / 2, -height / 2)
+      rectangularShape.lineTo(width / 2, -height / 2)
+      rectangularShape.lineTo(width / 2, height / 2)
+      rectangularShape.lineTo(-width / 2, height / 2)
+    }
+
+    const geometry = this.shapesToGeometry([rectangularShape])
+    geometry.center()
+
+    const mesh = this.composeMesh(
+      geometry,
+      //TODO
+      // this.caches.getBasicMaterial(_frontColor),
+      // this.caches.getBasicMaterial(_color),
+      this.transparentMaterial,
+      this.transparentMaterial,
+    )
+    this.scene.add(mesh)
+    const sceneObject = new RectangularObject(mesh, this.caches)
     this.objects.push(sceneObject)
     return sceneObject
   }

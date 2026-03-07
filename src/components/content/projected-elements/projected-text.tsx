@@ -8,9 +8,9 @@ import {
 import { fontWeightValues, type FontWeight } from '~/graphics/fonts'
 import { type WebScene } from '~/graphics/web-scene'
 import { omit } from '~/lib/utils'
-import type { ProjectedComponentProps } from './content-helpers'
-import { useProjectedSceneObject } from './useProjectedSceneObject'
-import { colors } from './colors'
+import type { ProjectedComponentProps } from '../content-helpers'
+import { useProjectedSceneObject } from '../useProjectedSceneObject'
+import { colors } from '../colors'
 
 const defaultFontSize = 16
 const defaultFontWeight: FontWeight = 'medium'

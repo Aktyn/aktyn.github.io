@@ -9,7 +9,7 @@ import { SceneContext } from './scene-provider'
 export function useProjectedSceneObject(
   elementRef: RefObject<Element | null>,
   /** Must be memoized */
-  objectFactory: (webScene: WebScene) => Promise<SceneObject> | SceneObject,
+  objectFactory: (webScene: WebScene) => Promise<SceneObject | null> | SceneObject | null,
 ) {
   const webScene = useContext(SceneContext)
 
@@ -41,6 +41,10 @@ export function useProjectedSceneObject(
 
     factoryPromise
       .then((object) => {
+        if (!object) {
+          return
+        }
+
         if (!mounted) {
           object.dispose()
           return

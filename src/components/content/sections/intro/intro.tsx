@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react'
 import { QuickPersonalInfo } from '~/components/content/sections/intro/quick-personal-info'
 import { SocialLinks } from '~/components/content/sections/intro/social-links'
 import { cn } from '~/lib/utils'
-import { ProjectedText } from '../../projected-text'
+import { ProjectedText } from '../../projected-elements/projected-text'
 
 import '../../../../styles/shining-text.css'
 

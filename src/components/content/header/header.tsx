@@ -2,9 +2,9 @@ import { createDraggable, createScope, spring } from 'animejs'
 import { useEffect, useRef } from 'react'
 import { LOGO_PATH } from '~/lib/consts'
 import type { ProjectedComponentRef } from '../content-helpers'
-import { ProjectedIcon } from '../projected-icon'
+import { ProjectedIcon } from '../projected-elements/projected-icon'
 import { materialSymbolIcons, materialSymbolProps } from '~/icons/material-symbol-icons'
-import { ProjectedText } from '../projected-text'
+import { ProjectedText } from '../projected-elements/projected-text'
 
 /** Semi sticky behavior */
 export function Header() {

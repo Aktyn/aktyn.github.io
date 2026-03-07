@@ -1,5 +1,11 @@
 import { describe, it, expect, mock, beforeEach, afterEach, jest } from 'bun:test'
-import { clamp, compareArrays, debounce, forceArray } from './utils'
+import {
+  calculateLinearlyWeightedAverage,
+  clamp,
+  compareArrays,
+  debounce,
+  forceArray,
+} from './utils'
 
 describe(clamp.name, () => {
   it('should return the value if it is within the range', () => {
@@ -102,5 +108,15 @@ describe(forceArray.name, () => {
 
   it('should return an array with the value if the value is not an array', () => {
     expect(forceArray(1)).toEqual([1])
+  })
+})
+
+describe(calculateLinearlyWeightedAverage, () => {
+  it('should calculate the linearly weighted average correctly', () => {
+    expect(calculateLinearlyWeightedAverage([1, 2, 3])).toBeCloseTo(2.333333333333333)
+  })
+
+  it('should return 0 for an empty array', () => {
+    expect(calculateLinearlyWeightedAverage([])).toBe(0)
   })
 })

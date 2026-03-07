@@ -78,5 +78,6 @@ export function calculateLinearlyWeightedAverage(values: number[]) {
     sum += values[i] * (i + 1)
     weightsSum += i + 1
   }
-  return sum / weightsSum
+
+  return weightsSum > 0 ? sum / weightsSum : 0
 }

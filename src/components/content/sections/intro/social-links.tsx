@@ -1,8 +1,9 @@
+import type { ComponentProps, ComponentPropsWithoutRef } from 'react'
 import { GithubIcon } from '~/icons/GithubIcon'
 import { LinkedInIcon } from '~/icons/LinkedInIcon'
-import type { ComponentProps } from 'react'
-import { cn } from '~/lib/utils'
 import { materialSymbolIcons, materialSymbolProps } from '~/icons/material-symbol-icons'
+import { cn } from '~/lib/utils'
+import { ProjectedContainer } from '../../projected-elements/projected-container'
 
 export function SocialLinks(props: ComponentProps<'div'>) {
   return (
@@ -25,15 +26,16 @@ export function SocialLinks(props: ComponentProps<'div'>) {
   )
 }
 
-type SocialLinkButtonProps = ComponentProps<'a'> & { href: string }
+type SocialLinkButtonProps = ComponentPropsWithoutRef<'a'> & { href: string }
 
 function SocialLinkButton({ children, className, href, ...linkProps }: SocialLinkButtonProps) {
-  //TODO: project rounded shape for light ray casting
   return (
-    <a
+    <ProjectedContainer
+      as="a"
       href={href}
       target="_blank"
       rel="noopener noreferrer"
+      rounding={24}
       {...linkProps}
       className={cn(
         'relative inline-flex flex-row items-center justify-center gap-2 overflow-hidden rounded-full border bg-background-lighter/50 p-1 font-bold whitespace-nowrap text-foreground backdrop-blur-sm transition-colors hover:bg-border hover:text-foreground-lighter',
@@ -44,7 +46,6 @@ function SocialLinkButton({ children, className, href, ...linkProps }: SocialLin
       <div className="inline-flex items-center justify-center gap-2 whitespace-nowrap *:[svg]:size-5">
         {children}
       </div>
-      {/* <ExternalLink className="text-primary pointer-events-none absolute inset-auto scale-0 opacity-0" /> */}
       <div className="absolute inset-0 flex scale-0 items-center justify-center opacity-0">
         <svg
           viewBox={materialSymbolProps.viewBox}
@@ -53,6 +54,6 @@ function SocialLinkButton({ children, className, href, ...linkProps }: SocialLin
           <path d={materialSymbolIcons.OpenInNew} />
         </svg>
       </div>
-    </a>
+    </ProjectedContainer>
   )
 }

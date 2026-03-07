@@ -1,4 +1,4 @@
-import type { ProjectedIconProps } from '~/components/content/projected-icon'
+import type { ProjectedIconProps } from '~/components/content/projected-elements/projected-icon'
 import { extractPathsFromSvg } from '~/graphics/graphics-helpers'
 
 export const materialSymbolProps: Partial<ProjectedIconProps> = {

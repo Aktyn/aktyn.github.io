@@ -1,9 +1,9 @@
 import { type ComponentPropsWithoutRef, useCallback, useImperativeHandle, useRef } from 'react'
 import { type WebScene } from '~/graphics/web-scene'
 import { cn } from '~/lib/utils'
-import { colors } from './colors'
-import { type ProjectedComponentProps } from './content-helpers'
-import { useProjectedSceneObject } from './useProjectedSceneObject'
+import { colors } from '../colors'
+import { type ProjectedComponentProps } from '../content-helpers'
+import { useProjectedSceneObject } from '../useProjectedSceneObject'
 
 const defaultSize = 24
 

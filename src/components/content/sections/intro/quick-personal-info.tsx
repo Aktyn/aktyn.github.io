@@ -3,8 +3,8 @@ import type { ComponentProps } from 'react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/common/tooltip'
 import { materialSymbolIcons, materialSymbolProps } from '~/icons/material-symbol-icons'
 import { cn } from '~/lib/utils'
-import { ProjectedIcon } from '../../projected-icon'
-import { ProjectedText } from '../../projected-text'
+import { ProjectedIcon } from '../../projected-elements/projected-icon'
+import { ProjectedText } from '../../projected-elements/projected-text'
 
 type QuickPersonalInfoProps = {
   experienceStartDate: Date
