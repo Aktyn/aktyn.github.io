@@ -1,7 +1,7 @@
 import 'devicon/devicon.min.css'
 import { Suspense, useMemo } from 'react'
 import { TechBadge } from '~/components/badges/tech-badge'
-import { ScreenEdgeButton } from '~/components/buttons/ScreenEdgeButton'
+import { ScrollDownButton } from '~/components/buttons/ScollDownButton'
 import { GithubIcon } from '~/icons/GithubIcon'
 import {
   Button,
@@ -52,9 +52,9 @@ export function Projects() {
       {projectsGroupsArray.map((group, index) => {
         return <ProjectsGroupContainer key={group} group={group} delay={delays[index]} />
       })}
-      <ScreenEdgeButton className="mt-[25dvh]" onClick={() => setView(ViewModule.View.TechStack)}>
+      <ScrollDownButton className="mt-[25dvh]" onClick={() => setView(ViewModule.View.TechStack)}>
         Next view
-      </ScreenEdgeButton>
+      </ScrollDownButton>
     </div>
   )
 }

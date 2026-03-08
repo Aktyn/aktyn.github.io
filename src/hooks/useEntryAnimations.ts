@@ -53,7 +53,7 @@ export function useEntryAnimations(root: RefObject<HTMLElement | null>) {
     }
     const observer = new IntersectionObserver(onVisibilityChange, {
       root: root.current,
-      threshold: 1,
+      threshold: 0.5,
     })
 
     Array.from(

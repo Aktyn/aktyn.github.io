@@ -1,6 +1,5 @@
 import { type RefObject, useEffect, useState } from 'react'
 
-//TODO: remove if this hook is not used anywhere
 export function useSizer(ref: RefObject<HTMLElement | null>) {
   const [width, setWidth] = useState(0)
   const [height, setHeight] = useState(0)

@@ -4,7 +4,7 @@ import type { ComponentProps, ReactNode } from 'react'
 import { journeyInfo, JourneySection } from '~/lib/journey-info'
 import { cn } from '~/lib/utils'
 import { ViewModule } from '~/modules/view.module'
-import { ScreenEdgeButton } from '../buttons/ScreenEdgeButton'
+import { ScrollDownButton } from '../buttons/ScollDownButton'
 import { GithubIcon } from '../../icons/GithubIcon'
 import { CompactImagesStrip } from '../misc/journey-contents/compact-images-strip'
 import {
@@ -201,12 +201,12 @@ export function Journey() {
           More details and images can be found in the next view
         </div>
       </section>
-      <ScreenEdgeButton
+      <ScrollDownButton
         className="mt-[25dvh]"
         onClick={() => setView(ViewModule.View.PublicProjects)}
       >
         Next view
-      </ScreenEdgeButton>
+      </ScrollDownButton>
     </div>
   )
 }

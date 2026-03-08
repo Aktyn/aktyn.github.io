@@ -42,7 +42,6 @@ export function Intro({ ref, className, ...props }: IntroProps) {
       </div>
       {/* <Separator className="view-transition-separator mask-linear-[to_right,transparent,black,transparent] delay-1000" /> */}
       {/* <QuickAccess className="*:*:view-transition-base self-start *:*:delay-400 *:*:slide-in-from-bottom *:*:nth-2:delay-500 *:*:nth-3:delay-600" /> */}
-      {/* TODO: put "Scroll for more" here */}
     </div>
   )
 }

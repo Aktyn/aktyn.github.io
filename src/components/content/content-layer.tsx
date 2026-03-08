@@ -1,13 +1,14 @@
 import { animate, createScope, onScroll, stagger } from 'animejs'
 import { useEffect, useRef } from 'react'
+import { useEntryAnimations } from '~/hooks/useEntryAnimations'
 import { contentViewportID } from '~/lib/consts'
 import { cn } from '~/lib/utils'
+import { ScrollDownButton } from '../buttons/ScollDownButton'
 import { Header } from './header/header'
 import { ProjectedButton } from './projected-elements/projected-button'
 import { ProjectedText } from './projected-elements/projected-text'
 import { type SceneProviderProps } from './scene-provider'
 import { Intro } from './sections/intro/intro'
-import { useEntryAnimations } from '~/hooks/useEntryAnimations'
 
 //TODO: about this site info (purpose, used technologies, etc)
 
@@ -16,7 +17,9 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
   // const webGLAvailable = useMemo(() => isWebglAvailable(), [])
 
   const root = useRef<HTMLDivElement>(null)
+  const scrollDownButtonContainerRef = useRef<HTMLDivElement>(null)
   const introRef = useRef<HTMLDivElement | null>(null)
+  const nextSectionRef = useRef<HTMLDivElement | null>(null) //TODO: adjust name
 
   useEffect(() => {
     const introContainer = introRef.current
@@ -44,6 +47,30 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
           debug: import.meta.env.DEV,
         }),
       })
+
+      if (scrollDownButtonContainerRef.current && nextSectionRef.current) {
+        const scrollDownButtonContainer = scrollDownButtonContainerRef.current
+        animate(scrollDownButtonContainer, {
+          scale: [1, 0.618],
+          opacity: [1, 0],
+          ease: 'easeIn',
+          // ease: 'linear',
+          autoplay: onScroll({
+            container: scope?.root,
+            target: nextSectionRef.current,
+            enter: { target: 'top+=2rem', container: 'bottom' },
+            leave: { target: 'top+=10rem', container: 'bottom' },
+            sync: 0.75,
+            onEnterBackward: () => {
+              scrollDownButtonContainer.style.pointerEvents = 'all'
+            },
+            onEnterForward: () => {
+              scrollDownButtonContainer.style.pointerEvents = 'none'
+            },
+            debug: import.meta.env.DEV,
+          }),
+        })
+      }
     })
 
     const onPointerMove = (event: PointerEvent) => {
@@ -71,11 +98,25 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
     >
       <Header />
 
-      <div className="flex min-h-screen flex-col items-center justify-center">
+      <div className="relative flex min-h-screen flex-col items-center justify-center">
         <Intro ref={introRef} />
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex origin-bottom flex-row justify-center pt-48 text-center"
+          data-entry-animation-type="from-bottom"
+        >
+          <div ref={scrollDownButtonContainerRef} className="pointer-events-auto">
+            <ScrollDownButton
+              onClick={() =>
+                nextSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+              }
+            >
+              Scroll down for more
+            </ScrollDownButton>
+          </div>
+        </div>
       </div>
 
-      <p className="px-20 break-normal whitespace-break-spaces">
+      <p ref={nextSectionRef} className="px-20 break-normal whitespace-break-spaces">
         <ProjectedText text="Another text, multi word sentence" fontSize={84} fontWeight="light" />
       </p>
       <div className="flex flex-col items-center gap-16 text-center">
