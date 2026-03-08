@@ -1,4 +1,4 @@
-import { animate, createScope, onScroll } from 'animejs'
+import { animate, createScope, onScroll, stagger } from 'animejs'
 import { useEffect, useRef } from 'react'
 import { contentViewportID } from '~/lib/consts'
 import { cn } from '~/lib/utils'
@@ -7,6 +7,7 @@ import { ProjectedButton } from './projected-elements/projected-button'
 import { ProjectedText } from './projected-elements/projected-text'
 import { type SceneProviderProps } from './scene-provider'
 import { Intro } from './sections/intro/intro'
+import { useEntryAnimations } from '~/hooks/useEntryAnimations'
 
 //TODO: about this site info (purpose, used technologies, etc)
 
@@ -24,10 +25,11 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
     }
 
     const scope = createScope({ root }).add((scope) => {
-      animate('header:first-child', {
-        y: ['0%', '-100%'],
-        // ease: 'easeInOut',
-        ease: 'linear',
+      // Header auto-hide animation
+      animate('header:first-child > *', {
+        translateX: ['0%', stagger(['-150%', '150%'])],
+        ease: 'easeIn',
+        // ease: 'linear',
         autoplay: onScroll({
           container: scope?.root,
           target: introContainer,
@@ -35,10 +37,10 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
           // enter: { target: 'top', container: 'bottom' },
           // Leaves when the bottom of the target meets the top of the container
           // leave: { target: 'bottom', container: 'top' }
-          enter: { target: 'top-=4rem', container: 'top' },
+          enter: { target: 'top-=8rem', container: 'top' },
           leave: { target: 'top', container: 'top' },
-          // sync: 0.5,
-          sync: 1,
+          sync: 0.75,
+          // sync: 1,
           debug: import.meta.env.DEV,
         }),
       })
@@ -55,6 +57,8 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
       window.removeEventListener('pointermove', onPointerMove)
     }
   }, [webScene])
+
+  useEntryAnimations(root)
 
   return (
     <div

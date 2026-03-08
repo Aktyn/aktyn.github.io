@@ -37,16 +37,19 @@ function SocialLinkButton({ children, className, href, ...linkProps }: SocialLin
       rel="noopener noreferrer"
       rounding={24}
       {...linkProps}
+      data-entry-animation-type="from-bottom"
       className={cn(
-        'relative inline-flex flex-row items-center justify-center gap-2 overflow-hidden rounded-full border bg-background-lighter/50 p-1 font-bold whitespace-nowrap text-foreground backdrop-blur-sm transition-colors hover:bg-border hover:text-foreground-lighter',
-        '*:transition-[opacity,scale] hover:*:first:opacity-0 hover:*:last:scale-100 hover:*:last:opacity-100',
+        'relative inline-flex flex-row items-center justify-center gap-2 overflow-hidden p-1 backdrop-blur-sm hover:*:first:bg-border hover:*:nth-2:text-foreground-lighter',
+        'hover:*:last:scale-100 hover:*:last:opacity-100 hover:*:nth-2:opacity-0',
         className,
       )}
     >
-      <div className="inline-flex items-center justify-center gap-2 whitespace-nowrap *:[svg]:size-5">
+      <div className="absolute inset-0 -z-10 rounded-full border bg-background-lighter/50 transition-colors" />
+
+      <div className="inline-flex items-center justify-center gap-2 font-bold whitespace-nowrap text-foreground transition-[opacity,color] *:[svg]:size-5">
         {children}
       </div>
-      <div className="absolute inset-0 flex scale-0 items-center justify-center opacity-0">
+      <div className="absolute inset-0 flex scale-golden items-center justify-center opacity-0 transition-[opacity,scale]">
         <svg
           viewBox={materialSymbolProps.viewBox}
           className="inline-block size-4.5 fill-foreground-lighter"

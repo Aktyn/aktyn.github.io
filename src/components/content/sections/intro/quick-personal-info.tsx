@@ -19,7 +19,7 @@ export function QuickPersonalInfo({ experienceStartDate, className }: QuickPerso
         className,
       )}
     >
-      <QuickInfoLabel>
+      <QuickInfoLabel data-entry-animation-type="from-left">
         <ProjectedIcon
           path={materialSymbolIcons.Home}
           size={20}
@@ -44,7 +44,7 @@ export function QuickPersonalInfo({ experienceStartDate, className }: QuickPerso
       </QuickInfoLabel>
       <Tooltip>
         <TooltipTrigger asChild>
-          <QuickInfoLabel>
+          <QuickInfoLabel data-entry-animation>
             <ProjectedIcon
               path={materialSymbolIcons.Translate}
               size={20}
@@ -61,7 +61,7 @@ export function QuickPersonalInfo({ experienceStartDate, className }: QuickPerso
       </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
-          <QuickInfoLabel>
+          <QuickInfoLabel data-entry-animation>
             <ProjectedIcon
               path={materialSymbolIcons.EventNote}
               size={20}
@@ -80,7 +80,7 @@ export function QuickPersonalInfo({ experienceStartDate, className }: QuickPerso
           <b>{format(experienceStartDate, 'dd.MM.yyyy')}</b> till now
         </TooltipContent>
       </Tooltip>
-      <QuickInfoLabel>
+      <QuickInfoLabel data-entry-animation-type="from-right">
         <ProjectedIcon
           path={materialSymbolIcons.IdCard}
           size={20}

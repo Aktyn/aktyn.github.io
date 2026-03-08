@@ -53,7 +53,7 @@ export function ProjectedIcon({
     <svg
       viewBox={viewBox}
       {...svgProps}
-      className={cn('inline', svgProps.className)}
+      className={cn('inline-block', svgProps.className)}
       style={{ width: size, height: size, ...svgProps.style }}
     >
       <path ref={ref} d={path} />

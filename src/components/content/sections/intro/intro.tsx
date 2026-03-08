@@ -1,4 +1,4 @@
-import type { ComponentProps } from 'react'
+import { Fragment, type ComponentProps } from 'react'
 import { QuickPersonalInfo } from '~/components/content/sections/intro/quick-personal-info'
 import { SocialLinks } from '~/components/content/sections/intro/social-links'
 import { cn } from '~/lib/utils'
@@ -24,9 +24,16 @@ export function Intro({ ref, className, ...props }: IntroProps) {
       <div className="flex flex-col items-center gap-6">
         <div className="-mb-2">
           <h2>
-            <ProjectedText text={fullName} fontSize={56} fontWeight="bold" />
+            {fullName.split(' ').map((namePart, index, arr) => (
+              <Fragment key={`${namePart}-${index}`}>
+                <div className="inline-block" data-entry-animation-type="from-top">
+                  <ProjectedText text={namePart} fontSize={56} fontWeight="bold" />
+                </div>
+                {index < arr.length - 1 && <span style={{ fontSize: 56 }}>&nbsp;</span>}
+              </Fragment>
+            ))}
           </h2>
-          <h3 className="shining-text">
+          <h3 data-entry-animation className="shining-text">
             <ProjectedText text={role} fontSize={32} fontWeight="medium" />
           </h3>
         </div>

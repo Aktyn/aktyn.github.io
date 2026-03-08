@@ -45,11 +45,39 @@
   --scale-golden: 1.618;
   --scale-golden-inverse: 0.618;
 
-  --default-transition-duration: 0.2s;
-  --default-transition-timing-function: ease-in-out;
+  --default-transition-duration: 300ms;
+  --default-transition-timing-function: cubic-bezier(0.66, 0, 0.34, 1);
   --breakpoint-xs: 480px;
 
   --spacing-header: 3rem;
+
+  --transition-duration-spring: 1800ms;
+  --ease-spring: linear(
+    0,
+    0.01 0.7%,
+    0.039 1.4%,
+    0.162 3%,
+    0.328 4.5%,
+    0.839 8.6%,
+    1.067 10.9%,
+    1.154 12.1%,
+    1.214 13.2%,
+    1.254 14.3%,
+    1.276 15.5%,
+    1.278 16.9%,
+    1.254 18.5%,
+    1.207 20.2%,
+    1.058 24.5%,
+    0.993 26.7%,
+    0.944 29.2%,
+    0.923 31.7%,
+    0.929 34.8%,
+    1.002 43%,
+    1.021 47.8%,
+    0.994 63.7%,
+    1.002 79.7%,
+    1
+  );
 }
 
 @layer utilities {
@@ -131,6 +159,36 @@
     .animejs-onscroll-debug {
       display: none !important;
     }
+  }
+
+  [data-entry-animation],
+  [data-entry-animation-type] {
+    @apply duration-spring ease-spring;
+  }
+
+  [data-entry-animation],
+  [data-entry-animation-type='default'] [data-entry-animation-type='zoom-in'] {
+    @apply scale-golden opacity-0 transition-[opacity,scale] data-[entry-animation=entered]:scale-100 data-[entry-animation=entered]:opacity-100;
+  }
+
+  [data-entry-animation-type='from-left'] {
+    @apply -translate-x-24;
+  }
+  [data-entry-animation-type='from-right'] {
+    @apply translate-x-24;
+  }
+  [data-entry-animation-type='from-top'] {
+    @apply -translate-y-24;
+  }
+  [data-entry-animation-type='from-bottom'] {
+    @apply translate-y-24;
+  }
+
+  [data-entry-animation-type='from-left'],
+  [data-entry-animation-type='from-right'],
+  [data-entry-animation-type='from-top'],
+  [data-entry-animation-type='from-bottom'] {
+    @apply opacity-0 transition-[opacity,translate] data-[entry-animation=entered]:translate-x-0 data-[entry-animation=entered]:translate-y-0 data-[entry-animation=entered]:opacity-100;
   }
 }
 

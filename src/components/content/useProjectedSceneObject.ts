@@ -2,9 +2,10 @@ import { type RefObject, useContext, useEffect, useState } from 'react'
 import { type SceneObject } from '~/graphics/scene-object'
 import { type WebScene } from '~/graphics/web-scene'
 import { contentViewportID } from '~/lib/consts'
-import { getScrollableParent } from '~/lib/dom-utils'
+import { getEntryAnimatioParent, getScrollableParent } from '~/lib/dom-utils'
 import { assert } from '~/lib/utils'
 import { SceneContext } from './scene-provider'
+import { useEntryAnimations } from '~/hooks/useEntryAnimations'
 
 export function useProjectedSceneObject(
   elementRef: RefObject<Element | null>,
@@ -52,7 +53,7 @@ export function useProjectedSceneObject(
         sceneObject = object
 
         const updatePosition = () => {
-          if (!object.isVisible()) {
+          if (!object.isVisible() || !mounted) {
             return
           }
           object.alignToElement(anchor, webScene.getCamera())
@@ -87,13 +88,60 @@ function keepSceneObjectSynchronized(
   updatePosition: () => void,
 ) {
   updatePosition()
+
   setTimeout(updatePosition, 500) // Temporary fix for svg sometimes being rendered after the position has been set
+
+  const synchronizeWithAnimation = (duration: number) => {
+    const endTime = performance.now() + duration
+    const step: FrameRequestCallback = () => {
+      updatePosition()
+      if (performance.now() <= endTime) {
+        requestAnimationFrame(step)
+      }
+    }
+    requestAnimationFrame(step)
+  }
 
   window.addEventListener('resize', updatePosition)
   const scrollableContainers = getScrollableParent(anchorElement, true)
   scrollableContainers.forEach((container) => {
     container.addEventListener('scroll', updatePosition)
   })
+
+  const entryAnimationParent = getEntryAnimatioParent(anchorElement)
+  let mutationObserver: MutationObserver | null = null
+
+  if (entryAnimationParent) {
+    const mainAttribute = useEntryAnimations.attributeNames[0] // data-entry-animation
+
+    // First see if the object is already in "entered" state
+    if (entryAnimationParent.getAttribute(mainAttribute) === useEntryAnimations.enteredValue) {
+      // Duration must be a little larger than entry animation duration defined in main tailwind stylesheet (index.css)
+      synchronizeWithAnimation(2000)
+    }
+    // Wait for data-entry-animation attribute to be set to "entered" on the parent element
+    else {
+      const callback: MutationCallback = (mutationList) => {
+        for (const mutation of mutationList) {
+          if (
+            mutation.attributeName &&
+            useEntryAnimations.attributeNames.includes(mutation.attributeName) &&
+            mutation.target instanceof Element &&
+            mutation.target.getAttribute(mutation.attributeName) === useEntryAnimations.enteredValue
+          ) {
+            // Duration must be a little larger than entry animation duration defined in main tailwind stylesheet (index.css)
+            synchronizeWithAnimation(2000)
+          }
+        }
+      }
+      mutationObserver = new MutationObserver(callback)
+      mutationObserver.observe(entryAnimationParent, {
+        attributes: true,
+        attributeOldValue: false,
+        attributeFilter: [mainAttribute],
+      })
+    }
+  }
 
   const onVisibilityChange: IntersectionObserverCallback = (entries) => {
     const anchor = entries.find((entry) => entry.target === anchorElement)
@@ -109,12 +157,10 @@ function keepSceneObjectSynchronized(
   const options: IntersectionObserverInit = {
     root: document.querySelector(`#${contentViewportID}`),
     threshold: 0,
-    // trackVisibility: false,
-    // delay: 100, //? Only if trackVisibility is true
   }
 
-  const observer = new IntersectionObserver(onVisibilityChange, options)
-  observer.observe(anchorElement)
+  const intersectionObserver = new IntersectionObserver(onVisibilityChange, options)
+  intersectionObserver.observe(anchorElement)
 
   return () => {
     window.removeEventListener('resize', updatePosition)
@@ -122,6 +168,7 @@ function keepSceneObjectSynchronized(
       container.removeEventListener('scroll', updatePosition)
     })
 
-    observer.unobserve(anchorElement)
+    intersectionObserver.unobserve(anchorElement)
+    mutationObserver?.disconnect()
   }
 }
