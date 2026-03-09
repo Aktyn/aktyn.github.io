@@ -3,7 +3,7 @@ import { cn } from '~/lib/utils'
 import { type ProjectedComponentRef } from '../content-helpers'
 import { ProjectedText, type ProjectedTextProps } from './projected-text'
 
-type ProjectedButtonProps = ProjectedTextProps & {
+type ProjectedButtonProps = ProjectedTextProps<'button'> & {
   // TODO
 }
 

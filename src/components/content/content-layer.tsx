@@ -9,6 +9,7 @@ import { ProjectedButton } from './projected-elements/projected-button'
 import { ProjectedText } from './projected-elements/projected-text'
 import { type SceneProviderProps } from './scene-provider'
 import { Intro } from './sections/intro/intro'
+import { Journey } from './sections/journey/journey'
 
 //TODO: about this site info (purpose, used technologies, etc)
 
@@ -19,7 +20,7 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
   const root = useRef<HTMLDivElement>(null)
   const scrollDownButtonContainerRef = useRef<HTMLDivElement>(null)
   const introRef = useRef<HTMLDivElement | null>(null)
-  const nextSectionRef = useRef<HTMLDivElement | null>(null) //TODO: adjust name
+  const journeyRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const introContainer = introRef.current
@@ -32,7 +33,6 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
       animate('header:first-child > *', {
         translateX: ['0%', stagger(['-150%', '150%'])],
         ease: 'easeIn',
-        // ease: 'linear',
         autoplay: onScroll({
           container: scope?.root,
           target: introContainer,
@@ -43,29 +43,25 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
           enter: { target: 'top-=8rem', container: 'top' },
           leave: { target: 'top', container: 'top' },
           sync: 0.75,
-          // sync: 1,
           debug: import.meta.env.DEV,
         }),
       })
 
-      if (scrollDownButtonContainerRef.current && nextSectionRef.current) {
+      if (scrollDownButtonContainerRef.current && journeyRef.current) {
         const scrollDownButtonContainer = scrollDownButtonContainerRef.current
         animate(scrollDownButtonContainer, {
           scale: [1, 0.618],
           opacity: [1, 0],
           ease: 'easeIn',
-          // ease: 'linear',
           autoplay: onScroll({
             container: scope?.root,
-            target: nextSectionRef.current,
+            target: journeyRef.current,
             enter: { target: 'top+=2rem', container: 'bottom' },
             leave: { target: 'top+=10rem', container: 'bottom' },
             sync: 0.75,
-            onEnterBackward: () => {
-              scrollDownButtonContainer.style.pointerEvents = 'all'
-            },
-            onEnterForward: () => {
-              scrollDownButtonContainer.style.pointerEvents = 'none'
+            onUpdate: (parameters) => {
+              scrollDownButtonContainer.style.pointerEvents =
+                parameters.progress < 0.4 ? 'all' : 'none'
             },
             debug: import.meta.env.DEV,
           }),
@@ -92,7 +88,7 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
       ref={root}
       id={contentViewportID}
       className={cn(
-        'pointer-events-auto absolute inset-0 no-scrollbar flex h-svh max-h-svh w-svw max-w-svw flex-col overflow-auto not-print:text-shadow-background/20 not-print:text-shadow-md print:**:[span]:text-[#001814] print:**:[svg]:fill-[#001814]',
+        'pointer-events-auto absolute inset-0 no-scrollbar flex h-svh max-h-svh w-svw max-w-svw flex-col overflow-x-hidden overflow-y-auto scroll-smooth not-print:text-shadow-background/20 not-print:text-shadow-md print:**:[span]:text-[#001814] print:**:[svg]:fill-[#001814]',
         // webGLAvailable && 'not-print:fill-transparent not-print:text-transparent',
       )}
     >
@@ -101,13 +97,13 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
       <div className="relative flex min-h-screen flex-col items-center justify-center">
         <Intro ref={introRef} />
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex origin-bottom flex-row justify-center pt-48 text-center"
+          className="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex origin-bottom flex-row justify-center pt-48 text-center delay-2000"
           data-entry-animation-type="from-bottom"
         >
           <div ref={scrollDownButtonContainerRef} className="pointer-events-auto">
             <ScrollDownButton
               onClick={() =>
-                nextSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                journeyRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
               }
             >
               Scroll down for more
@@ -116,7 +112,9 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
         </div>
       </div>
 
-      <p ref={nextSectionRef} className="px-20 break-normal whitespace-break-spaces">
+      <Journey ref={journeyRef} />
+
+      <p className="px-20 break-normal whitespace-break-spaces">
         <ProjectedText text="Another text, multi word sentence" fontSize={84} fontWeight="light" />
       </p>
       <div className="flex flex-col items-center gap-16 text-center">

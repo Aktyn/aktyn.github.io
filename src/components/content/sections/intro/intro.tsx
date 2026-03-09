@@ -1,6 +1,9 @@
 import { Fragment, type ComponentProps } from 'react'
+import { Separator } from '~/components/common/separator'
 import { QuickPersonalInfo } from '~/components/content/sections/intro/quick-personal-info'
 import { SocialLinks } from '~/components/content/sections/intro/social-links'
+import { QuickAccess } from '~/components/misc/quick-access'
+import { Section } from '~/lib/consts'
 import { cn } from '~/lib/utils'
 import { ProjectedText } from '../../projected-elements/projected-text'
 
@@ -10,15 +13,16 @@ const fullName = 'Radosław Krajewski'
 const role = 'Web Developer'
 const experienceStartDate = new Date('2019-10-10')
 
-type IntroProps = ComponentProps<'div'> & {
+type IntroProps = ComponentProps<'section'> & {
   ref: React.RefObject<HTMLDivElement | null>
 }
 
 export function Intro({ ref, className, ...props }: IntroProps) {
   return (
-    <div
+    <section
       ref={ref}
-      className={cn('flex flex-col items-center justify-center text-center', className)}
+      id={Section.Intro}
+      className={cn('flex flex-col items-center justify-center gap-y-8 text-center', className)}
       {...props}
     >
       <div className="flex flex-col items-center gap-6">
@@ -40,8 +44,11 @@ export function Intro({ ref, className, ...props }: IntroProps) {
         <QuickPersonalInfo experienceStartDate={experienceStartDate} />
         <SocialLinks />
       </div>
-      {/* <Separator className="view-transition-separator mask-linear-[to_right,transparent,black,transparent] delay-1000" /> */}
-      {/* <QuickAccess className="*:*:view-transition-base self-start *:*:delay-400 *:*:slide-in-from-bottom *:*:nth-2:delay-500 *:*:nth-3:delay-600" /> */}
-    </div>
+      <Separator
+        data-entry-animation-type="zoom-in-x"
+        className="mask-linear-[to_right,transparent,black_30%,black_70%,transparent]"
+      />
+      <QuickAccess />
+    </section>
   )
 }

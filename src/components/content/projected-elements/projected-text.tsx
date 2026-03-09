@@ -1,4 +1,5 @@
 import {
+  type ElementType,
   Fragment,
   useCallback,
   useImperativeHandle,
@@ -15,14 +16,18 @@ import { colors } from '../colors'
 const defaultFontSize = 16
 const defaultFontWeight: FontWeight = 'medium'
 
-export type ProjectedTextProps = ProjectedComponentProps & {
+export type ProjectedTextProps<As extends ElementType = 'span'> = ProjectedComponentProps<As> & {
   text: string
   splitWords?: boolean
   fontSize?: number
   fontWeight?: FontWeight
-} & ComponentPropsWithoutRef<'span'>
+} & ComponentPropsWithoutRef<As>
 
-export function ProjectedText({ text, splitWords = true, ...props }: ProjectedTextProps) {
+export function ProjectedText<As extends ElementType = 'span'>({
+  text,
+  splitWords = true,
+  ...props
+}: ProjectedTextProps<As>) {
   const words = splitWords ? text.split(' ') : [text]
 
   return words.map((word, index) => (

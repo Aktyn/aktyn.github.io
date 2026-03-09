@@ -1,4 +1,4 @@
-import type { RefObject } from 'react'
+import type { ElementType, RefObject } from 'react'
 import type { SceneObject } from '~/graphics/scene-object'
 
 export type ProjectedComponentRef = {
@@ -8,9 +8,9 @@ export type ProjectedComponentRef = {
 }
 
 /** Common properties used in projected components */
-export type ProjectedComponentProps = {
+export type ProjectedComponentProps<As extends ElementType = 'span'> = {
   ref?: RefObject<ProjectedComponentRef | null>
-  as?: 'div' | 'span' | 'a' | 'button'
+  as?: As
   color?: string
   frontColor?: string
   /** Low priority objects are hidden when rendering frame time exceeds 18ms threshold */

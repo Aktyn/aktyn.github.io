@@ -1,6 +1,6 @@
 import { type RefObject, useEffect } from 'react'
 
-const STAGGER_DELAY = 150
+const STAGGER_DELAY = 100
 const entryAnimationAttributes = ['data-entry-animation', 'data-entry-animation-type']
 const enteredAttributeValue = 'entered' as const
 
