@@ -1,35 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { ContentLayer } from './components/content/content-layer'
-import { SceneProvider } from './components/content/scene-provider'
-import { WebScene } from './graphics/web-scene'
+import { SceneProvider } from './components/content/scene-context'
 
 export function App() {
   const sceneContainerRef = useRef<HTMLDivElement>(null)
-  const [webScene, setWebScene] = useState<WebScene | null>(null)
-  // const windowSize = useWindowSize()
-
-  useEffect(() => {
-    const container = sceneContainerRef.current
-    if (!container) {
-      return
-    }
-
-    const webScene = new WebScene(container)
-    webScene.loadHexagonalGridBackground()
-    setWebScene(webScene)
-
-    return () => {
-      webScene.dispose()
-      setWebScene(null)
-    }
-  }, [])
 
   return (
-    <div className="relative h-dvh w-dvw overflow-hidden">
-      <div
-        ref={sceneContainerRef}
-        // className="pointer-events-none"
-      />
+    <div className="relative h-dvh w-dvw overflow-hidden bg-background-lighter">
+      <div ref={sceneContainerRef} className="pointer-events-none" />
 
       {/* This div hides edge of the hexagonal grid */}
       <div
@@ -47,14 +25,9 @@ export function App() {
         }}
       />
 
-      {/* Main background colors gradient */}
-      <div className="absolute inset-0 size-full bg-radial-[circle_at_50%_13%] from-[color-mix(in_oklch,var(--color-background-visual)_80%,var(--color-red-400))] to-[color-mix(in_oklch,var(--color-background-visual)_70%,var(--color-blue-600))] mix-blend-color" />
-
-      {webScene && (
-        <SceneProvider webScene={webScene}>
-          <ContentLayer webScene={webScene} />
-        </SceneProvider>
-      )}
+      <SceneProvider containerRef={sceneContainerRef}>
+        <ContentLayer />
+      </SceneProvider>
     </div>
   )
 }

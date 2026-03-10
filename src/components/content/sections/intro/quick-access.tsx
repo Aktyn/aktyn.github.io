@@ -1,19 +1,19 @@
 import { animate, createScope, createTimeline, svg } from 'animejs'
 import {
-  type RefObject,
   useEffect,
   useRef,
   type ComponentProps,
   type ComponentPropsWithoutRef,
+  type RefObject,
 } from 'react'
 import { useEntryAnimations } from '~/hooks/useEntryAnimations'
-import { materialSymbolIcons, materialSymbolProps } from '~/icons/material-symbol-icons'
+import { SvgIcon } from '~/icons/material-symbol-icons'
 import { Section, sectionData } from '~/lib/consts'
 import { cn } from '~/lib/utils'
 import { ProjectedText } from '../../projected-elements/projected-text'
 
-import './pulse.css'
 import { useWindowSize } from '~/hooks/useWindowSize'
+import './pulse.css'
 
 const commonSvgProps: ComponentProps<'svg'> = {
   viewBox: '0 0 100 100',
@@ -47,7 +47,7 @@ export function QuickAccess(props: ComponentPropsWithoutRef<'div'>) {
       </h5>
 
       <div
-        className="relative hidden h-16 w-full lg:block"
+        className="relative hidden h-16 w-full not-print:lg:block"
         style={{
           maskImage: `linear-gradient(
               to bottom,
@@ -91,7 +91,7 @@ export function QuickAccess(props: ComponentPropsWithoutRef<'div'>) {
       </div>
 
       <div
-        className="relative hidden h-auto w-full grow animate-in delay-2000 duration-1000 fill-mode-both fade-in lg:block"
+        className="relative hidden h-auto w-full grow animate-in delay-2000 duration-1000 fill-mode-both fade-in not-print:lg:block"
         style={{
           maskImage: `linear-gradient(
                 to bottom,
@@ -153,9 +153,7 @@ function SectionLink({ section, className }: { section: Section; className?: str
         />
       </div>
       <div className="absolute inset-x-0 -bottom-5 flex -translate-y-5 scale-golden-inverse justify-center gap-x-1 text-sm font-normal text-foreground opacity-0 transition-[opacity,scale,translate]">
-        <svg viewBox={materialSymbolProps.viewBox} className="size-5">
-          <path d={materialSymbolIcons.WebTraffic} />
-        </svg>
+        <SvgIcon icon="WebTraffic" className="size-5" />
         <span>Click to go</span>
       </div>
     </a>

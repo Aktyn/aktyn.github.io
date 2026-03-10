@@ -1,6 +1,6 @@
-import { cn } from '~/lib/utils'
 import type { ComponentProps } from 'react'
-import { materialSymbolIcons, materialSymbolProps } from '~/icons/material-symbol-icons'
+import { SvgIcon } from '~/icons/material-symbol-icons'
+import { cn } from '~/lib/utils'
 
 export function ScrollDownButton({ children, className, ...divProps }: ComponentProps<'div'>) {
   return (
@@ -13,16 +13,8 @@ export function ScrollDownButton({ children, className, ...divProps }: Component
       )}
     >
       <p className="text-xs font-medium">{children}</p>
-      <ChevronDown className="size-4 delay-[-100ms]!" />
-      <ChevronDown className="-mt-2 size-4 delay-[-300ms]!" />
+      <SvgIcon icon="ChevronDown" className="size-4 delay-[-100ms]!" />
+      <SvgIcon icon="ChevronDown" className="-mt-2 size-4 delay-[-300ms]!" />
     </div>
-  )
-}
-
-function ChevronDown(props: ComponentProps<'svg'>) {
-  return (
-    <svg viewBox={materialSymbolProps.viewBox} {...props}>
-      <path d={materialSymbolIcons.ChevronDown} />
-    </svg>
   )
 }

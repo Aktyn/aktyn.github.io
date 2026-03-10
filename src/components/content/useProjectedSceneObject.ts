@@ -1,18 +1,17 @@
 import { type RefObject, useContext, useEffect, useState } from 'react'
 import { type SceneObject } from '~/graphics/scene-object'
 import { type WebScene } from '~/graphics/web-scene'
-import { contentViewportID } from '~/lib/consts'
-import { getEntryAnimatioParent, getScrollableParent } from '~/lib/dom-utils'
-import { assert } from '~/lib/utils'
-import { SceneContext } from './scene-provider'
 import { useEntryAnimations } from '~/hooks/useEntryAnimations'
+import { contentViewportID } from '~/lib/consts'
+import { getEntryAnimationParent, getScrollableParent } from '~/lib/dom-utils'
+import { SceneContext } from './scene-context'
 
 export function useProjectedSceneObject(
   elementRef: RefObject<Element | null>,
   /** Must be memoized */
   objectFactory: (webScene: WebScene) => Promise<SceneObject | null> | SceneObject | null,
 ) {
-  const webScene = useContext(SceneContext)
+  const { webScene } = useContext(SceneContext)
 
   const [exposedValues, setExposedValues] = useState<{
     sceneObject: SceneObject
@@ -21,14 +20,9 @@ export function useProjectedSceneObject(
 
   useEffect(() => {
     const anchor = elementRef.current
-    if (!anchor) {
+    if (!anchor || !webScene) {
       return
     }
-
-    assert(
-      !!webScene,
-      'Web scene is not available. Make sure to use this hook inside SceneProvider',
-    )
 
     let sceneObject: SceneObject | null = null
     let mounted = true
@@ -108,7 +102,7 @@ function keepSceneObjectSynchronized(
     container.addEventListener('scroll', updatePosition)
   })
 
-  const entryAnimationParent = getEntryAnimatioParent(anchorElement)
+  const entryAnimationParent = getEntryAnimationParent(anchorElement)
   let mutationObserver: MutationObserver | null = null
 
   if (entryAnimationParent) {

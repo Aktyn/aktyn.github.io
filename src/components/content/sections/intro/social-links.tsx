@@ -1,7 +1,7 @@
 import type { ComponentProps, ComponentPropsWithoutRef } from 'react'
 import { GithubIcon } from '~/icons/GithubIcon'
 import { LinkedInIcon } from '~/icons/LinkedInIcon'
-import { materialSymbolIcons, materialSymbolProps } from '~/icons/material-symbol-icons'
+import { SvgIcon } from '~/icons/material-symbol-icons'
 import { cn } from '~/lib/utils'
 import { ProjectedContainer } from '../../projected-elements/projected-container'
 
@@ -50,12 +50,7 @@ function SocialLinkButton({ children, className, href, ...linkProps }: SocialLin
         {children}
       </div>
       <div className="absolute inset-0 flex scale-golden items-center justify-center opacity-0 transition-[opacity,scale]">
-        <svg
-          viewBox={materialSymbolProps.viewBox}
-          className="inline-block size-4.5 fill-foreground-lighter"
-        >
-          <path d={materialSymbolIcons.OpenInNew} />
-        </svg>
+        <SvgIcon icon="OpenInNew" className="inline-block size-4.5 fill-foreground-lighter" />
       </div>
     </ProjectedContainer>
   )

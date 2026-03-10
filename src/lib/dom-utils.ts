@@ -54,6 +54,6 @@ function hasEntryAnimationAttribute(element: HTMLElement) {
   return useEntryAnimations.attributeNames.some((attribute) => element.hasAttribute(attribute))
 }
 
-export function getEntryAnimatioParent(element: Element) {
+export function getEntryAnimationParent(element: Element) {
   return getParent(element, hasEntryAnimationAttribute, false, true)
 }

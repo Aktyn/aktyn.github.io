@@ -1,16 +1,20 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { materialSymbolIcons, materialSymbolProps } from '~/icons/material-symbol-icons'
-import { LOGO_PATH } from '~/lib/consts'
+import { LOGO_PATH, Section } from '~/lib/consts'
 import type { ProjectedComponentRef } from '../content-helpers'
 import { ProjectedIcon } from '../projected-elements/projected-icon'
 import { ProjectedText } from '../projected-elements/projected-text'
 import { createDraggable, createScope, spring } from 'animejs'
+import { isWebglAvailable } from '~/graphics/graphics-helpers'
+import { WebGlSwitch } from './webgl-switch'
 
 /** Semi sticky behavior */
 export function Header() {
   const ref = useRef<HTMLHeadElement>(null)
-  const logoRef = useRef<HTMLDivElement>(null)
+  const logoRef = useRef<HTMLAnchorElement>(null)
   const projectedLogoRef = useRef<ProjectedComponentRef>(null)
+
+  const webGLAvailable = useMemo(() => isWebglAvailable(), [])
 
   useEffect(() => {
     const scope = createScope({ root: ref }).add(() => {
@@ -30,16 +34,17 @@ export function Header() {
   return (
     <header
       ref={ref}
-      className="pointer-events-none sticky top-0 bottom-auto z-20 -mb-header flex min-h-header w-full max-w-screen flex-row items-center justify-between p-2 delay-1000 *:pointer-events-auto"
+      className="pointer-events-none sticky top-0 bottom-auto z-20 -mb-header flex min-h-header w-full max-w-screen flex-row flex-wrap items-center justify-between p-2 delay-1000 *:pointer-events-auto"
       data-entry-animation-type="from-bottom"
     >
-      <div className="flex flex-row items-center gap-2">
-        <div ref={logoRef}>
+      <div className="flex flex-row items-center gap-x-4">
+        <a ref={logoRef} href={`#${Section.Intro}`} draggable={false} className="select-none">
           <ProjectedIcon ref={projectedLogoRef} path={LOGO_PATH} size={32} lowPriority />
-        </div>
+        </a>
+        {webGLAvailable && <WebGlSwitch className="print:hidden" />}
       </div>
       <button
-        className="flex cursor-pointer flex-row items-center gap-1.5 rounded-lg px-2 py-1 text-foreground transition-colors hover:bg-foreground/20 print:hidden *:[svg]:size-4"
+        className="ml-auto flex cursor-pointer flex-row items-center gap-1.5 rounded-lg px-2 py-1 text-foreground transition-colors hover:bg-foreground/20 print:hidden *:[svg]:size-4"
         onClick={() => window.print()}
       >
         <ProjectedIcon
@@ -48,7 +53,13 @@ export function Header() {
           lowPriority
           {...materialSymbolProps}
         />
-        <ProjectedText text="Print or download" splitWords={false} fontSize={15} lowPriority />
+        <ProjectedText
+          text="Print or download"
+          className="whitespace-nowrap"
+          splitWords={false}
+          fontSize={15}
+          lowPriority
+        />
         <ProjectedText
           text="CV"
           fontSize={15}
