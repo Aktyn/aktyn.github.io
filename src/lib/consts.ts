@@ -27,7 +27,7 @@ export const sectionData = {
   },
   [Section.TechStack]: {
     // title: 'Tech stack',
-    extendedTitle: 'Skills stack for more technical info',
+    extendedTitle: 'My technical skills and known tools',
   },
 } as const satisfies { [key in Section]: object }
 

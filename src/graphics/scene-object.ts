@@ -8,7 +8,7 @@ export abstract class SceneObject {
   protected originalPosition = new THREE.Vector3()
   protected originalScale = new THREE.Vector3(1, 1, 1)
 
-  //TODO: remove animation/transition logic if scene objects will not be rendered
+  //TODO: remove animation/transition logic if scene objects will not be rendered or smoothly animated
 
   /**
    * Position relative to the anchor element\
@@ -33,10 +33,10 @@ export abstract class SceneObject {
     this.mesh.removeFromParent()
 
     this.mesh.geometry.dispose()
-    // Handled by cache
-    // if (this.mesh.material instanceof THREE.Material) {
-    //   this.mesh.material.dispose()
-    // }
+    // Should be mostly handled by cache
+    if (this.mesh.material instanceof THREE.Material) {
+      this.mesh.material.dispose()
+    }
 
     this._disposed = true
   }

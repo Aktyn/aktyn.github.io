@@ -23,8 +23,8 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
   const journeyRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    const introContainer = introRef.current
-    if (!introContainer) {
+    const headerAnchor = introRef.current?.querySelector('[data-header-anchor]')
+    if (!headerAnchor) {
       return
     }
 
@@ -32,10 +32,10 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
       // Header auto-hide animation
       animate('header:first-child > *', {
         translateX: ['0%', stagger(['-150%', '150%'])],
-        ease: 'easeIn',
+        ease: 'in',
         autoplay: onScroll({
           container: scope?.root,
-          target: introContainer,
+          target: headerAnchor,
           // Enters when the top of the target meets the bottom of the container
           // enter: { target: 'top', container: 'bottom' },
           // Leaves when the bottom of the target meets the top of the container
@@ -52,7 +52,7 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
         animate(scrollDownButtonContainer, {
           scale: [1, 0.618],
           opacity: [1, 0],
-          ease: 'easeIn',
+          ease: 'in',
           autoplay: onScroll({
             container: scope?.root,
             target: journeyRef.current,
@@ -91,10 +91,15 @@ export function ContentLayer({ webScene }: Pick<SceneProviderProps, 'webScene'>)
         'pointer-events-auto absolute inset-0 no-scrollbar flex h-svh max-h-svh w-svw max-w-svw flex-col overflow-x-hidden overflow-y-auto scroll-smooth not-print:text-shadow-background/20 not-print:text-shadow-md print:**:[span]:text-[#001814] print:**:[svg]:fill-[#001814]',
         // webGLAvailable && 'not-print:fill-transparent not-print:text-transparent',
       )}
+      //TODO: exclude header and "scroll down" button from masking
+      // style={{
+      //   maskImage:
+      //     'linear-gradient(to bottom, #fff0, #fff calc(var(--spacing)*24), #fff calc(100% - var(--spacing)*24), #fff0)',
+      // }}
     >
       <Header />
 
-      <div className="relative flex min-h-screen flex-col items-center justify-center">
+      <div className="relative flex min-h-screen flex-col items-center justify-start">
         <Intro ref={introRef} />
         <div
           className="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex origin-bottom flex-row justify-center pt-48 text-center delay-2000"

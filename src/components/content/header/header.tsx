@@ -30,7 +30,7 @@ export function Header() {
   return (
     <header
       ref={ref}
-      className="pointer-events-none sticky top-0 bottom-auto z-10 -mb-header flex min-h-header w-full max-w-screen flex-row items-center justify-between p-2 delay-1000 *:pointer-events-auto"
+      className="pointer-events-none sticky top-0 bottom-auto z-20 -mb-header flex min-h-header w-full max-w-screen flex-row items-center justify-between p-2 delay-1000 *:pointer-events-auto"
       data-entry-animation-type="from-bottom"
     >
       <div className="flex flex-row items-center gap-2">

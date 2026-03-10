@@ -1,8 +1,14 @@
 import { type RefObject, useEffect } from 'react'
 
-const STAGGER_DELAY = 100
+const STAGGER_DELAY = 200
+/** Delay after refreshing the page in the same session */
+const CONSEQUENTIAL_STAGGER_DELAY = 100
 const entryAnimationAttributes = ['data-entry-animation', 'data-entry-animation-type']
 const enteredAttributeValue = 'entered' as const
+
+const currentSessionRefreshCount = parseInt(sessionStorage.getItem('site-refresh-count') ?? '0')
+const delay = currentSessionRefreshCount > 0 ? CONSEQUENTIAL_STAGGER_DELAY : STAGGER_DELAY
+sessionStorage.setItem('site-refresh-count', (currentSessionRefreshCount + 1).toString())
 
 /**
  * Handles logic of toggling element attributes when they enter scroll area of given root container\
@@ -31,7 +37,7 @@ export function useEntryAnimations(root: RefObject<HTMLElement | null>) {
       staggerTimeout = setTimeout(() => {
         staggerTimeout = null
         next()
-      }, STAGGER_DELAY)
+      }, delay)
     }
 
     const enterElementStaggered = (element: Element) => {
@@ -45,7 +51,7 @@ export function useEntryAnimations(root: RefObject<HTMLElement | null>) {
           continue
         }
 
-        if (entry.target instanceof HTMLElement) {
+        if (entry.target instanceof Element) {
           enterElementStaggered(entry.target)
         }
         observer.unobserve(entry.target)

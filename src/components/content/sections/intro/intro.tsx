@@ -2,7 +2,7 @@ import { Fragment, type ComponentProps } from 'react'
 import { Separator } from '~/components/common/separator'
 import { QuickPersonalInfo } from '~/components/content/sections/intro/quick-personal-info'
 import { SocialLinks } from '~/components/content/sections/intro/social-links'
-import { QuickAccess } from '~/components/misc/quick-access'
+import { QuickAccess } from '~/components/content/sections/intro/quick-access'
 import { Section } from '~/lib/consts'
 import { cn } from '~/lib/utils'
 import { ProjectedText } from '../../projected-elements/projected-text'
@@ -22,15 +22,21 @@ export function Intro({ ref, className, ...props }: IntroProps) {
     <section
       ref={ref}
       id={Section.Intro}
-      className={cn('flex flex-col items-center justify-center gap-y-8 text-center', className)}
+      className={cn(
+        'flex h-auto min-h-full flex-col items-center justify-start gap-y-8 text-center',
+        className,
+      )}
       {...props}
     >
-      <div className="flex flex-col items-center gap-6">
-        <div className="-mb-2">
+      <div className="flex flex-1 flex-col items-center justify-end gap-6">
+        <div data-header-anchor className="-mb-2">
           <h2>
             {fullName.split(' ').map((namePart, index, arr) => (
               <Fragment key={`${namePart}-${index}`}>
-                <div className="inline-block" data-entry-animation-type="from-top">
+                <div
+                  className="inline-block"
+                  data-entry-animation-type={index % 2 === 0 ? 'from-left' : 'from-right'}
+                >
                   <ProjectedText text={namePart} fontSize={56} fontWeight="bold" />
                 </div>
                 {index < arr.length - 1 && <span style={{ fontSize: 56 }}>&nbsp;</span>}
@@ -48,7 +54,7 @@ export function Intro({ ref, className, ...props }: IntroProps) {
         data-entry-animation-type="zoom-in-x"
         className="mask-linear-[to_right,transparent,black_30%,black_70%,transparent]"
       />
-      <QuickAccess />
+      <QuickAccess className="flex-1" />
     </section>
   )
 }

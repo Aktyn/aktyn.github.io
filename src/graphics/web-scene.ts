@@ -227,6 +227,7 @@ export class WebScene {
     this.postprocessing.rtTextureGodRays2.setSize(aw, ah)
   }
 
+  //TODO: disable on mobile (touch devices)
   public onPointerMove(x: number, y: number) {
     const normalizedX = (x / window.innerWidth) * 2 - 1
     const normalizedY = -(y / window.innerHeight) * 2 + 1

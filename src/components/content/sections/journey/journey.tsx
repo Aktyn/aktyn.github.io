@@ -14,7 +14,9 @@ export function Journey({ ref, className, ...props }: IntroProps) {
       className={cn('flex flex-col items-center justify-center gap-y-8 text-center', className)}
       {...props}
     >
-      <p className="p-10">TODO - journey section</p>
+      <p className="p-10" data-entry-animation>
+        TODO - journey section
+      </p>
     </section>
   )
 }

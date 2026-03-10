@@ -39,7 +39,7 @@ function SocialLinkButton({ children, className, href, ...linkProps }: SocialLin
       {...linkProps}
       data-entry-animation-type="from-bottom"
       className={cn(
-        'relative inline-flex flex-row items-center justify-center gap-2 overflow-hidden p-1 backdrop-blur-sm hover:*:first:bg-border hover:*:nth-2:text-foreground-lighter',
+        'relative inline-flex flex-row items-center justify-center gap-2 overflow-hidden p-1 hover:*:first:bg-border hover:*:nth-2:text-foreground-lighter',
         'hover:*:last:scale-100 hover:*:last:opacity-100 hover:*:nth-2:opacity-0',
         className,
       )}
