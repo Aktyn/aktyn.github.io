@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { materialSymbolIcons, materialSymbolProps } from '~/icons/material-symbol-icons'
-import { LOGO_PATH, Section } from '~/lib/consts'
+import { LOGO_PATH, mainHeaderID, Section } from '~/lib/consts'
 import type { ProjectedComponentRef } from '../content-helpers'
 import { ProjectedIcon } from '../projected-elements/projected-icon'
 import { ProjectedText } from '../projected-elements/projected-text'
@@ -34,11 +34,17 @@ export function Header() {
   return (
     <header
       ref={ref}
-      className="pointer-events-none sticky top-0 bottom-auto z-20 -mb-header flex min-h-header w-full max-w-screen flex-row flex-wrap items-center justify-between p-2 delay-1000 *:pointer-events-auto"
+      data-id={mainHeaderID}
+      className="pointer-events-none absolute top-0 bottom-auto z-20 -mb-header flex min-h-header w-full max-w-screen flex-row flex-wrap items-center justify-between p-2 delay-1000 *:pointer-events-auto"
       data-entry-animation-type="from-bottom"
     >
       <div className="flex flex-row items-center gap-x-4">
-        <a ref={logoRef} href={`#${Section.Intro}`} draggable={false} className="select-none">
+        <a
+          ref={logoRef}
+          href={`#${Section.Intro}`}
+          draggable={false}
+          className="fill-current select-none"
+        >
           <ProjectedIcon ref={projectedLogoRef} path={LOGO_PATH} size={32} lowPriority />
         </a>
         {webGLAvailable && <WebGlSwitch className="print:hidden" />}

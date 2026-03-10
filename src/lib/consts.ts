@@ -4,6 +4,7 @@ export const LOGO_PATH =
 export const isFirefox = 'InternalError' in window
 
 export const contentViewportID = 'content-viewport'
+export const mainHeaderID = 'main-header'
 
 export enum Section {
   Intro = 'intro',

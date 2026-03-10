@@ -57,3 +57,11 @@ function hasEntryAnimationAttribute(element: HTMLElement) {
 export function getEntryAnimationParent(element: Element) {
   return getParent(element, hasEntryAnimationAttribute, false, true)
 }
+
+export function isTouchDevice() {
+  return (
+    'ontouchstart' in window ||
+    navigator.maxTouchPoints > 0 ||
+    ('msMaxTouchPoints' in navigator && (navigator['msMaxTouchPoints'] as number) > 0)
+  )
+}

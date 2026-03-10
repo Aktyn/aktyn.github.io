@@ -91,7 +91,7 @@ export function QuickAccess(props: ComponentPropsWithoutRef<'div'>) {
       </div>
 
       <div
-        className="relative hidden h-auto w-full grow animate-in delay-2000 duration-1000 fill-mode-both fade-in not-print:lg:block"
+        className="relative hidden h-auto w-full grow animate-in delay-2000 duration-1000 fill-mode-both fade-in has-[[data-entry-animation-type]:not([data-entry-animation=entered])]:paused not-print:lg:block"
         style={{
           maskImage: `linear-gradient(
                 to bottom,
@@ -101,7 +101,6 @@ export function QuickAccess(props: ComponentPropsWithoutRef<'div'>) {
               )`,
         }}
       >
-        {/* TODO: erase lines when scrolling down */}
         <SvgBase>
           <path
             d="M 17,0 C 17,50 33.5,50 33.5,100"

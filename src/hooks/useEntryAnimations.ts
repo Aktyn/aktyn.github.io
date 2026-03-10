@@ -17,9 +17,10 @@ sessionStorage.setItem('site-refresh-count', (currentSessionRefreshCount + 1).to
  * Upon entering viewport, the attribute will have its value changed to "**entered**"\
  * This is one-way change. Leaving the viewport has no effect
  */
-export function useEntryAnimations(root: RefObject<HTMLElement | null>) {
+export function useEntryAnimations(rootRef: RefObject<HTMLElement | null>) {
   useEffect(() => {
-    if (!root.current) {
+    const root = rootRef.current?.parentElement
+    if (!root) {
       return
     }
 
@@ -58,25 +59,29 @@ export function useEntryAnimations(root: RefObject<HTMLElement | null>) {
       }
     }
     const observer = new IntersectionObserver(onVisibilityChange, {
-      root: root.current,
+      root,
       threshold: 0.5,
     })
 
-    Array.from(
-      root.current.querySelectorAll(entryAnimationAttributes.map((attr) => `[${attr}]`).join(',')),
-    )
-      .sort(largestFirst)
-      .forEach((element) => {
-        observer.observe(element)
-      })
+    // Initialize with small timeout to let the page perform initial scroll
+    const timeout = setTimeout(() => {
+      Array.from(
+        root.querySelectorAll(entryAnimationAttributes.map((attr) => `[${attr}]`).join(',')),
+      )
+        .sort(largestFirst)
+        .forEach((element) => {
+          observer.observe(element)
+        })
+    }, 16)
 
     return () => {
+      clearTimeout(timeout)
       observer.disconnect()
       if (staggerTimeout) {
         clearTimeout(staggerTimeout)
       }
     }
-  }, [root])
+  }, [rootRef])
 }
 
 useEntryAnimations.attributeNames = entryAnimationAttributes

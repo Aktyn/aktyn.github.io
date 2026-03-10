@@ -6,7 +6,7 @@ export function App() {
   const sceneContainerRef = useRef<HTMLDivElement>(null)
 
   return (
-    <div className="relative h-dvh w-dvw overflow-hidden bg-background-lighter">
+    <div className="relative h-dvh max-h-dvh w-dvw overflow-hidden bg-background-lighter">
       <div ref={sceneContainerRef} className="pointer-events-none" />
 
       {/* This div hides edge of the hexagonal grid */}
