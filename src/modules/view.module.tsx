@@ -1,6 +1,8 @@
 import { createContext, type PropsWithChildren, useCallback, useContext, useState } from 'react'
 import { clamp } from '~/lib/utils'
 
+//TODO: delete this file
+
 enum View {
   Intro = 'intro',
   MyJourney = 'my-journey',

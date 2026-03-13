@@ -22,9 +22,9 @@ type IntroProps = ComponentProps<'section'> & {
   ref: React.RefObject<HTMLDivElement | null>
 }
 
-export function Journey({ ref, className, ...props }: IntroProps) {
+export function Journey({ ref, ...props }: IntroProps) {
   return (
-    <SectionContainer ref={ref} section={Section.MyJourney} {...props} className={className}>
+    <SectionContainer ref={ref} section={Section.MyJourney} {...props}>
       <Article>
         <DatedTitle
           dateStart="2012"

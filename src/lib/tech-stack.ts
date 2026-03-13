@@ -68,6 +68,7 @@ export const techStackInfo = {
   [TechStackCategory.KnownTools]: {
     title: 'Known tools',
     description:
+      //TODO: I use arch btw
       'Here are some non-coding tools that I have experience using.\nBy the way, I work on Linux.',
     thumbnail: '/img/quick-access-thumbnails/jira.webp',
     icon: 'Construction',

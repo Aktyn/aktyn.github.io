@@ -22,7 +22,7 @@ export function ProjectedIcon({
   color = colors.side,
   frontColor = colors.front,
   size = defaultSize,
-  lowPriority,
+  lowPriority = true, // True by default for icons
   isCCW,
   ...svgProps
 }: ProjectedIconProps) {

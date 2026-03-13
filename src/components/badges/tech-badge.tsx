@@ -1,15 +1,15 @@
 import { cn } from '~/lib/utils'
 import { techStack } from '~/lib/tech-stack'
-import { Badge } from '~/components/common/tooltip'
 import type { ComponentProps } from 'react'
+import { Badge } from '../common/badge'
 
 type TechBadgeProps = { tech: keyof typeof techStack } & ComponentProps<typeof Badge>
 
 export function TechBadge({ tech, ...badgeProps }: TechBadgeProps) {
   return (
     <Badge
-      dir="ltr"
-      variant="outline"
+      // dir="ltr"
+      // variant="outline"
       {...badgeProps}
       className={cn(
         'relative gap-x-2 rounded-md bg-background/50 p-1 px-2 text-sm',

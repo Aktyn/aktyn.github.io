@@ -124,7 +124,7 @@ function keepSceneObjectSynchronized(
             mutation.target.getAttribute(mutation.attributeName) === useEntryAnimations.enteredValue
           ) {
             // Duration must be a little larger than entry animation duration defined in main tailwind stylesheet (index.css)
-            synchronizeWithAnimation(2000)
+            synchronizeWithAnimation(2_000)
           }
         }
       }
@@ -142,6 +142,7 @@ function keepSceneObjectSynchronized(
     if (!anchor) {
       return
     }
+
     sceneObject.setVisibility(anchor.isIntersecting)
     if (anchor.isIntersecting) {
       updatePosition()

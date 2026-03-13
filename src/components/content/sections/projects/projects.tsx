@@ -3,24 +3,19 @@ import { Suspense, useMemo } from 'react'
 import { TechBadge } from '~/components/badges/tech-badge'
 import { ScrollDownButton } from '~/components/buttons/scroll-down-button'
 import { GithubIcon } from '~/icons/GithubIcon'
-import {
-  Button,
-  ScrollArea,
-  ScrollBar,
-  Separator,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '~/components/common/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/common/tooltip'
 import { ProjectsGroup, projectsGroupsInfo } from '~/lib/projects-info'
 import { cn, forceArray } from '~/lib/utils'
 import { ViewModule } from '~/modules/view.module'
-import { ImagesStrip } from '../content/sections/common/images-strip'
+import { Separator } from '~/components/common/separator'
+import { ScrollArea } from '~/components/common/scroll-area'
+import { ImagesStrip } from '../common/images-strip'
 
 const DELAY_BASE = 150
 const projectsGroupsArray = Object.values(ProjectsGroup)
 
-/** @deprecated */
+//TODO: refine
+
 export function Projects() {
   const { view, setView, viewChangeDirection } = ViewModule.useView()
 
@@ -118,7 +113,7 @@ function ProjectCard({ project, delay }: ProjectCardProps) {
               {forceArray(project.linkToGithubRepo ?? []).map((link) => (
                 <Tooltip key={link}>
                   <TooltipTrigger asChild>
-                    <Button
+                    {/* <Button
                       asChild
                       size="icon"
                       variant="ghost"
@@ -127,7 +122,10 @@ function ProjectCard({ project, delay }: ProjectCardProps) {
                       <a href={link} target="_blank">
                         <GithubIcon className="size-5" />
                       </a>
-                    </Button>
+                      </Button> */}
+                    <a href={link} target="_blank">
+                      <GithubIcon className="size-5" />
+                    </a>
                   </TooltipTrigger>
                   <TooltipContent>View on GitHub</TooltipContent>
                 </Tooltip>
@@ -150,7 +148,7 @@ function ProjectCard({ project, delay }: ProjectCardProps) {
             <ImagesStrip images={project.images} altPrefix="project-image" />
           </Suspense>
         </div>
-        <ScrollBar orientation="horizontal" className="md:hidden" />
+        {/* <ScrollBar orientation="horizontal" className="md:hidden" /> */}
       </ScrollArea>
     </div>
   )

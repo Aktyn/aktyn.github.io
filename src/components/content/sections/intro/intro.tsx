@@ -48,6 +48,7 @@ export function Intro({ ref, className, ...props }: IntroProps) {
         <QuickPersonalInfo experienceStartDate={experienceStartDate} />
         <SocialLinks />
       </div>
+      {/* TODO: "Open for work" status inside separator */}
       <Separator
         data-entry-animation-type="zoom-in-x"
         className="not-print:mask-linear-[to_right,transparent,black_30%,black_70%,transparent]"

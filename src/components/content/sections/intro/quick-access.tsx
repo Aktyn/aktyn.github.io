@@ -28,6 +28,8 @@ export function QuickAccess(props: ComponentPropsWithoutRef<'div'>) {
 
   useSvgAnimations(root)
 
+  // TODO: similar svg effect for lg; curves coming from each sides and falling to the bottom
+
   return (
     <div
       ref={root}

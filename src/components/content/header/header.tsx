@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { type RefObject, useEffect, useImperativeHandle, useMemo, useRef } from 'react'
 import { materialSymbolIcons, materialSymbolProps } from '~/icons/material-symbol-icons'
 import { LOGO_PATH, mainHeaderID, Section } from '~/lib/consts'
 import type { ProjectedComponentRef } from '../content-helpers'
@@ -8,11 +8,18 @@ import { createDraggable, createScope, spring } from 'animejs'
 import { isWebglAvailable } from '~/graphics/graphics-helpers'
 import { WebGlSwitch } from './webgl-switch'
 
+export type HeaderInterfaceRef = {
+  invalidateProjectedPositions: () => void
+}
+
 /** Semi sticky behavior */
-export function Header() {
+export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRef | null> }) {
   const ref = useRef<HTMLHeadElement>(null)
   const logoRef = useRef<HTMLAnchorElement>(null)
   const projectedLogoRef = useRef<ProjectedComponentRef>(null)
+  const projectedPdfIconRef = useRef<ProjectedComponentRef>(null)
+  const projectedPrintTextRef = useRef<ProjectedComponentRef>(null)
+  const projectedCvTextRef = useRef<ProjectedComponentRef>(null)
 
   const webGLAvailable = useMemo(() => isWebglAvailable(), [])
 
@@ -30,6 +37,23 @@ export function Header() {
 
     return () => scope.revert()
   }, [])
+
+  useImperativeHandle(
+    interfaceRef,
+    () => ({
+      invalidateProjectedPositions: () => {
+        for (const projectedRef of [
+          projectedLogoRef,
+          projectedPdfIconRef,
+          projectedPrintTextRef,
+          projectedCvTextRef,
+        ]) {
+          projectedRef.current?.updatePosition?.()
+        }
+      },
+    }),
+    [],
+  )
 
   return (
     <header
@@ -54,12 +78,14 @@ export function Header() {
         onClick={() => window.print()}
       >
         <ProjectedIcon
+          ref={projectedPdfIconRef}
           path={materialSymbolIcons.PictureAsPdf}
           size={20}
           lowPriority
           {...materialSymbolProps}
         />
         <ProjectedText
+          ref={projectedPrintTextRef}
           text="Print or download"
           className="whitespace-nowrap"
           splitWords={false}
@@ -67,6 +93,7 @@ export function Header() {
           lowPriority
         />
         <ProjectedText
+          ref={projectedCvTextRef}
           text="CV"
           fontSize={15}
           fontWeight="bold"

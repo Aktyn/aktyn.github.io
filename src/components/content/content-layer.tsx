@@ -3,9 +3,7 @@ import { useContext, useEffect, useRef } from 'react'
 import { useEntryAnimations } from '~/hooks/useEntryAnimations'
 import { contentViewportID, mainHeaderID } from '~/lib/consts'
 import { ScrollDownButton } from '../buttons/scroll-down-button'
-import { Header } from './header/header'
-import { ProjectedButton } from './projected-elements/projected-button'
-import { ProjectedText } from './projected-elements/projected-text'
+import { Header, type HeaderInterfaceRef } from './header/header'
 import { SceneContext } from './scene-context'
 import { Intro } from './sections/intro/intro'
 import { Journey } from './sections/journey/journey'
@@ -16,6 +14,7 @@ import { ScrollArea } from '../common/scroll-area'
 
 export function ContentLayer() {
   const root = useRef<HTMLDivElement>(null)
+  const headerRef = useRef<HeaderInterfaceRef>(null)
   const scrollDownButtonContainerRef = useRef<HTMLDivElement>(null)
   const introRef = useRef<HTMLDivElement | null>(null)
   const journeyRef = useRef<HTMLDivElement | null>(null)
@@ -45,6 +44,7 @@ export function ContentLayer() {
         enter: { target: 'top-=8rem', container: 'top' },
         leave: { target: 'top', container: 'top' },
         sync: 0.5,
+        onUpdate: () => headerRef.current?.invalidateProjectedPositions(),
         // debug: import.meta.env.DEV,
       }),
     })
@@ -104,13 +104,12 @@ export function ContentLayer() {
       {webScene && (
         <div className="absolute inset-0 size-full bg-radial-[circle_at_50%_13%] from-[color-mix(in_oklch,var(--color-background-visual)_80%,var(--color-red-400))] to-[color-mix(in_oklch,var(--color-background-visual)_70%,var(--color-blue-600))] mix-blend-color print:hidden" />
       )}
-
-      <Header />
       <div
         ref={root}
         id={contentViewportID}
-        className="pointer-events-auto inset-0 flex w-dvw max-w-dvw flex-col not-print:absolute not-print:h-dvh not-print:max-h-dvh not-print:text-shadow-background/20 not-print:text-shadow-md"
+        className="pointer-events-auto relative inset-0 flex w-dvw max-w-dvw flex-col not-print:absolute not-print:h-dvh not-print:max-h-dvh not-print:text-shadow-background/20 not-print:text-shadow-md"
       >
+        <Header ref={headerRef} />
         <ScrollArea
           className="flex flex-col items-center not-print:size-full"
           contentContainerProps={{
@@ -125,33 +124,13 @@ export function ContentLayer() {
             <Intro ref={introRef} />
           </div>
 
-          {/* TODO: responsive navigation sidebar */}
-          <Journey ref={journeyRef} className="not-print:pt-16" />
-
-          <p className="px-20 break-normal whitespace-break-spaces">
-            <ProjectedText
-              text="Another text, multi word sentence"
-              fontSize={84}
-              fontWeight="light"
-            />
-          </p>
-          <div className="flex flex-col items-center gap-16 text-center">
-            <div>
-              <ProjectedText text="Visibility test" fontSize={64} />
+          <div className="grid grid-cols-[1fr_auto_1fr] not-print:pt-16 max-2xl:w-screen">
+            {/* TODO: responsive navigation sidebar */}
+            <aside>todo - sidebar</aside>
+            <div className="flex flex-col">
+              <Journey ref={journeyRef} className="shrink" />
+              {/* <Projects /> */}
             </div>
-            <div>
-              <ProjectedButton text="Button test" fontSize={64} />
-            </div>
-          </div>
-          <div className="flex flex-col items-center">
-            <ProjectedText text="X" fontSize={64} />
-            <ProjectedText text="X" fontSize={64} />
-            <ProjectedText text="X" fontSize={64} />
-            <ProjectedText text="X" fontSize={64} />
-            <ProjectedText text="X" fontSize={64} />
-            <ProjectedText text="X" fontSize={64} />
-            <ProjectedText text="X" fontSize={64} />
-            <ProjectedText text="X" fontSize={64} />
           </div>
         </ScrollArea>
       </div>
