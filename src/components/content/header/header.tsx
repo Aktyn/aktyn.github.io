@@ -35,7 +35,7 @@ export function Header() {
     <header
       ref={ref}
       data-id={mainHeaderID}
-      className="pointer-events-none absolute top-0 bottom-auto z-10 -mb-header flex min-h-header w-full max-w-screen flex-row flex-wrap items-center justify-between p-2 delay-1000 *:pointer-events-auto"
+      className="pointer-events-none absolute top-0 bottom-auto z-10 -mb-header flex min-h-header w-full max-w-screen flex-row flex-wrap items-center justify-between p-2 delay-1000 *:pointer-events-auto print:hidden"
       data-entry-animation-type="from-bottom"
     >
       <div className="flex flex-row items-center gap-x-4">
@@ -47,10 +47,10 @@ export function Header() {
         >
           <ProjectedIcon ref={projectedLogoRef} path={LOGO_PATH} size={32} lowPriority />
         </a>
-        {webGLAvailable && <WebGlSwitch className="print:hidden" />}
+        {webGLAvailable && <WebGlSwitch />}
       </div>
       <button
-        className="ml-auto flex cursor-pointer flex-row items-center gap-1.5 rounded-lg px-2 py-1 text-foreground transition-colors hover:bg-foreground/20 print:hidden *:[svg]:size-4"
+        className="ml-auto flex cursor-pointer flex-row items-center gap-1.5 rounded-lg px-2 py-1 text-foreground transition-colors hover:bg-foreground/20 *:[svg]:size-4"
         onClick={() => window.print()}
       >
         <ProjectedIcon

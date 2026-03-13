@@ -50,9 +50,9 @@ export function Intro({ ref, className, ...props }: IntroProps) {
       </div>
       <Separator
         data-entry-animation-type="zoom-in-x"
-        className="mask-linear-[to_right,transparent,black_30%,black_70%,transparent]"
+        className="not-print:mask-linear-[to_right,transparent,black_30%,black_70%,transparent]"
       />
-      <QuickAccess className="flex-1" />
+      <QuickAccess className="flex-1 print:hidden" />
     </SectionContainer>
   )
 }

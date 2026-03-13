@@ -5,6 +5,7 @@ type IconFromPathProps = ComponentProps<'svg'> & {
   d: string
 }
 
+/** @deprecated - use SvgIcon instead */
 export function IconFromPath({ d, ...svgProps }: IconFromPathProps) {
   return (
     <svg

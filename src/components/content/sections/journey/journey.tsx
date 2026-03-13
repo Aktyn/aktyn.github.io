@@ -41,7 +41,9 @@ export function Journey({ ref, className, ...props }: IntroProps) {
                   Zespół szkół ponadgimnazjalnych imienia Marszalka Józefa Piłsudzkiego
                 </a>
               </b>{' '}
-              <span className="text-sm text-muted-foreground">(September 2012 - August 2016)</span>
+              <span className="text-sm not-print:text-muted-foreground">
+                (September 2012 - August 2016)
+              </span>
             </div>
           }
           items={schoolTimelineItems}

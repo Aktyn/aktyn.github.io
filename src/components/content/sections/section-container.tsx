@@ -12,7 +12,7 @@ export function SectionContainer({ section, ...sectionProps }: SectionContainerP
       id={section}
       {...sectionProps}
       className={cn(
-        'flex max-w-dvw flex-col items-center justify-center gap-4 p-4',
+        'flex max-w-full flex-col items-center justify-center gap-4 p-4',
         sectionProps.className,
       )}
     />

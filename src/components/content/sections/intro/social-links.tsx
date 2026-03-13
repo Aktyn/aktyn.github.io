@@ -1,4 +1,4 @@
-import type { ComponentProps, ComponentPropsWithoutRef } from 'react'
+import type { ComponentProps, ComponentPropsWithoutRef, ReactNode } from 'react'
 import { GithubIcon } from '~/icons/GithubIcon'
 import { LinkedInIcon } from '~/icons/LinkedInIcon'
 import { SvgIcon } from '~/icons/material-symbol-icons'
@@ -10,25 +10,27 @@ export function SocialLinks(props: ComponentProps<'div'>) {
     <div
       {...props}
       className={cn(
-        'mx-auto grid w-full grid-cols-[repeat(auto-fit,calc(var(--spacing)*32))] items-start justify-center gap-x-3 gap-y-2',
+        'inline-grid grid-cols-[repeat(auto-fit,calc(var(--spacing)*32))] items-start justify-center gap-x-3 gap-y-2 not-print:w-full print:mx-auto print:grid-cols-2',
         props.className,
       )}
     >
-      <SocialLinkButton href="https://github.com/aktyn">
-        <GithubIcon />
-        GitHub
-      </SocialLinkButton>
-      <SocialLinkButton href="https://www.linkedin.com/in/aktyn">
-        <LinkedInIcon />
-        LinkedIn
-      </SocialLinkButton>
+      <SocialLinkButton href="https://github.com/aktyn" icon={<GithubIcon />} text="GitHub" />
+      <SocialLinkButton
+        href="https://www.linkedin.com/in/aktyn"
+        icon={<LinkedInIcon />}
+        text="LinkedIn"
+      />
     </div>
   )
 }
 
-type SocialLinkButtonProps = ComponentPropsWithoutRef<'a'> & { href: string }
+type SocialLinkButtonProps = ComponentPropsWithoutRef<'a'> & {
+  href: string
+  icon: ReactNode
+  text: string
+}
 
-function SocialLinkButton({ children, className, href, ...linkProps }: SocialLinkButtonProps) {
+function SocialLinkButton({ icon, text, className, href, ...linkProps }: SocialLinkButtonProps) {
   return (
     <ProjectedContainer
       as="a"
@@ -44,12 +46,14 @@ function SocialLinkButton({ children, className, href, ...linkProps }: SocialLin
         className,
       )}
     >
-      <div className="absolute inset-0 -z-10 rounded-full border bg-background-lighter/50 transition-colors" />
+      <div className="absolute inset-0 -z-10 rounded-full border bg-background-lighter/50 transition-colors print:hidden" />
 
       <div className="inline-flex items-center justify-center gap-2 font-bold whitespace-nowrap text-foreground transition-[opacity,color] *:[svg]:size-5">
-        {children}
+        {icon}
+        <span className="print:hidden">{text}</span>
+        <span className="not-print:hidden">{href}</span>
       </div>
-      <div className="absolute inset-0 flex scale-golden items-center justify-center opacity-0 transition-[opacity,scale]">
+      <div className="absolute inset-0 flex scale-golden items-center justify-center opacity-0 transition-[opacity,scale] print:hidden">
         <SvgIcon icon="OpenInNew" className="inline-block size-4.5 fill-foreground-lighter" />
       </div>
     </ProjectedContainer>

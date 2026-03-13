@@ -6,9 +6,7 @@ import { ProjectsGroup, projectsGroupsInfo } from '~/lib/projects-info'
 import { GithubProjectLink } from '~/components/common/github-project-link'
 import { LinkedInIcon } from '~/icons/LinkedInIcon'
 import { QuickProjectInfo } from '~/components/content/sections/journey/quick-project-info'
-import { GraphicsAspirations } from '~/components/content/sections/journey/common'
-
-//TODO: verify classes in this file and similar files
+import { GraphicsAspirations } from '~/components/content/sections/journey/graphics-aspirations'
 
 export const schoolTimelineItems = [
   {
@@ -63,7 +61,7 @@ export const universityTimelineItems = [
             )?.images ?? []
           }
           altPrefix="ZeroG-Ball"
-          className="-ml-3"
+          // className="-ml-3" //TODO: ?
         />
       </div>
     ),
@@ -84,8 +82,6 @@ export const universityTimelineItems = [
             title="Asystent głosowy"
           />{' '}
           <span>- another university project. This time, it was a group effort </span>
-          {/* TODO */}
-          {/* <BicepsFlexed className="inline size-4 fill-foreground/25" /> */}
         </p>
         <p className="text-sm text-pretty">
           It was a fully voice-controlled music player that could control played audio and manage
@@ -300,7 +296,7 @@ export const freeTimeProjectsTimelineItems = [
   {
     date: 'Graphics',
     content: (
-      <div className="flex flex-row flex-wrap gap-x-4 gap-y-1 max-sm:flex-col sm:items-center">
+      <div className="inline-flex flex-row flex-wrap justify-start gap-x-4 gap-y-1 max-md:flex-col md:items-center">
         <div className="flex-0 grow text-sm text-pretty">
           <p>
             As mentioned in the education section <span className="text-sm">(the first one)</span>,

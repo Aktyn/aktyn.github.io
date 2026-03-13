@@ -157,6 +157,9 @@
   button {
     @apply cursor-pointer;
   }
+  a {
+    @apply hover:text-foreground-complementary transition-colors fill-current;
+  }
 
   @media print {
     /* TODO: adjust */
@@ -164,7 +167,7 @@
       margin-top: 0;
       margin-bottom: 0;
     }
-    body {
+    html, body {
       @apply bg-white p-0 text-background print:**:[span]:text-[#001814] print:**:[svg]:fill-[#001814];
       background-image: none;
       print-color-adjust: economy;

@@ -16,7 +16,7 @@ export function CompactImagesStrip({ images, altPrefix, className }: CompactImag
       type="auto"
       orientation="horizontal"
       className={cn(
-        '-m-4 -my-16 h-64 max-w-full **:data-radix-scroll-area-viewport:*:max-h-full',
+        '-m-4 -my-16 h-64 max-w-full not-print:contain-inline-size **:data-radix-scroll-area-viewport:*:max-h-full',
         className,
       )}
     >

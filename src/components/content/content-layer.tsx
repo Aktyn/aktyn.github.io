@@ -121,12 +121,12 @@ export function ContentLayer() {
             },
           }}
         >
-          <div className="flex flex-col items-center justify-start not-print:*:min-h-dvh print:pt-8">
+          <div className="flex flex-col items-center justify-start not-print:*:min-h-dvh">
             <Intro ref={introRef} />
           </div>
 
           {/* TODO: responsive navigation sidebar */}
-          <Journey ref={journeyRef} className="pt-16" />
+          <Journey ref={journeyRef} className="not-print:pt-16" />
 
           <p className="px-20 break-normal whitespace-break-spaces">
             <ProjectedText

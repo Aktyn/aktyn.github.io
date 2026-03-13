@@ -10,14 +10,12 @@ export function GraphicsAspirations() {
 
   const graphicsAspirationsSrc = journeyInfo[JourneySection.FreeTimeProjects].images[0]
 
-  //TODO: refine
-
   return (
     <>
       <AmbientImage
         src={graphicsAspirationsSrc}
         alt="graphics aspirations"
-        className="duration-bounce ease-bounce h-32 cursor-pointer transition-[scale] *:max-h-32 hover:z-10 hover:scale-110"
+        className="h-32 cursor-pointer transition-[scale] *:max-h-32 hover:z-10 hover:scale-110"
         ambientOpacity={0.3}
         onClick={(event) => {
           setOpenGallery(true)
