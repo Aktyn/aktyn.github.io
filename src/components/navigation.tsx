@@ -233,7 +233,7 @@ export function Navigation({ mainContainerRef }: NavigationProps) {
       }
 
       const viewContainer = container.querySelector(
-        `#view-${view} > [data-slot='scroll-area-viewport']`,
+        `#view-${view} > [data-slot='scroll-area-viewport']`, //TODO: update or remove
       )
       if (viewContainer) {
         acc.push(viewContainer as HTMLElement)

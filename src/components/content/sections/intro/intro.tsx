@@ -6,6 +6,7 @@ import { QuickAccess } from '~/components/content/sections/intro/quick-access'
 import { Section } from '~/lib/consts'
 import { cn } from '~/lib/utils'
 import { ProjectedText } from '../../projected-elements/projected-text'
+import { SectionContainer } from '../section-container'
 
 import '../../../../styles/shining-text.css'
 
@@ -19,14 +20,11 @@ type IntroProps = ComponentProps<'section'> & {
 
 export function Intro({ ref, className, ...props }: IntroProps) {
   return (
-    <section
+    <SectionContainer
       ref={ref}
-      id={Section.Intro}
-      className={cn(
-        'flex h-auto min-h-full flex-col items-center justify-start gap-y-8 text-center',
-        className,
-      )}
+      section={Section.Intro}
       {...props}
+      className={cn('gap-y-8 px-4 text-center', className)}
     >
       <div className="flex flex-1 flex-col items-center justify-end gap-6">
         <div data-header-anchor className="-mb-2">
@@ -55,6 +53,6 @@ export function Intro({ ref, className, ...props }: IntroProps) {
         className="mask-linear-[to_right,transparent,black_30%,black_70%,transparent]"
       />
       <QuickAccess className="flex-1" />
-    </section>
+    </SectionContainer>
   )
 }

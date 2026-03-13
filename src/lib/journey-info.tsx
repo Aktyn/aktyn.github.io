@@ -1,5 +1,5 @@
-import type { DynamicIcon } from 'lucide-react/dynamic'
 import type { ComponentProps } from 'react'
+import type { SvgIcon } from '~/icons/material-symbol-icons'
 
 export enum JourneySection {
   Education = 'education',
@@ -11,7 +11,7 @@ export const journeyInfo = {
   [JourneySection.Education]: {
     title: 'Education',
     thumbnail: '/img/quick-access-thumbnails/diploma.webp',
-    icon: 'graduation-cap',
+    icon: 'School',
     images: [
       '/img/journey/diploma.webp',
       // --------------------------------------------------
@@ -27,13 +27,13 @@ export const journeyInfo = {
   [JourneySection.WorkExperience]: {
     title: 'Work experience',
     thumbnail: '/img/quick-access-thumbnails/linkedin.webp',
-    icon: 'briefcase',
+    icon: 'Work',
     images: [],
   },
   [JourneySection.FreeTimeProjects]: {
     title: 'Free time projects',
     thumbnail: '/img/quick-access-thumbnails/web-scraper.webp',
-    icon: 'user-star',
+    icon: 'PersonHeart',
     images: ['/img/journey/graphics-aspirations.webp'],
   },
 } as const satisfies {
@@ -41,6 +41,6 @@ export const journeyInfo = {
     title: string
     thumbnail: string
     images: string[]
-    icon: ComponentProps<typeof DynamicIcon>['name'] | { svgPath: string }
+    icon: ComponentProps<typeof SvgIcon>['icon'] | { svgPath: string }
   }
 }

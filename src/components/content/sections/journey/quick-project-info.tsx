@@ -19,6 +19,8 @@ export function QuickProjectInfo({
 }: QuickProjectInfoProps) {
   const Comp = component ?? 'div'
 
+  //TODO: refine
+
   return (
     <Comp className={cn('my-0.5 leading-none text-balance', className)}>
       <GithubProjectLink href={githubLink} title={title} className="font-medium" />

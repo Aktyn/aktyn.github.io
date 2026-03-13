@@ -15,7 +15,7 @@ export function QuickPersonalInfo({ experienceStartDate, className }: QuickPerso
   return (
     <div
       className={cn(
-        'flex max-w-full flex-row flex-wrap items-center justify-start gap-x-8 *:flex-1',
+        'grid max-w-full grid-cols-1 items-center justify-start gap-x-4 gap-y-2 xs:grid-cols-2 xs:gap-y-4 md:grid-cols-4',
         className,
       )}
     >

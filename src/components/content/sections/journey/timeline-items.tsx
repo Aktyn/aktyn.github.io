@@ -1,12 +1,14 @@
-import { BicepsFlexed } from 'lucide-react'
 import { Suspense } from 'react'
+import { Skeleton } from '~/components/common/skeleton'
+import { Diploma } from './diploma'
+import { CompactImagesStrip } from './compact-images-strip'
+import { ProjectsGroup, projectsGroupsInfo } from '~/lib/projects-info'
 import { GithubProjectLink } from '~/components/common/github-project-link'
 import { LinkedInIcon } from '~/icons/LinkedInIcon'
-import { Skeleton } from '~/components/common/tooltip'
-import { ProjectsGroup, projectsGroupsInfo } from '~/lib/projects-info'
-import { Diploma, GraphicsAspirations } from './common'
-import { CompactImagesStrip } from './compact-images-strip'
-import { QuickProjectInfo } from './quick-project-info'
+import { QuickProjectInfo } from '~/components/content/sections/journey/quick-project-info'
+import { GraphicsAspirations } from '~/components/content/sections/journey/common'
+
+//TODO: verify classes in this file and similar files
 
 export const schoolTimelineItems = [
   {
@@ -82,7 +84,8 @@ export const universityTimelineItems = [
             title="Asystent głosowy"
           />{' '}
           <span>- another university project. This time, it was a group effort </span>
-          <BicepsFlexed className="inline size-4 fill-foreground/25" />
+          {/* TODO */}
+          {/* <BicepsFlexed className="inline size-4 fill-foreground/25" /> */}
         </p>
         <p className="text-sm text-pretty">
           It was a fully voice-controlled music player that could control played audio and manage

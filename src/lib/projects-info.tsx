@@ -1,9 +1,8 @@
-import type { DynamicIcon } from 'lucide-react/dynamic'
 import type { ComponentProps, ReactNode } from 'react'
 import { raspberryPiIconPath } from './consts'
 import type { techStack } from '~/lib/tech-stack'
-import { Button } from '~/components/common/tooltip'
 import type { ExtendArray } from '~/lib/types'
+import type { SvgIcon } from '~/icons/material-symbol-icons'
 
 export enum ProjectsGroup {
   WebDevelopment = 'web-development',
@@ -24,7 +23,7 @@ type ProjectsGroupInfoSchema = {
   title: string
   thumbnail: string
   description: string
-  icon: ComponentProps<typeof DynamicIcon>['name'] | { svgPath: string }
+  icon: ComponentProps<typeof SvgIcon>['icon'] | { svgPath: string }
   projects: Array<ProjectSchema>
 }
 
@@ -34,7 +33,7 @@ export const projectsGroupsInfo = {
     thumbnail: '/img/quick-access-thumbnails/web-dev.webp',
     description:
       "These are projects that I did in my free time.\n\nI only want to share projects that I completed independently, so I'm not including work projects, as they are team efforts and don't accurately reflect my individual skills.\n\nPlease note that some of the projects listed on this page are outdated and based on obsolete technologies.\nThe tech stack I'm familiar with today is quite different and more modern.",
-    icon: 'globe',
+    icon: 'Web',
     projects: [
       {
         title: 'In2RP website',
@@ -82,7 +81,7 @@ export const projectsGroupsInfo = {
     thumbnail: '/img/quick-access-thumbnails/game-dev.webp',
     description:
       "I've always wanted to make games.\nBelow are some examples of games I've made in my spare time.",
-    icon: 'gamepad',
+    icon: 'Gamepad',
     projects: [
       {
         title: 'Berta Snakes',
@@ -140,11 +139,14 @@ export const projectsGroupsInfo = {
             players. Basically, an index.html file can be opened locally and it will still work as a
             multiplayer game.
             <br />
+            {/* 
+              TODO: refine here and similar cases below 
             <Button asChild variant="link" className="px-0">
               <a href="https://en.wikipedia.org/wiki/Ultimate_tic-tac-toe" target="_blank">
                 Wikipedia link
               </a>
             </Button>
+              */}
           </>
         ),
         linkToGithubRepo: 'https://github.com/Aktyn/Ten-tac-toe',
@@ -172,7 +174,7 @@ export const projectsGroupsInfo = {
     thumbnail: '/img/quick-access-thumbnails/computer-graphics.webp',
     description:
       "Computer graphics is also one of my passions that I can share here. I'm not a professional in this field, but I like to create some graphics from time to time.",
-    icon: 'images',
+    icon: 'PhotoLibrary',
     projects: [
       {
         title: 'Blender renders',
@@ -183,11 +185,12 @@ export const projectsGroupsInfo = {
             <br />I also use GIMP for creating textures or some post-processing of my renders.
             <br />
             Most of my renders with full quality can be found here:&ensp;
+            {/* TODO
             <Button asChild variant="link" className="px-0">
               <a href="https://github.com/Aktyn/Blender-portfolio/tree/master/img" target="_blank">
                 &lt;link&gt;
               </a>
-            </Button>
+            </Button>*/}
           </>
         ),
         linkToGithubRepo: 'https://github.com/Aktyn/Blender-portfolio',

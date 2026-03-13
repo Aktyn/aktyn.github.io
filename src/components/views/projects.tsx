@@ -1,7 +1,7 @@
 import 'devicon/devicon.min.css'
 import { Suspense, useMemo } from 'react'
 import { TechBadge } from '~/components/badges/tech-badge'
-import { ScrollDownButton } from '~/components/buttons/ScollDownButton'
+import { ScrollDownButton } from '~/components/buttons/scroll-down-button'
 import { GithubIcon } from '~/icons/GithubIcon'
 import {
   Button,
@@ -15,7 +15,7 @@ import {
 import { ProjectsGroup, projectsGroupsInfo } from '~/lib/projects-info'
 import { cn, forceArray } from '~/lib/utils'
 import { ViewModule } from '~/modules/view.module'
-import { ImagesStrip } from '../gallery/images-strip'
+import { ImagesStrip } from '../content/sections/journey/images-strip'
 
 const DELAY_BASE = 150
 const projectsGroupsArray = Object.values(ProjectsGroup)

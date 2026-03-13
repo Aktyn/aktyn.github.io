@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react'
-import type { DynamicIcon } from 'lucide-react/dynamic'
+import { type SvgIcon } from '~/icons/material-symbol-icons'
 
 export enum TechStackCategory {
   Frontend = 'frontend',
@@ -12,7 +12,7 @@ export const techStackInfo = {
     title: 'Frontend',
     description: 'This is my main area of expertise, as well as the type of work I enjoy the most.',
     thumbnail: '/img/quick-access-thumbnails/react.webp',
-    icon: 'monitor-smartphone',
+    icon: 'Devices',
     stackGroups: [
       {
         title: 'Languages & Markup',
@@ -45,7 +45,7 @@ export const techStackInfo = {
     description:
       "I've learned backend development through work experience and personal projects.\nHere's what I'm most familiar with.",
     thumbnail: '/img/quick-access-thumbnails/nodejs.webp',
-    icon: 'server-cog',
+    icon: 'Terminal',
     stackGroups: [
       {
         title: 'Languages & Platforms',
@@ -70,7 +70,7 @@ export const techStackInfo = {
     description:
       'Here are some non-coding tools that I have experience using.\nBy the way, I work on Linux.',
     thumbnail: '/img/quick-access-thumbnails/jira.webp',
-    icon: 'tool-case',
+    icon: 'Construction',
     stackGroups: [
       {
         title: 'Graphics and design',
@@ -87,7 +87,7 @@ export const techStackInfo = {
     title: string
     description: string
     thumbnail: string
-    icon: ComponentProps<typeof DynamicIcon>['name'] | { svgPath: string }
+    icon: ComponentProps<typeof SvgIcon>['icon'] | { svgPath: string }
     stackGroups: Array<{
       title?: string
       stack: Array<keyof typeof techStack>

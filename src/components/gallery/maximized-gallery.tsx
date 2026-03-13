@@ -1,10 +1,8 @@
-import { Button } from '~/components/common/tooltip'
-import { X } from 'lucide-react'
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { type ComponentProps, Fragment, useEffect, useRef, useState } from 'react'
 import { clamp, cn } from '~/lib/utils'
 import { GalleryPagination } from '~/components/gallery/gallery-pagination'
-import { DynamicIcon } from 'lucide-react/dynamic'
 import { useStateToRef } from '~/hooks/useStateToRef'
+import { SvgIcon } from '~/icons/material-symbol-icons'
 
 type MaximizedGalleryProps = {
   open: boolean
@@ -15,16 +13,20 @@ type MaximizedGalleryProps = {
   onIndexChange: (index: number) => void
 }
 
-const arrows = [
+const arrows: Array<{
+  direction: -1 | 1
+  className: string
+  icon: ComponentProps<typeof SvgIcon>['icon']
+}> = [
   {
     direction: -1,
     className: 'left-1 slide-in-from-left slide-out-to-left',
-    icon: 'chevron-left',
+    icon: 'ChevronLeft',
   },
   {
     direction: 1,
     className: 'right-1 slide-in-from-right slide-out-to-right',
-    icon: 'chevron-right',
+    icon: 'ChevronRight',
   },
 ] as const
 
@@ -37,6 +39,8 @@ export function MaximizedGallery({
   onIndexChange,
 }: MaximizedGalleryProps) {
   const slidingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // TODO: use animejs for animations
 
   const [mounted, setMounted] = useState(false)
   const [entryAnimation, setEntryAnimation] = useState(true)
@@ -79,8 +83,6 @@ export function MaximizedGallery({
 
   useEffect(() => {
     if (open) {
-      // setPendingIndex(null)
-
       const handleKeyDown = (event: globalThis.KeyboardEvent) => {
         if (event.key === 'Escape') {
           onCloseRef.current()
@@ -108,8 +110,6 @@ export function MaximizedGallery({
         document.removeEventListener('keydown', handleKeyDown)
         clearTimeout(timeout)
       }
-    } else {
-      // setEntryAnimation(true)
     }
 
     const timeout = setTimeout(() => {
@@ -148,7 +148,7 @@ export function MaximizedGallery({
       <div className="relative flex size-full flex-col items-center justify-center *:absolute">
         <div
           className={cn(
-            'duration-bounce inset-0 bg-background transition-opacity ease-in-out starting:opacity-0',
+            'inset-0 bg-background transition-opacity duration-spring ease-spring starting:opacity-0',
             open ? 'opacity-100' : 'opacity-0',
           )}
         />
@@ -156,7 +156,7 @@ export function MaximizedGallery({
           <Fragment key={img}>
             <div
               className={cn(
-                'duration-bounce inset-0 z-10 overflow-hidden fill-mode-both',
+                'inset-0 z-10 overflow-hidden duration-spring fill-mode-both',
                 open ? 'animate-in delay-300 fade-in' : 'animate-out fade-out',
               )}
             >
@@ -192,7 +192,7 @@ export function MaximizedGallery({
                   alt="maximized-image"
                   src={img}
                   className={cn(
-                    'duration-bounce h-auto max-h-full max-w-full object-contain fill-mode-both not-data-[state=positioned]:transition-[transform,opacity]',
+                    'h-auto max-h-full max-w-full object-contain duration-spring fill-mode-both not-data-[state=positioned]:transition-[transform,opacity]',
                     entryAnimation ? 'starting:opacity-0' : 'starting:opacity-100',
                     sourceBounds && open ? 'transition-none' : 'opacity-0 transition-opacity',
                     open && 'opacity-100',
@@ -218,10 +218,11 @@ export function MaximizedGallery({
           arrows.map((arrow, arrowIndex) => {
             const allowed = arrowIndex === 0 ? index > 0 : index < images.length - 1
             return (
-              <Button
+              <button
                 key={arrowIndex}
-                variant="outline"
-                size="icon"
+                // TODO: test in multi-image gallery
+                // variant="outline"
+                // size="icon"
                 className={cn(
                   'inset-y-auto z-30 bg-background/50 duration-600 fill-mode-both fade-in fade-out',
                   arrow.className,
@@ -229,13 +230,13 @@ export function MaximizedGallery({
                 )}
                 onClick={() => handleNavigate(arrow.direction)}
               >
-                <DynamicIcon name={arrow.icon} />
-              </Button>
+                <SvgIcon icon={arrow.icon} />
+              </button>
             )
           })}
-        <Button
-          variant="outline"
-          size="icon"
+        <button
+          // variant="outline"
+          // size="icon"
           className={cn(
             'top-2 right-2 z-30 duration-600 fill-mode-both',
             open
@@ -244,8 +245,8 @@ export function MaximizedGallery({
           )}
           onClick={onClose}
         >
-          <X />
-        </Button>
+          <SvgIcon icon="Close" className="size-6" />
+        </button>
       </div>
     </div>
   )

@@ -1,7 +1,7 @@
-import { MoveDown, MoveRight } from 'lucide-react'
 import { type ComponentProps, type ReactNode } from 'react'
+import { Separator } from '~/components/common/separator'
+import { SvgIcon } from '~/icons/material-symbol-icons'
 import { cn } from '~/lib/utils'
-import { Separator } from '~/components/common/tooltip'
 
 type TreeTimelineProps = ComponentProps<'div'> & {
   header?: ReactNode
@@ -13,9 +13,9 @@ type TreeTimelineProps = ComponentProps<'div'> & {
 
 export function TreeTimeline({ header, items, ...divProps }: TreeTimelineProps) {
   return (
-    <div {...divProps} className={cn('flex flex-col', divProps.className)}>
+    <div {...divProps} className={cn('flex flex-col font-medium', divProps.className)}>
       {header}
-      <Separator className="bg-linear-to-r from-transparent via-foreground/20 to-transparent max-sm:via-[calc(var(--spacing)*2)] sm:max-w-64 sm:via-25%" />
+      <Separator className="bg-transparent bg-linear-to-r from-transparent via-foreground/20 to-transparent max-sm:via-[calc(var(--spacing)*2)] sm:max-w-64 sm:via-25%" />
       <div className="flex flex-col">
         <div className="flex w-32 sm:justify-center">
           <span className="h-4 w-px bg-foreground/20 max-sm:ml-2" />
@@ -32,14 +32,14 @@ export function TreeTimeline({ header, items, ...divProps }: TreeTimelineProps) 
                   index === 0 && 'max-sm:min-h-0',
                 )}
               />
-              <div className="w-full rounded-md border border-foreground/20 bg-muted-foreground/10 px-2 py-0.5 text-center text-sm font-semibold text-foreground/60 sm:px-1">
+              <div className="w-full rounded-md border border-foreground/50 bg-foreground/10 fill-foreground-darker px-2 py-0.5 text-center text-sm font-semibold text-foreground-darker sm:px-1">
                 {typeof item.date === 'string' ? (
                   item.date
                 ) : (
                   <div className="flex items-center justify-stretch max-sm:gap-1 sm:w-auto sm:flex-col">
                     <span>{item.date.start}</span>
-                    <MoveDown className="size-4 text-muted-foreground max-sm:hidden" />
-                    <MoveRight className="size-4 text-muted-foreground sm:hidden" />
+                    <SvgIcon icon="South" className="size-4 text-muted-foreground max-sm:hidden" />
+                    <SvgIcon icon="East" className="size-4 text-muted-foreground sm:hidden" />
                     <span>{item.date.end}</span>
                   </div>
                 )}

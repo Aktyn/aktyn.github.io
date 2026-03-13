@@ -6,21 +6,21 @@ export function App() {
   const sceneContainerRef = useRef<HTMLDivElement>(null)
 
   return (
-    <div className="relative h-dvh max-h-dvh w-dvw overflow-hidden bg-background-lighter">
-      <div ref={sceneContainerRef} className="pointer-events-none" />
+    <div className="relative not-print:h-dvh not-print:w-dvw not-print:overflow-hidden not-print:bg-background-lighter">
+      <div ref={sceneContainerRef} className="pointer-events-none absolute inset-0 print:hidden" />
 
       {/* This div hides edge of the hexagonal grid */}
       <div
-        className="absolute inset-0 size-full"
+        className="absolute inset-0 size-full print:hidden"
         style={{
           backgroundImage: `linear-gradient(
-              90deg,
-              var(--color-background-visual) 0%,
-              var(--color-background-visual) calc(50% - 140dvh),
-              transparent calc(50% - 100dvh),
-              transparent calc(50% + 100dvh),
-              var(--color-background-visual) calc(50% + 140dvh),
-              var(--color-background-visual) 100%
+            90deg,
+            var(--color-background-visual) 0%,
+            var(--color-background-visual) calc(50% - 140dvh),
+            transparent calc(50% - 100dvh),
+            transparent calc(50% + 100dvh),
+            var(--color-background-visual) calc(50% + 140dvh),
+            var(--color-background-visual) 100%
             )`,
         }}
       />

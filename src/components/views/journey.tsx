@@ -4,16 +4,16 @@ import type { ComponentProps, ReactNode } from 'react'
 import { journeyInfo, JourneySection } from '~/lib/journey-info'
 import { cn } from '~/lib/utils'
 import { ViewModule } from '~/modules/view.module'
-import { ScrollDownButton } from '../buttons/ScollDownButton'
+import { ScrollDownButton } from '../buttons/scroll-down-button'
 import { GithubIcon } from '../../icons/GithubIcon'
-import { CompactImagesStrip } from '../misc/journey-contents/compact-images-strip'
+import { CompactImagesStrip } from '../content/sections/journey/compact-images-strip'
 import {
   freeTimeProjectsTimelineItems,
   schoolTimelineItems,
   universityTimelineItems,
   workExperienceTimelineItems,
-} from '../misc/journey-contents/timeline-items'
-import { TreeTimeline } from '../misc/tree-timeline'
+} from '../content/sections/journey/timeline-items'
+import { TreeTimeline } from '../content/sections/journey/tree-timeline'
 import {
   Badge,
   Separator,
@@ -24,6 +24,7 @@ import {
 
 const DELAY_BASE = 150
 
+/** @deprecated */
 export function Journey() {
   const { view, setView, viewChangeDirection } = ViewModule.useView()
 
@@ -198,7 +199,7 @@ export function Journey() {
           className="view-transition-base text-sm text-muted-foreground"
           style={getDelayedStyle(13)}
         >
-          More details and images can be found in the next view
+          More details and images can be found in the next section
         </div>
       </section>
       <ScrollDownButton

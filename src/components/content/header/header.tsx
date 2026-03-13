@@ -35,7 +35,7 @@ export function Header() {
     <header
       ref={ref}
       data-id={mainHeaderID}
-      className="pointer-events-none absolute top-0 bottom-auto z-20 -mb-header flex min-h-header w-full max-w-screen flex-row flex-wrap items-center justify-between p-2 delay-1000 *:pointer-events-auto"
+      className="pointer-events-none absolute top-0 bottom-auto z-10 -mb-header flex min-h-header w-full max-w-screen flex-row flex-wrap items-center justify-between p-2 delay-1000 *:pointer-events-auto"
       data-entry-animation-type="from-bottom"
     >
       <div className="flex flex-row items-center gap-x-4">
