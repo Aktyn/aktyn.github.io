@@ -16,19 +16,19 @@ export enum Section {
 
 export const sectionData = {
   [Section.Intro]: {
-    // title: '',
+    title: '',
     extendedTitle: '',
   },
   [Section.MyJourney]: {
-    // title: 'Experience',
+    title: 'Experience',
     extendedTitle: 'My journey in the software world',
   },
   [Section.PublicProjects]: {
-    // title: 'Projects',
+    title: 'Projects',
     extendedTitle: 'Noncommercial projects',
   },
   [Section.TechStack]: {
-    // title: 'Tech stack',
+    title: 'Tech stack',
     extendedTitle: 'My technical skills and known tools',
   },
 } as const satisfies { [key in Section]: object }

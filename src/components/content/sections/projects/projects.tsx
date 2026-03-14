@@ -10,6 +10,8 @@ import { ViewModule } from '~/modules/view.module'
 import { Separator } from '~/components/common/separator'
 import { ScrollArea } from '~/components/common/scroll-area'
 import { ImagesStrip } from '../common/images-strip'
+import { Section } from '~/lib/consts'
+import { SectionContainer } from '../section-container'
 
 const DELAY_BASE = 150
 const projectsGroupsArray = Object.values(ProjectsGroup)
@@ -36,7 +38,8 @@ export function Projects() {
   }, [viewChangeDirection])
 
   return (
-    <div className="flex size-full min-h-full max-w-full flex-col items-stretch justify-start gap-y-16 p-6">
+    // <div className="flex size-full flex-col items-stretch justify-start gap-y-16 p-6">
+    <SectionContainer section={Section.PublicProjects}>
       <div
         className={cn(
           'transition-[height] ease-linear',
@@ -51,7 +54,7 @@ export function Projects() {
       <ScrollDownButton className="mt-[25dvh]" onClick={() => setView(ViewModule.View.TechStack)}>
         Next view
       </ScrollDownButton>
-    </div>
+    </SectionContainer>
   )
 }
 

@@ -1,11 +1,11 @@
+import { createDraggable, createScope, spring } from 'animejs'
 import { type RefObject, useEffect, useImperativeHandle, useMemo, useRef } from 'react'
+import { isWebglAvailable } from '~/graphics/graphics-helpers'
 import { materialSymbolIcons, materialSymbolProps } from '~/icons/material-symbol-icons'
-import { LOGO_PATH, mainHeaderID, Section } from '~/lib/consts'
+import { LOGO_PATH, mainHeaderID } from '~/lib/consts'
 import type { ProjectedComponentRef } from '../content-helpers'
 import { ProjectedIcon } from '../projected-elements/projected-icon'
 import { ProjectedText } from '../projected-elements/projected-text'
-import { createDraggable, createScope, spring } from 'animejs'
-import { isWebglAvailable } from '~/graphics/graphics-helpers'
 import { WebGlSwitch } from './webgl-switch'
 
 export type HeaderInterfaceRef = {
@@ -63,12 +63,7 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
       data-entry-animation-type="from-bottom"
     >
       <div className="flex flex-row items-center gap-x-4">
-        <a
-          ref={logoRef}
-          href={`#${Section.Intro}`}
-          draggable={false}
-          className="fill-current select-none"
-        >
+        <a ref={logoRef} href={`#`} draggable={false} className="fill-current select-none">
           <ProjectedIcon ref={projectedLogoRef} path={LOGO_PATH} size={32} lowPriority />
         </a>
         {webGLAvailable && <WebGlSwitch />}

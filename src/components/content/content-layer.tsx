@@ -9,6 +9,9 @@ import { Intro } from './sections/intro/intro'
 import { Journey } from './sections/journey/journey'
 import { isTouchDevice } from '~/lib/dom-utils'
 import { ScrollArea } from '../common/scroll-area'
+import { Projects } from './sections/projects/projects'
+import { Sidebar } from '../navigation/sidebar'
+import { TechStack } from './sections/tech-stack/tech-stack'
 
 //TODO: about this site info (purpose, used technologies, etc)
 
@@ -18,6 +21,7 @@ export function ContentLayer() {
   const scrollDownButtonContainerRef = useRef<HTMLDivElement>(null)
   const introRef = useRef<HTMLDivElement | null>(null)
   const journeyRef = useRef<HTMLDivElement | null>(null)
+  const sectionsContainerRef = useRef<HTMLDivElement | null>(null)
 
   // Scroll linked animations
   useEffect(() => {
@@ -113,23 +117,25 @@ export function ContentLayer() {
         <ScrollArea
           className="flex flex-col items-center not-print:size-full"
           contentContainerProps={{
-            className: 'print:mask-none!',
+            className:
+              'print:mask-none! w-full *:grid! max-3xl:*:grid-cols-1 min-7xl:*:grid-cols-1 print:*:grid-cols-1 *:grid-cols-[1fr_auto_1fr]',
             style: {
               maskImage:
                 'linear-gradient(to bottom, #fff0, #fff calc(var(--spacing)*10), #fff calc(100% - var(--spacing)*10), #fff0)',
             },
           }}
         >
-          <div className="flex flex-col items-center justify-start not-print:*:min-h-dvh">
-            <Intro ref={introRef} />
-          </div>
+          <Sidebar className="max-3xl:hidden" sectionsContainerRef={sectionsContainerRef} />
 
-          <div className="grid grid-cols-[1fr_auto_1fr] not-print:pt-16 max-2xl:w-screen">
-            {/* TODO: responsive navigation sidebar */}
-            <aside>todo - sidebar</aside>
-            <div className="flex flex-col">
-              <Journey ref={journeyRef} className="shrink" />
-              {/* <Projects /> */}
+          <div className="mx-auto max-w-7xl">
+            <div className="flex flex-col items-center justify-start not-print:*:min-h-dvh">
+              <Intro ref={introRef} />
+            </div>
+
+            <div ref={sectionsContainerRef} className="flex max-w-dvw flex-col">
+              <Journey ref={journeyRef} />
+              <Projects />
+              <TechStack />
             </div>
           </div>
         </ScrollArea>

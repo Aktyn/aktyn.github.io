@@ -1,14 +1,22 @@
-import { type ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
+import type { JourneySection } from '~/lib/journey-info'
+import type { ProjectsGroup } from '~/lib/projects-info'
+import type { TechStackCategory } from '~/lib/tech-stack'
 import { cn } from '~/lib/utils'
 
-export function Article(props: ComponentProps<'article'>) {
+type ArticleProps = ComponentProps<'article'> & {
+  articleKey: JourneySection | ProjectsGroup | TechStackCategory
+}
+
+export function Article({ articleKey, className, ...props }: ArticleProps) {
   return (
     <article
+      id={articleKey}
       {...props}
       className={cn(
-        'relative flex w-full max-w-7xl flex-col gap-3 overflow-hidden rounded-xl border-border/40 p-3 not-print:border-2 not-print:shadow-xl',
+        'relative flex w-full flex-col gap-3 overflow-hidden rounded-xl border-border/40 p-3 not-print:border-2 not-print:shadow-xl',
         'bg-linear-150 from-background/30 via-background/60 to-background/30 bg-repeat print:bg-none!',
-        props.className,
+        className,
       )}
       style={{
         background: 'linear-gradient(var(--tw-gradient-stops)), url(/img/noise.png)',

@@ -22,6 +22,7 @@ type NavigationProps = {
   mainContainerRef: RefObject<HTMLDivElement | null>
 }
 
+/** @deprecated */
 export function Navigation({ mainContainerRef }: NavigationProps) {
   const { view, setView } = ViewModule.useView()
   const enableNavigation = view !== ViewModule.View.Intro
