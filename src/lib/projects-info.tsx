@@ -1,8 +1,7 @@
 import type { ComponentProps, ReactNode } from 'react'
-import { raspberryPiIconPath } from './consts'
+import type { SvgIcon } from '~/icons/material-symbol-icons'
 import type { techStack } from '~/lib/tech-stack'
 import type { ExtendArray } from '~/lib/types'
-import type { SvgIcon } from '~/icons/material-symbol-icons'
 
 export enum ProjectsGroup {
   WebDevelopment = 'web-development',
@@ -23,7 +22,7 @@ type ProjectsGroupInfoSchema = {
   title: string
   thumbnail: string
   description: string
-  icon: ComponentProps<typeof SvgIcon>['icon'] | { svgPath: string }
+  icon: ComponentProps<typeof SvgIcon>['icon']
   projects: Array<ProjectSchema>
 }
 
@@ -211,7 +210,7 @@ export const projectsGroupsInfo = {
     title: 'Raspberry Pi',
     thumbnail: '/img/quick-access-thumbnails/raspberry-pi.webp',
     description: 'My other computer-related hobby is building things with Raspberry Pi boards.',
-    icon: { svgPath: raspberryPiIconPath },
+    icon: 'RaspberryPi',
     projects: [
       {
         title: 'Experimental robot',

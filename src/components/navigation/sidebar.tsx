@@ -1,14 +1,13 @@
-import { animate, onScroll } from 'animejs'
+import { animate, onScroll, stagger, svg } from 'animejs'
 import { type ComponentPropsWithoutRef, type RefObject, useEffect, useRef } from 'react'
 import { SvgIcon } from '~/icons/material-symbol-icons'
 import { contentViewportID, Section, sectionData } from '~/lib/consts'
 import { cn } from '~/lib/utils'
 import { ScrollArea } from '../common/scroll-area'
+import { Connector } from './connector'
 import { NavItem } from './nav-item'
 
 type UpdateListener = () => unknown
-
-//TODO: lines connecting section buttons with their corresponding containers
 
 const sectionsArray = Object.values(Section).filter(
   (section) => section !== Section.Intro,
@@ -25,10 +24,10 @@ export function Sidebar({ sectionsContainerRef, ...props }: SidebarProps) {
 
   useEffect(() => {
     const sidebar = sidebarRef.current
+    const connector = sidebar?.querySelector('[data-slot="sidebar-connector"]')
     const sectionsContainer = sectionsContainerRef.current
-    // const scrollableContainer = document.
 
-    if (!sidebar || !sectionsContainer) {
+    if (!sidebar || !sectionsContainer || !connector || !(connector instanceof HTMLElement)) {
       return
     }
 
@@ -39,20 +38,38 @@ export function Sidebar({ sectionsContainerRef, ...props }: SidebarProps) {
       autoplay: onScroll({
         container: `#${contentViewportID} [data-radix-scroll-area-viewport]`,
         target: sectionsContainer,
-        // Enters when the top of the target meets the bottom of the container
-        // enter: { target: 'top', container: 'bottom' },
-        // Leaves when the bottom of the target meets the top of the container
-        // leave: { target: 'bottom', container: 'top' }
         enter: { target: 'top', container: 'center' },
         leave: { target: 'bottom', container: 'center' },
         sync: 'play reverse play reverse',
-        onUpdate: () => updateListenersRef.current.forEach((listener) => listener()),
+        onUpdate: () => {
+          updateListenersRef.current.forEach((listener) => listener())
+        },
+        // debug: import.meta.env.DEV,
+      }),
+    })
+
+    const pathElements = connector.querySelectorAll('path')
+    const pathAnimation = animate(svg.createDrawable(pathElements), {
+      draw: ['0 0', '0 1'],
+      duration: 1000,
+      delay: stagger(150),
+      ease: 'inExpo',
+      autoplay: onScroll({
+        container: `#${contentViewportID} [data-radix-scroll-area-viewport]`,
+        target: sectionsContainer,
+        enter: { target: 'top', container: 'top+=8rem' },
+        leave: { target: 'bottom', container: 'top-=8rem' },
+        sync: 'play reverse play reverse',
+        onUpdate: () => {
+          updateListenersRef.current.forEach((listener) => listener())
+        },
         // debug: import.meta.env.DEV,
       }),
     })
 
     return () => {
       sidebarAnimation.revert()
+      pathAnimation.revert()
     }
   }, [sectionsContainerRef])
 
@@ -69,12 +86,13 @@ export function Sidebar({ sectionsContainerRef, ...props }: SidebarProps) {
       ref={sidebarRef}
       {...props}
       className={cn(
-        'sticky top-0 flex h-screen flex-col items-start justify-start max-4xl:justify-self-start 4xl:items-end print:hidden',
+        'sticky top-0 flex h-dvh w-full flex-row items-start justify-start overflow-hidden max-4xl:justify-self-start 4xl:justify-end print:hidden',
         props.className,
       )}
     >
       <ScrollArea
-        contentContainerProps={{ className: '*:px-4 *:py-8 *:flex! *:flex-col *:gap-y-4' }}
+        className="max-h-full"
+        contentContainerProps={{ className: '*:pl-4 *:py-8 *:flex! *:flex-col *:gap-y-4' }}
       >
         <NavItem
           section={Section.Intro}
@@ -95,6 +113,7 @@ export function Sidebar({ sectionsContainerRef, ...props }: SidebarProps) {
           </NavItem>
         ))}
       </ScrollArea>
+      <Connector sectionsContainerRef={sectionsContainerRef} />
     </aside>
   )
 }

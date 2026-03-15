@@ -126,10 +126,7 @@ function SvgBase(props: ComponentPropsWithoutRef<'svg'>) {
       data-entry-animation-type="fade-in"
       {...commonSvgProps}
       {...props}
-      className={cn(
-        'absolute inset-0 size-full *:[line]:fixed *:[line]:fill-red-200',
-        props.className,
-      )}
+      className={cn('absolute inset-0 size-full', props.className)}
       strokeDashoffset="100%"
     />
   )

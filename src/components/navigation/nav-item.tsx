@@ -1,27 +1,27 @@
+import { animate, onScroll, type TargetsParam } from 'animejs'
 import {
-  type PropsWithChildren,
-  useRef,
   useEffect,
   useMemo,
+  useRef,
   type ComponentProps,
+  type PropsWithChildren,
   type RefObject,
 } from 'react'
+import { materialSymbolProps, SvgIcon } from '~/icons/material-symbol-icons'
 import { contentViewportID, Section } from '~/lib/consts'
-import { JourneySection, journeyInfo } from '~/lib/journey-info'
+import { journeyInfo, JourneySection } from '~/lib/journey-info'
 import { ProjectsGroup, projectsGroupsInfo } from '~/lib/projects-info'
 import { TechStackCategory, techStackInfo } from '~/lib/tech-stack'
 import { cn } from '~/lib/utils'
 import { type ProjectedComponentRef } from '../content/content-helpers'
 import { ProjectedContainer } from '../content/projected-elements/projected-container'
-import { type SvgIcon } from '~/icons/material-symbol-icons'
-import { animate, onScroll, type TargetsParam } from 'animejs'
 
 type UpdateListener = () => unknown
 
 type SubItemData = {
   key: string
   title: string
-  icon: ComponentProps<typeof SvgIcon>['icon'] | { svgPath: string }
+  icon: ComponentProps<typeof SvgIcon>['icon']
 }
 
 type UpdatableProps = {
@@ -41,7 +41,7 @@ export function NavItem({ children, section, ...updatableInterface }: NavItemPro
   const sectionIndex = Object.values(Section).indexOf(section)
 
   useUpdatable(ref, updatableInterface)
-  useProximityScale(ref, `#${section}`, section !== Section.Intro)
+  useNavItemAnimation(ref, `#${section}`, section !== Section.Intro)
 
   const subItems = useMemo<SubItemData[]>(() => {
     switch (section) {
@@ -71,7 +71,8 @@ export function NavItem({ children, section, ...updatableInterface }: NavItemPro
   return (
     <div
       className={cn(
-        'flex min-w-54 flex-col items-center gap-1 *:mx-auto',
+        'flex min-w-54 flex-col items-center gap-1',
+        section === Section.Intro && 'items-stretch',
         sectionIndex === 1 &&
           '*:text-[color-mix(in_oklch,var(--color-foreground-tetradic-1)_40%,var(--color-foreground))]',
         sectionIndex === 2 &&
@@ -84,6 +85,7 @@ export function NavItem({ children, section, ...updatableInterface }: NavItemPro
         ref={ref}
         as="a"
         rounding={6}
+        data-slot="navigation-item"
         href={`#${section}`}
         className={cn(
           'flex flex-row items-center justify-center gap-1 rounded-md border border-foreground/40 bg-foreground/20 px-3 py-1 text-lg font-medium hover:border-foreground-complementary/40 hover:bg-foreground-complementary/20 hover:text-foreground-complementary *:[svg]:size-5',
@@ -110,21 +112,31 @@ function SubItem({ item, sectionIndex, ...updatableInterface }: SubItemProps) {
   const ref = useRef<ProjectedComponentRef>(null)
 
   useUpdatable(ref, updatableInterface)
-  useProximityScale(ref, `#${item.key}`)
+  useNavItemAnimation(ref, `#${item.key}`)
 
   return (
     <ProjectedContainer
       ref={ref}
       as="a"
       rounding={6}
+      data-slot="navigation-item"
+      data-section-index={sectionIndex} // Used in connector to colorize lines
       href={`#${item.key}`}
       className={cn(
-        'flex flex-row items-center justify-center rounded-md bg-foreground/20 px-1.5 py-0.5 text-sm hover:text-foreground-complementary',
+        'flex flex-row items-center justify-center gap-1 rounded-md bg-foreground/20 px-1.5 py-0.5 text-sm hover:text-foreground-complementary *:[svg]:size-4',
         sectionIndex === 1 && 'bg-foreground-tetradic-1/15',
         sectionIndex === 2 && 'bg-foreground-tetradic-2/15',
         sectionIndex === 3 && 'bg-foreground-tetradic-3/15',
       )}
     >
+      <SvgIcon
+        viewBox={
+          item.key === ProjectsGroup.RaspberryPi.toString()
+            ? '0 0 48 48'
+            : materialSymbolProps.viewBox
+        }
+        icon={item.icon}
+      />
       {item.title}
     </ProjectedContainer>
   )
@@ -145,7 +157,7 @@ function useUpdatable(
   }, [ref, updatableInterface])
 }
 
-function useProximityScale(
+function useNavItemAnimation(
   projectedRef: RefObject<ProjectedComponentRef | null>,
   target: TargetsParam,
   enable = true,
@@ -159,15 +171,16 @@ function useProximityScale(
 
     const animation = animate(element, {
       width: ['90%', '100%'],
-      duration: 600,
-      ease: 'inOutCirc',
+      marginLeft: ['10%', '0%'],
+      duration: 800,
+      ease: 'inOutBack(1.7)',
       autoplay: onScroll({
         container: `#${contentViewportID} [data-radix-scroll-area-viewport]`,
         target,
         enter: { target: 'top+=8rem', container: 'bottom' },
         leave: { target: 'bottom-=8rem', container: 'top' },
         sync: 'play reverse play reverse',
-        debug: import.meta.env.DEV,
+        // debug: import.meta.env.DEV,
       }),
     })
 
