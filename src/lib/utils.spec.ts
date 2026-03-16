@@ -5,9 +5,13 @@ import {
   compareArrays,
   debounce,
   forceArray,
+  mix,
+  mixColors,
+  omit,
+  pick,
 } from './utils'
 
-describe(clamp.name, () => {
+describe(clamp, () => {
   it('should return the value if it is within the range', () => {
     expect(clamp(5, 0, 10)).toBe(5)
   })
@@ -25,7 +29,7 @@ describe(clamp.name, () => {
   })
 })
 
-describe(compareArrays.name, () => {
+describe(compareArrays, () => {
   it('should return true for identical arrays', () => {
     expect(compareArrays([1, 2, 3], [1, 2, 3])).toBe(true)
   })
@@ -60,7 +64,7 @@ describe(compareArrays.name, () => {
   })
 })
 
-describe(debounce.name, () => {
+describe(debounce, () => {
   beforeEach(() => {
     jest.useFakeTimers()
   })
@@ -101,7 +105,7 @@ describe(debounce.name, () => {
   })
 })
 
-describe(forceArray.name, () => {
+describe(forceArray, () => {
   it('should return an array if the value is an array', () => {
     expect(forceArray([1, 2, 3])).toEqual([1, 2, 3])
   })
@@ -118,5 +122,83 @@ describe(calculateLinearlyWeightedAverage, () => {
 
   it('should return 0 for an empty array', () => {
     expect(calculateLinearlyWeightedAverage([])).toBe(0)
+  })
+})
+
+describe(mix, () => {
+  it('should return left value when factor is 0', () => {
+    expect(mix(10, 20, 0)).toBe(10)
+  })
+
+  it('should return right value when factor is 1', () => {
+    expect(mix(10, 20, 1)).toBe(20)
+  })
+
+  it('should return middle value when factor is 0.5', () => {
+    expect(mix(10, 20, 0.5)).toBe(15)
+  })
+
+  it('should clamp factor to 0-1 range', () => {
+    expect(mix(10, 20, -1)).toBe(10)
+    expect(mix(10, 20, 2)).toBe(20)
+  })
+})
+
+describe(mixColors, () => {
+  it('should return left color when factor is 0', () => {
+    expect(mixColors(0xff0000, 0x0000ff, 0)).toBe(0xff0000)
+  })
+
+  it('should return right color when factor is 1', () => {
+    expect(mixColors(0xff0000, 0x0000ff, 1)).toBe(0x0000ff)
+  })
+
+  it('should mix colors correctly when factor is 0.5', () => {
+    expect(mixColors(0xff0000, 0x0000ff, 0.5)).toBe(0x7f007f)
+  })
+
+  it('should clamp factor to 0-1 range', () => {
+    expect(mixColors(0xff0000, 0x0000ff, -1)).toBe(0xff0000)
+    expect(mixColors(0xff0000, 0x0000ff, 2)).toBe(0x0000ff)
+  })
+})
+
+describe(omit, () => {
+  it('should omit specified keys from an object', () => {
+    const obj = { a: 1, b: 2, c: 3 }
+    expect(omit(obj, 'a', 'c')).toEqual({ b: 2 })
+  })
+
+  it('should return a new object', () => {
+    const obj = { a: 1, b: 2 }
+    const result = omit(obj, 'a')
+    expect(result).not.toBe(obj)
+    expect(result).toEqual({ b: 2 })
+  })
+
+  it('should ignore keys that do not exist', () => {
+    const obj = { a: 1, b: 2 }
+    // @ts-expect-error key 'c' does not exist but testing runtime behavior
+    expect(omit(obj, 'c')).toEqual({ a: 1, b: 2 })
+  })
+})
+
+describe(pick, () => {
+  it('should pick specified keys from an object', () => {
+    const obj = { a: 1, b: 2, c: 3 }
+    expect(pick(obj, 'a', 'c')).toEqual({ a: 1, c: 3 })
+  })
+
+  it('should return a new object', () => {
+    const obj = { a: 1, b: 2 }
+    const result = pick(obj, 'a')
+    expect(result).not.toBe(obj)
+    expect(result).toEqual({ a: 1 })
+  })
+
+  it('should ignore keys that do not exist', () => {
+    const obj = { a: 1, b: 2 }
+    // @ts-expect-error key 'c' does not exist but testing runtime behavior
+    expect(pick(obj, 'a', 'c')).toEqual({ a: 1 })
   })
 })

@@ -9,6 +9,17 @@ export function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max)
 }
 
+export function mix(left: number, right: number, factor: number) {
+  return left + (right - left) * clamp(factor, 0, 1)
+}
+
+export function mixColors(left: number, right: number, factor: number) {
+  const r = mix(left >> 16, right >> 16, factor)
+  const g = mix((left >> 8) & 0xff, (right >> 8) & 0xff, factor)
+  const b = mix(left & 0xff, right & 0xff, factor)
+  return (r << 16) | (g << 8) | b
+}
+
 export function compareArrays<T>(a: T[], b: T[]) {
   return a.length === b.length && a.every((value, index) => value === b[index])
 }
@@ -36,15 +47,6 @@ export function debounce<ArgsType extends unknown[]>(
 
 export function forceArray<T>(value: T | T[]): T[] {
   return Array.isArray(value) ? value : [value]
-}
-
-/** @deprecated images moved to `public` directory */
-export async function importImages(
-  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-  imports: Array<Promise<typeof import('*.webp')>>,
-) {
-  const modules = await Promise.all(imports)
-  return modules.map((module) => module.default)
 }
 
 export function omit<ObjectType extends object, Key extends keyof ObjectType>(

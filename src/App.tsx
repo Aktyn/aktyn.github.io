@@ -3,10 +3,11 @@ import { ContentLayer } from './components/content/content-layer'
 import { SceneContext, SceneProvider } from './components/content/scene-context'
 
 export function App() {
+  const ref = useRef<HTMLDivElement>(null)
   const sceneContainerRef = useRef<HTMLDivElement>(null)
 
   return (
-    <div className="relative not-print:h-dvh not-print:w-dvw not-print:overflow-hidden not-print:bg-background-lighter">
+    <div ref={ref} className="relative not-print:h-dvh not-print:w-dvw not-print:overflow-hidden">
       <div ref={sceneContainerRef} className="pointer-events-none absolute inset-0 print:hidden" />
 
       <SceneProvider containerRef={sceneContainerRef}>

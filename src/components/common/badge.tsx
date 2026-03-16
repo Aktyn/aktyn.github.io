@@ -6,7 +6,7 @@ export function Badge(props: ComponentProps<'div'>) {
     <div
       {...props}
       className={cn(
-        'rounded-md border border-foreground/50 px-1 py-0.5 text-xs font-semibold not-print:bg-foreground/10 print:border-black',
+        'rounded-md border border-foreground/50 bg-foreground/10 px-1 py-0.5 text-xs font-semibold',
         props.className,
       )}
     />

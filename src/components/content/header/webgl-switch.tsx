@@ -27,7 +27,7 @@ export function WebGlSwitch(props: ComponentProps<'div'>) {
       <div
         className={cn(
           'flex w-9 flex-row items-center rounded-full p-1 transition-colors hover:*:bg-foreground-lighter',
-          webGlEnabled ? 'bg-background/80' : 'bg-background-visual',
+          webGlEnabled ? 'bg-background/80' : 'bg-background/40',
         )}
         onClick={() => setWebGlEnabled(!webGlEnabled)}
       >

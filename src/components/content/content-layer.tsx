@@ -12,6 +12,8 @@ import { ScrollArea } from '../common/scroll-area'
 import { Projects } from './sections/projects/projects'
 import { Sidebar } from '../navigation/sidebar'
 import { TechStack } from './sections/tech-stack/tech-stack'
+import { cn } from '~/lib/utils'
+import { usePositionalColoring } from '~/hooks/usePositionalColoring'
 
 //TODO: about this site info (purpose, used technologies, etc)
 
@@ -102,6 +104,8 @@ export function ContentLayer() {
 
   useEntryAnimations(root)
 
+  usePositionalColoring(root)
+
   return (
     <>
       {/* Main background colors gradient */}
@@ -111,7 +115,11 @@ export function ContentLayer() {
       <div
         ref={root}
         id={contentViewportID}
-        className="pointer-events-auto relative inset-0 flex w-dvw max-w-dvw flex-col not-print:absolute not-print:h-dvh not-print:max-h-dvh not-print:text-shadow-background/20 not-print:text-shadow-md"
+        className={cn(
+          'pointer-events-auto relative inset-0 flex w-dvw max-w-dvw flex-col not-print:absolute not-print:h-dvh not-print:max-h-dvh not-print:text-shadow-background/20 not-print:text-shadow-md',
+          !webScene &&
+            'bg-background-lighter transition-[background-color] duration-700 ease-linear',
+        )}
       >
         <Header ref={headerRef} />
         <ScrollArea

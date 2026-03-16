@@ -46,7 +46,7 @@ const SUN_POSITION = new THREE.Vector3(0, 618, -1000)
 const HEX_GRID_RATIO = 2
 const HIDE_PROJECTED_OBJECTS = false
 
-//TODO: particles bouncing of off the text
+//TODO: particles being emitted from extruded objects
 
 export class WebScene {
   private readonly renderer: THREE.WebGLRenderer
@@ -494,6 +494,14 @@ export class WebScene {
 
   public getCamera() {
     return this.camera
+  }
+
+  public setBackgroundColor(color: number) {
+    this.postprocessing.godraysFakeSunUniforms.bgColor.value.setHex(color)
+    this.hexGridMaterial.color.setHex(color)
+  }
+  public setSunColor(color: number) {
+    this.postprocessing.godraysFakeSunUniforms.sunColor.value.setHex(color)
   }
 
   private shapesToGeometry(shapes: THREE.Shape[]) {

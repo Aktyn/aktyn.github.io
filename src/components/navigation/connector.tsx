@@ -90,8 +90,6 @@ export function Connector({ sectionsContainerRef }: ConnectorProps) {
     }
     updateSvg()
 
-    let lastProgress = -1
-
     const sidebarAnimation = animate(container, {
       ease: 'linear',
       autoplay: onScroll({
@@ -101,12 +99,11 @@ export function Connector({ sectionsContainerRef }: ConnectorProps) {
         leave: { target: 'bottom', container: 'center' },
         sync: 1,
         onUpdate: (observer) => {
-          if (observer.progress === lastProgress) {
+          if (observer.progress === observer.prevProgress) {
             return
           }
 
           updateSvg()
-          lastProgress = observer.progress
         },
         // debug: import.meta.env.DEV
       }),
@@ -114,6 +111,7 @@ export function Connector({ sectionsContainerRef }: ConnectorProps) {
 
     const resizeObserver = new ResizeObserver(() => {
       svgElement.setAttribute('viewBox', `0 0 ${container.clientWidth} ${container.clientHeight}`)
+      updateSvg()
     })
 
     resizeObserver.observe(container)
@@ -126,12 +124,11 @@ export function Connector({ sectionsContainerRef }: ConnectorProps) {
   }, [sectionsContainerRef])
 
   return (
-    <div ref={ref} data-slot="sidebar-connector" className="h-full w-full max-w-64 grow">
+    <div ref={ref} data-slot="sidebar-connector" className="h-full w-full grow 4xl:max-w-64">
       <svg
         className="size-full stroke-foreground"
         viewBox="0 0 100 100"
         strokeWidth={0.5}
-        // strokeDasharray="4 4"
         fill="none"
       />
     </div>

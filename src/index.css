@@ -7,7 +7,15 @@
 :root {
   --background: 0.2489 0.0439 184.84;
   --background-lighter: 0.4668 0.084459 180.3974; /* teal 800 */
-  --background-visual: 0.3853 0.0347 173.194;
+  --background-visual: 0.3853 0.0347 173.194; /*! Should not be used for regular styling */
+
+  --background-tetradic-1: 0.1492 0.0439 296.37; /* from background with the same chroma */
+  --background-tetradic-2: 0.1751 0.0439 19.99; /* from background with the same chroma */
+  --background-tetradic-3: 0.2528 0.0439 128.92; /* from background with the same chroma */
+
+  --background-lighter-tetradic-1: 0.2643 0.0528 286.63; /* from background lighter - 0.1 chroma */
+  --background-lighter-tetradic-2: 0.3283 0.0329 24.35; /* from background lighter - 0.1 chroma */
+  --background-lighter-tetradic-3: 0.4732 0.0281 130.4; /* from background lighter - 0.1 chroma */
 
   --foreground-darker: 0.7912 0.0755 188.24; /* teal 200 */
   --foreground: 0.8708 0.047 189.63; /* teal 100 */
@@ -21,17 +29,45 @@
   --muted-foreground: 0.7912 0.0255 188.24; /* teal 200; h-0.05 */
 
   --border: 0.6563 0.1071 185.34; /* teal 400 */
-  /* --border-tetradic-1: 0.4209 0.1889 295.48; teal 400 tetradic 1 */
-  /* --border-tetradic-2: 0.48 0.1634 21.28; teal 400 tetradic 2 (same as complementary) */
-  /* --border-tetradic-3: 0.6644 0.1625 129.75; teal 400 tetradic 3 */
 
   --radius: 0.5rem;
+}
+
+@media print {
+  :root {
+    --background: 1 0 0;
+    --background-lighter: 1 0 0;
+    --background-visual: 1 0 0;
+    --background-tetradic-1: 1 0 0;
+    --background-tetradic-2: 1 0 0;
+    --background-tetradic-3: 1 0 0;
+    --background-lighter-tetradic-1: 1 0 0;
+    --background-lighter-tetradic-2: 1 0 0;
+    --background-lighter-tetradic-3: 1 0 0;
+    --foreground-darker: 0 0 0;
+    --foreground: 0 0 0;
+    --foreground-lighter: 0 0 0;
+    --foreground-complementary: 0 0 0;
+    --foreground-tetradic-1: 0 0 0;
+    --foreground-tetradic-2: 0 0 0;
+    --foreground-tetradic-3: 0 0 0;
+    --muted-foreground: 0 0 0;
+    --border: 0 0 0;
+  }
 }
 
 @theme inline {
   --color-background: oklch(var(--background));
   --color-background-lighter: oklch(var(--background-lighter));
   --color-background-visual: oklch(var(--background-visual));
+
+  --color-background-tetradic-1: oklch(var(--background-tetradic-1));
+  --color-background-tetradic-2: oklch(var(--background-tetradic-2));
+  --color-background-tetradic-3: oklch(var(--background-tetradic-3));
+
+  --color-background-lighter-tetradic-1: oklch(var(--background-lighter-tetradic-1));
+  --color-background-lighter-tetradic-2: oklch(var(--background-lighter-tetradic-2));
+  --color-background-lighter-tetradic-3: oklch(var(--background-lighter-tetradic-3));
 
   --color-foreground-darker: oklch(var(--foreground-darker));
   --color-foreground: oklch(var(--foreground));
@@ -45,9 +81,6 @@
   --color-muted-foreground: oklch(var(--muted-foreground));
 
   --color-border: oklch(var(--border));
-  /* --color-border-tetradic-1: oklch(var(--border-tetradic-1));
-  --color-border-tetradic-2: oklch(var(--border-tetradic-2));
-  --color-border-tetradic-3: oklch(var(--border-tetradic-3)); */
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

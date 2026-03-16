@@ -6,6 +6,8 @@ import { Badge } from '../common/badge'
 type TechBadgeProps = { tech: keyof typeof techStack } & ComponentProps<typeof Badge>
 
 export function TechBadge({ tech, ...badgeProps }: TechBadgeProps) {
+  //TODO
+
   return (
     <Badge
       // dir="ltr"
