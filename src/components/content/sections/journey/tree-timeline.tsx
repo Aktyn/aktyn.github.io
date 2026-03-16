@@ -32,7 +32,7 @@ export function TreeTimeline({ header, items, ...divProps }: TreeTimelineProps) 
                   index === 0 && 'max-md:min-h-0',
                 )}
               />
-              <div className="w-full rounded-md border border-foreground/50 bg-foreground/10 fill-foreground-darker px-2 py-0.5 text-center text-sm font-semibold text-foreground-darker md:px-1">
+              <div className="w-full rounded-md border border-foreground/50 bg-foreground/10 fill-foreground-darker px-2 py-0.5 text-center text-sm font-semibold text-muted-foreground md:px-1">
                 {typeof item.date === 'string' ? (
                   item.date
                 ) : (

@@ -1,4 +1,4 @@
-import { animate, onScroll } from 'animejs'
+import { animate, type JSAnimation, onScroll } from 'animejs'
 import { type RefObject, useContext, useEffect } from 'react'
 import { SceneContext } from '~/components/content/scene-context'
 import { contentViewportID, Section } from '~/lib/consts'
@@ -27,6 +27,8 @@ export function usePositionalColoring(targetRef: RefObject<HTMLDivElement | null
       },
       [] as Array<{ section: Section; sectionIndex: number; container: HTMLElement }>,
     )
+
+    let backgroundVisualAnimation: JSAnimation | null = null
 
     const update = () => {
       const closestSections = sectionsData
@@ -63,10 +65,19 @@ export function usePositionalColoring(targetRef: RefObject<HTMLDivElement | null
         const visualOklch = Array.from({ length: 3 }).map((_, i) =>
           mix(closestSections[0].visualOklch[i], closestSections[1].visualOklch[i], mappedFactor),
         )
-        document.documentElement.style.setProperty(
-          '--background-visual',
-          `${visualOklch[0]} ${visualOklch[1]} ${normalizeHue(visualOklch[2])}`,
-        )
+        // document.documentElement.style.setProperty(
+        //   '--background-visual',
+        //   `${visualOklch[0]} ${visualOklch[1]} ${normalizeHue(visualOklch[2])}`,
+        // )
+
+        if (backgroundVisualAnimation) {
+          backgroundVisualAnimation.cancel()
+        }
+        backgroundVisualAnimation = animate(document.documentElement, {
+          '--background-visual': `${visualOklch[0]} ${visualOklch[1]} ${normalizeHue(visualOklch[2])}`,
+          ease: 'linear',
+          duration: 700,
+        })
 
         webScene.setBackgroundColor(
           mixColors(

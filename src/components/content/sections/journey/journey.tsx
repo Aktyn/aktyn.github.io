@@ -25,7 +25,7 @@ type IntroProps = ComponentProps<'section'> & {
 export function Journey({ ref, ...props }: IntroProps) {
   return (
     <SectionContainer ref={ref} section={Section.MyJourney} {...props}>
-      <Article section={Section.MyJourney} articleKey={JourneySection.Education}>
+      <Article articleKey={JourneySection.Education}>
         <DatedTitle
           dateStart="2012"
           dateEnd="2016"
@@ -86,7 +86,7 @@ export function Journey({ ref, ...props }: IntroProps) {
           items={universityTimelineItems}
         />
       </Article>
-      <Article section={Section.MyJourney} articleKey={JourneySection.WorkExperience}>
+      <Article articleKey={JourneySection.WorkExperience}>
         <DatedTitle
           dateStart="2019"
           dateEnd="2025"
@@ -114,7 +114,7 @@ export function Journey({ ref, ...props }: IntroProps) {
           items={workExperienceTimelineItems}
         />
       </Article>
-      <Article section={Section.MyJourney} articleKey={JourneySection.FreeTimeProjects}>
+      <Article articleKey={JourneySection.FreeTimeProjects}>
         <DatedTitle
           dateStart="In my spare time"
           title="Personal and freelance projects"

@@ -26,7 +26,14 @@
   --foreground-tetradic-2: 0.8049 0.0526 12.32; /* teal 100 tetradic 2 (same as complementary) */
   --foreground-tetradic-3: 0.8786 0.0631 125.41; /* teal 100 tetradic 3 */
 
+  --foreground-darker-tetradic-1: 0.658 0.0755 302.41;
+  --foreground-darker-tetradic-2: 0.68 0.0755 13.77;
+  --foreground-darker-tetradic-3: 0.8014 0.0755 126.91;
+
   --muted-foreground: 0.7912 0.0255 188.24; /* teal 200; h-0.05 */
+  --muted-foreground-tetradic-1: 0.75 0.0354 302.58; 
+  --muted-foreground-tetradic-2: 0.7565 0.0282 9.22; 
+  --muted-foreground-tetradic-3: 0.7973 0.0345 123.94; 
 
   --border: 0.6563 0.1071 185.34; /* teal 400 */
 
@@ -52,6 +59,9 @@
     --foreground-tetradic-2: 0 0 0;
     --foreground-tetradic-3: 0 0 0;
     --muted-foreground: 0 0 0;
+    --muted-foreground-tetradic-1: 0 0 0;
+    --muted-foreground-tetradic-2: 0 0 0;
+    --muted-foreground-tetradic-3: 0 0 0;
     --border: 0 0 0;
   }
 }
