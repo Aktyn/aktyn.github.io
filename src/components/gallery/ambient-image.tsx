@@ -9,7 +9,7 @@ type AmbientImageProps = ComponentProps<'div'> & {
 
 export function AmbientImage({ src, alt, ambientOpacity = 0.5, ...divProps }: AmbientImageProps) {
   return (
-    <div {...divProps} className={cn('relative', divProps.className)}>
+    <div {...divProps} className={cn('relative z-1', divProps.className)}>
       <img
         alt={`${alt}-blur`}
         src={src}

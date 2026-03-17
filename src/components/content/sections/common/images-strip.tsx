@@ -14,8 +14,6 @@ export function ImagesStrip({ images, altPrefix, ambientOpacity }: ImagesStripPr
   const [sourceBounds, setSourceBounds] = useState<DOMRect | null>(null)
   const [focusImageIndex, setFocusImageIndex] = useState(-1)
 
-  //TODO: refine
-
   return (
     <>
       {images.map((image, index) => (
@@ -24,7 +22,7 @@ export function ImagesStrip({ images, altPrefix, ambientOpacity }: ImagesStripPr
           src={image}
           alt={`${altPrefix}-${index}`}
           ambientOpacity={ambientOpacity}
-          className="cursor-pointer transition-[scale] duration-spring ease-spring *:duration-500 hover:z-10 hover:scale-110 max-md:max-h-46"
+          className="cursor-pointer transition-[scale] ease-out hover:scale-110 max-md:max-h-46"
           onClick={(event) => {
             setOpenGallery(true)
             setSourceBounds(event.currentTarget.getBoundingClientRect())

@@ -74,7 +74,11 @@ export function Journey({ ref, ...props }: IntroProps) {
             <div className="text-balance">
               I studied at{' '}
               <b>
-                <a href="https://www.math.uni.lodz.pl/" target="_blank">
+                <a
+                  href="https://www.math.uni.lodz.pl/"
+                  target="_blank"
+                  className="relative z-10 cursor-pointer underline"
+                >
                   Faculty of Mathematics and Computer Science{' '}
                   <span className="text-sm font-normal">
                     (Wydział Matematyki i Informatyki Uniwersytetu Łódzkiego)

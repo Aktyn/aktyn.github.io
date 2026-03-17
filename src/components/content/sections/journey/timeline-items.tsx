@@ -61,7 +61,7 @@ export const universityTimelineItems = [
             )?.images ?? []
           }
           altPrefix="ZeroG-Ball"
-          // className="-ml-3" //TODO: ?
+          className="-ml-10 **:data-[slot=images-strip-content-container]:pl-10"
         />
       </div>
     ),

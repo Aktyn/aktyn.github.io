@@ -200,10 +200,10 @@
   }
 
   button {
-    @apply cursor-pointer;
+    @apply not-disabled:cursor-pointer;
   }
   a {
-    @apply hover:text-foreground-complementary transition-colors fill-current;
+    @apply not-disabled:hover:text-foreground-complementary transition-colors fill-current;
   }
 
   @media print {

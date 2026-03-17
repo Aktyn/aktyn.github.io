@@ -1,8 +1,18 @@
-import { type ComponentProps, Fragment, useEffect, useRef, useState } from 'react'
-import { clamp, cn } from '~/lib/utils'
+import { animate, createTimeline, stagger, type Timeline } from 'animejs'
+import {
+  type ComponentProps,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
 import { GalleryPagination } from '~/components/gallery/gallery-pagination'
 import { useStateToRef } from '~/hooks/useStateToRef'
 import { SvgIcon } from '~/icons/material-symbol-icons'
+import { cn } from '~/lib/utils'
+
+const ENTRY_DURATION = 400
 
 type MaximizedGalleryProps = {
   open: boolean
@@ -13,23 +23,6 @@ type MaximizedGalleryProps = {
   onIndexChange: (index: number) => void
 }
 
-const arrows: Array<{
-  direction: -1 | 1
-  className: string
-  icon: ComponentProps<typeof SvgIcon>['icon']
-}> = [
-  {
-    direction: -1,
-    className: 'left-1 slide-in-from-left slide-out-to-left',
-    icon: 'ChevronLeft',
-  },
-  {
-    direction: 1,
-    className: 'right-1 slide-in-from-right slide-out-to-right',
-    icon: 'ChevronRight',
-  },
-] as const
-
 export function MaximizedGallery({
   open,
   onClose,
@@ -38,216 +31,281 @@ export function MaximizedGallery({
   index,
   onIndexChange,
 }: MaximizedGalleryProps) {
-  const slidingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  // TODO: use animejs for animations
+  const ref = useRef<HTMLDivElement>(null)
+  const enteredRef = useRef(false)
 
   const [mounted, setMounted] = useState(false)
-  const [entryAnimation, setEntryAnimation] = useState(true)
-  const [slidingDirection, setSlidingDirection] = useState(0)
+  const [entryAnimation, setEntryAnimation] = useState<Timeline | null>(null)
 
-  const handleNavigate = (dir: 1 | -1) => {
-    const target = clamp(index + dir, 0, images.length - 1)
-    if (target === index) {
+  const closeRef = useStateToRef(onClose)
+
+  // Animations setup
+  useLayoutEffect(() => {
+    const root = ref.current
+
+    if (!root || !mounted) {
       return
     }
 
-    onIndexChange(target)
+    const timeline = createTimeline({
+      autoplay: true,
+    })
 
-    setSlidingDirection(dir)
-
-    if (slidingTimeoutRef.current) {
-      clearTimeout(slidingTimeoutRef.current)
-
-      slidingTimeoutRef.current = setTimeout(() => {
-        setSlidingDirection(0)
-        slidingTimeoutRef.current = null
-      }, 400)
+    const closeButton = root.querySelector('[data-slot="close-button"]')
+    if (closeButton) {
+      timeline.sync(
+        animate(closeButton, {
+          opacity: [0, 1],
+          translateY: ['-100%', '0%'],
+          scale: [0.618, 1],
+          duration: ENTRY_DURATION,
+          ease: 'outSine',
+        }),
+        0,
+      )
     }
-  }
 
-  const navigateWithRefs = useStateToRef(handleNavigate)
+    const pagination = root.querySelector('[data-slot="pagination"]')
+    if (pagination) {
+      timeline.sync(
+        animate(pagination, {
+          opacity: [0, 1],
+          translateY: ['100%', '0%'],
+          duration: ENTRY_DURATION,
+          ease: 'outSine',
+        }),
+        0,
+      )
+    }
 
-  const onCloseRef = useStateToRef(onClose)
-  if (open && !mounted) {
-    setMounted(true)
-  }
+    const prevButton = root.querySelector('[data-slot="prev-button"]')
+    const nextButton = root.querySelector('[data-slot="next-button"]')
+    if (prevButton && nextButton) {
+      timeline.sync(
+        animate([prevButton, nextButton], {
+          opacity: [0, 1],
+          translateX: [stagger(['-100%', '100%']), '0%'],
+          duration: ENTRY_DURATION,
+          ease: 'outSine',
+        }),
+        0,
+      )
+    }
 
-  if (open && !entryAnimation && !mounted) {
-    setEntryAnimation(true)
-  }
+    const imagesContainer = root.querySelector('[data-slot="images-container"]')
+    if (imagesContainer) {
+      timeline.sync(
+        animate(imagesContainer, {
+          opacity: [0, 1],
+          duration: ENTRY_DURATION,
+          ease: 'outSine',
+        }),
+        0,
+      )
+      timeline.sync(
+        animate(imagesContainer.querySelectorAll('[data-slot="image"]'), {
+          scale: [0.618, 1],
+          duration: ENTRY_DURATION,
+          ease: 'outSine',
+        }),
+        0,
+      )
+    }
 
-  if (!open && slidingDirection !== 0) {
-    setSlidingDirection(0)
-  }
+    const scrollableContainer = ref.current?.querySelector('[data-slot="images-container"] > *')
 
+    const cancelEvent = (event: Event) => {
+      event.stopPropagation()
+      event.preventDefault()
+    }
+
+    scrollableContainer?.addEventListener('wheel', cancelEvent)
+    scrollableContainer?.addEventListener('touchmove', cancelEvent)
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setEntryAnimation((prev) => {
+      if (prev) {
+        prev.revert()
+      }
+      return timeline
+    })
+
+    return () => {
+      scrollableContainer?.removeEventListener('wheel', cancelEvent)
+      scrollableContainer?.removeEventListener('touchmove', cancelEvent)
+    }
+  }, [images.length, mounted])
+
+  // Animations and mounted state controls
   useEffect(() => {
     if (open) {
-      const handleKeyDown = (event: globalThis.KeyboardEvent) => {
-        if (event.key === 'Escape') {
-          onCloseRef.current()
-          return
-        }
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setMounted(true)
 
-        if (event.key === 'ArrowLeft') {
-          event.preventDefault()
-          navigateWithRefs.current(-1)
-          return
-        }
-
-        if (event.key === 'ArrowRight') {
-          event.preventDefault()
-          navigateWithRefs.current(1)
-        }
+      if (entryAnimation?.paused) {
+        entryAnimation?.restart()
+      } else {
+        entryAnimation?.play()
       }
+    } else {
+      entryAnimation?.reverse()
 
       const timeout = setTimeout(() => {
-        setEntryAnimation(false)
-      }, 800)
+        setMounted(false)
+      }, ENTRY_DURATION * 1.5)
+      return () => clearTimeout(timeout)
+    }
+  }, [open, entryAnimation])
 
-      document.addEventListener('keydown', handleKeyDown)
-      return () => {
-        document.removeEventListener('keydown', handleKeyDown)
-        clearTimeout(timeout)
+  const handleClose = useCallback(() => {
+    closeRef.current()
+  }, [closeRef])
+
+  useEffect(() => {
+    if (!mounted) {
+      enteredRef.current = false
+      return
+    }
+
+    const target = ref.current?.querySelector(
+      `[data-slot="images-container"] [data-index="${index}"]`,
+    )
+
+    target?.scrollIntoView({
+      behavior: enteredRef.current ? 'smooth' : 'instant',
+      inline: 'center',
+    })
+
+    if (target && !enteredRef.current) {
+      animate(target, {
+        width: [sourceBounds?.width ?? 0, 'auto'],
+        duration: ENTRY_DURATION,
+        ease: 'linear',
+      })
+    }
+
+    enteredRef.current = true
+  }, [index, mounted, sourceBounds])
+
+  // Escape key handler
+  useEffect(() => {
+    if (!open) {
+      return
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        handleClose()
       }
     }
 
-    const timeout = setTimeout(() => {
-      setMounted(false)
-    }, 600)
+    window.addEventListener('keydown', onKeyDown)
 
-    return () => clearTimeout(timeout)
-  }, [navigateWithRefs, onCloseRef, open])
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [open, handleClose])
 
   if (!mounted) {
     return null
   }
 
-  const onImageRef = (element: HTMLImageElement | null) => {
-    if (!element || element.dataset.state === 'positioned' || !sourceBounds) {
-      return
-    }
-    const rect = element.getBoundingClientRect()
-
-    const scaleX = sourceBounds.width / rect.width
-    const scaleY = sourceBounds.height / rect.height
-    const translateX = sourceBounds.x + sourceBounds.width / 2 - (rect.x + rect.width / 2)
-    const translateY = sourceBounds.y + sourceBounds.height / 2 - (rect.y + rect.height / 2)
-
-    element.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`
-    element.dataset.state = 'positioned'
-
-    setTimeout(() => {
-      element.style.transform = 'translate(0, 0) scale(1, 1)'
-      element.dataset.state = ''
-    }, 16)
-  }
-
   return (
-    <div className={cn('fixed inset-0 z-90', !open && 'pointer-events-none')}>
-      <div className="relative flex size-full flex-col items-center justify-center *:absolute">
-        <div
-          className={cn(
-            'inset-0 bg-background transition-opacity duration-spring ease-spring starting:opacity-0',
-            open ? 'opacity-100' : 'opacity-0',
+    <div
+      ref={ref}
+      className={cn('fixed inset-0 z-90', !open && 'pointer-events-none')}
+      onDoubleClick={handleClose}
+    >
+      <div className="relative grid size-full grid-rows-[1fr_auto] **:[svg]:size-6">
+        <div className={cn('grid grid-cols-[auto_1fr_auto]', images.length <= 1 && 'grid-cols-1')}>
+          {images.length > 1 && (
+            <NavButton
+              data-slot="prev-button"
+              direction={-1}
+              disabled={index === 0}
+              onClick={() => onIndexChange(index - 1)}
+            />
           )}
-        />
-        {images.map((img, imgIndex) => (
-          <Fragment key={img}>
+          <div data-slot="images-container" className="relative">
             <div
               className={cn(
-                'inset-0 z-10 overflow-hidden duration-spring fill-mode-both',
-                open ? 'animate-in delay-300 fade-in' : 'animate-out fade-out',
+                'pointer-events-none absolute inset-0 no-scrollbar flex flex-row items-stretch justify-start gap-x-8 overflow-x-auto',
+                images.length > 1 && '-mx-8 -mb-6',
               )}
             >
-              <div
-                className={cn(
-                  'flex size-full items-center justify-center transition-transform duration-500 ease-in-out select-none',
-                )}
-                style={{
-                  transform: `translate(${(imgIndex - index) * 100}%, 0)`,
-                }}
-              >
-                {(index === imgIndex || index === imgIndex + slidingDirection) && (
-                  <img
-                    ref={onImageRef}
-                    alt="maximized-image-blur"
-                    src={img}
-                    className="absolute scale-110 blur-3xl"
-                  />
-                )}
-              </div>
+              {images.map((image, index) => (
+                <div
+                  key={image}
+                  data-index={index}
+                  className="flex h-full min-w-full items-center justify-center"
+                >
+                  <div className="-z-1 mr-[-100%] flex size-full min-w-full items-center justify-center bg-red-300/10">
+                    <img src={image} className="size-full object-cover blur-lg" />
+                  </div>
+                  <div
+                    className={cn(
+                      'flex size-full items-center justify-center bg-black/50',
+                      images.length > 1 && 'px-8',
+                    )}
+                  >
+                    <img
+                      data-slot="image"
+                      src={image}
+                      className="pointer-events-auto h-auto max-h-full max-w-full object-contain"
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
-            <div
-              className={cn(
-                'inset-0 z-20 flex items-center justify-center overflow-hidden transition-transform duration-500 ease-in-out select-none',
-              )}
-              style={{
-                transform: `translate(${(imgIndex - index) * 100}%, 0)`,
-              }}
-            >
-              {(index === imgIndex || index === imgIndex + slidingDirection) && (
-                <img
-                  ref={entryAnimation ? onImageRef : undefined}
-                  alt="maximized-image"
-                  src={img}
-                  className={cn(
-                    'h-auto max-h-full max-w-full object-contain duration-spring fill-mode-both not-data-[state=positioned]:transition-[transform,opacity]',
-                    entryAnimation ? 'starting:opacity-0' : 'starting:opacity-100',
-                    sourceBounds && open ? 'transition-none' : 'opacity-0 transition-opacity',
-                    open && 'opacity-100',
-                  )}
-                />
-              )}
-            </div>
-          </Fragment>
-        ))}
+          </div>
+          {images.length > 1 && (
+            <NavButton
+              data-slot="next-button"
+              direction={1}
+              disabled={index === images.length - 1}
+              onClick={() => onIndexChange(index + 1)}
+            />
+          )}
+        </div>
         {images.length > 1 && (
-          <GalleryPagination
-            count={images.length}
-            index={index}
-            className={cn(
-              'bottom-2 z-30 duration-600 fill-mode-both',
-              open
-                ? 'animate-in fade-in slide-in-from-bottom'
-                : 'animate-out fade-out slide-out-to-bottom',
-            )}
-          />
+          <div data-slot="pagination" className="flex h-6 flex-row items-center justify-center p-1">
+            <GalleryPagination count={images.length} index={index} />
+          </div>
         )}
-        {images.length > 1 &&
-          arrows.map((arrow, arrowIndex) => {
-            const allowed = arrowIndex === 0 ? index > 0 : index < images.length - 1
-            return (
-              <button
-                key={arrowIndex}
-                // TODO: test in multi-image gallery
-                // variant="outline"
-                // size="icon"
-                className={cn(
-                  'inset-y-auto z-30 bg-background/50 duration-600 fill-mode-both fade-in fade-out',
-                  arrow.className,
-                  open && allowed ? 'animate-in' : 'pointer-events-none animate-out',
-                )}
-                onClick={() => handleNavigate(arrow.direction)}
-              >
-                <SvgIcon icon={arrow.icon} />
-              </button>
-            )
-          })}
-        <button
-          // variant="outline"
-          // size="icon"
-          className={cn(
-            'top-2 right-2 z-30 duration-600 fill-mode-both',
-            open
-              ? 'animate-in ease-out fade-in slide-in-from-right slide-in-from-top'
-              : 'animate-out ease-in fade-out slide-out-to-right slide-out-to-top',
-          )}
-          onClick={onClose}
-        >
-          <SvgIcon icon="Close" className="size-6" />
-        </button>
+
+        <div className="absolute inset-x-0 top-0 z-20 flex flex-row items-center justify-end p-2">
+          <button
+            data-slot="close-button"
+            className="rounded-full border border-white/40 bg-black/50 p-2 transition-colors hover:bg-black hover:*:scale-110"
+            onClick={handleClose}
+          >
+            <SvgIcon icon="Close" className="transition-transform duration-spring ease-spring" />
+          </button>
+        </div>
       </div>
     </div>
+  )
+}
+
+type NavButtonProps = {
+  direction: -1 | 1
+} & ComponentProps<'button'>
+
+function NavButton({ direction, ...buttonProps }: NavButtonProps) {
+  return (
+    <button
+      {...buttonProps}
+      className={cn(
+        'z-5 my-auto flex h-full w-8 flex-col justify-center rounded-md bg-foreground-lighter/0 p-1 transition-colors not-disabled:hover:bg-foreground/50 disabled:fill-muted-foreground/50 disabled:opacity-50',
+        direction === -1 && 'not-disabled:hover:*:-translate-x-[12.5%]',
+        direction === 1 && 'not-disabled:hover:*:translate-x-[12.5%]',
+        buttonProps.className,
+      )}
+    >
+      <SvgIcon
+        icon={direction === -1 ? 'ChevronLeft' : 'ChevronRight'}
+        className="transition-transform"
+      />
+    </button>
   )
 }

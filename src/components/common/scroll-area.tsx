@@ -1,10 +1,10 @@
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area'
-import { type ComponentProps } from 'react'
+import { type ComponentPropsWithRef, useEffect, useRef, type ComponentProps } from 'react'
 import { cn } from '~/lib/utils'
 
 type ScrollAreaProps = ComponentProps<typeof ScrollAreaPrimitive.Root> & {
   orientation?: 'horizontal' | 'vertical'
-  contentContainerProps?: ComponentProps<'div'>
+  contentContainerProps?: ComponentPropsWithRef<'div'>
 }
 
 export function ScrollArea({
@@ -13,15 +13,40 @@ export function ScrollArea({
   contentContainerProps = {},
   ...divProps
 }: ScrollAreaProps) {
+  const ref = useRef<HTMLDivElement>(null)
+  const viewportRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const scrollArea = ref.current
+    const viewport = viewportRef.current
+
+    if (orientation !== 'horizontal' || !scrollArea || !viewport) {
+      return
+    }
+
+    const onWheel = (event: WheelEvent) => {
+      viewport.scrollLeft += event.deltaY * 8
+      event.preventDefault()
+    }
+
+    scrollArea.addEventListener('wheel', onWheel)
+
+    return () => {
+      scrollArea.removeEventListener('wheel', onWheel)
+    }
+  }, [orientation])
+
   return (
     <ScrollAreaPrimitive.Root
       type="scroll"
       scrollHideDelay={2000}
       {...divProps}
+      ref={divProps.ref ?? ref}
       className={cn('inline-flex', divProps.className)}
     >
       <ScrollAreaPrimitive.Viewport
         {...contentContainerProps}
+        ref={viewportRef}
         className={cn('scroll-smooth', contentContainerProps.className)}
       >
         {children}

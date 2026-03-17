@@ -2,6 +2,8 @@ import { useContext, useRef } from 'react'
 import { ContentLayer } from './components/content/content-layer'
 import { SceneContext, SceneProvider } from './components/content/scene-context'
 
+//TODO: improve overall page accessibility and SEO
+
 export function App() {
   const ref = useRef<HTMLDivElement>(null)
   const sceneContainerRef = useRef<HTMLDivElement>(null)
