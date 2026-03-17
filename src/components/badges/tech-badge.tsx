@@ -6,23 +6,28 @@ import { Badge } from '../common/badge'
 type TechBadgeProps = { tech: keyof typeof techStack } & ComponentProps<typeof Badge>
 
 export function TechBadge({ tech, ...badgeProps }: TechBadgeProps) {
-  //TODO
-
   return (
     <Badge
-      // dir="ltr"
-      // variant="outline"
+      dir="ltr"
       {...badgeProps}
       className={cn(
-        'relative gap-x-2 rounded-md bg-background/50 p-1 px-2 text-sm',
+        'relative flex flex-row gap-x-2 rounded-md bg-background/50 p-1 px-2 text-sm text-shadow-none',
         badgeProps.className,
       )}
     >
       {techStack[tech].icon && (
         <>
-          <i className={cn(techStack[tech].icon, 'absolute inset-y-auto left-2 blur-md')} />
           <i
-            className={cn(techStack[tech].icon, 'drop-shadow-[0_0_calc(var(--spacing)*0.5)_#000]')}
+            className={cn(
+              techStack[tech].icon,
+              'absolute inset-y-auto left-2 blur-md brightness-150 saturate-150 print:hidden',
+            )}
+          />
+          <i
+            className={cn(
+              techStack[tech].icon,
+              'not-print:drop-shadow-[0_0_calc(var(--spacing)*1)_var(--color-background)]',
+            )}
           />
         </>
       )}

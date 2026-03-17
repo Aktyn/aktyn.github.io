@@ -211,11 +211,7 @@ export function MaximizedGallery({
   }
 
   return (
-    <div
-      ref={ref}
-      className={cn('fixed inset-0 z-90', !open && 'pointer-events-none')}
-      onDoubleClick={handleClose}
-    >
+    <div ref={ref} className={cn('fixed inset-0 z-90', !open && 'pointer-events-none')}>
       <div className="relative grid size-full grid-rows-[1fr_auto] **:[svg]:size-6">
         <div className={cn('grid grid-cols-[auto_1fr_auto]', images.length <= 1 && 'grid-cols-1')}>
           {images.length > 1 && (
@@ -223,7 +219,10 @@ export function MaximizedGallery({
               data-slot="prev-button"
               direction={-1}
               disabled={index === 0}
-              onClick={() => onIndexChange(index - 1)}
+              onClick={(event) => {
+                event.stopPropagation()
+                onIndexChange(index - 1)
+              }}
             />
           )}
           <div data-slot="images-container" className="relative">
@@ -252,6 +251,7 @@ export function MaximizedGallery({
                       data-slot="image"
                       src={image}
                       className="pointer-events-auto h-auto max-h-full max-w-full object-contain"
+                      onDoubleClick={handleClose}
                     />
                   </div>
                 </div>
@@ -263,7 +263,10 @@ export function MaximizedGallery({
               data-slot="next-button"
               direction={1}
               disabled={index === images.length - 1}
-              onClick={() => onIndexChange(index + 1)}
+              onClick={(event) => {
+                event.stopPropagation()
+                onIndexChange(index + 1)
+              }}
             />
           )}
         </div>

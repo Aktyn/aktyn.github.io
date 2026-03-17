@@ -70,6 +70,7 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
       </div>
       <button
         className="ml-auto flex cursor-pointer flex-row items-center gap-1.5 rounded-lg px-2 py-1 text-foreground transition-colors hover:bg-foreground/20 *:[svg]:size-4"
+        // TODO: open dialog with option to print without images (should work by setting class in body/html beforehand)
         onClick={() => window.print()}
       >
         <ProjectedIcon

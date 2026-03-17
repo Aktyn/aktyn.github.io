@@ -140,7 +140,7 @@ export function ContentLayer() {
               <Intro ref={introRef} />
             </div>
 
-            <div ref={sectionsContainerRef} className="flex max-w-dvw flex-col">
+            <div ref={sectionsContainerRef} className="flex max-w-dvw flex-col gap-8">
               <Journey ref={journeyRef} />
               <Projects />
               <TechStack />

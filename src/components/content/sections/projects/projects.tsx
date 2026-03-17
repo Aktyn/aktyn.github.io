@@ -1,97 +1,40 @@
 import 'devicon/devicon.min.css'
-import { Suspense, useMemo } from 'react'
+import { Suspense } from 'react'
 import { TechBadge } from '~/components/badges/tech-badge'
-import { ScrollDownButton } from '~/components/buttons/scroll-down-button'
-import { GithubIcon } from '~/icons/GithubIcon'
+import { ScrollArea } from '~/components/common/scroll-area'
+import { Separator } from '~/components/common/separator'
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/common/tooltip'
+import { GithubIcon } from '~/icons/GithubIcon'
+import { Section } from '~/lib/consts'
 import { ProjectsGroup, projectsGroupsInfo } from '~/lib/projects-info'
 import { cn, forceArray } from '~/lib/utils'
-import { ViewModule } from '~/modules/view.module'
-import { Separator } from '~/components/common/separator'
-import { ScrollArea } from '~/components/common/scroll-area'
+import { Article } from '../article'
 import { ImagesStrip } from '../common/images-strip'
-import { Section } from '~/lib/consts'
 import { SectionContainer } from '../section-container'
 
-const DELAY_BASE = 150
 const projectsGroupsArray = Object.values(ProjectsGroup)
 
 //TODO: refine
 
 export function Projects() {
-  const { view, setView, viewChangeDirection } = ViewModule.useView()
-
-  const delays = useMemo(() => {
-    const reverse = viewChangeDirection === -1
-
-    let acc = 0
-    const mapped = (reverse ? [...projectsGroupsArray].reverse() : projectsGroupsArray).map(
-      (group) => {
-        const duration = (projectsGroupsInfo[group].projects.length + 1) * DELAY_BASE
-        const prevAcc = acc
-        acc += duration
-        return prevAcc
-      },
-    )
-
-    return reverse ? mapped.reverse() : mapped
-  }, [viewChangeDirection])
-
   return (
-    // <div className="flex size-full flex-col items-stretch justify-start gap-y-16 p-6">
     <SectionContainer section={Section.PublicProjects}>
-      <div
-        className={cn(
-          'transition-[height] ease-linear',
-          viewChangeDirection === -1 && view === ViewModule.View.PublicProjects
-            ? 'h-[12.5dvh]'
-            : 'h-0',
-        )}
-      />
-      {projectsGroupsArray.map((group, index) => {
-        return <ProjectsGroupContainer key={group} group={group} delay={delays[index]} />
-      })}
-      <ScrollDownButton className="mt-[25dvh]" onClick={() => setView(ViewModule.View.TechStack)}>
-        Next view
-      </ScrollDownButton>
+      {projectsGroupsArray.map((group) => (
+        <Article key={group} articleKey={group}>
+          <div className="-m-3 mb-0 flex flex-col items-center gap-2 bg-background/40 p-3">
+            <h4 className="text-lg font-semibold">{projectsGroupsInfo[group].title}</h4>
+            <p className="text-center text-sm leading-tight font-medium tracking-wide text-balance whitespace-pre-wrap text-muted-foreground">
+              {projectsGroupsInfo[group].description}
+            </p>
+          </div>
+          <div className="grid items-stretch gap-4 md:grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*112),1fr))]">
+            {projectsGroupsInfo[group].projects.map((project, _, array) => (
+              <ProjectCard key={project.title} project={project} single={array.length === 1} />
+            ))}
+          </div>
+        </Article>
+      ))}
     </SectionContainer>
-  )
-}
-
-type ProjectsGroupContainerProps = {
-  group: ProjectsGroup
-  /** Delay in milliseconds */
-  delay: number
-}
-
-function ProjectsGroupContainer({ group, delay }: ProjectsGroupContainerProps) {
-  const { viewChangeDirection } = ViewModule.useView()
-
-  const reverse = viewChangeDirection === -1
-
-  return (
-    <div className="flex flex-col gap-4">
-      <div
-        className="view-transition-base glass-card flex flex-col items-center gap-4"
-        style={{
-          animationDelay: `${reverse ? delay + projectsGroupsInfo[group].projects.length * DELAY_BASE : delay}ms`,
-        }}
-      >
-        <h4 className="text-base font-semibold">{projectsGroupsInfo[group].title}</h4>
-        <p className="text-center text-sm leading-tight tracking-wide text-balance whitespace-pre-wrap text-[color-mix(in_oklab,var(--color-foreground)_80%,var(--color-background))]">
-          {projectsGroupsInfo[group].description}
-        </p>
-      </div>
-      <div className="grid items-stretch gap-4 md:grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*112),1fr))]">
-        {projectsGroupsInfo[group].projects.map((project, index, arr) => (
-          <ProjectCard
-            key={project.title}
-            project={project}
-            delay={delay + (reverse ? arr.length - 1 - index : index + 1) * DELAY_BASE}
-          />
-        ))}
-      </div>
-    </div>
   )
 }
 
@@ -99,34 +42,26 @@ type ProjectType = (typeof projectsGroupsInfo)[ProjectsGroup]['projects'][number
 
 type ProjectCardProps = {
   project: ProjectType
-  /** Delay in milliseconds */
-  delay: number
+  single?: boolean
 }
 
-function ProjectCard({ project, delay }: ProjectCardProps) {
+function ProjectCard({ project, single }: ProjectCardProps) {
   return (
     <div
-      className="view-transition-base glass-card-dark inline-grid grid-cols-1 gap-4 overflow-hidden p-4 md:min-h-80 md:grid-cols-[1fr_auto]"
-      style={{ animationDelay: `${delay}ms` }}
+      className={cn(
+        'inline-grid grid-cols-1 gap-4 md:min-h-80 md:grid-cols-[1fr_auto]',
+        !single &&
+          'overflow-hidden rounded-lg border border-foreground/20 bg-background-lighter/30 p-3 not-print:shadow-lg',
+      )}
     >
       <div className="flex grow flex-col items-stretch gap-4">
-        <div className="grid grid-cols-[auto_1fr] items-center justify-start gap-x-4">
+        <div className="grid items-center justify-start gap-x-3 not-print:grid-cols-[auto_1fr]">
           {!!project.linkToGithubRepo?.length && (
             <div className="flex flex-row items-center gap-2">
               {forceArray(project.linkToGithubRepo ?? []).map((link) => (
                 <Tooltip key={link}>
                   <TooltipTrigger asChild>
-                    {/* <Button
-                      asChild
-                      size="icon"
-                      variant="ghost"
-                      className="hover:text-primary size-auto rounded-full p-2"
-                    >
-                      <a href={link} target="_blank">
-                        <GithubIcon className="size-5" />
-                      </a>
-                      </Button> */}
-                    <a href={link} target="_blank">
+                    <a href={link} target="_blank" className="print:hidden">
                       <GithubIcon className="size-5" />
                     </a>
                   </TooltipTrigger>
@@ -135,7 +70,15 @@ function ProjectCard({ project, delay }: ProjectCardProps) {
               ))}
             </div>
           )}
-          <p className="font-semibold">{project.title}</p>
+          <p className="font-semibold">
+            {project.title}
+            {forceArray(project.linkToGithubRepo ?? []).map((href) => (
+              // TODO: further adjust links to work when printing and saving as pdf
+              <span key={href.toString()} className="ml-2 text-sm font-light not-print:hidden">
+                ({href})
+              </span>
+            ))}
+          </p>
         </div>
         <div className="text-sm tracking-wide text-pretty">{project.description}</div>
         <div className="mt-auto flex flex-row flex-wrap items-center gap-2">
@@ -144,7 +87,7 @@ function ProjectCard({ project, delay }: ProjectCardProps) {
           ))}
         </div>
       </div>
-      <Separator className="md:hidden" />
+      <Separator className="my-2 bg-foreground/20 md:hidden" />
       <ScrollArea className="-m-4 overflow-hidden contain-[size] max-md:-mt-16 max-md:h-64 max-md:**:data-[slot=scroll-area-viewport]:*:max-h-full md:-ml-36 md:w-96">
         <div className="flex items-stretch justify-start gap-4 p-2 max-md:mx-auto max-md:h-full max-md:flex-row max-md:pt-16 md:my-auto md:w-full md:flex-col md:p-4 md:pl-36">
           <Suspense fallback={<span />}>

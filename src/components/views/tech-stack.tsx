@@ -6,6 +6,7 @@ import { cn } from '~/lib/utils'
 const techStackCategories = Object.values(TechStackCategory)
 const DELAY_BASE = 100
 
+/** @deprecated */
 export function TechStack() {
   return (
     <div className="flex size-full min-h-full max-w-full flex-col items-stretch justify-center gap-y-16 p-6">
@@ -20,7 +21,7 @@ export function TechStack() {
         return (
           <div key={category} className="flex flex-col gap-4">
             <div
-              className="view-transition-base glass-card flex flex-col items-center gap-4"
+              className="glass-card flex flex-col items-center gap-4"
               style={{
                 animationDelay: `${delay}ms`,
               }}
@@ -58,7 +59,7 @@ function StackGroup({ title, stack, ...divProps }: StackGroupProps) {
     <div
       {...divProps}
       className={cn(
-        'view-transition-base glass-card-dark flex max-w-full flex-col items-center gap-2 overflow-hidden p-2',
+        'glass-card-dark flex max-w-full flex-col items-center gap-2 overflow-hidden p-2',
         divProps.className,
       )}
     >
