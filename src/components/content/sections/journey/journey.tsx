@@ -19,7 +19,7 @@ import { Article } from '../article'
 import { GithubIcon } from '~/icons/GithubIcon'
 
 type IntroProps = ComponentProps<'section'> & {
-  ref: React.RefObject<HTMLDivElement | null>
+  ref?: React.RefObject<HTMLDivElement | null>
 }
 
 export function Journey({ ref, ...props }: IntroProps) {
