@@ -26,7 +26,7 @@ export function TechBadge({ tech, ...badgeProps }: TechBadgeProps) {
           <i
             className={cn(
               techStack[tech].icon,
-              'not-print:drop-shadow-[0_0_calc(var(--spacing)*1)_var(--color-background)]',
+              'not-print:drop-shadow-[0_0_calc(var(--spacing)*1)_var(--color-background)] print:brightness-0',
             )}
           />
         </>

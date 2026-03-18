@@ -1,11 +1,12 @@
 import { createDraggable, createScope, spring } from 'animejs'
-import { type RefObject, useEffect, useImperativeHandle, useMemo, useRef } from 'react'
+import { type RefObject, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { isWebglAvailable } from '~/graphics/graphics-helpers'
 import { materialSymbolIcons, materialSymbolProps } from '~/icons/material-symbol-icons'
 import { LOGO_PATH, mainHeaderID } from '~/lib/consts'
 import type { ProjectedComponentRef } from '../content-helpers'
 import { ProjectedIcon } from '../projected-elements/projected-icon'
 import { ProjectedText } from '../projected-elements/projected-text'
+import { PrintOptions } from './print-options'
 import { WebGlSwitch } from './webgl-switch'
 
 export type HeaderInterfaceRef = {
@@ -22,6 +23,8 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
   const projectedCvTextRef = useRef<ProjectedComponentRef>(null)
 
   const webGLAvailable = useMemo(() => isWebglAvailable(), [])
+
+  const [showPrintOptions, setShowPrintOptions] = useState(false)
 
   useEffect(() => {
     const scope = createScope({ root: ref }).add(() => {
@@ -68,35 +71,40 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
         </a>
         {webGLAvailable && <WebGlSwitch />}
       </div>
-      <button
-        className="ml-auto flex cursor-pointer flex-row items-center gap-1.5 rounded-lg px-2 py-1 text-foreground transition-colors hover:bg-foreground/20 *:[svg]:size-4"
-        // TODO: open dialog with option to print without images (should work by setting class in body/html beforehand)
-        onClick={() => window.print()}
-      >
-        <ProjectedIcon
-          ref={projectedPdfIconRef}
-          path={materialSymbolIcons.PictureAsPdf}
-          size={20}
-          lowPriority
-          {...materialSymbolProps}
+      <div className="relative">
+        <button
+          className="ml-auto flex cursor-pointer flex-row items-center gap-1.5 rounded-lg px-2 py-1 text-foreground transition-colors hover:bg-foreground/20 *:[svg]:size-4"
+          onClick={() => setShowPrintOptions((show) => !show)}
+        >
+          <ProjectedIcon
+            ref={projectedPdfIconRef}
+            path={materialSymbolIcons.PictureAsPdf}
+            size={20}
+            lowPriority
+            {...materialSymbolProps}
+          />
+          <ProjectedText
+            ref={projectedPrintTextRef}
+            text="Print or download"
+            className="whitespace-nowrap"
+            splitWords={false}
+            fontSize={15}
+            lowPriority
+          />
+          <ProjectedText
+            ref={projectedCvTextRef}
+            text="CV"
+            fontSize={15}
+            fontWeight="bold"
+            lowPriority
+            title="Curriculum Vitae"
+          />
+        </button>
+        <PrintOptions
+          showPrintOptions={showPrintOptions}
+          setShowPrintOptions={setShowPrintOptions}
         />
-        <ProjectedText
-          ref={projectedPrintTextRef}
-          text="Print or download"
-          className="whitespace-nowrap"
-          splitWords={false}
-          fontSize={15}
-          lowPriority
-        />
-        <ProjectedText
-          ref={projectedCvTextRef}
-          text="CV"
-          fontSize={15}
-          fontWeight="bold"
-          lowPriority
-          title="Curriculum Vitae"
-        />
-      </button>
+      </div>
     </header>
   )
 }

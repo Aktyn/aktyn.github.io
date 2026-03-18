@@ -146,7 +146,7 @@ export function Journey({ ref, ...props }: IntroProps) {
           }
           items={freeTimeProjectsTimelineItems}
         />
-        <div className="text-sm text-muted-foreground">
+        <div className="text-sm text-muted-foreground print:hidden">
           More details and images can be found in the next section
         </div>
       </Article>

@@ -88,7 +88,7 @@ function ProjectCard({ project, single }: ProjectCardProps) {
         </div>
       </div>
       <Separator className="my-2 bg-foreground/20 md:hidden" />
-      <ScrollArea className="-m-4 overflow-hidden contain-[size] max-md:-mt-16 max-md:h-64 max-md:**:data-[slot=scroll-area-viewport]:*:max-h-full md:-ml-36 md:w-96">
+      <ScrollArea className="-m-4 overflow-hidden contain-[size] max-md:-mt-16 max-md:h-64 max-md:**:data-[slot=scroll-area-viewport]:*:max-h-full md:-ml-36 md:w-96 print:in-[.hide-images-in-print]:hidden">
         <div className="flex items-stretch justify-start gap-4 p-2 max-md:mx-auto max-md:h-full max-md:flex-row max-md:pt-16 md:my-auto md:w-full md:flex-col md:p-4 md:pl-36">
           <Suspense fallback={<span />}>
             <ImagesStrip images={project.images} altPrefix="project-image" />

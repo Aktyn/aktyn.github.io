@@ -18,7 +18,7 @@ export function Article({ articleKey, className, ...props }: ArticleProps) {
       id={articleKey}
       {...props}
       className={cn(
-        'relative flex w-full flex-col gap-3 overflow-hidden rounded-xl border-border/40 p-3 not-print:border-2 not-print:shadow-xl',
+        'relative flex w-full scroll-mt-8 flex-col gap-3 overflow-hidden rounded-xl border-border/40 p-3 not-print:border-2 not-print:shadow-xl',
         'bg-linear-150 from-background/30 via-background/60 to-background/30 bg-repeat print:bg-none!',
         section === Section.MyJourney &&
           'border-foreground-tetradic-1/40 from-background-tetradic-1/30 via-background-tetradic-1/60 to-background-tetradic-1/30 fill-[color-mix(in_oklch,var(--color-foreground-tetradic-1)_80%,var(--color-foreground))] text-[color-mix(in_oklch,var(--color-foreground-tetradic-1)_80%,var(--color-foreground))]',
