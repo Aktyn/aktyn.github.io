@@ -15,7 +15,7 @@ export function GraphicsAspirations() {
       <AmbientImage
         src={graphicsAspirationsSrc}
         alt="graphics aspirations"
-        className="h-32 cursor-pointer transition-[scale] *:max-h-32 hover:z-10 hover:scale-110"
+        className="mr-auto h-32 cursor-pointer transition-[scale] *:max-h-32 hover:z-10 hover:scale-110"
         ambientOpacity={0.3}
         onClick={(event) => {
           setOpenGallery(true)

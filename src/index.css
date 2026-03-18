@@ -235,7 +235,6 @@
   }
 
   @media print {
-    /* TODO: adjust */
     @page {
       margin-top: 0;
       margin-bottom: 0;

@@ -11,6 +11,7 @@ import { cn, forceArray } from '~/lib/utils'
 import { Article } from '../article'
 import { ImagesStrip } from '../common/images-strip'
 import { SectionContainer } from '../section-container'
+import { useWindowSize } from '~/hooks/useWindowSize'
 
 const projectsGroupsArray = Object.values(ProjectsGroup)
 
@@ -46,6 +47,9 @@ type ProjectCardProps = {
 }
 
 function ProjectCard({ project, single }: ProjectCardProps) {
+  const { width } = useWindowSize()
+  const MD = 768 // md breakpoint in pixels
+
   return (
     <div
       className={cn(
@@ -88,13 +92,16 @@ function ProjectCard({ project, single }: ProjectCardProps) {
         </div>
       </div>
       <Separator className="my-2 bg-foreground/20 md:hidden" />
-      <ScrollArea className="-m-4 overflow-hidden contain-[size] max-md:-mt-16 max-md:h-64 max-md:**:data-[slot=scroll-area-viewport]:*:max-h-full md:-ml-36 md:w-96 print:in-[.hide-images-in-print]:hidden">
-        <div className="flex items-stretch justify-start gap-4 p-2 max-md:mx-auto max-md:h-full max-md:flex-row max-md:pt-16 md:my-auto md:w-full md:flex-col md:p-4 md:pl-36">
+      <ScrollArea
+        type="hover"
+        orientation={width < MD ? 'horizontal' : 'vertical'}
+        className="-m-3 overflow-hidden contain-[size] max-md:-mt-16 max-md:h-64 max-md:**:data-radix-scroll-area-viewport:*:flex! max-md:**:data-radix-scroll-area-viewport:*:h-full md:-ml-16 md:w-76 print:in-[.hide-images-in-print]:hidden"
+      >
+        <div className="flex items-stretch justify-start gap-4 p-2 max-md:mx-auto max-md:h-full max-md:flex-row max-md:pt-16 md:my-auto md:w-full md:flex-col md:p-4 md:pl-16">
           <Suspense fallback={<span />}>
             <ImagesStrip images={project.images} altPrefix="project-image" />
           </Suspense>
         </div>
-        {/* <ScrollBar orientation="horizontal" className="md:hidden" /> */}
       </ScrollArea>
     </div>
   )

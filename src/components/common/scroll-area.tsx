@@ -3,7 +3,7 @@ import { type ComponentPropsWithRef, useEffect, useRef, type ComponentProps } fr
 import { cn } from '~/lib/utils'
 
 type ScrollAreaProps = ComponentProps<typeof ScrollAreaPrimitive.Root> & {
-  orientation?: 'horizontal' | 'vertical'
+  orientation?: 'horizontal' | 'vertical' | null
   contentContainerProps?: ComponentPropsWithRef<'div'>
 }
 
@@ -52,7 +52,7 @@ export function ScrollArea({
         {children}
       </ScrollAreaPrimitive.Viewport>
       <ScrollAreaPrimitive.Scrollbar
-        orientation={orientation}
+        orientation={orientation ?? 'vertical'}
         forceMount
         className={cn(
           'opacity-0 transition-[translate,opacity] duration-400 data-[state=visible]:opacity-100 print:hidden',

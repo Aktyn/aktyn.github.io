@@ -239,7 +239,7 @@ export function MaximizedGallery({
                   className="flex h-full min-w-full items-center justify-center"
                 >
                   <div className="-z-1 mr-[-100%] flex size-full min-w-full items-center justify-center bg-red-300/10">
-                    <img src={image} className="size-full object-cover blur-lg" />
+                    <img src={image} className="size-full scale-105 object-cover blur-lg" />
                   </div>
                   <div
                     className={cn(
