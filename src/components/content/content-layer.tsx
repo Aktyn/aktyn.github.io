@@ -142,9 +142,8 @@ export function ContentLayer() {
 
             <div
               ref={sectionsContainerRef}
-              className="flex max-w-dvw flex-col gap-8 print:flex-col-reverse"
+              className="inline-flex max-w-dvw flex-col items-stretch gap-8 pb-8 print:flex-col-reverse"
             >
-              {/* TODO: reorder for printing */}
               <Journey ref={journeyRef} />
               <Projects />
               <TechStack />

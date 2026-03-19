@@ -12,10 +12,9 @@ import { Article } from '../article'
 import { ImagesStrip } from '../common/images-strip'
 import { SectionContainer } from '../section-container'
 import { useWindowSize } from '~/hooks/useWindowSize'
+import defaultTheme from 'tailwindcss/defaultTheme'
 
 const projectsGroupsArray = Object.values(ProjectsGroup)
-
-//TODO: refine
 
 export function Projects() {
   return (
@@ -28,7 +27,7 @@ export function Projects() {
               {projectsGroupsInfo[group].description}
             </p>
           </div>
-          <div className="grid items-stretch gap-4 md:grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*112),1fr))]">
+          <div className="grid items-stretch gap-4 md:grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*134),1fr))]">
             {projectsGroupsInfo[group].projects.map((project, _, array) => (
               <ProjectCard key={project.title} project={project} single={array.length === 1} />
             ))}
@@ -48,7 +47,7 @@ type ProjectCardProps = {
 
 function ProjectCard({ project, single }: ProjectCardProps) {
   const { width } = useWindowSize()
-  const MD = 768 // md breakpoint in pixels
+  const MD = parseInt(defaultTheme.screens.md) * 16
 
   return (
     <div
