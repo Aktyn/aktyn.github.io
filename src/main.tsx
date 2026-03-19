@@ -5,9 +5,6 @@ import { TooltipProvider } from '~/components/common/tooltip'
 
 import './index.css'
 
-//TODO: remove @deprecated
-//TODO: internationalize
-
 createRoot(document.getElementById('root') ?? document.body).render(
   <StrictMode>
     <TooltipProvider delayDuration={0} skipDelayDuration={0}>
