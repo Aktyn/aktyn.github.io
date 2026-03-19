@@ -6,17 +6,24 @@ import { Separator } from '~/components/common/separator'
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/common/tooltip'
 import { GithubIcon } from '~/icons/GithubIcon'
 import { Section } from '~/lib/consts'
-import { ProjectsGroup, projectsGroupsInfo } from '~/lib/projects-info'
+import {
+  ProjectsGroup,
+  useProjectsGroupsInfo,
+  type ProjectsGroupInfoSchema,
+} from '~/lib/projects-info'
 import { cn, forceArray } from '~/lib/utils'
 import { Article } from '../article'
 import { ImagesStrip } from '../common/images-strip'
 import { SectionContainer } from '../section-container'
 import { useWindowSize } from '~/hooks/useWindowSize'
 import defaultTheme from 'tailwindcss/defaultTheme'
+import { useTranslation } from 'react-i18next'
 
 const projectsGroupsArray = Object.values(ProjectsGroup)
 
 export function Projects() {
+  const projectsGroupsInfo = useProjectsGroupsInfo()
+
   return (
     <SectionContainer section={Section.PublicProjects}>
       {projectsGroupsArray.map((group) => (
@@ -38,7 +45,7 @@ export function Projects() {
   )
 }
 
-type ProjectType = (typeof projectsGroupsInfo)[ProjectsGroup]['projects'][number]
+type ProjectType = ProjectsGroupInfoSchema['projects'][number]
 
 type ProjectCardProps = {
   project: ProjectType
@@ -48,6 +55,7 @@ type ProjectCardProps = {
 function ProjectCard({ project, single }: ProjectCardProps) {
   const { width } = useWindowSize()
   const MD = parseInt(defaultTheme.screens.md) * 16
+  const { t } = useTranslation()
 
   return (
     <div
@@ -58,30 +66,29 @@ function ProjectCard({ project, single }: ProjectCardProps) {
       )}
     >
       <div className="flex grow flex-col items-stretch gap-4">
-        <div className="grid items-center justify-start gap-x-3 not-print:grid-cols-[auto_1fr]">
-          {!!project.linkToGithubRepo?.length && (
-            <div className="flex flex-row items-center gap-2">
-              {forceArray(project.linkToGithubRepo ?? []).map((link) => (
-                <Tooltip key={link}>
-                  <TooltipTrigger asChild>
-                    <a href={link} target="_blank" className="print:hidden">
-                      <GithubIcon className="size-5" />
-                    </a>
-                  </TooltipTrigger>
-                  <TooltipContent>View on GitHub</TooltipContent>
-                </Tooltip>
-              ))}
-            </div>
-          )}
-          <p className="font-semibold">
-            {project.title}
-            {forceArray(project.linkToGithubRepo ?? []).map((href) => (
-              // TODO: further adjust links to work when printing and saving as pdf
-              <span key={href.toString()} className="ml-2 text-sm font-light not-print:hidden">
-                ({href})
-              </span>
-            ))}
-          </p>
+        <div className="flex flex-row items-center gap-2 font-semibold">
+          {forceArray(project.linkToGithubRepo ?? []).map((link, _, arr) => (
+            <Tooltip key={link}>
+              <TooltipTrigger asChild>
+                <a href={link} target="_blank" className="flex flex-row items-center gap-3">
+                  <GithubIcon className="size-5 print:hidden" />
+                  {arr.length === 1 && <p>{project.title}</p>}
+                </a>
+              </TooltipTrigger>
+              <TooltipContent>{t('projects.viewOnGithub')}</TooltipContent>
+            </Tooltip>
+          ))}
+          {forceArray(project.linkToGithubRepo ?? []).length !== 1 && <p>{project.title}</p>}
+          {forceArray(project.linkToGithubRepo ?? []).map((href) => (
+            <a
+              key={href.toString()}
+              href={href}
+              target="_blank"
+              className="ml-2 text-sm font-light not-print:hidden"
+            >
+              ({href})
+            </a>
+          ))}
         </div>
         <div className="text-sm tracking-wide text-pretty">{project.description}</div>
         <div className="mt-auto flex flex-row flex-wrap items-center gap-2">

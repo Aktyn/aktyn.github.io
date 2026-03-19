@@ -6,6 +6,7 @@ import { cn } from '~/lib/utils'
 import { ScrollArea } from '../common/scroll-area'
 import { Connector } from './connector'
 import { NavItem } from './nav-item'
+import { useTranslation } from 'react-i18next'
 
 type UpdateListener = () => unknown
 
@@ -19,6 +20,7 @@ type SidebarProps = ComponentPropsWithoutRef<'aside'> & {
 
 export function Sidebar({ sectionsContainerRef, ...props }: SidebarProps) {
   const sidebarRef = useRef<HTMLElement>(null)
+  const { t } = useTranslation()
 
   const updateListenersRef = useRef<Array<UpdateListener>>([])
 
@@ -100,7 +102,7 @@ export function Sidebar({ sectionsContainerRef, ...props }: SidebarProps) {
           unregisterUpdateListener={unregisterUpdateListener}
         >
           <SvgIcon icon="VerticalAlignTop" />
-          <span>Back to top</span>
+          <span>{t('sidebar.backToTop')}</span>
         </NavItem>
         {sectionsArray.map((section) => (
           <NavItem
@@ -109,7 +111,7 @@ export function Sidebar({ sectionsContainerRef, ...props }: SidebarProps) {
             registerUpdateListener={registerUpdateListener}
             unregisterUpdateListener={unregisterUpdateListener}
           >
-            {sectionData[section].title}
+            {t(`sections.${section}.title`, sectionData[section].title)}
           </NavItem>
         ))}
       </ScrollArea>

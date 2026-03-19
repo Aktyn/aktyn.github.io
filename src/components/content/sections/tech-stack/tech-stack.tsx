@@ -1,4 +1,4 @@
-import { type techStack, TechStackCategory, techStackInfo } from '~/lib/tech-stack'
+import { type techStack, TechStackCategory, useTechStackInfo } from '~/lib/tech-stack'
 import { TechBadge } from '~/components/badges/tech-badge'
 import type { ComponentProps } from 'react'
 import { cn } from '~/lib/utils'
@@ -9,6 +9,8 @@ import { Article } from '../article'
 const techStackCategories = Object.values(TechStackCategory)
 
 export function TechStack() {
+  const techStackInfo = useTechStackInfo()
+
   return (
     <SectionContainer section={Section.TechStack}>
       {techStackCategories.map((category) => (

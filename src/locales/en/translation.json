@@ -1,0 +1,335 @@
+{
+  "header": {
+    "printOrDownload": "Print or download",
+    "cv": "CV",
+    "cvTitle": "Curriculum Vitae",
+    "printOptions": {
+      "printWithImages": "Print with images",
+      "openPrintMenu": "Open print menu",
+      "cancel": "Cancel"
+    },
+    "webglSwitch": {
+      "toggle": "Toggle advanced graphic effects"
+    }
+  },
+  "sidebar": {
+    "backToTop": "Back to top"
+  },
+  "sections": {
+    "my-journey": {
+      "title": "Experience",
+      "extendedTitle": "My journey in the software world"
+    },
+    "public-projects": {
+      "title": "Projects",
+      "extendedTitle": "Noncommercial projects"
+    },
+    "tech-stack": {
+      "title": "Tech stack",
+      "extendedTitle": "My technical skills and known tools"
+    }
+  },
+  "intro": {
+    "role": "Web Developer",
+    "scrollDown": "Scroll down for more",
+    "quickAccess": {
+      "siteContent": "Site content",
+      "clickToGo": "Click to go"
+    },
+    "quickInfo": {
+      "location": "Poland, Łódź",
+      "showMap": "Show",
+      "languages": "Polish, English",
+      "polish": "Polish",
+      "english": "English",
+      "native": "native",
+      "yearsInBusiness_one": "{{count}} year in the business",
+      "yearsInBusiness_other": "{{count}} years in the business",
+      "tillNow": "till now",
+      "yearsOld_one": "{{count}} year old",
+      "yearsOld_other": "{{count}} years old"
+    }
+  },
+  "techStack": {
+    "frontend": {
+      "title": "Frontend",
+      "desc": "This is my main area of expertise, as well as the type of work I enjoy the most.",
+      "groups": {
+        "languages": "Languages & Markup",
+        "frameworks": "Frameworks & Tooling",
+        "styling": "Styling and components",
+        "graphics": "Advanced graphics",
+        "testing": "Testing (full stack)",
+        "mobile": "Mobile"
+      }
+    },
+    "backend": {
+      "title": "Backend",
+      "desc": "I've learned backend development through work experience and personal projects.\nHere's what I'm most familiar with.",
+      "groups": {
+        "languages": "Languages & Platforms",
+        "runtimes": "Runtimes & Frameworks",
+        "databases": "Databases",
+        "microcontrollers": "Microcontrollers / Single board computers"
+      }
+    },
+    "knownTools": {
+      "title": "Known tools",
+      "desc": "Here are some non-coding tools that I have experience using.\nI use Arch, btw ;)",
+      "groups": {
+        "graphics": "Graphics and design",
+        "management": "Project management and version control systems"
+      }
+    }
+  },
+  "projectsInfo": {
+    "webDev": {
+      "title": "Web development",
+      "desc": "These are projects that I did in my free time.\n\nI only want to share projects that I completed independently, so I'm not including work projects, as they are team efforts and don't accurately reflect my individual skills.\n\nPlease note that some of the projects listed on this page are outdated and based on obsolete technologies.\nThe tech stack I'm familiar with today is quite different and more modern.",
+      "projects": {
+        "in2rp": {
+          "desc": "Website created for GTA V role play server. It was integrated with discord bot and discord server dedicated to the GTA V role play community. Project had also database for storing server statistics and user data."
+        },
+        "fivem": {
+          "desc": "It's not a website but an desktop application created with electron which allows developers to use web technologies for the UI part. FiveM is a popular GTA V modded server."
+        },
+        "paradise": {
+          "desc": "Just a simple website for another GTA V roleplaying server. It was just a presentation homepage with some information about the server. There was a stunning parallax effect that looked like a sunset over the ocean."
+        },
+        "mapPoi": {
+          "desc": "A project created as a recruiting challenge for my first job as a front-end developer. It was a simple map with POI markers loaded from given data. No map library was used in this project. All map interaction and rendering was done in code."
+        }
+      }
+    },
+    "gameDev": {
+      "title": "Game development",
+      "desc": "I've always wanted to make games.\nBelow are some examples of games I've made in my spare time.",
+      "projects": {
+        "berta": {
+          "desc": "My biggest game project. Multiplayer browser game with custom graphics engine, advanced GLSL shaders and a very unique physics engine that basically allows any image with a transparent background to be used as an interactive game object that can be destroyed and painted over.\nSome other features are paypal integration, real-time chat between players, ranking system, in-game currency with interactive shop and much more."
+        },
+        "kulka": {
+          "desc": "I made my first game in high school for a nationwide competition. Winning the competition gave me the confidence to pursue a career as a software developer.\n\nTextures and all game assets were also made by me."
+        },
+        "astro": {
+          "desc": "My second game written in java and opengl. Made one year after Kulka w tarapatach. It has 3D graphics with custom GLSL shaders, 2D physics engine and advanced particles system.\nThere is also a map creator built in the game."
+        },
+        "tetris": {
+          "desc": "It was more of a code challenge than game development. It's 700 lines of javascript code that anyone can paste and run in their browser console to see the game appear on top of existing content. It should work on any website. The idea was to include it as an easter egg in other of my projects."
+        },
+        "tentactoe": {
+          "desc1": "Another code challenge, this time in HTML and JavaScript. It's an advanced version of Tic Tac Toe.",
+          "desc2": "The game creates a peer-to-peer connection between players and allows them to play against each other. It works without a server, all data is exchanged directly between players. Basically, an index.html file can be opened locally and it will still work as a multiplayer game."
+        },
+        "zerog": {
+          "desc": "Game created for university project. It's unique 2D graphics engine is based on svg. It has a 2D physics engine built from scratch, a complex map editor and it can be partially controlled by voice commands."
+        }
+      }
+    },
+    "compGraphics": {
+      "title": "Computer graphics",
+      "desc": "Computer graphics is also one of my passions that I can share here. I'm not a professional in this field, but I like to create some graphics from time to time.",
+      "projects": {
+        "blender": {
+          "desc1": "Blender is my software of choice for creating 3D renders. I've always been fascinated by photorealistic graphics, so I started learning techniques to create them.",
+          "desc2": "I also use GIMP for creating textures or some post-processing of my renders.",
+          "desc3": "Most of my renders with full quality can be found here:\u2002"
+        }
+      }
+    },
+    "rpi": {
+      "title": "Raspberry Pi",
+      "desc": "My other computer-related hobby is building things with Raspberry Pi boards.",
+      "projects": {
+        "robot": {
+          "desc": "Something I built to learn Raspberry PI.\nIt was a remote controlled robot on wheels with a camera streaming video to the website."
+        },
+        "cyclocomputer": {
+          "desc": "First version of my bike touring project. It is an e-paper display (very power efficient) connected to a Raspberry Pi that shows some handy info like current speed, wind direction, etc. It also displays a small map with a plotted route.\nEverything is controlled and configured by a mobile app build with React Native."
+        },
+        "biketour": {
+          "desc": "New version of the Cyclocomputer project. This time it has an LCD screen and a camera that takes pictures every 500 meters.\nNote: mobile app code is on separate branch in git repository"
+        },
+        "drone": {
+          "desc": "My most ambitious project so far (not finished yet). A custom built drone controlled by Raspberry Pi via UART protocol. It is equipped with a GPS module, a raspberry pi camera and a mobile network module that allows access to the internet from almost anywhere in the world, giving the drone unlimited range.\nThere is also a web interface for controlling the drone and showing live stream from the camera and other sensors."
+        }
+      }
+    }
+  },
+  "names": {
+    "nightWoods": "Night Woods",
+    "figma": "Figma",
+    "raspberryPi": "Raspberry Pi",
+    "enigma": "Enigma Systemy Ochrony Informacji Sp. z o. o.",
+    "reactTypescript": "React+TypeScript",
+    "postgresql": "PostgreSQL",
+    "c1": "C1",
+    "blender": "Blender",
+    "gimp": "Gimp",
+    "github": "GitHub"
+  },
+  "timeline": {
+    "school": {
+      "gePower": {
+        "date": "May 2015",
+        "desc1": "1 month of apprenticeship at",
+        "company": "GE Power Controls Sp. z o.o."
+      },
+      "competition": {
+        "date": "June 2015",
+        "title": "Winning a programming competition",
+        "desc": "First Place in the Entertainment Program Category at the 15th National Programming Competition for Upper Secondary Schools."
+      },
+      "graduation": {
+        "date": "August 2016",
+        "desc1": "After graduating, I was granted a professional qualification as an",
+        "title": "IT technician",
+        "titlePl": "(Technik Informatyk)"
+      }
+    },
+    "university": {
+      "zerog": {
+        "date": "May 2019",
+        "desc": "game created as a university project"
+      },
+      "job": {
+        "date": "October 2019",
+        "desc": "This is when I started my first IT job. More info in the next section."
+      },
+      "asystent": {
+        "date": "Jan 2020",
+        "desc1": "another university project. This time, it was a group effort",
+        "desc2": "It was a fully voice-controlled music player that could control played audio and manage playlists. All of this was possible with predefined voice commands. It was created before LLM models became popular."
+      }
+    },
+    "work": {
+      "enigma": {
+        "start": "Nov 2019",
+        "end": "Aug 2021",
+        "title": "Frontend Developer at",
+        "desc1": "During the recruitment process, I was tasked with creating a small",
+        "desc2": "project in a few days. The project was called",
+        "desc3": "For most of the time, I was part of a team of front-end developers working on the project website. I gained valuable experience with modern web technologies.",
+        "desc4": "As the project was coming to an end, I needed to expand my skillset since there was a period of time when there was no need for front-end developers.",
+        "desc5": "Over the last couple of months, I have been coding",
+        "desc6": "queries, which has given me real-world experience with databases."
+      },
+      "nightWoods": {
+        "start": "Aug 2021",
+        "end": "Apr 2025",
+        "title": "Back to the world of Frontend Development at",
+        "desc1": "To avoid going into too much detail, I'll provide a brief summary.",
+        "desc2": "During that time, I worked on several projects. My primary focus was on the web front end, though I occasionally assisted with",
+        "desc3": "back-end",
+        "desc_and": "and",
+        "desc4": "mobile",
+        "desc5": "app development.",
+        "desc6": "I also spent a significant amount of time creating",
+        "desc7": "UI designs",
+        "desc8": "(mostly in"
+      }
+    },
+    "games": {
+      "date": "Games",
+      "goal": "Creating games was always my ultimate career goal",
+      "pursued": "(still pursued)",
+      "desc": "Fortunately, game development is possible solo so throughout my life I've turned a few ideas into game projects."
+    },
+    "web": {
+      "date": "Web apps",
+      "desc1": "Before I was employed as a front-end developer, I created a few websites as a freelancer. I also worked on some full-stack projects for personal use, which I've included in the list below."
+    },
+    "genetic": {
+      "date": "Genetic algorithms",
+      "desc": "I have always been fascinated by the idea of a program that can evolve and improve over time"
+    },
+    "microcontrollers": {
+      "date": "Microcontrollers",
+      "desc1": "My most recent hobby that started when I bought my first"
+    },
+    "graphics": {
+      "date": "Graphics",
+      "desc1": "As mentioned in the education section",
+      "desc1_sub": "(the first one)",
+      "desc2": "I enjoy creating amateur 3D graphics in my free time.",
+      "desc3": "When developing games, I often use my graphics-related abilities to create custom models and textures."
+    },
+    "projects": {
+      "berta": {
+        "title": "Berta Snakes",
+        "desc": "My biggest game project so far. Multiplayer browser game with WebGL based graphics, custom shaders and very unique custom physics engine."
+      },
+      "zerog": {
+        "title": "ZeroG Ball",
+        "desc": "2D game with svg based graphics physics engine build from scratch."
+      },
+      "tentactoe": {
+        "title": "Ten tac toe",
+        "desc": "Mini project - a multiplayer game working without a server, based on peer-to-peer (p2p) communication."
+      },
+      "in2rp": {
+        "title": "In2rp",
+        "desc": "Homepage created for a GTA V role-play server. The site was integrated with a Discord bot and the server database."
+      },
+      "paradise": {
+        "title": "Project Paradise",
+        "desc": "Another homepage for different GTA V role-play server."
+      },
+      "scraper": {
+        "title": "Web Scraper",
+        "desc": "Highly customizable web scraper with experimental AI features and CLI"
+      },
+      "genetic": {
+        "title": "Genetic Algorithm",
+        "desc": "Experiments with a neural network evolving with a genetic algorithm. All coded from scratch"
+      },
+      "drone": {
+        "title": "Drone",
+        "desc": "Custom-built drone that is connected to a Raspberry Pi, which enables all kinds of behaviors and custom routines.\nDron jest również połączony z kamerą i modemem sieci komórkowej, co pozwala na sterowanie i strumieniowanie wideo w czasie rzeczywistym z niemal dowolnej odległości."
+      },
+      "bike": {
+        "title": "Bike tour assistant",
+        "desc": "Raspberry Pi with a little LCD screen attached to my bike that displays current speed and mini navigation.\nCooperates with mobile app for route planning and GPS tracking."
+      },
+      "blender": {
+        "title": "My Blender renders"
+      }
+    }
+  },
+  "journey": {
+    "education": {
+      "title": "Technical school, IT class",
+      "header_1": "I attended",
+      "header_2": "Zespół szkół ponadgimnazjalnych imienia Marszalka Józefa Piłsudzkiego",
+      "header_3": "(September 2012 - August 2016)",
+      "desc_1": "Although I was primarily interested in software development, I had another passion throughout my time in school: 3D graphics.",
+      "desc_2": "In my free time, I experimented with",
+      "desc_bind": "and",
+      "desc_3": "and created various graphics."
+    },
+    "university": {
+      "title": "University studies",
+      "header_1": "I studied at",
+      "header_2": "Faculty of Mathematics and Computer Science",
+      "header_3": "(Wydział Matematyki i Informatyki Uniwersytetu Łódzkiego)"
+    },
+    "work": {
+      "title": "Work experience in software development",
+      "header_1": "While I was still studying, I registered a",
+      "header_2": "sole proprietorship",
+      "header_tooltip": "Jednoosobowa działalność gospodarcza",
+      "header_3": "in order to start working on B2B contracts."
+    },
+    "projects": {
+      "dateStart": "In my spare time",
+      "title": "Personal and freelance projects",
+      "desc_1": "I'll only group and shortly describe each category of projects giving few examples in each group.",
+      "desc_2": "The most complete and up-to-date list can be found on my",
+      "link": "link",
+      "moreDetails": "More details and images can be found in the next section"
+    }
+  },
+  "projects": {
+    "viewOnGithub": "View on GitHub"
+  }
+}

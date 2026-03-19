@@ -2,6 +2,7 @@ import { useState, type ComponentProps } from 'react'
 import { Switch } from '~/components/common/switch'
 import { SvgIcon } from '~/icons/material-symbol-icons'
 import { cn } from '~/lib/utils'
+import { useTranslation } from 'react-i18next'
 
 type PrintOptionsProps = ComponentProps<'div'> & {
   showPrintOptions: boolean
@@ -14,6 +15,7 @@ export function PrintOptions({
   ...props
 }: PrintOptionsProps) {
   const [printWithImages, setPrintWithImages] = usePrintWithImages()
+  const { t } = useTranslation()
 
   return (
     <div
@@ -28,17 +30,17 @@ export function PrintOptions({
     >
       <Switch
         id="print-with-images-switch"
-        label="Print with images"
+        label={t('header.printOptions.printWithImages')}
         enabled={printWithImages}
         onChange={setPrintWithImages}
       />
       <OptionButton onClick={() => window.print()}>
         <SvgIcon icon="Print" />
-        <span>Open print menu</span>
+        <span>{t('header.printOptions.openPrintMenu')}</span>
       </OptionButton>
       <OptionButton onClick={() => setShowPrintOptions(false)}>
         <SvgIcon icon="Close" />
-        <span>Cancel</span>
+        <span>{t('header.printOptions.cancel')}</span>
       </OptionButton>
     </div>
   )

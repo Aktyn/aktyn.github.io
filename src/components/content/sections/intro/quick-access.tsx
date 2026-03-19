@@ -11,20 +11,21 @@ import { SvgIcon } from '~/icons/material-symbol-icons'
 import { Section, sectionData } from '~/lib/consts'
 import { cn } from '~/lib/utils'
 import { ProjectedText } from '../../projected-elements/projected-text'
-
+import { useTranslation } from 'react-i18next'
 import { useWindowSize } from '~/hooks/useWindowSize'
+
 import './pulse.css'
 
 const commonSvgProps: ComponentProps<'svg'> = {
   viewBox: '0 0 100 100',
   preserveAspectRatio: 'none',
   strokeWidth: 0.5,
-  // strokeDasharray: "8 3",
   fill: 'none',
 }
 
 export function QuickAccess(props: ComponentPropsWithoutRef<'div'>) {
   const root = useRef<HTMLDivElement>(null)
+  const { t } = useTranslation()
 
   useSvgAnimations(root)
 
@@ -45,7 +46,7 @@ export function QuickAccess(props: ComponentPropsWithoutRef<'div'>) {
     >
       {/* Zawartość strony */}
       <h5 data-entry-animation-type="zoom-in" className="text-sm font-medium text-muted-foreground">
-        Site content
+        {t('intro.quickAccess.siteContent')}
       </h5>
 
       <div
@@ -133,6 +134,8 @@ function SvgBase(props: ComponentPropsWithoutRef<'svg'>) {
 }
 
 function SectionLink({ section, className }: { section: Section; className?: string }) {
+  const { t } = useTranslation()
+
   return (
     <a
       href={`#${section}`}
@@ -144,7 +147,7 @@ function SectionLink({ section, className }: { section: Section; className?: str
     >
       <div className="text-center font-semibold text-balance *:[span]:transition-colors">
         <ProjectedText
-          text={sectionData[section].extendedTitle}
+          text={t(`sections.${section}.extendedTitle`, sectionData[section].extendedTitle)}
           as="span"
           fontSize={20}
           fontWeight="semibold"
@@ -152,7 +155,7 @@ function SectionLink({ section, className }: { section: Section; className?: str
       </div>
       <div className="absolute inset-x-0 -bottom-5 flex -translate-y-5 scale-golden-inverse justify-center gap-x-1 text-sm font-normal text-foreground opacity-0 transition-[opacity,scale,translate]">
         <SvgIcon icon="WebTraffic" className="size-5" />
-        <span>Click to go</span>
+        <span>{t('intro.quickAccess.clickToGo')}</span>
       </div>
     </a>
   )

@@ -10,8 +10,8 @@ import {
 import { materialSymbolProps, SvgIcon } from '~/icons/material-symbol-icons'
 import { contentViewportID, Section } from '~/lib/consts'
 import { journeyInfo, JourneySection } from '~/lib/journey-info'
-import { ProjectsGroup, projectsGroupsInfo } from '~/lib/projects-info'
-import { TechStackCategory, techStackInfo } from '~/lib/tech-stack'
+import { ProjectsGroup, useProjectsGroupsInfo } from '~/lib/projects-info'
+import { TechStackCategory, useTechStackInfo } from '~/lib/tech-stack'
 import { cn } from '~/lib/utils'
 import { type ProjectedComponentRef } from '../content/content-helpers'
 import { ProjectedContainer } from '../content/projected-elements/projected-container'
@@ -19,9 +19,9 @@ import { ProjectedContainer } from '../content/projected-elements/projected-cont
 type UpdateListener = () => unknown
 
 type SubItemData = {
-  key: string
+  key: JourneySection | ProjectsGroup | TechStackCategory
   title: string
-  icon: ComponentProps<typeof SvgIcon>['icon']
+  icon: ComponentProps<typeof SvgIcon>['icon'] | { svgPath: string }
 }
 
 type UpdatableProps = {
@@ -43,6 +43,9 @@ export function NavItem({ children, section, ...updatableInterface }: NavItemPro
   useUpdatable(ref, updatableInterface)
   useNavItemAnimation(ref, `#${section}`, section !== Section.Intro)
 
+  const projectsGroupsInfo = useProjectsGroupsInfo()
+  const techStackInfo = useTechStackInfo()
+
   const subItems = useMemo<SubItemData[]>(() => {
     switch (section) {
       case Section.Intro:
@@ -54,10 +57,10 @@ export function NavItem({ children, section, ...updatableInterface }: NavItemPro
           icon: journeyInfo[section].icon,
         }))
       case Section.PublicProjects:
-        return Object.values(ProjectsGroup).map((section) => ({
-          key: section,
-          title: projectsGroupsInfo[section].title,
-          icon: projectsGroupsInfo[section].icon,
+        return Object.values(ProjectsGroup).map((group) => ({
+          key: group,
+          title: projectsGroupsInfo[group].title,
+          icon: projectsGroupsInfo[group].icon,
         }))
       case Section.TechStack:
         return Object.values(TechStackCategory).map((category) => ({
@@ -66,7 +69,7 @@ export function NavItem({ children, section, ...updatableInterface }: NavItemPro
           icon: techStackInfo[category].icon,
         }))
     }
-  }, [section])
+  }, [section, projectsGroupsInfo, techStackInfo])
 
   return (
     <div
@@ -130,12 +133,9 @@ function SubItem({ item, sectionIndex, ...updatableInterface }: SubItemProps) {
       )}
     >
       <SvgIcon
-        viewBox={
-          item.key === ProjectsGroup.RaspberryPi.toString()
-            ? '0 0 48 48'
-            : materialSymbolProps.viewBox
-        }
-        icon={item.icon}
+        viewBox={item.key === ProjectsGroup.RaspberryPi ? '0 0 48 48' : materialSymbolProps.viewBox}
+        icon={typeof item.icon === 'string' ? item.icon : undefined}
+        svgPath={typeof item.icon === 'object' ? item.icon.svgPath : undefined}
       />
       {item.title}
     </ProjectedContainer>

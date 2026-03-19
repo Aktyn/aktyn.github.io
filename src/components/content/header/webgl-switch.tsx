@@ -1,9 +1,11 @@
 import { type ComponentProps, useContext } from 'react'
 import { Switch } from '~/components/common/switch'
 import { SceneContext } from '../scene-context'
+import { useTranslation } from 'react-i18next'
 
 export function WebGlSwitch(props: ComponentProps<'div'>) {
   const { webGlEnabled, setWebGlEnabled } = useContext(SceneContext)
+  const { t } = useTranslation()
 
   return (
     <Switch
@@ -11,7 +13,7 @@ export function WebGlSwitch(props: ComponentProps<'div'>) {
       id="webgl-switch"
       enabled={webGlEnabled}
       onChange={setWebGlEnabled}
-      label="Toggle advanced graphic effects"
+      label={t('header.webglSwitch.toggle')}
     />
   )
 }

@@ -10,6 +10,8 @@ import { defineConfig } from 'eslint/config'
 import betterTailwindcss from 'eslint-plugin-better-tailwindcss'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
+import i18next from 'eslint-plugin-i18next'
+import { fixupPluginRules } from '@eslint/compat'
 
 export default defineConfig(
   { ignores: ['node_modules', 'dist', 'vite.config.ts', 'storybook-static', '!.storybook'] },
@@ -37,6 +39,7 @@ export default defineConfig(
       prettier,
       import: importPlugin,
       'better-tailwindcss': betterTailwindcss,
+      i18next: fixupPluginRules(i18next),
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -95,6 +98,19 @@ export default defineConfig(
           module: 'always',
         },
       ],
+      'i18next/no-literal-string': [
+        'error',
+        {
+          mode: 'jsx-text-only',
+          message: 'Literal string is not allowed',
+        },
+      ],
+    },
+  },
+  {
+    files: ['**/*.stories.tsx'],
+    rules: {
+      'i18next/no-literal-string': 'off',
     },
   },
 )

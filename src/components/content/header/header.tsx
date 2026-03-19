@@ -8,6 +8,7 @@ import { ProjectedIcon } from '../projected-elements/projected-icon'
 import { ProjectedText } from '../projected-elements/projected-text'
 import { PrintOptions } from './print-options'
 import { WebGlSwitch } from './webgl-switch'
+import { useTranslation } from 'react-i18next'
 
 export type HeaderInterfaceRef = {
   invalidateProjectedPositions: () => void
@@ -23,6 +24,8 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
   const projectedCvTextRef = useRef<ProjectedComponentRef>(null)
 
   const webGLAvailable = useMemo(() => isWebglAvailable(), [])
+
+  const { t, i18n } = useTranslation()
 
   const [showPrintOptions, setShowPrintOptions] = useState(false)
 
@@ -69,6 +72,14 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
         <a ref={logoRef} href={`#`} draggable={false} className="fill-current select-none">
           <ProjectedIcon ref={projectedLogoRef} path={LOGO_PATH} size={32} lowPriority />
         </a>
+        <select
+          value={i18n.language}
+          onChange={(e) => i18n.changeLanguage(e.target.value)}
+          className="cursor-pointer rounded border border-foreground/20 bg-transparent px-2 py-1 text-sm text-foreground hover:bg-foreground/5 print:hidden"
+        >
+          <option value="en">EN</option>
+          <option value="pl">PL</option>
+        </select>
         {webGLAvailable && <WebGlSwitch />}
       </div>
       <div className="relative">
@@ -85,7 +96,7 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
           />
           <ProjectedText
             ref={projectedPrintTextRef}
-            text="Print or download"
+            text={t('header.printOrDownload')}
             className="whitespace-nowrap"
             splitWords={false}
             fontSize={15}
@@ -93,11 +104,11 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
           />
           <ProjectedText
             ref={projectedCvTextRef}
-            text="CV"
+            text={t('header.cv')}
             fontSize={15}
             fontWeight="bold"
             lowPriority
-            title="Curriculum Vitae"
+            title={t('header.cvTitle')}
           />
         </button>
         <PrintOptions

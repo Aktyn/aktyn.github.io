@@ -2,321 +2,321 @@ import { Suspense } from 'react'
 import { Skeleton } from '~/components/common/skeleton'
 import { Diploma } from './diploma'
 import { CompactImagesStrip } from './compact-images-strip'
-import { ProjectsGroup, projectsGroupsInfo } from '~/lib/projects-info'
+import { ProjectsGroup, useProjectsGroupsInfo } from '~/lib/projects-info'
 import { GithubProjectLink } from '~/components/common/github-project-link'
 import { LinkedInIcon } from '~/icons/LinkedInIcon'
 import { QuickProjectInfo } from '~/components/content/sections/journey/quick-project-info'
 import { GraphicsAspirations } from '~/components/content/sections/journey/graphics-aspirations'
+import { useTranslation } from 'react-i18next'
 
-export const schoolTimelineItems = [
-  {
-    date: 'May 2015',
-    content: (
-      <p>
-        1 month of apprenticeship at <b>GE Power Controls Sp. z o.o.</b>
-      </p>
-    ),
-  },
-  {
-    date: 'June 2015',
-    content: (
-      <div className="flex flex-col items-start">
-        <p>Winning a programming competition</p>
-        <div className="flex flex-row flex-wrap-reverse items-center gap-x-4 gap-y-1">
-          <Suspense fallback={<Skeleton className="h-48 w-32" />}>
-            <Diploma />
-          </Suspense>
-          <span className="max-w-80 flex-0 grow text-sm text-pretty">
-            First Place in the Entertainment Program Category at the 15th National Programming
-            Competition for Upper Secondary Schools.
-          </span>
-        </div>
-      </div>
-    ),
-  },
-  {
-    date: 'August 2016',
-    content: (
-      <p>
-        After graduating, I was granted a professional qualification as an <b>IT technician</b>{' '}
-        <span className="text-sm">(Technik Informatyk)</span>
-      </p>
-    ),
-  },
-]
+export const useSchoolTimelineItems = () => {
+  const { t } = useTranslation()
 
-export const universityTimelineItems = [
-  {
-    date: 'May 2019',
-    content: (
-      <div className="flex flex-col items-stretch">
-        <div className="z-20 font-semibold">
-          <GithubProjectLink title="ZeroG Ball" href="https://github.com/Aktyn/ZeroG-Ball" />{' '}
-          <span>- game created as a university project</span>
-        </div>
-        <CompactImagesStrip
-          images={
-            projectsGroupsInfo[ProjectsGroup.GameDevelopment].projects.find(
-              (p) => p.title === 'ZeroG Ball',
-            )?.images ?? []
-          }
-          altPrefix="ZeroG-Ball"
-          className="-ml-10 **:data-[slot=images-strip-content-container]:pl-10"
-        />
-      </div>
-    ),
-  },
-  {
-    date: 'October 2019',
-    content: (
-      <p className="z-30">This is when I started my first IT job. More info in the next section.</p>
-    ),
-  },
-  {
-    date: 'Jan 2020',
-    content: (
-      <div>
-        <p className="font-semibold text-balance">
-          <GithubProjectLink
-            href="https://github.com/Aktyn/AsystentGlosowy"
-            title="Asystent głosowy"
-          />{' '}
-          <span>- another university project. This time, it was a group effort </span>
-        </p>
-        <p className="text-sm text-pretty">
-          It was a fully voice-controlled music player that could control played audio and manage
-          playlists. All of this was possible with predefined voice commands. It was created before
-          LLM models became popular.
-        </p>
-      </div>
-    ),
-  },
-]
-
-export const workExperienceTimelineItems = [
-  {
-    date: { start: 'Nov 2019', end: 'Aug 2021' },
-    content: (
-      <div className="flex flex-col items-start">
-        <p className="z-10 font-semibold text-balance">
-          Frontend Developer at{' '}
-          <a href="https://www.enigma.com.pl/" target="_blank" className="underline">
-            Enigma Systemy Ochrony Informacji Sp. z o. o.
-          </a>
-        </p>
-        <p className="z-10 mb-1 text-sm text-pretty">
-          During the recruitment process, I was tasked with creating a small <i>React+TypeScript</i>{' '}
-          project in a few days. The project was called{' '}
-          <GithubProjectLink
-            href="https://github.com/Aktyn/React-Map-POI"
-            title="React-Map-POI"
-            className="inline-flex flex-row items-center gap-1"
-          />
-          .
-        </p>
-        <CompactImagesStrip
-          images={
-            projectsGroupsInfo[ProjectsGroup.WebDevelopment].projects.find(
-              (p) => p.title === 'Map POI',
-            )?.images ?? []
-          }
-          altPrefix="React-Map-POI"
-          className="-ml-3 min-w-full"
-        />
-        <p className="z-10 mt-4 text-sm text-pretty">
-          For most of the time, I was part of a team of front-end developers working on the project
-          website. I gained valuable experience with modern web technologies.
-        </p>
-        <p className="z-10 text-sm text-pretty">
-          As the project was coming to an end, I needed to expand my skillset since there was a
-          period of time when there was no need for front-end developers.
-          <br />
-          Over the last couple of months, I have been coding{' '}
-          <span className="font-semibold">PostgreSQL</span> queries, which has given me real-world
-          experience with databases.
-        </p>
-      </div>
-    ),
-  },
-  {
-    date: { start: 'Aug 2021', end: 'Apr 2025' },
-    content: (
-      <div>
-        <p className="font-semibold">
-          Back to the world of Frontend Development at{' '}
-          <a
-            href="https://www.linkedin.com/company/night-woods/"
-            target="_blank"
-            className="inline-flex flex-row items-center gap-1 underline"
-          >
-            <LinkedInIcon className="size-3" />
-            Night Woods
-          </a>
-        </p>
-        <p className="text-sm text-pretty">
-          <span className="font-light">
-            To avoid going into too much detail, I'll provide a brief summary.
-          </span>
-          <br />
-          During that time, I worked on several projects. My primary focus was on the web front end,
-          though I occasionally assisted with <u>back-end</u> and <u>mobile</u> app development.
-          <br />I also spent a significant amount of time creating <u>UI designs</u> (mostly in{' '}
-          <span className="font-semibold">Figma</span>).
-        </p>
-      </div>
-    ),
-  },
-]
-
-export const freeTimeProjectsTimelineItems = [
-  {
-    date: 'Games',
-    content: (
-      <div>
+  return [
+    {
+      date: t('timeline.school.gePower.date'),
+      content: (
         <p>
-          Creating games was always my ultimate career goal{' '}
-          <span className="text-sm text-muted-foreground">(still pursued)</span>
+          {t('timeline.school.gePower.desc1')} <b>{t('timeline.school.gePower.company')}</b>
         </p>
-        <div>
-          <div>
-            <p className="text-sm">
-              Fortunately, game development is possible solo so throughout my life I've turned a few
-              ideas into game projects.
-            </p>
-            <ul className="*:ml-2">
-              <QuickProjectInfo
-                component="li"
-                githubLink="https://github.com/Aktyn/BertaSnakes"
-                title="Berta Snakes"
-                description="My biggest game project so far. Multiplayer browser game with WebGL based graphics, custom shaders and very unique custom physics engine."
-                className="text-pretty"
-              />
-              <QuickProjectInfo
-                component="li"
-                githubLink="https://github.com/Aktyn/ZeroG-Ball"
-                title="ZeroG Ball"
-                description="2D game with svg based graphics physics engine build from scratch."
-              />
-              <QuickProjectInfo
-                component="li"
-                githubLink="https://github.com/Aktyn/Ten-tac-toe"
-                title="Ten tac toe"
-                description="Mini project - a multiplayer game working without a server, based on peer-to-peer (p2p) communication."
-              />
-            </ul>
+      ),
+    },
+    {
+      date: t('timeline.school.competition.date'),
+      content: (
+        <div className="flex flex-col items-start">
+          <p>{t('timeline.school.competition.title')}</p>
+          <div className="flex flex-row flex-wrap-reverse items-center gap-x-4 gap-y-1">
+            <Suspense fallback={<Skeleton className="h-48 w-32" />}>
+              <Diploma />
+            </Suspense>
+            <span className="max-w-80 flex-0 grow text-sm text-pretty">
+              {t('timeline.school.competition.desc')}
+            </span>
           </div>
         </div>
-      </div>
-    ),
-  },
-  {
-    date: 'Web apps',
-    content: (
-      <div>
+      ),
+    },
+    {
+      date: t('timeline.school.graduation.date'),
+      content: (
         <p>
-          Before I was employed as a front-end developer, I created a few websites as a freelancer.
-          I also worked on some full-stack projects for personal use, which I've included in the
-          list below.
+          {t('timeline.school.graduation.desc1')} <b>{t('timeline.school.graduation.title')}</b>{' '}
+          <span className="text-sm">{t('timeline.school.graduation.titlePl')}</span>
         </p>
-        <ul className="*:ml-2">
-          <QuickProjectInfo
-            component="li"
-            githubLink="https://github.com/Aktyn/in2rp_homepage"
-            title="In2rp"
-            description="Homepage created for a GTA V role-play server. The site was integrated with a Discord bot and the server database."
+      ),
+    },
+  ]
+}
+
+export const useUniversityTimelineItems = () => {
+  const { t } = useTranslation()
+  const projectsGroupsInfo = useProjectsGroupsInfo()
+  return [
+    {
+      date: t('timeline.university.zerog.date'),
+      content: (
+        <div className="flex flex-col items-stretch">
+          <div className="z-20 font-semibold">
+            <GithubProjectLink title="ZeroG Ball" href="https://github.com/Aktyn/ZeroG-Ball" />{' '}
+            <span>- {t('timeline.university.zerog.desc')}</span>
+          </div>
+          <CompactImagesStrip
+            images={
+              projectsGroupsInfo[ProjectsGroup.GameDevelopment].projects.find(
+                (p) => p.title === 'ZeroG Ball',
+              )?.images ?? []
+            }
+            altPrefix="ZeroG-Ball"
+            className="-ml-10 **:data-[slot=images-strip-content-container]:pl-10"
           />
-          <QuickProjectInfo
-            component="li"
-            githubLink="https://github.com/Aktyn/ProjectParadise"
-            title="Project Paradise"
-            description="Another homepage for different GTA V role-play server."
-          />
-          <QuickProjectInfo
-            component="li"
-            githubLink="https://github.com/Aktyn/web-scraper"
-            title="Web Scraper"
-            description="Highly customizable web scraper with experimental AI features and CLI"
-          />
-        </ul>
-      </div>
-    ),
-  },
-  {
-    date: 'Genetic algorithms',
-    content: (
-      <div>
-        <p>
-          I have always been fascinated by the idea of a program that can evolve and improve over
-          time
-        </p>
-        <ul className="*:ml-2">
-          <QuickProjectInfo
-            component="li"
-            githubLink="https://github.com/Aktyn/Genetic-Algorithm"
-            title="Genetic Algorithm"
-            description="Experiments with a neural network evolving with a genetic algorithm. All coded from scratch"
-          />
-        </ul>
-      </div>
-    ),
-  },
-  {
-    date: 'Microcontrollers',
-    content: (
-      <div>
-        <p>
-          My most recent hobby that started when I bought my first{' '}
-          <a
-            href="https://www.raspberrypi.com/"
-            target="_blank"
-            className="font-semibold underline"
-          >
-            Raspberry Pi
-          </a>
-        </p>
-        <ul className="*:ml-2">
-          <QuickProjectInfo
-            component="li"
-            githubLink="https://github.com/Aktyn/aktyn-drone"
-            title="Drone"
-            description={`Custom-built drone that is connected to a Raspberry Pi, which enables all kinds of behaviors and custom routines.\nThe drone is also connected to a camera and a mobile network dongle, which allows for steering and a real-time video stream from almost any distance.`}
-            className="text-pretty"
-          />
-          <QuickProjectInfo
-            component="li"
-            githubLink="https://github.com/Aktyn/Bike-Tour-Assistant"
-            title="Bike tour assistant"
-            description={`Raspberry Pi with a little LCD screen attached to my bike that displays current speed and mini navigation.\nCooperates with mobile app for route planning and GPS tracking.`}
-            className="text-pretty"
-          />
-        </ul>
-      </div>
-    ),
-  },
-  {
-    date: 'Graphics',
-    content: (
-      <div className="inline-flex flex-row flex-wrap justify-start gap-x-4 gap-y-1 max-md:flex-col md:items-center">
-        <div className="flex-0 grow text-sm text-pretty">
-          <p>
-            As mentioned in the education section <span className="text-sm">(the first one)</span>,
-            I enjoy creating amateur 3D graphics in my free time.
+        </div>
+      ),
+    },
+    {
+      date: t('timeline.university.job.date'),
+      content: <p className="z-30">{t('timeline.university.job.desc')}</p>,
+    },
+    {
+      date: t('timeline.university.asystent.date'),
+      content: (
+        <div>
+          <p className="font-semibold text-balance">
+            <GithubProjectLink
+              href="https://github.com/Aktyn/AsystentGlosowy"
+              title="Asystent głosowy"
+            />{' '}
+            <span>- {t('timeline.university.asystent.desc1')} </span>
           </p>
-          <p>
-            When developing games, I often use my graphics-related abilities to create custom models
-            and textures.
+          <p className="text-sm text-pretty">{t('timeline.university.asystent.desc2')}</p>
+        </div>
+      ),
+    },
+  ]
+}
+
+export const useWorkExperienceTimelineItems = () => {
+  const { t } = useTranslation()
+  const projectsGroupsInfo = useProjectsGroupsInfo()
+  return [
+    {
+      date: {
+        start: t('timeline.work.enigma.start'),
+        end: t('timeline.work.enigma.end'),
+      },
+      content: (
+        <div className="flex flex-col items-start">
+          <p className="z-10 font-semibold text-balance">
+            {t('timeline.work.enigma.title')}{' '}
+            <a href="https://www.enigma.com.pl/" target="_blank" className="underline">
+              {t('names.enigma')}
+            </a>
           </p>
-          <ul className="mt-2 *:ml-2">
+          <p className="z-10 mb-1 text-sm text-pretty">
+            {t('timeline.work.enigma.desc1')} <i>{t('names.reactTypescript')}</i>{' '}
+            {t('timeline.work.enigma.desc2')}{' '}
+            <GithubProjectLink
+              href="https://github.com/Aktyn/React-Map-POI"
+              title="React-Map-POI"
+              className="inline-flex flex-row items-center gap-1"
+            />
+            .
+          </p>
+          <CompactImagesStrip
+            images={
+              projectsGroupsInfo[ProjectsGroup.WebDevelopment].projects.find(
+                (p) => p.title === 'Map POI',
+              )?.images ?? []
+            }
+            altPrefix="React-Map-POI"
+            className="-ml-3 min-w-full"
+          />
+          <p className="z-10 mt-4 text-sm text-pretty">{t('timeline.work.enigma.desc3')}</p>
+          <p className="z-10 text-sm text-pretty">
+            {t('timeline.work.enigma.desc4')}
+            <br />
+            {t('timeline.work.enigma.desc5')}{' '}
+            <span className="font-semibold">{t('names.postgresql')}</span>{' '}
+            {t('timeline.work.enigma.desc6')}
+          </p>
+        </div>
+      ),
+    },
+    {
+      date: {
+        start: t('timeline.work.nightWoods.start'),
+        end: t('timeline.work.nightWoods.end'),
+      },
+      content: (
+        <div>
+          <p className="font-semibold">
+            {t('timeline.work.nightWoods.title')}{' '}
+            <a
+              href="https://www.linkedin.com/company/night-woods/"
+              target="_blank"
+              className="inline-flex flex-row items-center gap-1 underline"
+            >
+              <LinkedInIcon className="size-3" />
+              {t('names.nightWoods')}
+            </a>
+          </p>
+          <p className="text-sm text-pretty">
+            <span className="font-light">{t('timeline.work.nightWoods.desc1')}</span>
+            <br />
+            {t('timeline.work.nightWoods.desc2')} <b>{t('timeline.work.nightWoods.desc3')}</b>{' '}
+            {t('timeline.work.nightWoods.desc_and')} <b>{t('timeline.work.nightWoods.desc4')}</b>{' '}
+            {t('timeline.work.nightWoods.desc5')}
+            <br />
+            {t('timeline.work.nightWoods.desc6')} <b>{t('timeline.work.nightWoods.desc7')}</b>{' '}
+            {t('timeline.work.nightWoods.desc8')}
+            <span className="font-semibold">{t('names.figma')}</span>).
+          </p>
+        </div>
+      ),
+    },
+  ]
+}
+
+export const useFreeTimeProjectsTimelineItems = () => {
+  const { t } = useTranslation()
+  return [
+    {
+      date: t('timeline.games.date'),
+      content: (
+        <div>
+          <p>
+            {t('timeline.games.goal')}{' '}
+            <span className="text-sm text-muted-foreground">{t('timeline.games.pursued')}</span>
+          </p>
+          <div>
+            <div>
+              <p className="text-sm">{t('timeline.games.desc')}</p>
+              <ul className="*:ml-2">
+                <QuickProjectInfo
+                  component="li"
+                  githubLink="https://github.com/Aktyn/BertaSnakes"
+                  title={t('timeline.projects.berta.title')}
+                  description={t('timeline.projects.berta.desc')}
+                  className="text-pretty"
+                />
+                <QuickProjectInfo
+                  component="li"
+                  githubLink="https://github.com/Aktyn/ZeroG-Ball"
+                  title={t('timeline.projects.zerog.title')}
+                  description={t('timeline.projects.zerog.desc')}
+                />
+                <QuickProjectInfo
+                  component="li"
+                  githubLink="https://github.com/Aktyn/Ten-tac-toe"
+                  title={t('timeline.projects.tentactoe.title')}
+                  description={t('timeline.projects.tentactoe.desc')}
+                />
+              </ul>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      date: t('timeline.web.date'),
+      content: (
+        <div>
+          <p>{t('timeline.web.desc1')}</p>
+          <ul className="*:ml-2">
             <QuickProjectInfo
-              githubLink="https://github.com/Aktyn/Blender-portfolio"
-              title="My Blender renders"
+              component="li"
+              githubLink="https://github.com/Aktyn/in2rp_homepage"
+              title={t('timeline.projects.in2rp.title')}
+              description={t('timeline.projects.in2rp.desc')}
+            />
+            <QuickProjectInfo
+              component="li"
+              githubLink="https://github.com/Aktyn/ProjectParadise"
+              title={t('timeline.projects.paradise.title')}
+              description={t('timeline.projects.paradise.desc')}
+            />
+            <QuickProjectInfo
+              component="li"
+              githubLink="https://github.com/Aktyn/web-scraper"
+              title={t('timeline.projects.scraper.title')}
+              description={t('timeline.projects.scraper.desc')}
             />
           </ul>
         </div>
-        <Suspense fallback={<Skeleton className="h-32 w-58" />}>
-          <GraphicsAspirations />
-        </Suspense>
-      </div>
-    ),
-  },
-]
+      ),
+    },
+    {
+      date: t('timeline.genetic.date'),
+      content: (
+        <div>
+          <p>{t('timeline.genetic.desc')}</p>
+          <ul className="*:ml-2">
+            <QuickProjectInfo
+              component="li"
+              githubLink="https://github.com/Aktyn/Genetic-Algorithm"
+              title={t('timeline.projects.genetic.title')}
+              description={t('timeline.projects.genetic.desc')}
+            />
+          </ul>
+        </div>
+      ),
+    },
+    {
+      date: t('timeline.microcontrollers.date'),
+      content: (
+        <div>
+          <p>
+            {t('timeline.microcontrollers.desc1')}{' '}
+            <a
+              href="https://www.raspberrypi.com/"
+              target="_blank"
+              className="font-semibold underline"
+            >
+              {t('names.raspberryPi')}
+            </a>
+          </p>
+          <ul className="*:ml-2">
+            <QuickProjectInfo
+              component="li"
+              githubLink="https://github.com/Aktyn/aktyn-drone"
+              title={t('timeline.projects.drone.title')}
+              description={t('timeline.projects.drone.desc')}
+              className="text-pretty"
+            />
+            <QuickProjectInfo
+              component="li"
+              githubLink="https://github.com/Aktyn/Bike-Tour-Assistant"
+              title={t('timeline.projects.bike.title')}
+              description={t('timeline.projects.bike.desc')}
+              className="text-pretty"
+            />
+          </ul>
+        </div>
+      ),
+    },
+    {
+      date: t('timeline.graphics.date'),
+      content: (
+        <div className="inline-flex flex-row flex-wrap justify-start gap-x-4 gap-y-1 max-md:flex-col md:items-center">
+          <div className="flex-0 grow text-sm text-pretty">
+            <p>
+              {t('timeline.graphics.desc1')}{' '}
+              <span className="text-sm">{t('timeline.graphics.desc1_sub')}</span>,{' '}
+              {t('timeline.graphics.desc2')}
+            </p>
+            <p>{t('timeline.graphics.desc3')}</p>
+            <ul className="mt-2 *:ml-2">
+              <QuickProjectInfo
+                githubLink="https://github.com/Aktyn/Blender-portfolio"
+                title={t('timeline.projects.blender.title')}
+              />
+            </ul>
+          </div>
+          <Suspense fallback={<Skeleton className="h-32 w-58" />}>
+            <GraphicsAspirations />
+          </Suspense>
+        </div>
+      ),
+    },
+  ]
+}

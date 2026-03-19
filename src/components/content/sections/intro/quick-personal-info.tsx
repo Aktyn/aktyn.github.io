@@ -5,6 +5,7 @@ import { materialSymbolIcons, materialSymbolProps } from '~/icons/material-symbo
 import { cn } from '~/lib/utils'
 import { ProjectedIcon } from '../../projected-elements/projected-icon'
 import { ProjectedText } from '../../projected-elements/projected-text'
+import { useTranslation } from 'react-i18next'
 
 type QuickPersonalInfoProps = {
   experienceStartDate: Date
@@ -12,6 +13,8 @@ type QuickPersonalInfoProps = {
 }
 
 export function QuickPersonalInfo({ experienceStartDate, className }: QuickPersonalInfoProps) {
+  const { t } = useTranslation()
+
   return (
     <div
       className={cn(
@@ -26,7 +29,12 @@ export function QuickPersonalInfo({ experienceStartDate, className }: QuickPerso
           lowPriority
           {...materialSymbolProps}
         />
-        <ProjectedText text="Poland, Łódź" fontSize={14} splitWords={false} lowPriority />
+        <ProjectedText
+          text={t('intro.quickInfo.location')}
+          fontSize={14}
+          splitWords={false}
+          lowPriority
+        />
         <a
           href="https://maps.app.goo.gl/HngK9DdmwfTJpXhA9"
           target="_blank"
@@ -39,7 +47,7 @@ export function QuickPersonalInfo({ experienceStartDate, className }: QuickPerso
             lowPriority
             {...materialSymbolProps}
           />
-          <ProjectedText text="Show" fontSize={12} lowPriority />
+          <ProjectedText text={t('intro.quickInfo.showMap')} fontSize={12} lowPriority />
         </a>
       </QuickInfoLabel>
       <Tooltip>
@@ -51,12 +59,17 @@ export function QuickPersonalInfo({ experienceStartDate, className }: QuickPerso
               lowPriority
               {...materialSymbolProps}
             />
-            <ProjectedText text="Polish, English" splitWords={false} fontSize={14} lowPriority />
+            <ProjectedText
+              text={t('intro.quickInfo.languages')}
+              splitWords={false}
+              fontSize={14}
+              lowPriority
+            />
           </QuickInfoLabel>
         </TooltipTrigger>
         <TooltipContent className="grid grid-cols-[auto_auto] items-center justify-center gap-x-1 text-left text-sm">
-          Polish:<b>native</b>
-          English:<b>C1</b>
+          {t('intro.quickInfo.polish')}:<b>{t('intro.quickInfo.native')}</b>
+          {t('intro.quickInfo.english')}:<b>{t('names.c1')}</b>
         </TooltipContent>
       </Tooltip>
       <Tooltip>
@@ -69,7 +82,9 @@ export function QuickPersonalInfo({ experienceStartDate, className }: QuickPerso
               {...materialSymbolProps}
             />
             <ProjectedText
-              text={`${differenceInYears(new Date(), experienceStartDate)} years in the business`}
+              text={t('intro.quickInfo.yearsInBusiness', {
+                count: differenceInYears(new Date(), experienceStartDate),
+              })}
               splitWords={false}
               fontSize={14}
               lowPriority
@@ -77,7 +92,7 @@ export function QuickPersonalInfo({ experienceStartDate, className }: QuickPerso
           </QuickInfoLabel>
         </TooltipTrigger>
         <TooltipContent className="text-sm">
-          <b>{format(experienceStartDate, 'dd.MM.yyyy')}</b> till now
+          <b>{format(experienceStartDate, 'dd.MM.yyyy')}</b> {t('intro.quickInfo.tillNow')}
         </TooltipContent>
       </Tooltip>
       <QuickInfoLabel data-entry-animation-type="from-right">
@@ -88,7 +103,7 @@ export function QuickPersonalInfo({ experienceStartDate, className }: QuickPerso
           {...materialSymbolProps}
         />
         <ProjectedText
-          text={`${calculateAge(new Date('1996-02-14'))} years old`}
+          text={t('intro.quickInfo.yearsOld', { count: calculateAge(new Date('1996-02-14')) })}
           splitWords={false}
           fontSize={14}
           lowPriority

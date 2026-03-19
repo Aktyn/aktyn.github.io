@@ -6,10 +6,10 @@ import { SvgIcon } from '~/icons/material-symbol-icons'
 import { Section } from '~/lib/consts'
 import { cn } from '~/lib/utils'
 import {
-  freeTimeProjectsTimelineItems,
-  schoolTimelineItems,
-  universityTimelineItems,
-  workExperienceTimelineItems,
+  useFreeTimeProjectsTimelineItems,
+  useSchoolTimelineItems,
+  useUniversityTimelineItems,
+  useWorkExperienceTimelineItems,
 } from './timeline-items'
 import { journeyInfo, JourneySection } from '~/lib/journey-info'
 import { CompactImagesStrip } from './compact-images-strip'
@@ -17,31 +17,40 @@ import { SectionContainer } from '../section-container'
 import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/common/tooltip'
 import { Article } from '../article'
 import { GithubIcon } from '~/icons/GithubIcon'
+import { useTranslation } from 'react-i18next'
 
 type IntroProps = ComponentProps<'section'> & {
   ref?: React.RefObject<HTMLDivElement | null>
 }
 
 export function Journey({ ref, ...props }: IntroProps) {
+  const { t } = useTranslation()
+  const schoolTimelineItems = useSchoolTimelineItems()
+  const universityTimelineItems = useUniversityTimelineItems()
+  const workExperienceTimelineItems = useWorkExperienceTimelineItems()
+  const freeTimeProjectsTimelineItems = useFreeTimeProjectsTimelineItems()
+
   return (
     <SectionContainer ref={ref} section={Section.MyJourney} {...props}>
       <Article articleKey={JourneySection.Education}>
         <DatedTitle
           dateStart="2012"
           dateEnd="2016"
-          title="Technical school, IT class"
+          title={t('journey.education.title')}
           icon="School"
         />
         <TreeTimeline
           header={
             <div className="text-balance">
-              I attended{' '}
+              {t('journey.education.header_1')}{' '}
               <b>
                 <a href="http://www.warecka.edu.pl/" target="_blank">
-                  Zespół szkół ponadgimnazjalnych imienia Marszalka Józefa Piłsudzkiego
+                  {t('journey.education.header_2')}
                 </a>
               </b>{' '}
-              <span className="text-sm text-muted-foreground">(September 2012 - August 2016)</span>
+              <span className="text-sm text-muted-foreground">
+                {t('journey.education.header_3')}
+              </span>
             </div>
           }
           items={schoolTimelineItems}
@@ -49,18 +58,17 @@ export function Journey({ ref, ...props }: IntroProps) {
         <Separator className="bg-transparent bg-linear-to-r from-transparent via-foreground/20 to-transparent" />
         <div className="flex flex-col items-stretch gap-2">
           <p className="z-10 text-sm font-medium text-pretty">
-            Although I was primarily interested in software development, I had another passion
-            throughout my time in school: 3D graphics.
+            {t('journey.education.desc_1')}
             <br />
-            In my free time, I experimented with{' '}
+            {t('journey.education.desc_2')}{' '}
             <a href="https://www.blender.org/" target="_blank" className="font-bold">
-              Blender
+              {t('names.blender')}
             </a>{' '}
-            and{' '}
+            {t('journey.education.desc_bind')}{' '}
             <a href="https://www.gimp.org/" target="_blank" className="font-bold">
-              Gimp
+              {t('names.gimp')}
             </a>{' '}
-            and created various graphics.
+            {t('journey.education.desc_3')}
           </p>
           <CompactImagesStrip
             images={journeyInfo[JourneySection.Education].images.slice(1)} // get only the diploma image
@@ -68,21 +76,24 @@ export function Journey({ ref, ...props }: IntroProps) {
           />
         </div>
         <Separator className="my-2 bg-foreground/20" />
-        <DatedTitle dateStart="2017" dateEnd="2020" title="University studies" className="z-10" />
+        <DatedTitle
+          dateStart="2017"
+          dateEnd="2020"
+          title={t('journey.university.title')}
+          className="z-10"
+        />
         <TreeTimeline
           header={
             <div className="text-balance">
-              I studied at{' '}
+              {t('journey.university.header_1')}{' '}
               <b>
                 <a
                   href="https://www.math.uni.lodz.pl/"
                   target="_blank"
                   className="relative z-10 cursor-pointer underline"
                 >
-                  Faculty of Mathematics and Computer Science{' '}
-                  <span className="text-sm font-normal">
-                    (Wydział Matematyki i Informatyki Uniwersytetu Łódzkiego)
-                  </span>
+                  {t('journey.university.header_2')}{' '}
+                  <span className="text-sm font-normal">{t('journey.university.header_3')}</span>
                 </a>
               </b>
             </div>
@@ -91,28 +102,26 @@ export function Journey({ ref, ...props }: IntroProps) {
         />
       </Article>
       <Article articleKey={JourneySection.WorkExperience}>
-        <DatedTitle
-          dateStart="2019"
-          dateEnd="2025"
-          title="Work experience in software development"
-          icon="Work"
-        />
+        <DatedTitle dateStart="2019" dateEnd="2025" title={t('journey.work.title')} icon="Work" />
         <TreeTimeline
           header={
             <div className="text-balance">
-              While I was still studying, I registered a{' '}
+              {t('journey.work.header_1')}{' '}
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <u>
-                    sole proprietorship{' '}
-                    <SvgIcon icon="Help" className="inline size-3.5 text-muted-foreground" />
-                  </u>
+                  <b>
+                    {t('journey.work.header_2')}
+                    <SvgIcon
+                      icon="Help"
+                      className="inline size-3.5 align-super text-muted-foreground print:hidden"
+                    />
+                  </b>
                 </TooltipTrigger>
                 <TooltipContent className="font-semibold">
-                  Jednoosobowa działalność gospodarcza
+                  {t('journey.work.header_tooltip')}
                 </TooltipContent>
               </Tooltip>{' '}
-              in order to start working on B2B contracts.
+              {t('journey.work.header_3')}
             </div>
           }
           items={workExperienceTimelineItems}
@@ -120,26 +129,23 @@ export function Journey({ ref, ...props }: IntroProps) {
       </Article>
       <Article articleKey={JourneySection.FreeTimeProjects}>
         <DatedTitle
-          dateStart="In my spare time"
-          title="Personal and freelance projects"
+          dateStart={t('journey.projects.dateStart')}
+          title={t('journey.projects.title')}
           icon="PersonHeart"
         />
 
         <TreeTimeline
           header={
             <div className="text-balance">
+              <p>{t('journey.projects.desc_1')}</p>
               <p>
-                I'll only group and shortly describe each category of projects giving few examples
-                in each group.
-              </p>
-              <p>
-                The most complete and up-to-date list can be found on my{' '}
+                {t('journey.projects.desc_2')}{' '}
                 <a href="https://github.com/Aktyn?tab=repositories" target="_blank">
                   <b className="inline-flex flex-row items-baseline gap-1">
                     <GithubIcon className="-my-1 size-3" />
-                    GitHub
-                  </b>
-                  : link
+                    {t('names.github')}
+                  </b>{' '}
+                  ({t('journey.projects.link')})
                 </a>
               </p>
             </div>
@@ -147,7 +153,7 @@ export function Journey({ ref, ...props }: IntroProps) {
           items={freeTimeProjectsTimelineItems}
         />
         <div className="text-sm text-muted-foreground print:hidden">
-          More details and images can be found in the next section
+          {t('journey.projects.moreDetails')}
         </div>
       </Article>
     </SectionContainer>

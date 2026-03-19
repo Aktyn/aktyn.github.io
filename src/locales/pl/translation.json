@@ -1,0 +1,339 @@
+{
+  "header": {
+    "printOrDownload": "Drukuj lub pobierz",
+    "cv": "CV",
+    "cvTitle": "Curriculum Vitae",
+    "printOptions": {
+      "printWithImages": "Drukuj z obrazami",
+      "openPrintMenu": "Otwórz menu drukowania",
+      "cancel": "Anuluj"
+    },
+    "webglSwitch": {
+      "toggle": "Przełącz zaawansowane efekty graficzne"
+    }
+  },
+  "sidebar": {
+    "backToTop": "Powrót na górę"
+  },
+  "sections": {
+    "my-journey": {
+      "title": "Doświadczenie",
+      "extendedTitle": "Moja podróż po świecie programowania"
+    },
+    "public-projects": {
+      "title": "Projekty",
+      "extendedTitle": "Projekty niekomercyjne"
+    },
+    "tech-stack": {
+      "title": "Technologie",
+      "extendedTitle": "Moje umiejętności i znane narzędzia"
+    }
+  },
+  "intro": {
+    "role": "Web Developer",
+    "scrollDown": "Przewiń w dół po więcej treści",
+    "quickAccess": {
+      "siteContent": "Zawartość strony",
+      "clickToGo": "Kliknij, aby przejść"
+    },
+    "quickInfo": {
+      "location": "Polska, Łódź",
+      "showMap": "Pokaż",
+      "languages": "Polski, Angielski",
+      "polish": "Polski",
+      "english": "Angielski",
+      "native": "ojczysty",
+      "yearsInBusiness_one": "{{count}} rok w branży",
+      "yearsInBusiness_few": "{{count}} lata w branży",
+      "yearsInBusiness_many": "{{count}} lat w branży",
+      "yearsInBusiness_other": "{{count}} lat w branży",
+      "tillNow": "do teraz",
+      "yearsOld_one": "{{count}} rok",
+      "yearsOld_few": "{{count}} lata",
+      "yearsOld_many": "{{count}} lat",
+      "yearsOld_other": "{{count}} lat"
+    }
+  },
+  "techStack": {
+    "frontend": {
+      "title": "Frontend",
+      "desc": "To jest mój główny obszar specjalizacji, a także rodzaj pracy, który sprawia mi najwięcej przyjemności.",
+      "groups": {
+        "languages": "Języki i znaczniki",
+        "frameworks": "Frameworki i narzędzia",
+        "styling": "Stylizacja i komponenty",
+        "graphics": "Zaawansowana grafika",
+        "testing": "Testowanie (full stack)",
+        "mobile": "Urządzenia mobilne"
+      }
+    },
+    "backend": {
+      "title": "Backend",
+      "desc": "Nauczyłem się programowania backendowego poprzez doświadczenie zawodowe i projekty osobiste.\nOto z czym jestem najbardziej zaznajomiony.",
+      "groups": {
+        "languages": "Języki i platformy",
+        "runtimes": "Środowiska wykonawcze i frameworki",
+        "databases": "Bazy danych",
+        "microcontrollers": "Mikrokontrolery / Komputery jednopłytkowe"
+      }
+    },
+    "knownTools": {
+      "title": "Znane narzędzia",
+      "desc": "Oto kilka narzędzi niezwiązanych z kodowaniem, z których mam doświadczenie korzystać.\nI use Arch, btw ;)",
+      "groups": {
+        "graphics": "Grafika i projektowanie",
+        "management": "Zarządzanie projektami i systemy kontroli wersji"
+      }
+    }
+  },
+  "projectsInfo": {
+    "webDev": {
+      "title": "Tworzenie stron internetowych",
+      "desc": "To są projekty, które zrealizowałem w wolnym czasie.\n\nChcę dzielić się tylko projektami, które ukończyłem samodzielnie, więc nie uwzględniam projektów zawodowych, ponieważ są one efektem pracy zespołowej i nie odzwierciedlają dokładnie moich indywidualnych umiejętności.\n\nUwaga: niektóre z projektów wymienionych na tej stronie są przestarzałe i oparte na nieaktualnych technologiach.\nStos technologiczny, który znam dzisiaj, jest zupełnie inny i bardziej nowoczesny.",
+      "projects": {
+        "in2rp": {
+          "desc": "Strona stworzona dla serwera role play GTA V. Była zintegrowana z botem discord i serwerem discord dedykowanym społeczności role play GTA V. Projekt posiadał również bazę danych do przechowywania statystyk serwera i danych użytkowników."
+        },
+        "fivem": {
+          "desc": "To nie jest strona internetowa, ale aplikacja desktopowa stworzona za pomocą electron, która pozwala programistom używać technologii webowych dla części UI. FiveM to popularny zmodyfikowany serwer GTA V."
+        },
+        "paradise": {
+          "desc": "Po prostu prosta strona internetowa dla innego serwera roleplay GTA V. Była to tylko strona prezentacyjna z informacjami o serwerze. Znajdował się tam oszałamiający efekt paralaksy, który wyglądał jak zachód słońca nad oceanem."
+        },
+        "mapPoi": {
+          "desc": "Projekt stworzony jako wyzwanie rekrutacyjne do mojej pierwszej pracy jako front-end developer. Była prosta mapa ze znacznikami POI załadowanymi z podanych danych. W projekcie nie użyto żadnej biblioteki mapowej. Cała interakcja z mapą i renderowanie zostały wykonane w kodzie."
+        }
+      }
+    },
+    "gameDev": {
+      "title": "Tworzenie gier",
+      "desc": "Zawsze chciałem robić gry.\nPoniżej znajduje się kilka przykładów gier, które stworzyłem w wolnym czasie.",
+      "projects": {
+        "berta": {
+          "desc": "Mój największy projekt gry. Wieloosobowa gra przeglądarkowa z autorskim silnikiem graficznym, zaawansowanymi shaderami GLSL i bardzo unikalnym silnikiem fizycznym, który w zasadzie pozwala na użycie dowolnego obrazu z przezroczystym tłem jako interaktywnemu obiektu w grze, który można zniszczyć i po którym można malować.\nInne funkcje to integracja z PayPal, czat w czasie rzeczywistym między graczami, system rankingowy, waluta w grze z interaktywnym sklepem i wiele więcej."
+        },
+        "kulka": {
+          "desc": "Swoją pierwszą grę stworzyłem w szkole średniej na ogólnopolski konkurs. Wygranie konkursu dało mi pewność siebie, by kontynuować karierę jako programista.\n\nTekstury i wszystkie zasoby gry również zostały wykonane przeze mnie."
+        },
+        "astro": {
+          "desc": "Moja druga gra napisana w Javie i OpenGL. Stworzona rok po Kulce w tarapatach. Posiada grafikę 3D z własnymi shaderami GLSL, silnik fizyki 2D i zaawansowany system cząsteczek.\nW grę wbudowany jest również kreator map."
+        },
+        "tetris": {
+          "desc": "To było bardziej wyzwanie programistyczne niż tworzenie gry. To 700 linii kodu JavaScript, który każdy może wkleić i uruchomić w konsoli przeglądarki, aby zobaczyć grę pojawiającą się na górze istniejącej treści. Powinno działać na każdej stronie. Powinno działać na każdej stronie. Pomysłem było dołączenie go jako easter egg w innych moich projektach."
+        },
+        "tentactoe": {
+          "desc1": "Kolejne wyzwanie programistyczne, tym razem w HTML i JavaScript. To zaawansowana wersja Kółka i Krzyżyka.",
+          "desc2": "Gra tworzy połączenie peer-to-peer między graczami i pozwala them grać przeciwko sobie. Działa bez serwera, wszystkie dane są wymieniane bezpośrednio między graczami. Zasadniczo plik index.html można otworzyć lokalnie i nadal będzie działać jako gra wieloosobowa."
+        },
+        "zerog": {
+          "desc": "Gra stworzona na projekt uniwersytecki. Jej unikalny silnik grafiki 2D oparty jest na SVG. Posiada budowany od podstaw silnik fizyki 2D, złożony edytor map i może być częściowo kontrolowana komendami głosowymi."
+        }
+      }
+    },
+    "compGraphics": {
+      "title": "Grafika komputerowa",
+      "desc": "Grafika komputerowa to również jedna z moich pasji, którą mogę się tutaj podzielić. Nie jestem profesjonalistą w tej dziedzinie, ale lubię od czasu do czasu stworzyć jakąś grafikę.",
+      "projects": {
+        "blender": {
+          "desc1": "Blender to mój wybór oprogramowania do tworzenia renderów 3D. Zawsze fascynowała mnie fotorealistyczna grafika, więc zacząłem uczyć się technik jej tworzenia.",
+          "desc2": "Używam również GIMP-a do tworzenia tekstur lub post-processingu moich renderów.",
+          "desc3": "Most of my renders w pełnej jakości można znaleźć tutaj:\u2002"
+        }
+      }
+    },
+    "rpi": {
+      "title": "Raspberry Pi",
+      "desc": "Moim innym hobby związanym z komputerami jest budowanie rzeczy za pomocą płytek Raspberry Pi.",
+      "projects": {
+        "robot": {
+          "desc": "Coś, co zbudowałem, aby nauczyć się Raspberry PI.\nBył to zdalnie sterowany robot na kołach z kamerą przesyłającą obraz na żywo na stronę internetową."
+        },
+        "cyclocomputer": {
+          "desc": "Pierwsza wersja mojego projektu wypraw rowerowych. Jest to wyświetlacz e-papierowy (bardzo energooszczędny) podłączony do Raspberry Pi, który pokazuje przydatne informacje, takie jak aktualna prędkość, kierunek wiatru itp. Wyświetla również małą mapę z wyznaczoną trasą.\nWszystko jest kontrolowane i konfigurowane przez aplikację mobilną zbudowaną w React Native."
+        },
+        "biketour": {
+          "desc": "Nowa wersja projektu Cyclocomputer. Tym razem posiada ekran LCD i kamerę, która robi zdjęcia co 500 metrów.\nUwaga: kod aplikacji mobilnej znajduje się na osobnej gałęzi w repozytorium git"
+        },
+        "drone": {
+          "desc": "Mój najbardziej ambitny projekt jak dotąd (jeszcze nie ukończony). Zbudowany na zamówienie dron sterowany przez Raspberry Pi za pomocą protokołu UART. Wyposażony jest w moduł GPS, kamerę Raspberry Pi oraz moduł sieci komórkowej, który pozwala na dostęp do internetu niemal z każdego miejsca na świecie, dając dronowi nieograniczony zasięg.\nIstnieje również interfejs webowy do sterowania dronem i pokazywania obrazu na żywo z kamery i innych czujników."
+        }
+      }
+    }
+  },
+  "names": {
+    "nightWoods": "Night Woods",
+    "figma": "Figma",
+    "raspberryPi": "Raspberry Pi",
+    "enigma": "Enigma Systemy Ochrony Informacji Sp. z o. o.",
+    "reactTypescript": "React+TypeScript",
+    "postgresql": "PostgreSQL",
+    "c1": "C1",
+    "blender": "Blender",
+    "gimp": "Gimp",
+    "github": "GitHub"
+  },
+  "timeline": {
+    "school": {
+      "gePower": {
+        "date": "Maj 2015",
+        "desc1": "1 miesiąc praktyk zawodowych w",
+        "company": "GE Power Controls Sp. z o.o."
+      },
+      "competition": {
+        "date": "Czerwiec 2015",
+        "title": "Wygrana w konkursie programistycznym",
+        "desc": "I Miejsce w kategorii Program Rozrywkowy na XV Ogólnopolskim Konkursie Programistycznym dla Szkół Ponadgimnazjalnych."
+      },
+      "graduation": {
+        "date": "Sierpień 2016",
+        "desc1": "Po ukończeniu szkoły uzyskałem kwalifikacje zawodowe jako",
+        "title": "Technik Informatyk",
+        "titlePl": "(Technik Informatyk)"
+      }
+    },
+    "university": {
+      "zerog": {
+        "date": "Maj 2015",
+        "desc": "gra stworzona jako projekt uniwersytecki"
+      },
+      "job": {
+        "date": "Październik 2019",
+        "desc": "Wtedy zacząłem moją pierwszą pracę w IT. Więcej informacji w następnej sekcji."
+      },
+      "asystent": {
+        "date": "Styczeń 2020",
+        "desc1": "kolejny projekt uniwersytecki, tym razem zespołowy",
+        "desc2": "W pełni sterowany głosem odtwarzacz muzyki, który pozwalał na zarządzanie listami odtwarzania i odtwarzanym dźwiękiem. Wszystko to było możliwe dzięki zdefiniowanym komendom głosowym. Projekt powstał przed upowszechnieniem modeli LLM."
+      }
+    },
+    "work": {
+      "enigma": {
+        "start": "Lis 2019",
+        "end": "Sie 2021",
+        "title": "Frontend Developer w",
+        "desc1": "W procesie rekrutacji otrzymałem zadanie stworzenia małego projektu w",
+        "desc2": "w ciągu kilku dni. Projekt nazywał się",
+        "desc3": "Przez większość czasu byłem częścią zespołu deweloperów front-end pracujących nad witryną projektu. Zdobyłem cenne doświadczenie z nowoczesnymi technologiami webowymi.",
+        "desc4": "Gdy projekt dobiegał końca, musiałem poszerzyć swoje umiejętności, ponieważ był okres, gdy programiści front-end nie byli potrzebni.",
+        "desc5": "Przez ostatnie kilka miesięcy pisałem zapytania",
+        "desc6": "co dało mi realne doświadczenie z bazami danych."
+      },
+      "nightWoods": {
+        "start": "Sie 2021",
+        "end": "Kwi 2025",
+        "title": "Powrót do świata Frontend Developmentu w",
+        "desc1": "Aby nie wchodzić w zbyt wiele szczegółów, przedstawię krótkie podsumowanie.",
+        "desc2": "W tym czasie pracowałem nad kilkoma projektami. Skupiałem się głównie na front-endzie webowym, choć okazjonalnie pomagałem przy pracy nad",
+        "desc3": "back-endem",
+        "desc_and": "oraz",
+        "desc4": "aplikacjami",
+        "desc5": "mobilnymi.",
+        "desc6": "Spędziłem również znaczną ilość czasu tworząc",
+        "desc7": "projekty UI",
+        "desc8": "(głównie w"
+      }
+    },
+    "games": {
+      "date": "Gry",
+      "goal": "Tworzenie gier zawsze było moim ostatecznym celem zawodowym",
+      "pursued": "(nadal kontynuowane)",
+      "desc": "Na szczęście tworzenie gier jest możliwe solo, więc przez całe życie zamieniałem kilka pomysłów w projekty gier."
+    },
+    "web": {
+      "date": "Aplikacje webowe",
+      "desc1": "Zanim zostałem zatrudniony jako programista front-end, stworzyłem kilka stron jako freelancer. Pracowałem również nad kilkoma projektami full-stack do użytku osobistego, które zawarłem na liście poniżej."
+    },
+    "genetic": {
+      "date": "Algorytmy genetyczne",
+      "desc": "Zawsze fascynowała mnie idea programu, który ewoluuje i ulepsza się z czasem."
+    },
+    "microcontrollers": {
+      "date": "Mikrokontrolery",
+      "desc1": "Moje najnowsze hobby, które zaczęło się, gdy kupiłem moje pierwsze"
+    },
+    "graphics": {
+      "date": "Grafika",
+      "desc1": "Jak wspomniano w sekcji edukacja",
+      "desc1_sub": "(tej pierwszej)",
+      "desc2": "lubię tworzyć amatorską grafikę 3D w wolnym czasie.",
+      "desc3": "Podczas tworzenia gier często wykorzystuję moje umiejętności graficzne do tworzenia własnych modeli i tekstur."
+    },
+    "projects": {
+      "berta": {
+        "title": "Berta Snakes",
+        "desc": "Mój największy projekt gry do tej pory. Wieloosobowa gra przeglądarkowa z grafiką opartą na WebGL, własnymi shaderami i bardzo unikalnym, autorskim silnikiem fizycznym."
+      },
+      "zerog": {
+        "title": "ZeroG Ball",
+        "desc": "Gra 2D z grafiką opartą na SVG i silnikiem fizyki zbudowanym od zera."
+      },
+      "tentactoe": {
+        "title": "Ten tac toe",
+        "desc": "Mini projekt - wieloosobowa gra działająca bez serwera, oparta na komunikacji peer-to-peer (p2p)."
+      },
+      "in2rp": {
+        "title": "In2rp",
+        "desc": "Strona domowa stworzona dla serwera role-play GTA V. Witryna została zintegrowana z botem Discord i bazą danych serwera."
+      },
+      "paradise": {
+        "title": "Project Paradise",
+        "desc": "Kolejna strona domowa dla innego serwera role-play GTA V."
+      },
+      "scraper": {
+        "title": "Web Scraper",
+        "desc": "Wysoce konfigurowalny web scraper z eksperymentalnymi funkcjami AI i CLI."
+      },
+      "genetic": {
+        "title": "Algorytm Genetyczny",
+        "desc": "Eksperymenty z siecią neuronową ewoluującą dzięki algorytmowi genetycznemu. Wszystko kodowane od zera."
+      },
+      "drone": {
+        "title": "Dron",
+        "desc": "Dron zbudowany na zamówienie, połączony z Raspberry Pi, co umożliwia wszelkiego rodzaju zachowania i niestandardowe procedury.\nDron jest również połączony z kamerą i modemem sieci komórkowej, co pozwala na sterowanie i strumieniowanie wideo w czasie rzeczywistym z niemal dowolnej odległości."
+      },
+      "bike": {
+        "title": "Asystent wypraw rowerowych",
+        "desc": "Raspberry Pi z małym ekranem LCD przymocowanym do mojego roweru, który wyświetla aktualną prędkość i mini nawigację.\nWspółpracuje z aplikacją mobilną do planowania tras i śledzenia GPS."
+      },
+      "blender": {
+        "title": "Moje rendery w Blenderze"
+      }
+    }
+  },
+  "journey": {
+    "education": {
+      "title": "Technikum informatyczne",
+      "header_1": "Uczęszczałem do",
+      "header_2": "Zespół szkół ponadgimnazjalnych imienia Marszalka Józefa Piłsudzkiego",
+      "header_3": "(Wrzesień 2012 - Sierpień 2016)",
+      "desc_1": "Chociaż interesowałem się głównie programowaniem, podczas nauki w szkole miałem drugą pasję: grafikę 3D.",
+      "desc_2": "W wolnym czasie eksperymentowałem z programami",
+      "desc_bind": "oraz",
+      "desc_3": "i tworzyłem różne grafiki."
+    },
+    "university": {
+      "title": "Studia wyższe",
+      "header_1": "Studiowałem na",
+      "header_2": "Wydziale Matematyki i Informatyki",
+      "header_3": "(Wydział Matematyki i Informatyki Uniwersytetu Łódzkiego)"
+    },
+    "work": {
+      "title": "Doświadczenie zawodowe w programowaniu",
+      "header_1": "Jeszcze w trakcie studiów zarejestrowałem",
+      "header_2": "jednoosobową działalność gospodarczą",
+      "header_tooltip": "Jednoosobowa działalność gospodarcza",
+      "header_3": "aby zacząć pracować na kontraktach B2B."
+    },
+    "projects": {
+      "dateStart": "W wolnych chwilach",
+      "title": "Projekty osobiste i freelancerskie",
+      "desc_1": "Podzielę tutaj moje projekty na kategorie i krótko opiszę każdą z nich, podając kilka przykładów.",
+      "desc_2": "Najpełniejszą i najbardziej aktualną listę znajdziesz na moim profilu",
+      "link": "link",
+      "moreDetails": "Więcej szczegółów i zdjęć znajdziesz w następnej sekcji"
+    }
+  },
+  "projects": {
+    "viewOnGithub": "Zobacz na GitHubie"
+  }
+}

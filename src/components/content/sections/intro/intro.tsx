@@ -3,6 +3,7 @@ import { Separator } from '~/components/common/separator'
 import { QuickPersonalInfo } from '~/components/content/sections/intro/quick-personal-info'
 import { SocialLinks } from '~/components/content/sections/intro/social-links'
 import { QuickAccess } from '~/components/content/sections/intro/quick-access'
+import { useTranslation } from 'react-i18next'
 import { Section } from '~/lib/consts'
 import { cn } from '~/lib/utils'
 import { ProjectedText } from '../../projected-elements/projected-text'
@@ -11,14 +12,15 @@ import { SectionContainer } from '../section-container'
 import '../../../../styles/shining-text.css'
 
 const fullName = 'Radosław Krajewski'
-const role = 'Web Developer'
 const experienceStartDate = new Date('2019-10-10')
 
 type IntroProps = ComponentProps<'section'> & {
   ref: React.RefObject<HTMLDivElement | null>
 }
-
 export function Intro({ ref, className, ...props }: IntroProps) {
+  const { t } = useTranslation()
+  const role = t('intro.role')
+
   return (
     <SectionContainer
       ref={ref}

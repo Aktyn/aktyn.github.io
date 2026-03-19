@@ -1,5 +1,6 @@
 import { animate, type JSAnimation, onScroll, stagger } from 'animejs'
 import { useContext, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useEntryAnimations } from '~/hooks/useEntryAnimations'
 import { contentViewportID, mainHeaderID } from '~/lib/consts'
 import { ScrollDownButton } from '../buttons/scroll-down-button'
@@ -18,6 +19,7 @@ import { usePositionalColoring } from '~/hooks/usePositionalColoring'
 //TODO: about this site info (purpose, used technologies, etc)
 
 export function ContentLayer() {
+  const { t } = useTranslation()
   const root = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HeaderInterfaceRef>(null)
   const scrollDownButtonContainerRef = useRef<HTMLDivElement>(null)
@@ -162,7 +164,7 @@ export function ContentLayer() {
               journeyRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
             }
           >
-            Scroll down for more
+            {t('intro.scrollDown')}
           </ScrollDownButton>
         </div>
       </div>

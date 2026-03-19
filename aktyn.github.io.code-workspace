@@ -5,6 +5,7 @@
 		}
 	],
 	"settings": {
+		"cSpell.language": "en,pl",
 		"cSpell.words": [
 			"absarc",
 			"absellipse",
@@ -38,6 +39,7 @@
 			"raycaster",
 			"Stylesheet",
 			"threejs",
+			"webgl",
 			"wordmark"
 		],
 		"typescript.tsdk": "node_modules/typescript/lib",

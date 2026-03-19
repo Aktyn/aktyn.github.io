@@ -97,13 +97,15 @@ export const materialSymbolIcons = {
 }
 
 type SvgIconProps = ComponentProps<'svg'> & {
-  icon: keyof typeof materialSymbolIcons
+  icon?: keyof typeof materialSymbolIcons
+  svgPath?: string
 }
 
-export function SvgIcon({ icon, ...svgProps }: SvgIconProps) {
+export function SvgIcon({ icon, svgPath, ...svgProps }: SvgIconProps) {
+  const path = svgPath ?? (icon ? materialSymbolIcons[icon] : '')
   return (
-    <svg viewBox={materialSymbolProps.viewBox} {...svgProps}>
-      <path d={materialSymbolIcons[icon]} />
+    <svg viewBox={svgProps.viewBox ?? materialSymbolProps.viewBox} {...svgProps}>
+      {path && <path d={path} />}
     </svg>
   )
 }

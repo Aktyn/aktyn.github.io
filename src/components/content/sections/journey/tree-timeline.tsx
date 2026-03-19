@@ -38,8 +38,8 @@ export function TreeTimeline({ header, items, ...divProps }: TreeTimelineProps) 
                 ) : (
                   <div className="flex items-center justify-stretch max-md:gap-1 md:w-auto md:flex-col">
                     <span>{item.date.start}</span>
-                    <SvgIcon icon="South" className="size-4 text-muted-foreground max-md:hidden" />
-                    <SvgIcon icon="East" className="size-4 text-muted-foreground md:hidden" />
+                    <SvgIcon icon="South" className="size-4 fill-current max-md:hidden" />
+                    <SvgIcon icon="East" className="size-4 fill-current md:hidden" />
                     <span>{item.date.end}</span>
                   </div>
                 )}

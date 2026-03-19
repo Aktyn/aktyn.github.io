@@ -1,5 +1,6 @@
-import type { ComponentProps } from 'react'
+import { useMemo, type ComponentProps } from 'react'
 import { type SvgIcon } from '~/icons/material-symbol-icons'
+import { useTranslation } from 'react-i18next'
 
 export enum TechStackCategory {
   Frontend = 'frontend',
@@ -7,91 +8,99 @@ export enum TechStackCategory {
   KnownTools = 'known-tools',
 }
 
-export const techStackInfo = {
-  [TechStackCategory.Frontend]: {
-    title: 'Frontend',
-    description: 'This is my main area of expertise, as well as the type of work I enjoy the most.',
-    thumbnail: '/img/quick-access-thumbnails/react.webp',
-    icon: 'Devices',
-    stackGroups: [
-      {
-        title: 'Languages & Markup',
-        stack: ['html', 'javascript', 'typescript'],
-      },
-      {
-        title: 'Frameworks & Tooling',
-        stack: ['react', 'vite', 'webpack', 'electron'],
-      },
-      {
-        title: 'Styling and components',
-        stack: ['css', 'sass', 'tailwindcss', 'shadcn', 'materialui'],
-      },
-      {
-        title: 'Advanced graphics',
-        stack: ['svg', 'threejs', 'opengl+webgl', 'glsl'],
-      },
-      {
-        title: 'Testing (full stack)',
-        stack: ['vitest', 'jest', 'storybook'],
-      },
-      {
-        title: 'Mobile',
-        stack: ['react-native', 'expo'],
-      },
-    ],
-  },
-  [TechStackCategory.Backend]: {
-    title: 'Backend',
-    description:
-      "I've learned backend development through work experience and personal projects.\nHere's what I'm most familiar with.",
-    thumbnail: '/img/quick-access-thumbnails/nodejs.webp',
-    icon: 'Terminal',
-    stackGroups: [
-      {
-        title: 'Languages & Platforms',
-        stack: ['python', 'java', 'cplusplus'],
-      },
-      {
-        title: 'Runtimes & Frameworks',
-        stack: ['nodejs', 'fastify', 'express', 'puppeteer'],
-      },
-      {
-        title: 'Databases',
-        stack: ['postgresql', 'sqlite', 'mongodb'],
-      },
-      {
-        title: 'Microcontrollers / Single board computers',
-        stack: ['raspberrypi', 'micropython'],
-      },
-    ],
-  },
-  [TechStackCategory.KnownTools]: {
-    title: 'Known tools',
-    description: 'Here are some non-coding tools that I have experience using.\nI use Arch, btw ;)',
-    thumbnail: '/img/quick-access-thumbnails/jira.webp',
-    icon: 'Construction',
-    stackGroups: [
-      {
-        title: 'Graphics and design',
-        stack: ['blender', 'gimp', 'inkscape', 'figma'],
-      },
-      {
-        title: 'Project management and version control systems',
-        stack: ['jira', 'linear', 'git', 'github', 'gitlab'],
-      },
-    ],
-  },
-} as const satisfies {
+export type TechStackInfoSchema = {
   [key in TechStackCategory]: {
     title: string
     description: string
     thumbnail: string
     icon: ComponentProps<typeof SvgIcon>['icon'] | { svgPath: string }
     stackGroups: Array<{
-      title?: string
+      title: string
       stack: Array<keyof typeof techStack>
     }>
   }
+}
+
+export const useTechStackInfo = () => {
+  const { t } = useTranslation()
+
+  return useMemo<TechStackInfoSchema>(
+    () => ({
+      [TechStackCategory.Frontend]: {
+        title: t('techStack.frontend.title'),
+        description: t('techStack.frontend.desc'),
+        thumbnail: '/img/quick-access-thumbnails/react.webp',
+        icon: 'Devices',
+        stackGroups: [
+          {
+            title: t('techStack.frontend.groups.languages'),
+            stack: ['html', 'javascript', 'typescript'],
+          },
+          {
+            title: t('techStack.frontend.groups.frameworks'),
+            stack: ['react', 'vite', 'webpack', 'electron'],
+          },
+          {
+            title: t('techStack.frontend.groups.styling'),
+            stack: ['css', 'sass', 'tailwindcss', 'shadcn', 'materialui'],
+          },
+          {
+            title: t('techStack.frontend.groups.graphics'),
+            stack: ['svg', 'threejs', 'opengl+webgl', 'glsl'],
+          },
+          {
+            title: t('techStack.frontend.groups.testing'),
+            stack: ['vitest', 'jest', 'storybook'],
+          },
+          {
+            title: t('techStack.frontend.groups.mobile'),
+            stack: ['react-native', 'expo'],
+          },
+        ],
+      },
+      [TechStackCategory.Backend]: {
+        title: t('techStack.backend.title'),
+        description: t('techStack.backend.desc'),
+        thumbnail: '/img/quick-access-thumbnails/nodejs.webp',
+        icon: 'Terminal',
+        stackGroups: [
+          {
+            title: t('techStack.backend.groups.languages'),
+            stack: ['python', 'java', 'cplusplus'],
+          },
+          {
+            title: t('techStack.backend.groups.runtimes'),
+            stack: ['nodejs', 'fastify', 'express', 'puppeteer'],
+          },
+          {
+            title: t('techStack.backend.groups.databases'),
+            stack: ['postgresql', 'sqlite', 'mongodb'],
+          },
+          {
+            title: t('techStack.backend.groups.microcontrollers'),
+            stack: ['raspberrypi', 'micropython'],
+          },
+        ],
+      },
+      [TechStackCategory.KnownTools]: {
+        title: t('techStack.knownTools.title'),
+        description: t('techStack.knownTools.desc'),
+        thumbnail: '/img/quick-access-thumbnails/jira.webp',
+        icon: 'Construction',
+        stackGroups: [
+          {
+            title: t('techStack.knownTools.groups.graphics'),
+            stack: ['blender', 'gimp', 'inkscape', 'figma'],
+          },
+          {
+            title: t('techStack.knownTools.groups.management'),
+            stack: ['jira', 'linear', 'git', 'github', 'gitlab'],
+          },
+        ],
+      },
+    }),
+    [t],
+  )
 }
 
 export const techStack = {
@@ -129,7 +138,7 @@ export const techStack = {
   },
   shadcn: {
     icon: '',
-    name: 'shadcn',
+    name: 'shadcn', //TODO: ?
   },
   materialui: {
     icon: 'devicon-materialui-plain colored',
