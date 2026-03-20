@@ -138,7 +138,7 @@ export const techStack = {
   },
   shadcn: {
     icon: '',
-    name: 'shadcn', //TODO: ?
+    name: 'Shadcn',
   },
   materialui: {
     icon: 'devicon-materialui-plain colored',

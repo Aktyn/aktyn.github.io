@@ -144,7 +144,7 @@ export function ContentLayer() {
 
             <div
               ref={sectionsContainerRef}
-              className="inline-flex max-w-dvw flex-col items-stretch gap-8 pb-8 print:flex-col-reverse"
+              className="inline-flex max-w-dvw flex-col items-stretch gap-16 pb-8 print:flex-col-reverse"
             >
               <Journey ref={journeyRef} />
               <Projects />

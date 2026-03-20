@@ -1,6 +1,9 @@
 import { createContext, type ComponentProps } from 'react'
-import { Section } from '~/lib/consts'
+import { useTranslation } from 'react-i18next'
+import { Section, sectionData } from '~/lib/consts'
 import { cn } from '~/lib/utils'
+import { ProjectedText } from '../projected-elements/projected-text'
+import { ProjectedContainer } from '../projected-elements/projected-container'
 
 const SectionContext = createContext<Section | null>(null)
 
@@ -9,6 +12,8 @@ type SectionContainerProps = Omit<ComponentProps<'section'>, 'id'> & {
 }
 
 export function SectionContainer({ section, ...sectionProps }: SectionContainerProps) {
+  const { t } = useTranslation()
+
   return (
     <SectionContext value={section}>
       {/* TODO: section title as large ProjectedText */}
@@ -25,9 +30,36 @@ export function SectionContainer({ section, ...sectionProps }: SectionContainerP
             '[--background-lighter:var(--background-lighter-tetradic-3)] [--background:var(--background-tetradic-3)] [--foreground-complementary:var(--foreground-tetradic-3-complementary)] [--foreground-darker:var(--foreground-darker-tetradic-3)] [--foreground-lighter:var(--foreground-lighter-tetradic-3)] [--foreground:var(--foreground-tetradic-3)] [--muted-foreground:var(--muted-foreground-tetradic-3)]',
           sectionProps.className,
         )}
-      />
+      >
+        {section !== Section.Intro && (
+          <div className="grid w-full grid-cols-[1fr_auto_1fr] items-center justify-center gap-8 text-center print:grid-cols-1">
+            <SectionTitleLine side="left" />
+            <ProjectedText
+              data-entry-animation
+              as="h2"
+              text={t(`sections.${section}.title`, sectionData[section].title)}
+              fontSize={36}
+              fontWeight="bold"
+              className="text-foreground"
+            />
+            <SectionTitleLine side="right" />
+          </div>
+        )}
+        {sectionProps.children}
+      </section>
     </SectionContext>
   )
 }
 
 SectionContainer.Context = SectionContext
+
+function SectionTitleLine({ side }: { side: 'left' | 'right' }) {
+  return (
+    <ProjectedContainer
+      data-entry-animation-type={`from-${side}`}
+      as="span"
+      rounding={2}
+      className="h-0.5 w-full rounded-sm bg-foreground/50 print:hidden"
+    />
+  )
+}

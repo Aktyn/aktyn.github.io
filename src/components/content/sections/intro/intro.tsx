@@ -31,7 +31,7 @@ export function Intro({ ref, className, ...props }: IntroProps) {
     >
       <div className="flex flex-1 flex-col items-center justify-end gap-6">
         <div data-header-anchor className="-mb-2">
-          <h2>
+          <h1>
             {fullName.split(' ').map((namePart, index, arr) => (
               <Fragment key={`${namePart}-${index}`}>
                 <div
@@ -43,7 +43,7 @@ export function Intro({ ref, className, ...props }: IntroProps) {
                 {index < arr.length - 1 && <span style={{ fontSize: 56 }}>&nbsp;</span>}
               </Fragment>
             ))}
-          </h2>
+          </h1>
           <h3 data-entry-animation className="shining-text">
             <ProjectedText text={role} fontSize={32} fontWeight="medium" />
           </h3>
