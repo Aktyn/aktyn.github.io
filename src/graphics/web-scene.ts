@@ -42,9 +42,8 @@ interface PostprocessingState {
 const BG_COLOR = 0x004d40
 const SUN_COLOR = 0xe0f2f1
 const GODRAY_RENDER_TARGET_RES_MULTIPLIER = 0.5
-const SUN_POSITION = new THREE.Vector3(0, 618, -1000)
 const HEX_GRID_RATIO = 2
-const HIDE_PROJECTED_OBJECTS = false
+const HIDE_PROJECTED_OBJECTS = !import.meta.env.DEV
 
 //TODO: particles being emitted from extruded objects
 
@@ -55,6 +54,8 @@ export class WebScene {
   private readonly scene: THREE.Scene
   private readonly camera: THREE.PerspectiveCamera
   private readonly postprocessing: PostprocessingState
+
+  private readonly sunPosition = new THREE.Vector3(0, 618, -1000)
 
   private readonly clipPosition = new THREE.Vector4()
   private readonly screenSpacePosition = new THREE.Vector3()
@@ -370,7 +371,7 @@ export class WebScene {
     this.visibleObjectsPanel?.update(visibleObjectsCount, this.maxVisibleObjectsCount)
 
     if (this.postprocessing.enabled) {
-      this.clipPosition.set(SUN_POSITION.x, SUN_POSITION.y, SUN_POSITION.z, 1)
+      this.clipPosition.set(this.sunPosition.x, this.sunPosition.y, this.sunPosition.z, 1)
       this.clipPosition
         .applyMatrix4(this.camera.matrixWorldInverse)
         .applyMatrix4(this.camera.projectionMatrix)
@@ -502,6 +503,10 @@ export class WebScene {
   }
   public setSunColor(color: number) {
     this.postprocessing.godraysFakeSunUniforms.sunColor.value.setHex(color)
+  }
+
+  public setSunPosition(factor: number) {
+    this.sunPosition.y = 618 - factor * 1236
   }
 
   private shapesToGeometry(shapes: THREE.Shape[]) {

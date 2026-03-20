@@ -13,6 +13,7 @@ import '../../../../styles/shining-text.css'
 
 const fullName = 'Radosław Krajewski'
 const experienceStartDate = new Date('2019-10-10')
+const birthDate = new Date('1996-02-14')
 
 type IntroProps = ComponentProps<'section'> & {
   ref: React.RefObject<HTMLDivElement | null>
@@ -47,7 +48,7 @@ export function Intro({ ref, className, ...props }: IntroProps) {
             <ProjectedText text={role} fontSize={32} fontWeight="medium" />
           </h3>
         </div>
-        <QuickPersonalInfo experienceStartDate={experienceStartDate} />
+        <QuickPersonalInfo experienceStartDate={experienceStartDate} birthDate={birthDate} />
         <SocialLinks />
       </div>
       {/* TODO: "Open for work" status inside separator */}

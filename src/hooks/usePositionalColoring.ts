@@ -31,6 +31,8 @@ export function usePositionalColoring(targetRef: RefObject<HTMLDivElement | null
     let backgroundVisualAnimation: JSAnimation | null = null
 
     const update = () => {
+      const factor = scrollableContainer.scrollTop / scrollableContainer.scrollHeight
+
       const closestSections = sectionsData
         .map(({ sectionIndex, container }) => {
           const containerRect = container.getBoundingClientRect()
@@ -89,6 +91,8 @@ export function usePositionalColoring(targetRef: RefObject<HTMLDivElement | null
         webScene.setSunColor(
           mixColors(closestSections[0].webSceneSun, closestSections[1].webSceneSun, mappedFactor),
         )
+
+        webScene.setSunPosition(factor)
       } else {
         targetElement.style.backgroundColor = `color-mix(in oklch, oklch(var(${closestSections[0].colorVar})) ${closestSections[0].factor * 100}%, oklch(var(${closestSections[1].colorVar})) ${closestSections[1].factor * 100}%)`
       }

@@ -9,10 +9,15 @@ import { useTranslation } from 'react-i18next'
 
 type QuickPersonalInfoProps = {
   experienceStartDate: Date
+  birthDate: Date
   className?: string
 }
 
-export function QuickPersonalInfo({ experienceStartDate, className }: QuickPersonalInfoProps) {
+export function QuickPersonalInfo({
+  experienceStartDate,
+  birthDate,
+  className,
+}: QuickPersonalInfoProps) {
   const { t } = useTranslation()
 
   return (
@@ -95,20 +100,27 @@ export function QuickPersonalInfo({ experienceStartDate, className }: QuickPerso
           <b>{format(experienceStartDate, 'dd.MM.yyyy')}</b> {t('intro.quickInfo.tillNow')}
         </TooltipContent>
       </Tooltip>
-      <QuickInfoLabel data-entry-animation-type="from-right">
-        <ProjectedIcon
-          path={materialSymbolIcons.IdCard}
-          size={20}
-          lowPriority
-          {...materialSymbolProps}
-        />
-        <ProjectedText
-          text={t('intro.quickInfo.yearsOld', { count: calculateAge(new Date('1996-02-14')) })}
-          splitWords={false}
-          fontSize={14}
-          lowPriority
-        />
-      </QuickInfoLabel>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <QuickInfoLabel data-entry-animation-type="from-right">
+            <ProjectedIcon
+              path={materialSymbolIcons.Cake}
+              size={20}
+              lowPriority
+              {...materialSymbolProps}
+            />
+            <ProjectedText
+              text={t('intro.quickInfo.yearsOld', { count: calculateAge(birthDate) })}
+              splitWords={false}
+              fontSize={14}
+              lowPriority
+              className="print:hidden"
+            />
+            <span className="not-print:hidden">{format(birthDate, 'dd.MM.yyyy')}</span>
+          </QuickInfoLabel>
+        </TooltipTrigger>
+        <TooltipContent className="text-sm">{format(birthDate, 'dd.MM.yyyy')}</TooltipContent>
+      </Tooltip>
     </div>
   )
 }

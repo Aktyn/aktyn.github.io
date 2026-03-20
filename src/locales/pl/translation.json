@@ -79,7 +79,7 @@
     },
     "knownTools": {
       "title": "Znane narzędzia",
-      "desc": "Oto kilka narzędzi niezwiązanych z kodowaniem, z których mam doświadczenie korzystać.\nI use Arch, btw ;)",
+      "desc": "Oto kilka narzędzi niezwiązanych z kodowaniem, w których mam doświadczenie.\nI use Arch, btw ;)",
       "groups": {
         "graphics": "Grafika i projektowanie",
         "management": "Zarządzanie projektami i systemy kontroli wersji"
@@ -88,7 +88,7 @@
   },
   "projectsInfo": {
     "webDev": {
-      "title": "Tworzenie stron internetowych",
+      "title": "Strony internetowe",
       "desc": "To są projekty, które zrealizowałem w wolnym czasie.\n\nChcę dzielić się tylko projektami, które ukończyłem samodzielnie, więc nie uwzględniam projektów zawodowych, ponieważ są one efektem pracy zespołowej i nie odzwierciedlają dokładnie moich indywidualnych umiejętności.\n\nUwaga: niektóre z projektów wymienionych na tej stronie są przestarzałe i oparte na nieaktualnych technologiach.\nStos technologiczny, który znam dzisiaj, jest zupełnie inny i bardziej nowoczesny.",
       "projects": {
         "in2rp": {
@@ -106,7 +106,7 @@
       }
     },
     "gameDev": {
-      "title": "Tworzenie gier",
+      "title": "Gry",
       "desc": "Zawsze chciałem robić gry.\nPoniżej znajduje się kilka przykładów gier, które stworzyłem w wolnym czasie.",
       "projects": {
         "berta": {
@@ -143,7 +143,7 @@
     },
     "rpi": {
       "title": "Raspberry Pi",
-      "desc": "Moim innym hobby związanym z komputerami jest budowanie rzeczy za pomocą płytek Raspberry Pi.",
+      "desc": "Moim hobby związanym z komputerami jest również budowanie urządzeń opartych o Raspberry Pi.",
       "projects": {
         "robot": {
           "desc": "Coś, co zbudowałem, aby nauczyć się Raspberry PI.\nBył to zdalnie sterowany robot na kołach z kamerą przesyłającą obraz na żywo na stronę internetową."
