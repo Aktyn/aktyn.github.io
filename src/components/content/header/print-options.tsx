@@ -21,7 +21,7 @@ export function PrintOptions({
     <div
       {...props}
       className={cn(
-        'absolute inset-x-0 top-full flex flex-col items-center gap-2 rounded-lg border bg-background-lighter/50 p-2 transition-[opacity,translate]',
+        'absolute top-full right-0 flex flex-col items-center gap-2 rounded-lg border bg-background-lighter/50 p-2 transition-[opacity,translate]',
         showPrintOptions
           ? 'translate-y-2 opacity-100'
           : 'pointer-events-none -translate-y-8 opacity-0',
@@ -51,7 +51,7 @@ function OptionButton(props: ComponentProps<'button'>) {
     <button
       {...props}
       className={cn(
-        'flex w-full flex-row items-center justify-center gap-1 rounded-md border bg-background/50 p-1 text-sm font-semibold transition-colors hover:bg-background hover:text-foreground-complementary *:[svg]:size-4.5 *:[svg]:fill-current',
+        'flex w-full flex-row items-center justify-center gap-1 rounded-md border bg-background/50 p-1 px-2 text-sm font-semibold transition-colors hover:bg-background hover:text-foreground-complementary *:[svg]:size-4.5 *:[svg]:fill-current',
         props.className,
       )}
     />

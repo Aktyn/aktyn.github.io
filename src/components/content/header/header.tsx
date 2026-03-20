@@ -1,14 +1,24 @@
 import { createDraggable, createScope, spring } from 'animejs'
-import { type RefObject, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
+import {
+  type ComponentProps,
+  type RefObject,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
+import { useTranslation } from 'react-i18next'
+import { WebGlSwitch } from '~/components/controls/webgl-switch'
 import { isWebglAvailable } from '~/graphics/graphics-helpers'
 import { materialSymbolIcons, materialSymbolProps } from '~/icons/material-symbol-icons'
 import { LOGO_PATH, mainHeaderID } from '~/lib/consts'
+import { cn } from '~/lib/utils'
 import type { ProjectedComponentRef } from '../content-helpers'
 import { ProjectedIcon } from '../projected-elements/projected-icon'
 import { ProjectedText } from '../projected-elements/projected-text'
 import { PrintOptions } from './print-options'
-import { WebGlSwitch } from './webgl-switch'
-import { useTranslation } from 'react-i18next'
+import { LanguageSelect } from '~/components/controls/language-select'
 
 export type HeaderInterfaceRef = {
   invalidateProjectedPositions: () => void
@@ -25,7 +35,7 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
 
   const webGLAvailable = useMemo(() => isWebglAvailable(), [])
 
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
 
   const [showPrintOptions, setShowPrintOptions] = useState(false)
 
@@ -66,25 +76,17 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
       ref={ref}
       data-id={mainHeaderID}
       className="pointer-events-none absolute top-0 bottom-auto z-10 -mb-header flex min-h-header w-full max-w-screen flex-row flex-wrap items-center justify-between p-2 delay-1000 *:pointer-events-auto print:hidden"
-      data-entry-animation-type="from-bottom"
     >
-      <div className="flex flex-row items-center gap-x-4">
+      <HeaderSection data-entry-animation-type="from-left" className="mr-auto">
         <a ref={logoRef} href={`#`} draggable={false} className="fill-current select-none">
           <ProjectedIcon ref={projectedLogoRef} path={LOGO_PATH} size={32} lowPriority />
         </a>
-        <select
-          value={i18n.language}
-          onChange={(e) => i18n.changeLanguage(e.target.value)}
-          className="cursor-pointer rounded border border-foreground/20 bg-transparent px-2 py-1 text-sm text-foreground hover:bg-foreground/5 print:hidden"
-        >
-          <option value="en">EN</option>
-          <option value="pl">PL</option>
-        </select>
         {webGLAvailable && <WebGlSwitch />}
-      </div>
-      <div className="relative">
+      </HeaderSection>
+      <HeaderSection className="relative ml-auto" data-entry-animation-type="from-right">
+        <LanguageSelect />
         <button
-          className="ml-auto flex cursor-pointer flex-row items-center gap-1.5 rounded-lg px-2 py-1 text-foreground transition-colors hover:bg-foreground/20 *:[svg]:size-4"
+          className="ml-auto flex cursor-pointer flex-row items-center gap-1.5 rounded-lg border border-foreground/20 px-2 py-1 text-foreground transition-colors hover:bg-foreground/20 *:[svg]:size-4"
           onClick={() => setShowPrintOptions((show) => !show)}
         >
           <ProjectedIcon
@@ -115,7 +117,11 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
           showPrintOptions={showPrintOptions}
           setShowPrintOptions={setShowPrintOptions}
         />
-      </div>
+      </HeaderSection>
     </header>
   )
+}
+
+function HeaderSection(props: ComponentProps<'div'>) {
+  return <div {...props} className={cn('flex flex-row items-center gap-x-4', props.className)} />
 }

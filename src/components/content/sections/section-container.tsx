@@ -11,6 +11,7 @@ type SectionContainerProps = Omit<ComponentProps<'section'>, 'id'> & {
 export function SectionContainer({ section, ...sectionProps }: SectionContainerProps) {
   return (
     <SectionContext value={section}>
+      {/* TODO: section title as large ProjectedText */}
       <section
         id={section}
         {...sectionProps}
