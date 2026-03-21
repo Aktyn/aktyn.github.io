@@ -55,9 +55,12 @@ export function Journey({ ref, ...props }: IntroProps) {
           }
           items={schoolTimelineItems}
         />
-        <Separator className="bg-transparent bg-linear-to-r from-transparent via-foreground/20 to-transparent" />
+        <Separator
+          data-entry-animation-type="zoom-in-x"
+          className="bg-transparent bg-linear-to-r from-transparent via-foreground/20 to-transparent"
+        />
         <div className="flex flex-col items-stretch gap-2">
-          <p className="z-10 text-sm font-medium text-pretty">
+          <p data-entry-animation className="z-10 text-sm font-medium text-pretty">
             {t('journey.education.desc_1')}
             <br />
             {t('journey.education.desc_2')}{' '}
@@ -75,7 +78,7 @@ export function Journey({ ref, ...props }: IntroProps) {
             altPrefix="graphics-aspirations"
           />
         </div>
-        <Separator className="my-2 bg-foreground/20" />
+        <Separator data-entry-animation-type="zoom-in-x" className="my-2 bg-foreground/20" />
         <DatedTitle
           dateStart="2017"
           dateEnd="2020"
@@ -133,7 +136,6 @@ export function Journey({ ref, ...props }: IntroProps) {
           title={t('journey.projects.title')}
           icon="PersonHeart"
         />
-
         <TreeTimeline
           header={
             <div className="text-balance">
@@ -152,7 +154,10 @@ export function Journey({ ref, ...props }: IntroProps) {
           }
           items={freeTimeProjectsTimelineItems}
         />
-        <div className="text-sm text-muted-foreground print:hidden">
+        <div
+          data-entry-animation-type="fade-in"
+          className="text-sm text-muted-foreground print:hidden"
+        >
           {t('journey.projects.moreDetails')}
         </div>
       </Article>
@@ -170,6 +175,7 @@ type DatedTitleProps = ComponentProps<'div'> & {
 function DatedTitle({ dateStart, dateEnd, title, icon, ...divProps }: DatedTitleProps) {
   return (
     <div
+      data-entry-animation-type="from-bottom"
       {...divProps}
       className={cn(
         'flex flex-row flex-wrap-reverse items-center gap-4 *:[svg]:size-5 *:[svg]:min-w-5 *:[svg]:text-muted-foreground',

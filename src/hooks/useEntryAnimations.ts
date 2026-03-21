@@ -26,14 +26,21 @@ export function useEntryAnimations(rootRef: RefObject<HTMLElement | null>) {
 
     const elementsQueue: Array<Element> = []
     let staggerTimeout: ReturnType<typeof setTimeout> | null = null
+    let observer: IntersectionObserver | null = null
 
     const next = () => {
       if (staggerTimeout || !elementsQueue.length) {
         return
       }
 
-      const currentElement = elementsQueue.shift()
+      const currentElement = elementsQueue.sort(largestFirst).shift() // get largest element
+      if (!currentElement) {
+        return
+      }
+
       currentElement?.setAttribute('data-entry-animation', 'entered')
+
+      observer?.unobserve(currentElement)
 
       staggerTimeout = setTimeout(() => {
         staggerTimeout = null
@@ -46,21 +53,26 @@ export function useEntryAnimations(rootRef: RefObject<HTMLElement | null>) {
       next()
     }
 
-    const onVisibilityChange: IntersectionObserverCallback = (entries, observer) => {
+    const onVisibilityChange: IntersectionObserverCallback = (entries) => {
       for (const entry of entries) {
-        if (!entry.isIntersecting) {
+        if (!(entry.target instanceof Element)) {
           continue
         }
 
-        if (entry.target instanceof Element) {
+        if (!entry.isIntersecting) {
+          const index = elementsQueue.indexOf(entry.target)
+          if (index > -1) {
+            elementsQueue.splice(index, 1)
+          }
+        } else {
           enterElementStaggered(entry.target)
         }
-        observer.unobserve(entry.target)
       }
     }
-    const observer = new IntersectionObserver(onVisibilityChange, {
+
+    observer = new IntersectionObserver(onVisibilityChange, {
       root,
-      threshold: 0.5,
+      threshold: 0.125,
     })
 
     // Initialize with small timeout to let the page perform initial scroll
@@ -75,8 +87,9 @@ export function useEntryAnimations(rootRef: RefObject<HTMLElement | null>) {
     }, 16)
 
     return () => {
-      clearTimeout(timeout)
       observer.disconnect()
+
+      clearTimeout(timeout)
       if (staggerTimeout) {
         clearTimeout(staggerTimeout)
       }

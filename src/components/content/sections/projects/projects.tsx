@@ -29,8 +29,13 @@ export function Projects() {
       {projectsGroupsArray.map((group) => (
         <Article key={group} articleKey={group}>
           <div className="-m-3 mb-0 flex flex-col items-center gap-2 bg-background/40 p-3">
-            <h4 className="text-lg font-semibold">{projectsGroupsInfo[group].title}</h4>
-            <p className="text-center text-sm leading-tight font-medium tracking-wide text-balance whitespace-pre-wrap text-muted-foreground">
+            <h4 data-entry-animation-type="zoom-in" className="text-lg font-semibold">
+              {projectsGroupsInfo[group].title}
+            </h4>
+            <p
+              data-entry-animation-type="zoom-in"
+              className="text-center text-sm leading-tight font-medium tracking-wide text-balance whitespace-pre-wrap text-muted-foreground"
+            >
               {projectsGroupsInfo[group].description}
             </p>
           </div>
@@ -59,6 +64,7 @@ function ProjectCard({ project, single }: ProjectCardProps) {
 
   return (
     <div
+      data-entry-animation
       className={cn(
         'inline-grid grid-cols-1 gap-4 md:min-h-80 md:grid-cols-[1fr_auto]',
         !single &&

@@ -16,8 +16,13 @@ export function TechStack() {
       {techStackCategories.map((category) => (
         <Article key={category} articleKey={category}>
           <div className="-m-3 mb-0 flex flex-col items-center gap-2 bg-background/40 p-3">
-            <h4 className="text-lg font-semibold">{techStackInfo[category].title}</h4>
-            <p className="text-center text-sm leading-tight font-medium tracking-wide text-balance whitespace-pre-wrap text-muted-foreground">
+            <h4 data-entry-animation-type="zoom-in" className="text-lg font-semibold">
+              {techStackInfo[category].title}
+            </h4>
+            <p
+              data-entry-animation-type="zoom-in"
+              className="text-center text-sm leading-tight font-medium tracking-wide text-balance whitespace-pre-wrap text-muted-foreground"
+            >
               {techStackInfo[category].description}
             </p>
           </div>
@@ -40,6 +45,7 @@ type StackGroupProps = ComponentProps<'div'> & {
 function StackGroup({ title, stack, ...divProps }: StackGroupProps) {
   return (
     <div
+      data-entry-animation
       {...divProps}
       className={cn(
         'flex max-w-full flex-col items-center gap-2',

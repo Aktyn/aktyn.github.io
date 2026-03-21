@@ -1,4 +1,5 @@
 import { useContext, type ComponentProps } from 'react'
+import { useWindowSize } from '~/hooks/useWindowSize'
 import { Section } from '~/lib/consts'
 import type { JourneySection } from '~/lib/journey-info'
 import type { ProjectsGroup } from '~/lib/projects-info'
@@ -12,13 +13,19 @@ type ArticleProps = ComponentProps<'article'> & {
 
 export function Article({ articleKey, className, ...props }: ArticleProps) {
   const section = useContext(SectionContainer.Context)
+  const { width } = useWindowSize()
+
+  const breakpoint = 1920 // !Must be same as 3xl breakpoint defined in index.css
+
+  const dataProps = width < breakpoint ? { 'data-entry-animation-type': 'fade-in' } : {}
 
   return (
     <article
       id={articleKey}
+      {...dataProps}
       {...props}
       className={cn(
-        'relative flex w-full scroll-mt-8 flex-col gap-3 overflow-hidden rounded-xl border-border/40 p-3 not-print:border-2 not-print:shadow-xl',
+        'relative flex w-full scroll-mt-8 flex-col gap-3 overflow-hidden rounded-xl border-border/40 p-3 not-print:border-2 not-print:shadow-xl 3xl:duration-0',
         'bg-linear-150 from-background/30 via-background/60 to-background/30 bg-repeat print:bg-none!',
         section === Section.MyJourney &&
           'border-foreground-tetradic-1/40 from-background-tetradic-1/30 via-background-tetradic-1/60 to-background-tetradic-1/30 fill-[color-mix(in_oklch,var(--color-foreground-tetradic-1)_80%,var(--color-foreground))] text-[color-mix(in_oklch,var(--color-foreground-tetradic-1)_80%,var(--color-foreground))]',

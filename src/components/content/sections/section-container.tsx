@@ -35,12 +35,12 @@ export function SectionContainer({ section, ...sectionProps }: SectionContainerP
           <div className="grid w-full grid-cols-[1fr_auto_1fr] items-center justify-center gap-8 text-center print:grid-cols-1">
             <SectionTitleLine side="left" />
             <ProjectedText
-              data-entry-animation
+              data-entry-animation-type="zoom-in"
               as="h2"
               text={t(`sections.${section}.title`, sectionData[section].title)}
               fontSize={36}
               fontWeight="bold"
-              className="text-foreground"
+              className="text-foreground delay-500"
             />
             <SectionTitleLine side="right" />
           </div>
@@ -56,10 +56,14 @@ SectionContainer.Context = SectionContext
 function SectionTitleLine({ side }: { side: 'left' | 'right' }) {
   return (
     <ProjectedContainer
-      data-entry-animation-type={`from-${side}`}
+      data-entry-animation-type="zoom-in-x"
       as="span"
       rounding={2}
-      className="h-0.5 w-full rounded-sm bg-foreground/50 print:hidden"
+      className={cn(
+        'h-0.5 w-full rounded-sm bg-foreground/50 print:hidden',
+        side === 'left' && 'origin-right',
+        side === 'right' && 'origin-left',
+      )}
     />
   )
 }
