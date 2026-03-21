@@ -14,6 +14,7 @@ import type { SceneObject } from './scene-object'
 import { SvgObject } from './svg-object'
 import { TextObject } from './text-object'
 import { RectangularObject } from './rectangular-object'
+import { randomFloat } from '~/lib/random'
 
 interface GodraysUniforms {
   [key: string]: THREE.IUniform
@@ -44,6 +45,7 @@ const SUN_COLOR = 0xe0f2f1
 const GODRAY_RENDER_TARGET_RES_MULTIPLIER = 0.5
 const HEX_GRID_RATIO = 2
 const HIDE_PROJECTED_OBJECTS = !import.meta.env.DEV
+const HEX_GRID_ENTRY_DURATION = 3500
 
 //TODO: particles being emitted from extruded objects
 
@@ -65,7 +67,13 @@ export class WebScene {
   private visibleObjectsPanel: Stats.Panel | null = null
 
   private readonly objects: Array<SceneObject> = []
-  private readonly hexagons: Array<THREE.Mesh> = []
+  private readonly backgroundGrid = {
+    hexagons: [] as Array<THREE.Mesh>,
+    initialZPositions: [] as Array<number>,
+    initializingPhase: false,
+    initTimeStart: 0,
+    initTimeEnd: 0,
+  }
   private readonly caches = buildCaches()
 
   private readonly windowResizeCallback = this.onWindowResize.bind(this)
@@ -183,6 +191,12 @@ export class WebScene {
     })
     this.objects.length = 0
 
+    this.backgroundGrid.hexagons.forEach((hexagon) => {
+      hexagon.geometry.dispose()
+    })
+    this.backgroundGrid.hexagons.length = 0
+    this.backgroundGrid.initialZPositions.length = 0
+
     this.caches.dispose()
     this.transparentMaterial.dispose()
     this.hexGridMaterial.dispose()
@@ -229,6 +243,10 @@ export class WebScene {
   }
 
   public onPointerMove(x: number, y: number) {
+    if (this.backgroundGrid.initializingPhase) {
+      return
+    }
+
     const normalizedX = (x / window.innerWidth) * 2 - 1
     const normalizedY = -(y / window.innerHeight) * 2 + 1
 
@@ -241,7 +259,7 @@ export class WebScene {
 
     const distanceCutoff = 60
 
-    for (const hexagon of this.hexagons) {
+    for (const hexagon of this.backgroundGrid.hexagons) {
       const dX = point.x - hexagon.position.x
       const dY = point.y - hexagon.position.y
 
@@ -355,6 +373,24 @@ export class WebScene {
 
     const start = performance.now()
 
+    if (this.backgroundGrid.initializingPhase) {
+      const progress =
+        (start - this.backgroundGrid.initTimeStart) /
+        (this.backgroundGrid.initTimeEnd - this.backgroundGrid.initTimeStart)
+
+      if (progress >= 1) {
+        this.backgroundGrid.initializingPhase = false
+        for (let i = 0; i < this.backgroundGrid.hexagons.length; i++) {
+          this.backgroundGrid.hexagons[i].position.z = 0
+        }
+      } else {
+        for (let i = 0; i < this.backgroundGrid.hexagons.length; i++) {
+          this.backgroundGrid.hexagons[i].position.z =
+            this.backgroundGrid.initialZPositions[i] * Math.sin(Math.pow(progress, 2) * Math.PI)
+        }
+      }
+    }
+
     let visibleObjectsCount = 0
     for (const sceneObject of this.objects) {
       if (sceneObject.disposed) {
@@ -451,8 +487,6 @@ export class WebScene {
         this.postprocessing.rtTextureColors.texture
       this.postprocessing.godrayCombineUniforms.tGodRays.value =
         this.postprocessing.rtTextureGodRays2.texture
-
-      //TODO: since no projected objects are visible (only their shadows), some steps may be disabled to optimize entire render process
 
       this.postprocessing.scene.overrideMaterial = this.postprocessing.materialGodraysCombine
       this.renderer.setRenderTarget(null)
@@ -684,12 +718,17 @@ export class WebScene {
         const mesh = hexagon.clone(false)
         mesh.position.x = innerRadius * x + (y % 2 === 0 ? 0 : innerRadius / 2)
         mesh.position.y = (innerRadius * y * Math.sqrt(3)) / 2
-        // mesh.position.z = randomFloat(-5, 5) //TODO: entry animation moving on Z axis smoothly from bottom to 0 with some initial randomness
-        mesh.position.z = 0
+        mesh.position.z = randomFloat(-10, 10)
+        // mesh.position.z = 0
         this.backgroundScene.add(mesh)
-        this.hexagons.push(mesh)
+        this.backgroundGrid.hexagons.push(mesh)
+        this.backgroundGrid.initialZPositions.push(mesh.position.z)
       }
     }
+
+    this.backgroundGrid.initializingPhase = true
+    this.backgroundGrid.initTimeStart = performance.now()
+    this.backgroundGrid.initTimeEnd = this.backgroundGrid.initTimeStart + HEX_GRID_ENTRY_DURATION
   }
 }
 

@@ -16,7 +16,7 @@ import { TechStack } from './sections/tech-stack/tech-stack'
 import { cn } from '~/lib/utils'
 import { usePositionalColoring } from '~/hooks/usePositionalColoring'
 
-//TODO: about this site info (purpose, used technologies, etc)
+//TODO: footer; about this site info (purpose, used technologies, etc)
 
 export function ContentLayer() {
   const { t } = useTranslation()

@@ -16,7 +16,6 @@ export function SectionContainer({ section, ...sectionProps }: SectionContainerP
 
   return (
     <SectionContext value={section}>
-      {/* TODO: section title as large ProjectedText */}
       <section
         id={section}
         {...sectionProps}
