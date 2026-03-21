@@ -15,6 +15,7 @@ export function AmbientImage({ src, alt, ambientOpacity = 0.5, ...divProps }: Am
     >
       <img
         alt={`${alt}-blur`}
+        aria-hidden="true"
         src={src}
         loading="lazy"
         className="pointer-events-none absolute inset-0 -z-1 h-full scale-110 blur-lg print:hidden"

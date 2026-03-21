@@ -14,5 +14,9 @@ export default meta
 type Story = StoryObj<typeof Journey>
 
 export const Default: Story = {
-  render: () => <Journey />,
+  render: () => (
+    <div className="max-h-screen overflow-auto p-8">
+      <Journey />
+    </div>
+  ),
 }

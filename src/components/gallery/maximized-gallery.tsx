@@ -239,7 +239,12 @@ export function MaximizedGallery({
                   className="flex h-full min-w-full items-center justify-center"
                 >
                   <div className="-z-1 mr-[-100%] flex size-full min-w-full items-center justify-center bg-red-300/10">
-                    <img src={image} className="size-full scale-105 object-cover blur-lg" />
+                    <img
+                      src={image}
+                      alt=""
+                      aria-hidden="true"
+                      className="size-full scale-105 object-cover blur-lg"
+                    />
                   </div>
                   <div
                     className={cn(
@@ -250,6 +255,7 @@ export function MaximizedGallery({
                     <img
                       data-slot="image"
                       src={image}
+                      alt={`Gallery image ${index + 1}`}
                       className="pointer-events-auto h-auto max-h-full max-w-full object-contain"
                       onDoubleClick={handleClose}
                     />
@@ -279,6 +285,7 @@ export function MaximizedGallery({
         <div className="absolute inset-x-0 top-0 z-20 flex flex-row items-center justify-end p-2">
           <button
             data-slot="close-button"
+            aria-label="Close gallery"
             className="rounded-full border border-white/40 bg-black/50 p-2 transition-colors hover:bg-black hover:*:scale-110"
             onClick={handleClose}
           >
@@ -298,6 +305,7 @@ function NavButton({ direction, ...buttonProps }: NavButtonProps) {
   return (
     <button
       {...buttonProps}
+      aria-label={direction === -1 ? 'Previous image' : 'Next image'}
       className={cn(
         'z-5 my-auto flex h-full w-8 flex-col justify-center rounded-md bg-foreground-lighter/0 p-1 transition-colors not-disabled:hover:bg-foreground/50 disabled:fill-muted-foreground/50 disabled:opacity-50',
         direction === -1 && 'not-disabled:hover:*:-translate-x-[12.5%]',

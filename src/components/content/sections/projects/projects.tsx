@@ -1,4 +1,3 @@
-import 'devicon/devicon.min.css'
 import { Suspense } from 'react'
 import { TechBadge } from '~/components/badges/tech-badge'
 import { ScrollArea } from '~/components/common/scroll-area'
@@ -107,7 +106,7 @@ function ProjectCard({ project, single }: ProjectCardProps) {
       <ScrollArea
         type="hover"
         orientation={width < MD ? 'horizontal' : 'vertical'}
-        className="-m-3 overflow-hidden contain-[size] max-md:-mt-16 max-md:h-64 max-md:**:data-radix-scroll-area-viewport:*:flex! max-md:**:data-radix-scroll-area-viewport:*:h-full md:-ml-16 md:w-76 print:in-[.hide-images-in-print]:hidden"
+        className="-m-3 overflow-hidden contain-[size] max-md:-mt-16 max-md:h-64 max-md:**:data-radix-scroll-area-viewport:w-full max-md:**:data-radix-scroll-area-viewport:*:flex! max-md:**:data-radix-scroll-area-viewport:*:h-full md:-ml-16 md:w-76 print:in-[.hide-images-in-print]:hidden"
       >
         <div className="flex items-stretch justify-start gap-4 p-2 max-md:mx-auto max-md:h-full max-md:flex-row max-md:pt-16 md:my-auto md:w-full md:flex-col md:p-4 md:pl-16">
           <Suspense fallback={<span />}>

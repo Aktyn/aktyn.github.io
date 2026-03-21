@@ -4,6 +4,7 @@ import { App } from './App'
 import { TooltipProvider } from '~/components/common/tooltip'
 import './i18n'
 
+import 'devicon/devicon.min.css'
 import './index.css'
 
 createRoot(document.getElementById('root') ?? document.body).render(

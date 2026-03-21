@@ -1,10 +1,29 @@
 import type { Preview } from '@storybook/react-vite'
-import { useRef } from 'react'
+import { Suspense, useEffect, useRef } from 'react'
 import type { PartialStoryFn } from 'storybook/internal/types'
 import { TooltipProvider } from '../src/components/common/tooltip'
 import { useEntryAnimations } from '../src/hooks/useEntryAnimations'
+import { I18nextProvider } from 'react-i18next'
+import type { StoryContext } from '@storybook/react'
+import i18n from '../src/i18n'
 
+import 'devicon/devicon.min.css'
 import '../src/index.css'
+
+const I18nDecorator = (Story: PartialStoryFn, context: StoryContext) => {
+  const { locale } = context.globals
+  useEffect(() => {
+    void i18n.changeLanguage(locale)
+  }, [locale])
+
+  return (
+    <Suspense fallback={<div>Loading translations...</div>}>
+      <I18nextProvider i18n={i18n}>
+        <Story />
+      </I18nextProvider>
+    </Suspense>
+  )
+}
 
 const AnimationDecorator = (Story: PartialStoryFn) => {
   const ref = useRef<HTMLDivElement>(null)
@@ -52,10 +71,25 @@ const preview: Preview = {
     },
     layout: 'fullscreen',
   },
+  globalTypes: {
+    locale: {
+      name: 'Locale',
+      description: 'Internationalization locale',
+      toolbar: {
+        icon: 'globe',
+        items: [
+          { value: 'en', right: 'EN', title: 'English' },
+          { value: 'pl', right: 'PL', title: 'Polski' },
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
   initialGlobals: {
     backgrounds: { value: 'dark' },
+    locale: 'en',
   },
-  decorators: [AnimationDecorator],
+  decorators: [I18nDecorator, AnimationDecorator],
 }
 
 export default preview

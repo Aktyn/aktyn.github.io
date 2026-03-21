@@ -78,7 +78,13 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
       className="pointer-events-none absolute top-0 bottom-auto z-10 -mb-header flex min-h-header w-full max-w-screen flex-row flex-wrap items-center justify-between p-2 delay-1000 *:pointer-events-auto print:hidden"
     >
       <HeaderSection data-entry-animation-type="from-left" className="mr-auto">
-        <a ref={logoRef} href={`#`} draggable={false} className="fill-current select-none">
+        <a
+          aria-label="Logo Home Link"
+          ref={logoRef}
+          href={`#`}
+          draggable={false}
+          className="fill-current select-none"
+        >
           <ProjectedIcon ref={projectedLogoRef} path={LOGO_PATH} size={32} lowPriority />
         </a>
         {webGLAvailable && <WebGlSwitch />}
