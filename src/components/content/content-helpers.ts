@@ -11,8 +11,6 @@ export type ProjectedComponentRef = {
 export type ProjectedComponentProps<As extends ElementType = 'span'> = {
   ref?: RefObject<ProjectedComponentRef | null>
   as?: As
-  color?: string
-  frontColor?: string
   /** Low priority objects are hidden when rendering frame time exceeds 18ms threshold */
   lowPriority?: boolean
 }

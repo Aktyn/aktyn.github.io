@@ -65,7 +65,7 @@ function ProjectCard({ project, single }: ProjectCardProps) {
     <div
       data-entry-animation
       className={cn(
-        'inline-grid grid-cols-1 gap-4 md:min-h-80 md:grid-cols-[1fr_auto]',
+        'inline-grid grid-cols-1 gap-4 not-data-[entry-animation=entered]:scale-120 md:min-h-80 md:grid-cols-[1fr_auto]',
         !single &&
           'overflow-hidden rounded-lg border border-foreground/20 bg-background-lighter/30 p-3 not-print:shadow-lg',
       )}
@@ -80,7 +80,7 @@ function ProjectCard({ project, single }: ProjectCardProps) {
                   {arr.length === 1 && <p>{project.title}</p>}
                 </a>
               </TooltipTrigger>
-              <TooltipContent>{t('projects.viewOnGithub')}</TooltipContent>
+              <TooltipContent side="right">{t('projects.viewOnGithub')}</TooltipContent>
             </Tooltip>
           ))}
           {forceArray(project.linkToGithubRepo ?? []).length !== 1 && <p>{project.title}</p>}

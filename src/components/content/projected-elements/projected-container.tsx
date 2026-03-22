@@ -6,7 +6,6 @@ import {
   type ElementType,
 } from 'react'
 import type { ProjectedComponentProps } from '../content-helpers'
-import { colors } from '../colors'
 import { useSizer } from '~/hooks/useSizer'
 import { useProjectedSceneObject } from '../useProjectedSceneObject'
 import { type WebScene } from '~/graphics/web-scene'
@@ -20,8 +19,6 @@ export type ProjectedContainerProps<T extends ElementType> = Omit<ProjectedCompo
 export function ProjectedContainer<T extends ElementType>({
   as,
   ref: interfaceRef,
-  color = colors.side,
-  frontColor = colors.front,
   lowPriority,
   rounding = 0,
   ...props
@@ -36,13 +33,13 @@ export function ProjectedContainer<T extends ElementType>({
         return null
       }
 
-      const obj = webScene.createRectangularObject(width, height, rounding, color, frontColor)
+      const obj = webScene.createRectangularObject(width, height, rounding)
       if (lowPriority) {
         obj.setLowPriority()
       }
       return obj
     },
-    [width, height, rounding, color, frontColor, lowPriority],
+    [width, height, rounding, lowPriority],
   )
 
   const projectedScene = useProjectedSceneObject(containerRef, objectFactory)

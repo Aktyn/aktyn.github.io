@@ -40,6 +40,7 @@ export function SectionContainer({ section, ...sectionProps }: SectionContainerP
               fontSize={36}
               fontWeight="bold"
               className="text-foreground delay-500"
+              splitWords={false}
             />
             <SectionTitleLine side="right" />
           </div>

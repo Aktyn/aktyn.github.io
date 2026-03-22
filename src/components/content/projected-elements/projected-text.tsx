@@ -1,17 +1,16 @@
 import {
-  type ElementType,
   Fragment,
   useCallback,
   useImperativeHandle,
   useRef,
   type ComponentPropsWithoutRef,
+  type ElementType,
 } from 'react'
 import { fontWeightValues, type FontWeight } from '~/graphics/fonts'
-import { type WebScene } from '~/graphics/web-scene'
+import type { WebScene } from '~/graphics/web-scene'
 import { omit } from '~/lib/utils'
 import type { ProjectedComponentProps } from '../content-helpers'
 import { useProjectedSceneObject } from '../useProjectedSceneObject'
-import { colors } from '../colors'
 
 const defaultFontSize = 16
 const defaultFontWeight: FontWeight = 'medium'
@@ -33,7 +32,7 @@ export function ProjectedText<As extends ElementType = 'span'>({
   return words.map((word, index) => (
     <Fragment key={index}>
       <ProjectedWord {...props} text={word} />
-      {index < words.length - 1 && <Space {...omit(props, 'color', 'frontColor', 'lowPriority')} />}
+      {index < words.length - 1 && <Space {...omit(props, 'lowPriority')} />}
     </Fragment>
   ))
 }
@@ -42,8 +41,6 @@ function ProjectedWord({
   ref: interfaceRef,
   as: Slot = 'span',
   text: word,
-  color = colors.side,
-  frontColor = colors.front,
   fontSize = defaultFontSize,
   fontWeight = defaultFontWeight,
   lowPriority,
@@ -54,9 +51,9 @@ function ProjectedWord({
   const objectFactory = useCallback(
     (webScene: WebScene) =>
       webScene
-        .createTextObject(word, fontSize, color, frontColor, fontWeight)
+        .createTextObject(word, fontSize, fontWeight)
         .then((obj) => (lowPriority ? obj.setLowPriority() : obj)),
-    [color, fontSize, fontWeight, frontColor, word, lowPriority],
+    [fontSize, fontWeight, word, lowPriority],
   )
   const projectedScene = useProjectedSceneObject(ref, objectFactory)
 

@@ -51,11 +51,17 @@ export function Intro({ ref, className, ...props }: IntroProps) {
         <QuickPersonalInfo experienceStartDate={experienceStartDate} birthDate={birthDate} />
         <SocialLinks />
       </div>
-      {/* TODO: "Open for work" status inside separator */}
-      <Separator
+      <div
         data-entry-animation-type="zoom-in-x"
-        className="not-print:mask-linear-[to_right,transparent,black_30%,black_70%,transparent]"
-      />
+        className="grid w-full grid-cols-[1fr_auto_1fr] items-center gap-2 mask-linear-[to_right,transparent,black_30%,black_70%,transparent] print:hidden"
+      >
+        <Separator />
+        <span className="text-xs font-medium text-[color-mix(in_oklch,var(--color-border)_70%,var(--color-foreground-lighter))]">
+          {t('intro.openToWork')}
+        </span>
+        <Separator />
+      </div>
+      <Separator className="not-print:hidden" />
       <QuickAccess className="flex-1 print:hidden" />
     </SectionContainer>
   )

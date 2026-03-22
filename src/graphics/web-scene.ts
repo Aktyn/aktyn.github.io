@@ -6,15 +6,14 @@ import {
   GodRaysFakeSunShader,
   GodRaysGenerateShader,
 } from 'three/addons/shaders/GodRaysShader'
+import { randomFloat } from '~/lib/random'
 import { calculateLinearlyWeightedAverage, forceArray } from '~/lib/utils'
-import { buildCaches } from './caches'
 import { type FontWeight, getFontMetrics, loadFontShapes } from './fonts'
 import { EPSILON, EXTRUDE_DEPTH, svgPathToShapePath } from './graphics-helpers'
+import { RectangularObject } from './rectangular-object'
 import type { SceneObject } from './scene-object'
 import { SvgObject } from './svg-object'
 import { TextObject } from './text-object'
-import { RectangularObject } from './rectangular-object'
-import { randomFloat } from '~/lib/random'
 
 interface GodraysUniforms {
   [key: string]: THREE.IUniform
@@ -45,7 +44,7 @@ const SUN_COLOR = 0xe0f2f1
 const GODRAY_RENDER_TARGET_RES_MULTIPLIER = 0.5
 const HEX_GRID_RATIO = 2
 const HIDE_PROJECTED_OBJECTS = !import.meta.env.DEV
-const HEX_GRID_ENTRY_DURATION = 3500
+const HEX_GRID_ENTRY_DURATION = 3000
 
 //TODO: particles being emitted from extruded objects
 
@@ -74,11 +73,9 @@ export class WebScene {
     initTimeStart: 0,
     initTimeEnd: 0,
   }
-  private readonly caches = buildCaches()
 
   private readonly windowResizeCallback = this.onWindowResize.bind(this)
 
-  private lastTime = 0
   private maxVisibleObjectsCount = 0
 
   private performanceMeasurements = new Array<number>(100).fill(0)
@@ -164,9 +161,9 @@ export class WebScene {
 
     this.postprocessing = this.initPostprocessing(width, height)
 
-    const animate: XRFrameRequestCallback = (time) => {
+    const animate: XRFrameRequestCallback = () => {
       this.stats?.begin()
-      this.render(time)
+      this.render()
       this.stats?.end()
     }
 
@@ -197,7 +194,6 @@ export class WebScene {
     this.backgroundGrid.hexagons.length = 0
     this.backgroundGrid.initialZPositions.length = 0
 
-    this.caches.dispose()
     this.transparentMaterial.dispose()
     this.hexGridMaterial.dispose()
 
@@ -367,10 +363,7 @@ export class WebScene {
     this.postprocessing.scene.overrideMaterial = null
   }
 
-  private render(time: DOMHighResTimeStamp) {
-    const deltaTime = time - this.lastTime
-    this.lastTime = time
-
+  private render() {
     const start = performance.now()
 
     if (this.backgroundGrid.initializingPhase) {
@@ -398,7 +391,7 @@ export class WebScene {
         continue
       }
 
-      sceneObject.update(Math.min(1000, deltaTime), this.lowPerformanceMode)
+      sceneObject.update(this.lowPerformanceMode)
       if (sceneObject.isVisible()) {
         visibleObjectsCount++
       }
@@ -562,21 +555,12 @@ export class WebScene {
     return new THREE.Mesh(geometry, materials)
   }
 
-  public async createTextObject(
-    text: string,
-    size: number,
-    _color: string,
-    _frontColor: string,
-    weight: FontWeight,
-  ) {
+  public async createTextObject(text: string, size: number, weight: FontWeight) {
     return loadFontShapes(text, size, weight).then((shapes) => {
       const geometry = this.shapesToGeometry(shapes)
 
       const textMesh = this.composeMesh(
         geometry,
-        //TODO
-        // this.caches.getBasicMaterial(_frontColor),
-        // this.caches.getBasicMaterial(_color),
         this.transparentMaterial,
         this.transparentMaterial,
       )
@@ -587,48 +571,30 @@ export class WebScene {
       this.scene.add(textMesh)
 
       const metrics = getFontMetrics(weight)
-      const sceneObject = new TextObject(textMesh, this.caches, size, metrics)
+      const sceneObject = new TextObject(textMesh, size, metrics)
       this.objects.push(sceneObject)
       return sceneObject
     })
   }
 
-  public createSvgObject(
-    svgPath: string | string[],
-    _color: string,
-    _frontColor: string,
-    isCCW = false,
-  ) {
+  public createSvgObject(svgPath: string | string[], isCCW = false) {
     const shapes = forceArray(svgPath).flatMap((path) => svgPathToShapePath(path).toShapes(isCCW))
     const geometry = this.shapesToGeometry(shapes)
     geometry.center()
 
-    const svgMesh = this.composeMesh(
-      geometry,
-      //TODO
-      // this.caches.getBasicMaterial(_frontColor),
-      // this.caches.getBasicMaterial(_color),
-      this.transparentMaterial,
-      this.transparentMaterial,
-    )
+    const svgMesh = this.composeMesh(geometry, this.transparentMaterial, this.transparentMaterial)
     svgMesh.rotateX(Math.PI)
 
     geometry.computeBoundingBox()
 
     this.scene.add(svgMesh)
 
-    const sceneObject = new SvgObject(svgMesh, this.caches)
+    const sceneObject = new SvgObject(svgMesh)
     this.objects.push(sceneObject)
     return sceneObject
   }
 
-  public createRectangularObject(
-    width: number,
-    height: number,
-    roundingRadius: number,
-    _color: string,
-    _frontColor: string,
-  ) {
+  public createRectangularObject(width: number, height: number, roundingRadius: number) {
     roundingRadius = Math.min(roundingRadius, width / 2, height / 2)
 
     const rectangularShape = new THREE.Shape()
@@ -678,16 +644,9 @@ export class WebScene {
     const geometry = this.shapesToGeometry([rectangularShape])
     geometry.center()
 
-    const mesh = this.composeMesh(
-      geometry,
-      //TODO
-      // this.caches.getBasicMaterial(_frontColor),
-      // this.caches.getBasicMaterial(_color),
-      this.transparentMaterial,
-      this.transparentMaterial,
-    )
+    const mesh = this.composeMesh(geometry, this.transparentMaterial, this.transparentMaterial)
     this.scene.add(mesh)
-    const sceneObject = new RectangularObject(mesh, this.caches)
+    const sceneObject = new RectangularObject(mesh)
     this.objects.push(sceneObject)
     return sceneObject
   }

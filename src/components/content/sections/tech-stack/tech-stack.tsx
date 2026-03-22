@@ -48,7 +48,7 @@ export function TechStackGroup({ title, stack, ...divProps }: StackGroupProps) {
       data-entry-animation
       {...divProps}
       className={cn(
-        'flex max-w-full flex-col items-center gap-2',
+        'flex max-w-full flex-col items-center gap-2 not-data-[entry-animation=entered]:scale-120',
         'rounded-lg border border-foreground/20 bg-background-lighter/30 p-2 not-print:shadow-lg',
         divProps.className,
       )}
