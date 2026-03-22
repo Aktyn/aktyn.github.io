@@ -15,8 +15,7 @@ import { Sidebar } from '../navigation/sidebar'
 import { TechStack } from './sections/tech-stack/tech-stack'
 import { cn } from '~/lib/utils'
 import { usePositionalColoring } from '~/hooks/usePositionalColoring'
-
-//TODO: footer; about this site info (purpose, used technologies, etc)
+import { Footer } from '../footer/footer'
 
 export function ContentLayer() {
   const { t } = useTranslation()
@@ -130,8 +129,14 @@ export function ContentLayer() {
             className:
               'print:mask-none! w-full *:grid! max-3xl:*:grid-cols-1 min-7xl:*:grid-cols-1 print:*:grid-cols-1 *:grid-cols-[1fr_auto_1fr]',
             style: {
-              maskImage:
-                'linear-gradient(to bottom, #fff0, #fff calc(var(--spacing)*10), #fff calc(100% - var(--spacing)*10), #fff0)',
+              maskImage: `linear-gradient(to bottom, 
+                  #fff4,
+                  #fffa calc(var(--spacing)*5),
+                  #ffff calc(var(--spacing)*10),
+                  #ffff calc(100% - var(--spacing)*10),
+                  #fffa calc(100% - var(--spacing)*5),
+                  #fff4
+                )`,
             },
           }}
         >
@@ -150,6 +155,8 @@ export function ContentLayer() {
               <Projects />
               <TechStack />
             </div>
+
+            <Footer />
           </div>
         </ScrollArea>
       </div>

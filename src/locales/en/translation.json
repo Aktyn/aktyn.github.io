@@ -12,6 +12,11 @@
       "toggle": "Toggle advanced graphic effects"
     }
   },
+  "footer": {
+    "description": "This site serves as my portfolio and detailed work experience overview. It also includes a comprehensive list of my projects, which I have categorized and shortly described.\nIf you want to know more about me, my skills, or my work, this is the place to be.",
+    "techStack": "Technologies used to build this site",
+    "siteRepo": "Link to this site's repository"
+  },
   "sidebar": {
     "backToTop": "Back to top"
   },

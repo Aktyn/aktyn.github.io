@@ -28,7 +28,7 @@ export function TechStack() {
           </div>
           <div className="grid items-stretch gap-4 md:grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*112),1fr))]">
             {techStackInfo[category].stackGroups.map((stackGroup) => (
-              <StackGroup key={stackGroup.title} {...stackGroup} />
+              <TechStackGroup key={stackGroup.title} {...stackGroup} />
             ))}
           </div>
         </Article>
@@ -42,7 +42,7 @@ type StackGroupProps = ComponentProps<'div'> & {
   stack: Array<keyof typeof techStack>
 }
 
-function StackGroup({ title, stack, ...divProps }: StackGroupProps) {
+export function TechStackGroup({ title, stack, ...divProps }: StackGroupProps) {
   return (
     <div
       data-entry-animation
@@ -59,6 +59,7 @@ function StackGroup({ title, stack, ...divProps }: StackGroupProps) {
           <TechBadge key={tech} tech={tech} className="self-center text-base" />
         ))}
       </div>
+      {divProps.children}
     </div>
   )
 }

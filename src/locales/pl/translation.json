@@ -12,6 +12,11 @@
       "toggle": "Przełącz zaawansowane efekty graficzne"
     }
   },
+  "footer": {
+    "description": "Strona na której się znajdujesz służy jako moje portfolio oraz szczegółowy przegląd doświadczenia zawodowego. Zawiera ona również listę moich projektów, które zostały przeze mnie skategoryzowane i krótko opisane.\nJeśli chcesz dowiedzieć się czegoś o mnie, moich umiejętnościach lub pracy, to jest właściwe miejsce.",
+    "techStack": "Technologie użyte do stworzenia tej strony",
+    "siteRepo": "Link do repo tej strony"
+  },
   "sidebar": {
     "backToTop": "Powrót na górę"
   },
