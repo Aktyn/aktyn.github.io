@@ -1,3 +1,4 @@
 # Portfolio site
 
-TODO: screenshot of the site
+![intro](/screenshots/intro.webp)
+![projects](/screenshots/projects.webp)
