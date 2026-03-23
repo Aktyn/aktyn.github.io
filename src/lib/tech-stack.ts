@@ -12,6 +12,7 @@ export type TechStackInfoSchema = {
   [key in TechStackCategory]: {
     title: string
     description: string
+    description2?: string
     thumbnail: string
     icon: ComponentProps<typeof SvgIcon>['icon'] | { svgPath: string }
     stackGroups: Array<{
@@ -85,6 +86,7 @@ export const useTechStackInfo = () => {
       [TechStackCategory.KnownTools]: {
         title: t('techStack.knownTools.title'),
         description: t('techStack.knownTools.desc'),
+        description2: t('techStack.knownTools.descArch'),
         thumbnail: '/img/quick-access-thumbnails/jira.webp',
         icon: 'Construction',
         stackGroups: [

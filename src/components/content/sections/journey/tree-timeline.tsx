@@ -19,18 +19,15 @@ export function TreeTimeline({ header, items, ...divProps }: TreeTimelineProps) 
         data-entry-animation-type="zoom-in-x"
         className="bg-transparent bg-linear-to-r from-transparent via-foreground/20 to-transparent max-md:via-[calc(var(--spacing)*2)] md:max-w-64 md:via-25%"
       />
-      <div data-entry-animation-type="zoom-in" className="flex flex-col">
-        <div
-          //data-entry-animation-type="fade-in"
-          className="flex w-32 md:justify-center"
-        >
+      <div className="flex flex-col">
+        <div data-entry-animation-type="fade-in" className="flex w-32 md:justify-center">
           <span className="h-4 w-px bg-foreground/20 max-md:ml-2" />
         </div>
         {items.map((item, index) => (
           <div
             key={index}
             data-entry-animation-type="from-right"
-            className="flex flex-row items-center justify-stretch gap-0 *:last:flex-0 *:last:grow max-md:flex-wrap"
+            className="flex flex-row items-center justify-stretch gap-0 not-print:not-data-[entry-animation=entered]:translate-x-10 *:last:flex-0 *:last:grow max-md:flex-wrap"
           >
             <div className="grid w-auto grid-cols-1 items-stretch self-stretch md:w-32 md:grid-rows-[1fr_auto_1fr] md:justify-center">
               <span

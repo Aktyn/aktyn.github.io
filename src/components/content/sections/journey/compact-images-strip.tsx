@@ -23,7 +23,7 @@ export function CompactImagesStrip({
       orientation="horizontal"
       data-entry-animation-type="zoom-in-x"
       className={cn(
-        '-mx-3 not-print:contain-inline-size **:data-radix-scroll-area-viewport:-mt-16 **:data-radix-scroll-area-viewport:-mb-14 **:data-radix-scroll-area-viewport:*:max-h-full',
+        '-mx-3 not-print:contain-inline-size not-print:not-data-[entry-animation=entered]:scale-x-80 **:data-radix-scroll-area-viewport:-mt-16 **:data-radix-scroll-area-viewport:-mb-14 **:data-radix-scroll-area-viewport:*:max-h-full',
         'print:in-[.hide-images-in-print]:hidden',
         className,
       )}

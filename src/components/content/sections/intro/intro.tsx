@@ -29,7 +29,7 @@ export function Intro({ ref, className, ...props }: IntroProps) {
       {...props}
       className={cn('gap-y-8 px-4 text-center', className)}
     >
-      <div className="flex flex-1 flex-col items-center justify-end gap-6">
+      <div className="flex flex-1 flex-col items-center justify-end gap-6 print:gap-3">
         <div data-header-anchor className="-mb-2">
           <h1>
             {fullName.split(' ').map((namePart, index, arr) => (
@@ -61,7 +61,7 @@ export function Intro({ ref, className, ...props }: IntroProps) {
         </span>
         <Separator />
       </div>
-      <Separator className="not-print:hidden" />
+      <div className="mt-6 h-px w-full border-t border-black/40 not-print:hidden" />
       <QuickAccess className="flex-1 print:hidden" />
     </SectionContainer>
   )

@@ -11,7 +11,7 @@ export function TechBadge({ tech, ...badgeProps }: TechBadgeProps) {
       dir="ltr"
       {...badgeProps}
       className={cn(
-        'relative flex flex-row gap-x-2 rounded-md bg-background/50 p-1 px-2 text-sm text-shadow-none',
+        'relative flex flex-row gap-x-2 rounded-md bg-background/50 text-sm text-shadow-none not-print:p-1 not-print:px-2 print:border-none',
         badgeProps.className,
       )}
     >

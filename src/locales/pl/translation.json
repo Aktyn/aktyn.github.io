@@ -65,10 +65,10 @@
       "title": "Frontend",
       "desc": "To jest mój główny obszar specjalizacji, a także rodzaj pracy, który sprawia mi najwięcej przyjemności.",
       "groups": {
-        "languages": "Języki i znaczniki",
+        "languages": "Języki",
         "frameworks": "Frameworki i narzędzia",
-        "styling": "Stylizacja i komponenty",
-        "graphics": "Zaawansowana grafika",
+        "styling": "Style i komponenty",
+        "graphics": "Grafika webowa",
         "testing": "Testowanie (full stack)",
         "mobile": "Urządzenia mobilne"
       }
@@ -78,14 +78,15 @@
       "desc": "Nauczyłem się programowania backendowego poprzez doświadczenie zawodowe i projekty osobiste.\nOto z czym jestem najbardziej zaznajomiony.",
       "groups": {
         "languages": "Języki i platformy",
-        "runtimes": "Środowiska wykonawcze i frameworki",
+        "runtimes": "Środowiska i frameworki",
         "databases": "Bazy danych",
         "microcontrollers": "Mikrokontrolery / Komputery jednopłytkowe"
       }
     },
     "knownTools": {
       "title": "Znane narzędzia",
-      "desc": "Oto kilka narzędzi niezwiązanych z kodowaniem, w których mam doświadczenie.\nI use Arch, btw ;)",
+      "desc": "Oto niektóre z narzędzi, niekoniecznie związanych z programowaniem, w których mam doświadczenie.",
+      "descArch": "I use Arch, btw ;)",
       "groups": {
         "graphics": "Grafika i projektowanie",
         "management": "Zarządzanie projektami i systemy kontroli wersji"
@@ -95,7 +96,7 @@
   "projectsInfo": {
     "webDev": {
       "title": "Strony internetowe",
-      "desc": "To są projekty, które zrealizowałem w wolnym czasie.\n\nChcę dzielić się tylko projektami, które ukończyłem samodzielnie, więc nie uwzględniam projektów zawodowych, ponieważ są one efektem pracy zespołowej i nie odzwierciedlają dokładnie moich indywidualnych umiejętności.\n\nUwaga: niektóre z projektów wymienionych na tej stronie są przestarzałe i oparte na nieaktualnych technologiach.\nStos technologiczny, który znam dzisiaj, jest zupełnie inny i bardziej nowoczesny.",
+      "desc": "To są projekty, które zrealizowałem w wolnym czasie.\n\nChcę dzielić się tylko projektami, które ukończyłem samodzielnie, więc nie uwzględniam projektów zawodowych, ponieważ są one efektem pracy zespołowej i nie odzwierciedlają dokładnie moich indywidualnych umiejętności.\n\nUwaga: niektóre z projektów wymienionych na tej stronie są przestarzałe i oparte na nieaktualnych technologiach.\nZbiór technologii, z których obecnie korzystam, jest prawdopodobnie bardziej \"na czasie\".",
       "projects": {
         "in2rp": {
           "desc": "Strona stworzona dla serwera role play GTA V. Była zintegrowana z botem discord i serwerem discord dedykowanym społeczności role play GTA V. Projekt posiadał również bazę danych do przechowywania statystyk serwera i danych użytkowników."

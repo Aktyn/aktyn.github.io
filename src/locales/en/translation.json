@@ -81,7 +81,8 @@
     },
     "knownTools": {
       "title": "Known tools",
-      "desc": "Here are some non-coding tools that I have experience using.\nI use Arch, btw ;)",
+      "desc": "Here are some non-coding tools that I have experience using.",
+      "descArch": "I use Arch, btw ;)",
       "groups": {
         "graphics": "Graphics and design",
         "management": "Project management and version control systems"

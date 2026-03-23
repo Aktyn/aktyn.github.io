@@ -20,7 +20,7 @@ export function SectionContainer({ section, ...sectionProps }: SectionContainerP
         id={section}
         {...sectionProps}
         className={cn(
-          'flex w-full scroll-mt-8 flex-col items-center justify-center gap-4 max-3xl:mx-auto max-3xl:max-w-[calc(100%-var(--spacing)*4)]',
+          'flex w-full scroll-mt-8 break-after-page flex-col items-center justify-center gap-4 max-3xl:mx-auto max-3xl:max-w-[calc(100%-var(--spacing)*4)] print:gap-0',
           section === Section.MyJourney &&
             '[--background-lighter:var(--background-lighter-tetradic-1)] [--background:var(--background-tetradic-1)] [--foreground-complementary:var(--foreground-tetradic-1-complementary)] [--foreground-darker:var(--foreground-darker-tetradic-1)] [--foreground-lighter:var(--foreground-lighter-tetradic-1)] [--foreground:var(--foreground-tetradic-1)] [--muted-foreground:var(--muted-foreground-tetradic-1)]',
           section === Section.PublicProjects &&

@@ -127,7 +127,7 @@ export function ContentLayer() {
           className="flex flex-col items-center not-print:size-full"
           contentContainerProps={{
             className:
-              'print:mask-none! w-full *:grid! max-3xl:*:grid-cols-1 min-7xl:*:grid-cols-1 print:*:grid-cols-1 *:grid-cols-[1fr_auto_1fr]',
+              'print:mask-none! float-none w-full *:grid! max-3xl:*:grid-cols-1 min-7xl:*:grid-cols-1 print:*:grid-cols-1 *:grid-cols-[1fr_auto_1fr]',
             style: {
               maskImage: `linear-gradient(to bottom, 
                   #fff4,
@@ -149,7 +149,7 @@ export function ContentLayer() {
 
             <div
               ref={sectionsContainerRef}
-              className="inline-flex max-w-dvw flex-col items-stretch gap-16 pb-8 print:flex-col-reverse"
+              className="float-none inline-flex max-w-dvw flex-col items-stretch gap-16 not-print:pb-8 print:mt-2 print:flex-col-reverse print:gap-8"
             >
               <Journey ref={journeyRef} />
               <Projects />
