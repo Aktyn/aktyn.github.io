@@ -5,6 +5,7 @@
     "cvTitle": "Curriculum Vitae",
     "printOptions": {
       "printWithImages": "Drukuj z obrazami",
+      "sectionsToPrint": "Sekcje do wydrukowania",
       "openPrintMenu": "Otwórz menu drukowania",
       "cancel": "Anuluj"
     },
@@ -21,6 +22,10 @@
     "backToTop": "Powrót na górę"
   },
   "sections": {
+    "intro": {
+      "title": "Intro",
+      "extendedTitle": ""
+    },
     "my-journey": {
       "title": "Doświadczenie",
       "extendedTitle": "Moja podróż po świecie programowania"

@@ -22,7 +22,28 @@ export default defineConfig({
   build: {
     rolldownOptions: {
       output: {
-        codeSplitting: true
+        codeSplitting: {
+          groups: [
+            {
+              name: 'react-vendor',
+              test: /node_modules[\\/]react/,
+              priority: 20,
+            },
+            {
+              name: 'vendor',
+              test: /node_modules/,
+              priority: 10,
+            },
+            {
+              name: 'common',
+              minShareCount: 2,
+              maxSize: 2617344,
+              priority: 5,
+            },
+          ],
+        },
+        cleanDir: true,
+        comments: false
       }
     }
   }

@@ -27,7 +27,10 @@ export function Intro({ ref, className, ...props }: IntroProps) {
       ref={ref}
       section={Section.Intro}
       {...props}
-      className={cn('gap-y-8 px-4 text-center', className)}
+      className={cn(
+        'gap-y-8 px-4 text-center print:in-[.hide-section-intro-in-print]:hidden',
+        className,
+      )}
     >
       <div className="flex flex-1 flex-col items-center justify-end gap-6 print:gap-3">
         <div data-header-anchor className="-mb-2">
