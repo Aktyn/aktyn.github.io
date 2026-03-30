@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { RootPortal } from '~/components/portal/root-portal'
 import { AmbientImage } from '~/components/gallery/ambient-image'
-import { MaximizedGallery } from '~/components/gallery/maximized-gallery'
+
+const LazyMaximizedGallery = lazy(() => import('~/components/gallery/maximized-gallery'))
 
 type ImagesStripProps = {
   images: string[]
@@ -9,7 +10,7 @@ type ImagesStripProps = {
   ambientOpacity?: number
 }
 
-export function ImagesStrip({ images, altPrefix, ambientOpacity }: ImagesStripProps) {
+export default function ImagesStrip({ images, altPrefix, ambientOpacity }: ImagesStripProps) {
   const [openGallery, setOpenGallery] = useState(false)
   const [sourceBounds, setSourceBounds] = useState<DOMRect | null>(null)
   const [focusImageIndex, setFocusImageIndex] = useState(-1)
@@ -32,14 +33,16 @@ export function ImagesStrip({ images, altPrefix, ambientOpacity }: ImagesStripPr
       ))}
       {focusImageIndex !== -1 && (
         <RootPortal>
-          <MaximizedGallery
-            open={openGallery}
-            onClose={() => setOpenGallery(false)}
-            sourceBounds={sourceBounds}
-            images={images}
-            index={focusImageIndex}
-            onIndexChange={setFocusImageIndex}
-          />
+          <Suspense fallback={<span className="fixed inset-0">...</span>}>
+            <LazyMaximizedGallery
+              open={openGallery}
+              onClose={() => setOpenGallery(false)}
+              sourceBounds={sourceBounds}
+              images={images}
+              index={focusImageIndex}
+              onIndexChange={setFocusImageIndex}
+            />
+          </Suspense>
         </RootPortal>
       )}
     </>

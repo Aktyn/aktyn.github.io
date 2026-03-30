@@ -6,6 +6,7 @@ import { useEntryAnimations } from '../src/hooks/useEntryAnimations'
 import { I18nextProvider } from 'react-i18next'
 import type { StoryContext } from '@storybook/react'
 import i18n from '../src/i18n'
+import 'lazysizes'
 
 import 'devicon/devicon.min.css'
 import '../src/index.css'

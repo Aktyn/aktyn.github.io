@@ -1,8 +1,9 @@
-import { Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import { ScrollArea } from '~/components/common/scroll-area'
 import { Skeleton } from '~/components/common/skeleton'
-import { ImagesStrip } from '~/components/content/sections/common/images-strip'
 import { cn } from '~/lib/utils'
+
+const LazyImagesStrip = lazy(() => import('~/components/content/sections/common/images-strip'))
 
 type CompactImagesStripProps = {
   images: string[]
@@ -46,7 +47,7 @@ export function CompactImagesStrip({
             </div>
           }
         >
-          <ImagesStrip images={images} altPrefix={altPrefix} ambientOpacity={0.4} />
+          <LazyImagesStrip images={images} altPrefix={altPrefix} ambientOpacity={0.4} />
         </Suspense>
       </div>
     </ScrollArea>

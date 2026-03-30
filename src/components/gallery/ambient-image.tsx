@@ -16,16 +16,16 @@ export function AmbientImage({ src, alt, ambientOpacity = 0.5, ...divProps }: Am
       <img
         alt={`${alt}-blur`}
         aria-hidden="true"
-        src={src}
+        data-src={src}
         loading="lazy"
-        className="pointer-events-none absolute inset-0 -z-1 h-full scale-110 blur-lg print:hidden"
+        className="lazyload pointer-events-none absolute inset-0 -z-1 h-full scale-110 blur-lg print:hidden"
         style={{ opacity: ambientOpacity }}
       />
       <img
         alt={alt}
-        src={src}
+        data-src={src}
         loading="lazy"
-        className="h-full max-w-fit rounded-md max-md:max-h-full md:h-auto md:w-full md:max-w-full"
+        className="lazyload h-full max-w-fit rounded-md max-md:max-h-full md:h-auto md:w-full md:max-w-full"
       />
     </div>
   )

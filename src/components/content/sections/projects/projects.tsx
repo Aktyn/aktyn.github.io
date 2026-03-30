@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import { TechBadge } from '~/components/badges/tech-badge'
 import { ScrollArea } from '~/components/common/scroll-area'
 import { Separator } from '~/components/common/separator'
@@ -12,11 +12,12 @@ import {
 } from '~/lib/projects-info'
 import { cn, forceArray } from '~/lib/utils'
 import { Article } from '../article'
-import { ImagesStrip } from '../common/images-strip'
 import { SectionContainer } from '../section-container'
 import { useWindowSize } from '~/hooks/useWindowSize'
 import defaultTheme from 'tailwindcss/defaultTheme'
 import { useTranslation } from 'react-i18next'
+
+const LazyImagesStrip = lazy(() => import('~/components/content/sections/common/images-strip'))
 
 const projectsGroupsArray = Object.values(ProjectsGroup)
 
@@ -109,8 +110,8 @@ function ProjectCard({ project, single }: ProjectCardProps) {
         className="-m-3 overflow-hidden contain-[size] max-md:-mt-16 max-md:h-64 max-md:**:data-radix-scroll-area-viewport:w-full max-md:**:data-radix-scroll-area-viewport:*:flex! max-md:**:data-radix-scroll-area-viewport:*:h-full md:-ml-16 md:w-76 print:in-[.hide-images-in-print]:hidden"
       >
         <div className="flex items-stretch justify-start gap-4 p-2 max-md:mx-auto max-md:h-full max-md:flex-row max-md:pt-16 md:my-auto md:w-full md:flex-col md:p-4 md:pl-16">
-          <Suspense fallback={<span />}>
-            <ImagesStrip images={project.images} altPrefix="project-image" />
+          <Suspense fallback={<span className="fixed inset-0">...</span>}>
+            <LazyImagesStrip images={project.images} altPrefix="project-image" />
           </Suspense>
         </div>
       </ScrollArea>

@@ -23,7 +23,7 @@ type MaximizedGalleryProps = {
   onIndexChange: (index: number) => void
 }
 
-export function MaximizedGallery({
+export default function MaximizedGallery({
   open,
   onClose,
   sourceBounds,
@@ -238,12 +238,13 @@ export function MaximizedGallery({
                   data-index={index}
                   className="flex h-full min-w-full items-center justify-center"
                 >
-                  <div className="-z-1 mr-[-100%] flex size-full min-w-full items-center justify-center bg-red-300/10">
+                  <div className="-z-1 mr-[-100%] flex size-full min-w-full items-center justify-center">
                     <img
-                      src={image}
+                      data-src={image}
+                      loading="lazy"
                       alt=""
                       aria-hidden="true"
-                      className="size-full scale-105 object-cover blur-lg"
+                      className="lazyload size-full scale-105 object-cover blur-lg"
                     />
                   </div>
                   <div
@@ -254,9 +255,13 @@ export function MaximizedGallery({
                   >
                     <img
                       data-slot="image"
-                      src={image}
+                      data-src={image}
+                      loading="lazy"
                       alt={`Gallery image ${index + 1}`}
-                      className="pointer-events-auto h-auto max-h-full max-w-full object-contain"
+                      className={cn(
+                        'lazyload h-auto max-h-full max-w-full object-contain',
+                        open ? 'pointer-events-auto' : 'pointer-events-none',
+                      )}
                       onDoubleClick={handleClose}
                     />
                   </div>

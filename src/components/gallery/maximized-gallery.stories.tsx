@@ -1,16 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { MaximizedGallery } from './maximized-gallery'
-import { useState } from 'react'
+import { lazy, useState } from 'react'
 
-const meta: Meta<typeof MaximizedGallery> = {
+const LazyMaximizedGallery = lazy(() => import('~/components/gallery/maximized-gallery'))
+
+const meta: Meta<typeof LazyMaximizedGallery> = {
   title: 'Gallery/MaximizedGallery',
-  component: MaximizedGallery,
+  component: LazyMaximizedGallery,
   parameters: {},
 }
 
 export default meta
 
-type Story = StoryObj<typeof MaximizedGallery>
+type Story = StoryObj<typeof LazyMaximizedGallery>
 
 const mockImages = [
   'https://picsum.photos/id/1018/1000/600/',
@@ -30,7 +31,7 @@ const GalleryWithState = () => {
       >
         Open Gallery
       </button>
-      <MaximizedGallery
+      <LazyMaximizedGallery
         open={open}
         onClose={() => setOpen(false)}
         images={mockImages}

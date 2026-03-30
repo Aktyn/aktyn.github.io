@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { AmbientImage } from '~/components/gallery/ambient-image'
-import { MaximizedGallery } from '~/components/gallery/maximized-gallery'
 import { RootPortal } from '~/components/portal/root-portal'
 import { journeyInfo, JourneySection } from '~/lib/journey-info'
+
+const LazyMaximizedGallery = lazy(() => import('~/components/gallery/maximized-gallery'))
 
 export function Diploma() {
   const [openGallery, setOpenGallery] = useState(false)
@@ -23,14 +24,16 @@ export function Diploma() {
         }}
       />
       <RootPortal>
-        <MaximizedGallery
-          open={openGallery}
-          onClose={() => setOpenGallery(false)}
-          sourceBounds={sourceBounds}
-          images={[diplomaSrc]}
-          index={0}
-          onIndexChange={() => void 0}
-        />
+        <Suspense fallback={<span className="fixed inset-0">...</span>}>
+          <LazyMaximizedGallery
+            open={openGallery}
+            onClose={() => setOpenGallery(false)}
+            sourceBounds={sourceBounds}
+            images={[diplomaSrc]}
+            index={0}
+            onIndexChange={() => void 0}
+          />
+        </Suspense>
       </RootPortal>
     </>
   )

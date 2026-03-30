@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { App } from './App'
 import { TooltipProvider } from '~/components/common/tooltip'
 import './i18n'
+import 'lazysizes'
 
 import 'devicon/devicon.min.css'
 import './index.css'

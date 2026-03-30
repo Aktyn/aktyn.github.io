@@ -21,7 +21,7 @@
   --foreground-lighter-tetradic-1: 0.9183 0.0256 305.84;
   --foreground-lighter-tetradic-2: 0.9214 0.0198 13.65;
   --foreground-lighter-tetradic-3: 0.9502 0.0253 126.55;
-  
+
   --foreground: 0.8708 0.047 189.63; /* teal 100 */
   --foreground-complementary: 0.8049 0.1526 12.32; /* --foreground-tetradic-2; c+0.1 */
   --foreground-tetradic-1: 0.7936 0.0656 303.16; /* teal 100 tetradic 1 */
@@ -30,16 +30,16 @@
   --foreground-tetradic-2-complementary: 0.8708 0.147 189.63; /* --foreground; c+0.1 */
   --foreground-tetradic-3: 0.8786 0.0631 125.41; /* teal 100 tetradic 3 */
   --foreground-tetradic-3-complementary: 0.7936 0.1656 303.16; /* --foreground-tetradic-1; c+0.1 */
-  
+
   --foreground-darker: 0.7912 0.0755 188.24; /* teal 200 */
   --foreground-darker-tetradic-1: 0.658 0.0755 302.41;
   --foreground-darker-tetradic-2: 0.68 0.0755 13.77;
   --foreground-darker-tetradic-3: 0.8014 0.0755 126.91;
 
   --muted-foreground: 0.7912 0.0255 188.24; /* teal 200; h-0.05 */
-  --muted-foreground-tetradic-1: 0.75 0.0354 302.58; 
-  --muted-foreground-tetradic-2: 0.7565 0.0282 9.22; 
-  --muted-foreground-tetradic-3: 0.7973 0.0345 123.94; 
+  --muted-foreground-tetradic-1: 0.75 0.0354 302.58;
+  --muted-foreground-tetradic-2: 0.7565 0.0282 9.22;
+  --muted-foreground-tetradic-3: 0.7973 0.0345 123.94;
 
   --border: 0.6563 0.1071 185.34; /* teal 400 */
 
@@ -98,7 +98,7 @@
   --color-foreground-lighter-tetradic-1: oklch(var(--foreground-lighter-tetradic-1));
   --color-foreground-lighter-tetradic-2: oklch(var(--foreground-lighter-tetradic-2));
   --color-foreground-lighter-tetradic-3: oklch(var(--foreground-lighter-tetradic-3));
-  
+
   --color-foreground: oklch(var(--foreground));
   --color-foreground-complementary: oklch(var(--foreground-complementary));
   --color-foreground-tetradic-1: oklch(var(--foreground-tetradic-1));
@@ -107,7 +107,7 @@
   --color-foreground-tetradic-2-complementary: oklch(var(--foreground-tetradic-2-complementary));
   --color-foreground-tetradic-3: oklch(var(--foreground-tetradic-3));
   --color-foreground-tetradic-3-complementary: oklch(var(--foreground-tetradic-3-complementary));
-  
+
   --color-foreground-darker: oklch(var(--foreground-darker));
   --color-foreground-darker-tetradic-1: oklch(var(--foreground-darker-tetradic-1));
   --color-foreground-darker-tetradic-2: oklch(var(--foreground-darker-tetradic-2));
@@ -220,18 +220,19 @@
     @apply border-border outline-none;
   }
 
-  html {
-    @apply bg-background-visual;
+  html,
+  body {
+    @apply m-0 bg-background-visual p-0;
   }
   body {
-    @apply bg-background-visual fill-foreground text-foreground;
+    @apply fill-foreground text-foreground;
   }
 
   button {
     @apply not-disabled:cursor-pointer;
   }
   a {
-    @apply not-disabled:hover:text-foreground-complementary transition-colors fill-current;
+    @apply fill-current transition-colors not-disabled:hover:text-foreground-complementary;
   }
 
   @media print {
@@ -239,8 +240,9 @@
       margin-top: 0;
       margin-bottom: 0;
     }
-    html, body {
-      @apply bg-white p-0 text-background text-shadow-none text-left **:[span]:text-black **:[svg]:fill-black;
+    html,
+    body {
+      @apply bg-white p-0 text-left text-background text-shadow-none **:[span]:text-black **:[svg]:fill-black;
       background-image: none;
       print-color-adjust: economy;
     }
@@ -295,7 +297,7 @@
     }
 
     [data-entry-animation-type='fade-in'] {
-      @apply opacity-0 transition-opacity data-[entry-animation=entered]:opacity-100 ease-out duration-1000;
+      @apply opacity-0 transition-opacity duration-1000 ease-out data-[entry-animation=entered]:opacity-100;
     }
   }
 }
