@@ -1,11 +1,15 @@
 import { type Path } from 'opentype.js'
 import * as THREE from 'three'
+import { isMobileDevice } from '~/lib/dom-utils'
 
 export const EPSILON = 0.01 // Epsilon can be quite high since the scene scale is large
 export const EXTRUDE_DEPTH = 8
 
 export function isWebglAvailable() {
   try {
+    if (isMobileDevice()) {
+      return false
+    }
     const canvas = document.createElement('canvas')
     return Boolean(
       window.WebGLRenderingContext &&

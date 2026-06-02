@@ -8,6 +8,7 @@ import {
 } from 'react'
 import { isWebglAvailable } from '~/graphics/graphics-helpers'
 import { WebScene } from '~/graphics/web-scene'
+import { isMobileDevice } from '~/lib/dom-utils'
 
 const webGlEnabledStorageKey = 'webgl-enabled'
 
@@ -26,7 +27,9 @@ export function SceneProvider({ containerRef, children }: SceneProviderProps) {
 
   const storageItem = localStorage.getItem(webGlEnabledStorageKey)
   const [webGlEnabled, internalSetWebGlEnabled] = useState(
-    typeof storageItem === 'string' ? storageItem === 'true' : isWebglAvailable(),
+    typeof storageItem === 'string'
+      ? storageItem === 'true'
+      : isWebglAvailable() && !isMobileDevice(),
   )
 
   const setWebGlEnabled = useCallback((enabled: boolean) => {

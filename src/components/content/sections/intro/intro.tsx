@@ -8,6 +8,7 @@ import { Section } from '~/lib/consts'
 import { cn } from '~/lib/utils'
 import { ProjectedText } from '../../projected-elements/projected-text'
 import { SectionContainer } from '../section-container'
+import { useIsMobile } from '~/hooks/useIsMobile'
 
 import '../../../../styles/shining-text.css'
 
@@ -21,6 +22,7 @@ type IntroProps = ComponentProps<'section'> & {
 export function Intro({ ref, className, ...props }: IntroProps) {
   const { t } = useTranslation()
   const role = t('intro.role')
+  const isMobile = useIsMobile()
 
   return (
     <SectionContainer
@@ -41,14 +43,16 @@ export function Intro({ ref, className, ...props }: IntroProps) {
                   className="inline-block"
                   data-entry-animation-type={index % 2 === 0 ? 'from-left' : 'from-right'}
                 >
-                  <ProjectedText text={namePart} fontSize={56} fontWeight="bold" />
+                  <ProjectedText text={namePart} fontSize={isMobile ? 36 : 56} fontWeight="bold" />
                 </div>
-                {index < arr.length - 1 && <span style={{ fontSize: 56 }}>&nbsp;</span>}
+                {index < arr.length - 1 && (
+                  <span style={{ fontSize: isMobile ? 36 : 56 }}>&nbsp;</span>
+                )}
               </Fragment>
             ))}
           </h1>
           <h3 data-entry-animation className="shining-text">
-            <ProjectedText text={role} fontSize={32} fontWeight="medium" />
+            <ProjectedText text={role} fontSize={isMobile ? 24 : 32} fontWeight="medium" />
           </h3>
         </div>
         <QuickPersonalInfo experienceStartDate={experienceStartDate} birthDate={birthDate} />

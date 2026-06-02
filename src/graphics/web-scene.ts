@@ -46,8 +46,6 @@ const HEX_GRID_RATIO = 2
 const HIDE_PROJECTED_OBJECTS = !import.meta.env.DEV
 const HEX_GRID_ENTRY_DURATION = 3000
 
-//TODO: particles being emitted from extruded objects
-
 export class WebScene {
   private readonly renderer: THREE.WebGLRenderer
   /** Rendered before main scene which uses postprocessing */
