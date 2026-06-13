@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { describe, it, expect, spyOn, beforeEach, afterEach } from 'bun:test'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { svgPathToShapePath } from './graphics-helpers'
 import * as THREE from 'three'
 
@@ -10,10 +10,10 @@ describe(svgPathToShapePath, () => {
   let quadraticCurveToSpy: any
 
   beforeEach(() => {
-    moveToSpy = spyOn(THREE.ShapePath.prototype as any, 'moveTo')
-    lineToSpy = spyOn(THREE.ShapePath.prototype as any, 'lineTo')
-    bezierCurveToSpy = spyOn(THREE.ShapePath.prototype as any, 'bezierCurveTo')
-    quadraticCurveToSpy = spyOn(THREE.ShapePath.prototype as any, 'quadraticCurveTo')
+    moveToSpy = vi.spyOn(THREE.ShapePath.prototype as any, 'moveTo')
+    lineToSpy = vi.spyOn(THREE.ShapePath.prototype as any, 'lineTo')
+    bezierCurveToSpy = vi.spyOn(THREE.ShapePath.prototype as any, 'bezierCurveTo')
+    quadraticCurveToSpy = vi.spyOn(THREE.ShapePath.prototype as any, 'quadraticCurveTo')
   })
 
   afterEach(() => {
@@ -95,7 +95,7 @@ describe(svgPathToShapePath, () => {
 
   it('handles A, a commands (elliptical arcs)', () => {
     const pathStr = 'M 10 10 A 5 5 0 0 1 20 20 a 5 5 0 0 0 10 10'
-    const absellipseSpy = spyOn(THREE.Path.prototype as any, 'absellipse')
+    const absellipseSpy = vi.spyOn(THREE.Path.prototype as any, 'absellipse')
 
     svgPathToShapePath(pathStr)
 
@@ -139,7 +139,7 @@ describe(svgPathToShapePath, () => {
   })
 
   it('prevents infinite loop on unsupported commands', () => {
-    const consoleWarnSpy = spyOn(console, 'warn').mockImplementation(() => {})
+    const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     // 'J' is an unsupported command (fake)
     const pathStr = 'M 10 10 J 20 20 L 50 50'
     svgPathToShapePath(pathStr)

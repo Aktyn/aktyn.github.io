@@ -46,5 +46,9 @@ export default defineConfig({
         comments: false
       }
     }
-  }
+  },
+  //@ts-expect-error test key doesn't exist in UserConfigExport
+  test: {
+    environment: 'jsdom',
+  },
 });

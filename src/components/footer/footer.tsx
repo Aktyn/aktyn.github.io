@@ -29,7 +29,7 @@ export function Footer() {
               'react',
               'tailwindcss',
               'threejs',
-              'bun',
+              'nodejs',
               'vite',
               'storybook',
             ]}

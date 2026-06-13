@@ -25,6 +25,7 @@
 			"Krajewski",
 			"languagedetector",
 			"lary",
+			"lazysizes",
 			"lerp",
 			"Lngs",
 			"Łódź",
@@ -47,6 +48,6 @@
 			"wordmark"
 		],
 		"typescript.tsdk": "node_modules/typescript/lib",
-		"npm.packageManager": "bun"
+		"npm.packageManager": "npm"
 	}
 }

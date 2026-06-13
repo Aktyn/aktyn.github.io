@@ -65,13 +65,3 @@ export function isTouchDevice() {
     ('msMaxTouchPoints' in navigator && (navigator['msMaxTouchPoints'] as number) > 0)
   )
 }
-
-export function isMobileDevice() {
-  if (typeof window === 'undefined') {
-    return false
-  }
-  const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent,
-  )
-  return isMobileUserAgent || window.innerWidth < 768
-}

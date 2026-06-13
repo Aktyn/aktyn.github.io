@@ -1,4 +1,4 @@
-import { load } from 'opentype.js'
+import { parse } from 'opentype.js'
 import { svgPathToShapePath } from './graphics-helpers'
 
 const fontVariants = {
@@ -31,7 +31,10 @@ export async function loadFontShapes(
 ) {
   let fontPromise = fontCache.get(weight)
   if (!fontPromise) {
-    fontPromise = { promise: load(fontVariants[weight]), resolved: null }
+    const promise = fetch(fontVariants[weight])
+      .then((res) => res.arrayBuffer())
+      .then((buffer) => parse(buffer))
+    fontPromise = { promise, resolved: null }
     fontCache.set(weight, fontPromise)
   }
 

@@ -309,5 +309,5 @@
 
 @utility no-scrollbar {
   -ms-overflow-style: none;
-  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+  @apply scrollbar-none [&::-webkit-scrollbar]:hidden;
 }

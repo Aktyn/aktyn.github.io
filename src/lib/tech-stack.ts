@@ -286,10 +286,6 @@ export const techStack = {
     icon: 'devicon-gitlab-plain colored',
     name: 'GitLab',
   },
-  bun: {
-    icon: 'devicon-bun-plain colored',
-    name: 'Bun',
-  },
 } as const satisfies Record<
   string,
   {

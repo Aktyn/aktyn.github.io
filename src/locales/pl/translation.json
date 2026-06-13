@@ -1,4 +1,7 @@
 {
+  "common": {
+    "close": "Zamknij"
+  },
   "header": {
     "printOrDownload": "Drukuj lub pobierz",
     "cv": "CV",
@@ -10,7 +13,12 @@
       "cancel": "Anuluj"
     },
     "webglSwitch": {
-      "toggle": "Przełącz zaawansowane efekty graficzne"
+      "toggle": "Przełącz zaawansowane efekty graficzne",
+      "warning": {
+        "title": "Ostrzeżenie o wydajności",
+        "desc": "Ta opcja zużywa dużo zasobów. Jej włączenie może spowodować problemy z wydajnością na słabszych urządzeniach. Przeglądanie zawartości tej strony może być powolne po włączeniu tej opcji. Traktuj ją jako pokaz możliwości przeglądarki.",
+        "proceed": "Kontynuuj"
+      }
     }
   },
   "footer": {

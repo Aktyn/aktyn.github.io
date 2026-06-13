@@ -16,7 +16,7 @@ export function Switch({ id, enabled, onChange, label, ...props }: SwitchProps) 
     <div
       {...props}
       className={cn(
-        'flex flex-row-reverse flex-wrap items-center justify-end gap-x-1 gap-y-0.5 overflow-hidden *:cursor-pointer',
+        'flex flex-row-reverse flex-wrap items-center justify-end gap-x-1 gap-y-0.5 overflow-hidden *:cursor-pointer hover:**:data-[slot=switch-track]:bg-foreground-lighter',
         props.className,
       )}
     >
@@ -34,12 +34,13 @@ export function Switch({ id, enabled, onChange, label, ...props }: SwitchProps) 
       />
       <div
         className={cn(
-          'flex w-9 flex-row items-center rounded-full p-1 transition-colors hover:*:bg-foreground-lighter',
+          'flex w-9 flex-row items-center rounded-full p-1 transition-colors',
           enabled ? 'bg-background/80' : 'bg-background/40',
         )}
         onClick={() => onChange(!enabled)}
       >
         <span
+          data-slot="switch-track"
           className={cn(
             'inline-flex size-3 items-center justify-center rounded-full bg-foreground/50 text-center text-xs text-red-300 transition-[background-color,translate] duration-spring ease-spring',
             enabled

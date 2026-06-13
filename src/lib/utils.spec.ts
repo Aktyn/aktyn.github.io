@@ -1,4 +1,4 @@
-import { describe, it, expect, mock, beforeEach, afterEach, jest } from 'bun:test'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import {
   calculateLinearlyWeightedAverage,
   clamp,
@@ -66,36 +66,36 @@ describe(compareArrays, () => {
 
 describe(debounce, () => {
   beforeEach(() => {
-    jest.useFakeTimers()
+    vi.useFakeTimers()
   })
 
   afterEach(() => {
-    jest.useRealTimers()
+    vi.useRealTimers()
   })
 
   it('should debounce function calls', () => {
-    const mockFn = mock(() => {})
+    const mockFn = vi.fn(() => {})
     const debouncedFn = debounce(mockFn, 100)
 
     debouncedFn()
     expect(mockFn).not.toHaveBeenCalled()
 
-    jest.advanceTimersByTime(50)
+    vi.advanceTimersByTime(50)
     expect(mockFn).not.toHaveBeenCalled()
 
     debouncedFn()
-    jest.advanceTimersByTime(50)
+    vi.advanceTimersByTime(50)
     expect(mockFn).not.toHaveBeenCalled()
 
-    jest.advanceTimersByTime(49)
+    vi.advanceTimersByTime(49)
     expect(mockFn).not.toHaveBeenCalled()
 
-    jest.advanceTimersByTime(1)
+    vi.advanceTimersByTime(1)
     expect(mockFn).toHaveBeenCalledTimes(1)
   })
 
   it('should immediately call the function if delay is 0 or negative', () => {
-    const mockFn = mock(() => {})
+    const mockFn = vi.fn(() => {})
     const debouncedFn = debounce(mockFn, 0)
 
     expect(debouncedFn).toBe(mockFn)

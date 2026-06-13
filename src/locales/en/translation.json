@@ -1,4 +1,7 @@
 {
+  "common": {
+    "close": "Close"
+  },
   "header": {
     "printOrDownload": "Print or download",
     "cv": "CV",
@@ -10,7 +13,12 @@
       "cancel": "Cancel"
     },
     "webglSwitch": {
-      "toggle": "Toggle advanced graphic effects"
+      "toggle": "Toggle advanced graphic effects",
+      "warning": {
+        "title": "Performance warning",
+        "desc": "This option uses a lot of resources. Enabling it may result in performance issues on less powerful devices. Browsing the content of this website may be slow with this option enabled. Treat it as a showcase of the browser's capabilities.",
+        "proceed": "Proceed"
+      }
     }
   },
   "footer": {
