@@ -10,7 +10,12 @@ export function SocialLinks(props: ComponentProps<'div'>) {
     <div
       {...props}
       className={cn(
-        'inline-grid grid-cols-[repeat(auto-fit,calc(var(--spacing)*32))] items-start justify-center gap-x-3 gap-y-2 not-print:w-full print:mx-auto print:grid-cols-2',
+        `
+          inline-grid grid-cols-[repeat(auto-fit,calc(var(--spacing)*32))]
+          items-start justify-center gap-x-3 gap-y-2
+          not-print:w-full
+          print:mx-auto print:grid-cols-2
+        `,
         props.className,
       )}
     >
@@ -41,19 +46,45 @@ function SocialLinkButton({ icon, text, className, href, ...linkProps }: SocialL
       {...linkProps}
       data-entry-animation-type="from-bottom"
       className={cn(
-        'relative inline-flex flex-row items-center justify-center gap-2 overflow-hidden p-1 hover:*:first:bg-border hover:*:nth-2:text-foreground-lighter',
-        'hover:*:last:scale-100 hover:*:last:opacity-100 hover:*:nth-2:opacity-0',
+        `
+          relative inline-flex flex-row items-center justify-center gap-2
+          overflow-hidden p-1
+          hover:*:first:bg-border
+          hover:*:nth-2:text-foreground-lighter
+        `,
+        `
+          hover:*:last:scale-100 hover:*:last:opacity-100
+          hover:*:nth-2:opacity-0
+        `,
         className,
       )}
     >
-      <div className="absolute inset-0 -z-10 rounded-full border bg-background-lighter/50 transition-colors print:hidden" />
+      <div
+        className="
+          absolute inset-0 -z-10 rounded-full border bg-background-lighter/50
+          transition-colors
+          print:hidden
+        "
+      />
 
-      <div className="inline-flex items-center justify-center gap-2 font-bold whitespace-nowrap text-foreground transition-[opacity,color] *:[svg]:size-5">
+      <div
+        className="
+          inline-flex items-center justify-center gap-2 font-bold
+          whitespace-nowrap text-foreground transition-[opacity,color]
+          *:[svg]:size-5
+        "
+      >
         {icon}
         <span className="print:hidden">{text}</span>
         <span className="not-print:hidden">{href}</span>
       </div>
-      <div className="absolute inset-0 flex scale-golden items-center justify-center opacity-0 transition-[opacity,scale] print:hidden">
+      <div
+        className="
+          absolute inset-0 flex scale-golden items-center justify-center
+          opacity-0 transition-[opacity,scale]
+          print:hidden
+        "
+      >
         <SvgIcon icon="OpenInNew" className="inline-block size-4.5 fill-foreground-lighter" />
       </div>
     </ProjectedContainer>

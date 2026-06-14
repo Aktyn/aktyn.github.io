@@ -11,21 +11,35 @@ export function AmbientImage({ src, alt, ambientOpacity = 0.5, ...divProps }: Am
   return (
     <div
       {...divProps}
-      className={cn('relative z-1 print:in-[.hide-images-in-print]:hidden', divProps.className)}
+      className={cn(
+        `
+          relative z-1
+          print:in-[.hide-images-in-print]:hidden
+        `,
+        divProps.className,
+      )}
     >
       <img
         alt={`${alt}-blur`}
         aria-hidden="true"
         data-src={src}
         loading="lazy"
-        className="lazyload pointer-events-none absolute inset-0 -z-1 h-full scale-110 blur-lg print:hidden"
+        className="
+          lazyload pointer-events-none absolute inset-0 -z-1 h-full scale-110
+          blur-lg
+          print:hidden
+        "
         style={{ opacity: ambientOpacity }}
       />
       <img
         alt={alt}
         data-src={src}
         loading="lazy"
-        className="lazyload h-full max-w-fit rounded-md max-md:max-h-full md:h-auto md:w-full md:max-w-full"
+        className="
+          lazyload h-full max-w-fit rounded-md
+          max-md:max-h-full
+          md:h-auto md:w-full md:max-w-full
+        "
       />
     </div>
   )

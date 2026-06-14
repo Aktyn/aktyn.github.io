@@ -5,9 +5,6 @@
   "semi": false,
   "trailingComma": "all",
   "endOfLine": "auto",
-  "plugins": [
-    "prettier-plugin-tailwindcss"
-  ],
   "tailwindStylesheet": "./src/index.css",
   "tailwindFunctions": [
     "clsx",

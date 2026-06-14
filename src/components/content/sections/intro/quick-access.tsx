@@ -48,7 +48,10 @@ export function QuickAccess(props: ComponentPropsWithoutRef<'div'>) {
       </h5>
 
       <div
-        className="relative hidden h-16 w-full not-print:lg:block"
+        className="
+          relative hidden h-16 w-full
+          not-print:lg:block
+        "
         style={{
           maskImage: `linear-gradient(
               to bottom,
@@ -72,7 +75,12 @@ export function QuickAccess(props: ComponentPropsWithoutRef<'div'>) {
         </SvgBase>
       </div>
 
-      <div className="mt-4 grid max-w-384 grid-cols-1 justify-center gap-y-4 lg:mt-0 lg:grid-cols-3 lg:items-stretch">
+      <div
+        className="
+          mt-4 grid max-w-384 grid-cols-1 justify-center gap-y-4
+          lg:mt-0 lg:grid-cols-3 lg:items-stretch
+        "
+      >
         {Object.values(Section)
           .filter((section) => section !== Section.Intro)
           .map((section, index) => (
@@ -81,18 +89,29 @@ export function QuickAccess(props: ComponentPropsWithoutRef<'div'>) {
               section={section}
               className={cn(
                 index === 0 &&
-                  'text-[color-mix(in_oklch,var(--color-foreground-tetradic-1)_40%,var(--color-foreground))]',
+                  `
+                    text-[color-mix(in_oklch,var(--color-foreground-tetradic-1)_40%,var(--color-foreground))]
+                  `,
                 index === 1 &&
-                  'text-[color-mix(in_oklch,var(--color-foreground-tetradic-2)_40%,var(--color-foreground))]',
+                  `
+                    text-[color-mix(in_oklch,var(--color-foreground-tetradic-2)_40%,var(--color-foreground))]
+                  `,
                 index === 2 &&
-                  'text-[color-mix(in_oklch,var(--color-foreground-tetradic-3)_40%,var(--color-foreground))]',
+                  `
+                    text-[color-mix(in_oklch,var(--color-foreground-tetradic-3)_40%,var(--color-foreground))]
+                  `,
               )}
             />
           ))}
       </div>
 
       <div
-        className="relative hidden h-auto w-full grow animate-in delay-2000 duration-1000 fill-mode-both fade-in has-[[data-entry-animation-type]:not([data-entry-animation=entered])]:paused not-print:lg:block"
+        className="
+          relative hidden h-auto w-full grow animate-in delay-2000 duration-1000
+          fill-mode-both fade-in
+          has-[[data-entry-animation-type]:not([data-entry-animation=entered])]:paused
+          not-print:lg:block
+        "
         style={{
           maskImage: `linear-gradient(
                 to bottom,
@@ -139,11 +158,21 @@ function SectionLink({ section, className }: { section: Section; className?: str
       href={`#${section}`}
       data-entry-animation
       className={cn(
-        'relative inline-flex items-center justify-center rounded-xl p-2 hover:*:last:translate-y-0 hover:*:last:scale-100 hover:*:last:opacity-100 hover:*:first:*:[span]:text-foreground-complementary',
+        `
+          relative inline-flex items-center justify-center rounded-xl p-2
+          hover:*:last:translate-y-0 hover:*:last:scale-100
+          hover:*:last:opacity-100
+          hover:*:first:*:[span]:text-foreground-complementary
+        `,
         className,
       )}
     >
-      <div className="text-center font-semibold text-balance *:[span]:transition-colors">
+      <div
+        className="
+          text-center font-semibold text-balance
+          *:[span]:transition-colors
+        "
+      >
         <ProjectedText
           text={t(`sections.${section}.extendedTitle`, sectionData[section].extendedTitle)}
           as="span"
@@ -151,7 +180,13 @@ function SectionLink({ section, className }: { section: Section; className?: str
           fontWeight="semibold"
         />
       </div>
-      <div className="absolute inset-x-0 -bottom-5 flex -translate-y-5 scale-golden-inverse justify-center gap-x-1 text-sm font-normal text-foreground opacity-0 transition-[opacity,scale,translate]">
+      <div
+        className="
+          absolute inset-x-0 -bottom-5 flex -translate-y-5 scale-golden-inverse
+          justify-center gap-x-1 text-sm font-normal text-foreground opacity-0
+          transition-[opacity,scale,translate]
+        "
+      >
         <SvgIcon icon="WebTraffic" className="size-5" />
         <span>{t('intro.quickAccess.clickToGo')}</span>
       </div>

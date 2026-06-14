@@ -13,11 +13,21 @@ export function GithubProjectLink({ title, ...anchorProps }: GithubProjectLinkPr
       target="_blank"
       {...anchorProps}
       className={cn(
-        'inline font-semibold hover:*:*:[svg]:first:scale-golden-inverse hover:*:*:[svg]:first:opacity-0 hover:*:*:[svg]:last:scale-100 hover:*:*:[svg]:last:opacity-100',
+        `
+          inline font-semibold
+          hover:*:*:[svg]:first:scale-golden-inverse
+          hover:*:*:[svg]:first:opacity-0
+          hover:*:*:[svg]:last:scale-100 hover:*:*:[svg]:last:opacity-100
+        `,
         anchorProps.className,
       )}
     >
-      <span className="relative inline-flex flex-row items-center justify-center *:[svg]:size-3 *:[svg]:transition-[opacity,scale]">
+      <span
+        className="
+          relative inline-flex flex-row items-center justify-center
+          *:[svg]:size-3 *:[svg]:transition-[opacity,scale]
+        "
+      >
         <GithubIcon />
         <SvgIcon icon="OpenInNew" className="absolute inset-0 scale-golden-inverse opacity-0" />
       </span>{' '}

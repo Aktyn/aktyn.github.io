@@ -23,7 +23,12 @@ export default function ImagesStrip({ images, altPrefix, ambientOpacity }: Image
           src={image}
           alt={`${altPrefix}-${index}`}
           ambientOpacity={ambientOpacity}
-          className="cursor-pointer transition-[scale] ease-out hover:scale-110 max-md:max-h-46 print:in-[.hide-images-in-print]:hidden"
+          className="
+            cursor-pointer transition-[scale] ease-out
+            hover:scale-110
+            max-md:max-h-46
+            print:in-[.hide-images-in-print]:hidden
+          "
           onClick={(event) => {
             setOpenGallery(true)
             setSourceBounds(event.currentTarget.getBoundingClientRect())

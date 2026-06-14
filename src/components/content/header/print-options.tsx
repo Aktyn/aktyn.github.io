@@ -22,7 +22,10 @@ export function PrintOptions({
     <div
       {...props}
       className={cn(
-        'absolute top-full right-0 flex flex-col items-center gap-3 rounded-lg border bg-background-lighter/50 p-2 transition-[opacity,translate]',
+        `
+          absolute top-full right-0 flex flex-col items-center gap-3 rounded-lg
+          border bg-background-lighter/50 p-2 transition-[opacity,translate]
+        `,
         showPrintOptions
           ? 'translate-y-2 opacity-100'
           : 'pointer-events-none -translate-y-8 opacity-0',
@@ -85,7 +88,13 @@ function OptionButton(props: ComponentProps<'button'>) {
     <button
       {...props}
       className={cn(
-        'flex w-full flex-row items-center justify-center gap-1 rounded-md border bg-background/50 p-1 px-2 text-sm font-semibold transition-colors hover:bg-background hover:text-foreground-complementary *:[svg]:size-4.5 *:[svg]:fill-current',
+        `
+          flex w-full flex-row items-center justify-center gap-1 rounded-md
+          border bg-background/50 p-1 px-2 text-sm font-semibold
+          transition-colors
+          hover:bg-background hover:text-foreground-complementary
+          *:[svg]:size-4.5 *:[svg]:fill-current
+        `,
         props.className,
       )}
     />
@@ -104,12 +113,12 @@ function usePrintOptions() {
 
   useEffect(() => {
     for (const section of Object.values(Section)) {
-      const className = `hide-section-${section}-in-print` //! Be careful when changing this class name, it's used in multiple tailwind classes
-
+      //! Be careful when changing this class name, it's used in multiple tailwind classes
+      const targetClassName = `hide-section-${section}-in-print`
       if (printSections.includes(section)) {
-        document.documentElement.classList.remove(className)
+        document.documentElement.classList.remove(targetClassName)
       } else {
-        document.documentElement.classList.add(className)
+        document.documentElement.classList.add(targetClassName)
       }
     }
   }, [printSections])

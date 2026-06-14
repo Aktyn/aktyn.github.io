@@ -75,7 +75,13 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
     <header
       ref={ref}
       data-id={mainHeaderID}
-      className="pointer-events-none absolute top-0 bottom-auto z-10 -mb-header flex min-h-header w-full max-w-screen flex-row flex-wrap items-center justify-between p-2 delay-1000 *:pointer-events-auto print:hidden"
+      className="
+        pointer-events-none absolute top-0 bottom-auto z-10 -mb-header flex
+        min-h-header w-full max-w-screen flex-row flex-wrap items-center
+        justify-between p-2 delay-1000
+        *:pointer-events-auto
+        print:hidden
+      "
     >
       <HeaderSection data-entry-animation-type="from-left" className="mr-auto">
         <a
@@ -92,7 +98,13 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
       <HeaderSection className="relative ml-auto" data-entry-animation-type="from-right">
         <LanguageSelect />
         <button
-          className="ml-auto flex cursor-pointer flex-row items-center gap-1.5 rounded-lg border border-foreground/20 px-2 py-1 text-foreground transition-colors hover:bg-foreground/20 *:[svg]:size-4"
+          className="
+            ml-auto flex cursor-pointer flex-row items-center gap-1.5 rounded-lg
+            border border-foreground/20 px-2 py-1 text-foreground
+            transition-colors
+            hover:bg-foreground/20
+            *:[svg]:size-4
+          "
           onClick={() => setShowPrintOptions((show) => !show)}
         >
           <ProjectedIcon

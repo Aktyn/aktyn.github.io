@@ -24,7 +24,14 @@ export function CompactImagesStrip({
       orientation="horizontal"
       data-entry-animation-type="zoom-in-x"
       className={cn(
-        '-mx-3 not-print:contain-inline-size not-print:not-data-[entry-animation=entered]:scale-x-80 **:data-radix-scroll-area-viewport:-mt-16 **:data-radix-scroll-area-viewport:-mb-14 **:data-radix-scroll-area-viewport:*:max-h-full',
+        `
+          -mx-3
+          not-print:contain-inline-size
+          not-print:not-data-[entry-animation=entered]:scale-x-80
+          **:data-radix-scroll-area-viewport:-mt-16
+          **:data-radix-scroll-area-viewport:-mb-14
+          **:data-radix-scroll-area-viewport:*:max-h-full
+        `,
         'print:in-[.hide-images-in-print]:hidden',
         className,
       )}
@@ -36,7 +43,14 @@ export function CompactImagesStrip({
     >
       <div
         data-slot="images-strip-content-container"
-        className="mx-auto flex min-w-full flex-row items-stretch justify-start gap-4 overflow-hidden px-3 py-16 *:*:h-32! *:h-32 **:[img]:w-auto **:[img]:max-w-fit **:[img]:first:blur-md"
+        className="
+          mx-auto flex min-w-full flex-row items-stretch justify-start gap-4
+          overflow-hidden px-3 py-16
+          *:*:h-32!
+          *:h-32
+          **:[img]:w-auto **:[img]:max-w-fit
+          **:[img]:first:blur-md
+        "
       >
         <Suspense
           fallback={

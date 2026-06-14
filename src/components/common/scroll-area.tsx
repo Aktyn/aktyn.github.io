@@ -55,14 +55,29 @@ export function ScrollArea({
         orientation={orientation ?? 'vertical'}
         forceMount
         className={cn(
-          'opacity-0 transition-[translate,opacity] duration-400 data-[state=visible]:opacity-100 print:hidden',
-          orientation === 'vertical' && 'translate-x-0 data-[state=hidden]:translate-x-full',
-          orientation === 'horizontal' && 'translate-y-0 data-[state=hidden]:translate-y-full',
+          `
+            opacity-0 transition-[translate,opacity] duration-400
+            data-[state=visible]:opacity-100
+            print:hidden
+          `,
+          orientation === 'vertical' &&
+            `
+              translate-x-0
+              data-[state=hidden]:translate-x-full
+            `,
+          orientation === 'horizontal' &&
+            `
+              translate-y-0
+              data-[state=hidden]:translate-y-full
+            `,
         )}
       >
         <ScrollAreaPrimitive.Thumb
           className={cn(
-            'rounded-full bg-foreground/50 transition-colors hover:bg-foreground-complementary',
+            `
+              rounded-full bg-foreground/50 transition-colors
+              hover:bg-foreground-complementary
+            `,
             orientation === 'vertical' &&
               '[--radix-scroll-area-thumb-width:calc(var(--spacing)*1.5)]',
             orientation === 'horizontal' &&

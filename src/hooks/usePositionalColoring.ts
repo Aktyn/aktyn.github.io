@@ -30,6 +30,19 @@ export function usePositionalColoring(targetRef: RefObject<HTMLDivElement | null
 
     let backgroundVisualAnimation: JSAnimation | null = null
 
+    const colorVariables = [
+      '--background-lighter',
+      '--background-lighter-tetradic-1',
+      '--background-lighter-tetradic-2',
+      '--background-lighter-tetradic-3',
+    ]
+    const visualOklchColors = [
+      [0.3853, 0.0347, 173.194] as const,
+      [0.3263, 0.0458, 292.49] as const,
+      [0.3429, 0.0398, 359.36] as const,
+      [0.397, 0.0417, 117.2] as const,
+    ]
+
     const update = () => {
       const factor = scrollableContainer.scrollTop / scrollableContainer.scrollHeight
 
@@ -42,18 +55,8 @@ export function usePositionalColoring(targetRef: RefObject<HTMLDivElement | null
           return {
             sectionIndex,
             factor: Math.max(0, 1 - distance / (scrollableContainer.clientHeight / 4)),
-            colorVar: [
-              '--background-lighter',
-              '--background-lighter-tetradic-1',
-              '--background-lighter-tetradic-2',
-              '--background-lighter-tetradic-3',
-            ][sectionIndex],
-            visualOklch: [
-              [0.3853, 0.0347, 173.194] as const,
-              [0.3263, 0.0458, 292.49] as const,
-              [0.3429, 0.0398, 359.36] as const,
-              [0.397, 0.0417, 117.2] as const,
-            ][sectionIndex],
+            colorVar: colorVariables[sectionIndex],
+            visualOklch: visualOklchColors[sectionIndex],
             webSceneBackground: [0x004d40, 0x19004d, 0x4d000d, 0x344d00][sectionIndex],
             webSceneSun: [0xe0f2f1, 0xe8e0f2, 0xf2e0e1, 0xeaf2e0][sectionIndex],
           }
@@ -67,10 +70,6 @@ export function usePositionalColoring(targetRef: RefObject<HTMLDivElement | null
         const visualOklch = Array.from({ length: 3 }).map((_, i) =>
           mix(closestSections[0].visualOklch[i], closestSections[1].visualOklch[i], mappedFactor),
         )
-        // document.documentElement.style.setProperty(
-        //   '--background-visual',
-        //   `${visualOklch[0]} ${visualOklch[1]} ${normalizeHue(visualOklch[2])}`,
-        // )
 
         if (backgroundVisualAnimation) {
           backgroundVisualAnimation.cancel()
@@ -94,7 +93,15 @@ export function usePositionalColoring(targetRef: RefObject<HTMLDivElement | null
 
         webScene.setSunPosition(factor)
       } else {
-        targetElement.style.backgroundColor = `color-mix(in oklch, oklch(var(${closestSections[0].colorVar})) ${closestSections[0].factor * 100}%, oklch(var(${closestSections[1].colorVar})) ${closestSections[1].factor * 100}%)`
+        // targetElement.style.backgroundColor = `color-mix(in oklch, oklch(var(${closestSections[0].colorVar})) ${closestSections[0].factor * 100}%, oklch(var(${closestSections[1].colorVar})) ${closestSections[1].factor * 100}%)`
+        const mappedFactor =
+          closestSections[1].factor / (closestSections[0].factor + closestSections[1].factor)
+        const visualOklch = Array.from({ length: 3 }).map((_, i) =>
+          mix(closestSections[0].visualOklch[i], closestSections[1].visualOklch[i], mappedFactor),
+        )
+        targetElement.style.backgroundColor = `oklch(
+          ${visualOklch[0]} ${visualOklch[1] * 2} ${normalizeHue(visualOklch[2])}
+        )`
       }
     }
 

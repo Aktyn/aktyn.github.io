@@ -77,11 +77,17 @@ export function NavItem({ children, section, ...updatableInterface }: NavItemPro
         'flex min-w-54 flex-col items-center gap-1',
         section === Section.Intro && 'items-stretch',
         sectionIndex === 1 &&
-          '*:text-[color-mix(in_oklch,var(--color-foreground-tetradic-1)_40%,var(--color-foreground))]',
+          `
+            *:text-[color-mix(in_oklch,var(--color-foreground-tetradic-1)_40%,var(--color-foreground))]
+          `,
         sectionIndex === 2 &&
-          '*:text-[color-mix(in_oklch,var(--color-foreground-tetradic-2)_40%,var(--color-foreground))]',
+          `
+            *:text-[color-mix(in_oklch,var(--color-foreground-tetradic-2)_40%,var(--color-foreground))]
+          `,
         sectionIndex === 3 &&
-          '*:text-[color-mix(in_oklch,var(--color-foreground-tetradic-3)_40%,var(--color-foreground))]',
+          `
+            *:text-[color-mix(in_oklch,var(--color-foreground-tetradic-3)_40%,var(--color-foreground))]
+          `,
       )}
     >
       <ProjectedContainer
@@ -91,10 +97,17 @@ export function NavItem({ children, section, ...updatableInterface }: NavItemPro
         data-slot="navigation-item"
         href={`#${section}`}
         className={cn(
-          'flex flex-row items-center justify-center gap-1 rounded-md border border-foreground/40 bg-foreground/20 px-3 py-1 text-lg font-medium hover:border-foreground-complementary/40 hover:bg-foreground-complementary/20 hover:text-foreground-complementary *:[svg]:size-5',
-          sectionIndex === 1 && 'border-foreground-tetradic-1/40 bg-foreground-tetradic-1/20',
-          sectionIndex === 2 && 'border-foreground-tetradic-2/40 bg-foreground-tetradic-2/20',
-          sectionIndex === 3 && 'border-foreground-tetradic-3/40 bg-foreground-tetradic-3/20',
+          `
+            flex flex-row items-center justify-center gap-1 rounded-md border
+            border-foreground/40 bg-foreground/20 px-3 py-1 text-lg font-medium
+            hover:border-foreground-complementary/40
+            hover:bg-foreground-complementary/20
+            hover:text-foreground-complementary
+            *:[svg]:size-5
+          `,
+          sectionIndex === 1 && `border-foreground-tetradic-1/40 bg-foreground-tetradic-1/20`,
+          sectionIndex === 2 && `border-foreground-tetradic-2/40 bg-foreground-tetradic-2/20`,
+          sectionIndex === 3 && `border-foreground-tetradic-3/40 bg-foreground-tetradic-3/20`,
         )}
       >
         {children}
@@ -126,7 +139,12 @@ function SubItem({ item, sectionIndex, ...updatableInterface }: SubItemProps) {
       data-section-index={sectionIndex} // Used in connector to colorize lines
       href={`#${item.key}`}
       className={cn(
-        'flex flex-row items-center justify-center gap-1 rounded-md bg-foreground/20 px-1.5 py-0.5 text-sm hover:text-foreground-complementary *:[svg]:size-4',
+        `
+          flex flex-row items-center justify-center gap-1 rounded-md
+          bg-foreground/20 px-1.5 py-0.5 text-sm
+          hover:text-foreground-complementary
+          *:[svg]:size-4
+        `,
         sectionIndex === 1 && 'bg-foreground-tetradic-1/15',
         sectionIndex === 2 && 'bg-foreground-tetradic-2/15',
         sectionIndex === 3 && 'bg-foreground-tetradic-3/15',

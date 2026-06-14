@@ -16,6 +16,7 @@ import { TechStack } from './sections/tech-stack/tech-stack'
 import { cn } from '~/lib/utils'
 import { usePositionalColoring } from '~/hooks/usePositionalColoring'
 import { Footer } from '../footer/footer'
+import { HexBackground } from './hex-background'
 
 export function ContentLayer() {
   const { t } = useTranslation()
@@ -111,20 +112,52 @@ export function ContentLayer() {
     <>
       {/* Main background colors gradient */}
       {webScene && (
-        <div className="absolute inset-0 size-full bg-radial-[circle_at_50%_13%] from-[color-mix(in_oklch,var(--color-background-visual)_80%,var(--color-red-400))] to-[color-mix(in_oklch,var(--color-background-visual)_70%,var(--color-blue-600))] mix-blend-color print:hidden" />
+        <div
+          className="
+            absolute inset-0 size-full bg-radial-[circle_at_50%_13%]
+            from-[color-mix(in_oklch,var(--color-background-visual)_80%,var(--color-red-400))]
+            to-[color-mix(in_oklch,var(--color-background-visual)_70%,var(--color-blue-600))]
+            mix-blend-color
+            print:hidden
+          "
+        />
       )}
       <div
         ref={root}
         id={contentViewportID}
         className={cn(
-          'pointer-events-auto relative inset-0 flex w-dvw max-w-dvw flex-col not-print:absolute not-print:h-dvh not-print:max-h-dvh not-print:text-shadow-background/20 not-print:text-shadow-md',
+          `
+            prettier-plugin-tailwindcss pointer-events-auto relative inset-0
+            flex w-dvw max-w-dvw flex-col
+            not-print:absolute not-print:h-dvh not-print:max-h-dvh
+            not-print:text-shadow-background/20 not-print:text-shadow-md
+          `,
           !webScene &&
-            'bg-background-lighter transition-[background-color] duration-700 ease-linear',
+            `
+              bg-transparent transition-[background-color] duration-700
+              ease-linear
+            `,
         )}
       >
+        {!webScene && (
+          <div
+            className="
+              absolute inset-0 size-full bg-radial-[circle_at_50%_13%]
+              from-orange-100 via-orange-200/50 via-20% to-transparent to-70%
+              opacity-40 mix-blend-plus-lighter
+              print:hidden
+            "
+          >
+            <HexBackground />
+          </div>
+        )}
+
         <Header ref={headerRef} />
         <ScrollArea
-          className="flex flex-col items-center not-print:size-full"
+          className="
+            flex flex-col items-center
+            not-print:size-full
+          "
           contentContainerProps={{
             className:
               'print:mask-none! float-none w-full *:grid! max-3xl:*:grid-cols-1 min-7xl:*:grid-cols-1 print:*:grid-cols-1 *:grid-cols-[1fr_auto_1fr]',
@@ -143,13 +176,22 @@ export function ContentLayer() {
           <Sidebar className="max-3xl:hidden" sectionsContainerRef={sectionsContainerRef} />
 
           <div className="mx-auto max-w-7xl">
-            <div className="flex flex-col items-center justify-start not-print:*:min-h-dvh">
+            <div
+              className="
+                flex flex-col items-center justify-start
+                not-print:*:min-h-dvh
+              "
+            >
               <Intro ref={introRef} />
             </div>
 
             <div
               ref={sectionsContainerRef}
-              className="float-none inline-flex max-w-dvw flex-col items-stretch gap-16 not-print:pb-8 print:mt-2 print:flex-col-reverse print:gap-8"
+              className="
+                float-none inline-flex max-w-dvw flex-col items-stretch gap-16
+                not-print:pb-8
+                print:mt-2 print:flex-col-reverse print:gap-8
+              "
             >
               <Journey ref={journeyRef} />
               <Projects />
@@ -162,7 +204,11 @@ export function ContentLayer() {
       </div>
 
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex origin-bottom flex-row justify-center pt-48 text-center delay-2000 print:hidden"
+        className="
+          pointer-events-none absolute inset-x-0 bottom-4 z-20 flex
+          origin-bottom flex-row justify-center pt-48 text-center delay-2000
+          print:hidden
+        "
         data-entry-animation-type="from-top"
       >
         <div ref={scrollDownButtonContainerRef} className="pointer-events-auto">

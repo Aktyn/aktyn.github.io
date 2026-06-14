@@ -18,17 +18,30 @@ export function LanguageSelect(props: ComponentProps<'div'>) {
       {...props}
       aria-label="Language selector"
       className={cn(
-        'relative flex flex-row items-center self-stretch rounded-lg border border-foreground/20 bg-transparent text-sm font-semibold text-foreground transition-colors print:hidden',
+        `
+          relative flex flex-row items-center self-stretch rounded-lg border
+          border-foreground/20 bg-transparent text-sm font-semibold
+          text-foreground transition-colors
+          print:hidden
+        `,
         open
           ? 'border-foreground-complementary'
-          : 'cursor-pointer hover:bg-foreground/20 hover:**:[svg]:translate-x-0 hover:**:[svg]:opacity-100',
+          : `
+            cursor-pointer
+            hover:bg-foreground/20
+            hover:**:[svg]:translate-x-0 hover:**:[svg]:opacity-100
+          `,
         props.className,
       )}
       onClick={() => setOpen(true)}
     >
       <div
         className={cn(
-          'flex h-full w-14 flex-row items-stretch overflow-hidden transition-[width] *:min-w-14 *:flex-1',
+          `
+            flex h-full w-14 flex-row items-stretch overflow-hidden
+            transition-[width]
+            *:min-w-14 *:flex-1
+          `,
           i18n.language === 'pl' ? 'justify-end' : 'justify-start',
           open && 'w-28',
         )}
@@ -43,23 +56,38 @@ export function LanguageSelect(props: ComponentProps<'div'>) {
             }}
             className={cn(
               'py-1 whitespace-nowrap transition-colors',
-              open ? 'hover:bg-foreground-complementary/20' : 'pointer-events-none',
+              open ? 'hover:bg-foreground-complementary/20' : `pointer-events-none`,
             )}
           >
             {option.label}
           </button>
         ))}
       </div>
-      <span className="absolute inset-y-0 left-full flex h-full w-5 items-center justify-center">
+      <span
+        className="
+          absolute inset-y-0 left-full flex h-full w-5 items-center
+          justify-center
+        "
+      >
         <SvgIcon
           icon="ChevronLeft"
-          className="size-5 -translate-x-1 rotate-180 opacity-0 transition-[translate,opacity]"
+          className="
+            size-5 -translate-x-1 rotate-180 opacity-0
+            transition-[translate,opacity]
+          "
         />
       </span>
-      <span className="absolute inset-y-0 right-full flex h-full w-5 items-center justify-center">
+      <span
+        className="
+          absolute inset-y-0 right-full flex h-full w-5 items-center
+          justify-center
+        "
+      >
         <SvgIcon
           icon="ChevronLeft"
-          className="size-5 translate-x-1 opacity-0 transition-[translate,opacity]"
+          className="
+            size-5 translate-x-1 opacity-0 transition-[translate,opacity]
+          "
         />
       </span>
     </div>

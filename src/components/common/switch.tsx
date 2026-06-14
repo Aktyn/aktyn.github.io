@@ -16,7 +16,12 @@ export function Switch({ id, enabled, onChange, label, ...props }: SwitchProps) 
     <div
       {...props}
       className={cn(
-        'flex flex-row-reverse flex-wrap items-center justify-end gap-x-1 gap-y-0.5 overflow-hidden *:cursor-pointer hover:**:data-[slot=switch-track]:bg-foreground-lighter',
+        `
+          flex flex-row-reverse flex-wrap items-center justify-end gap-x-1
+          gap-y-0.5 overflow-hidden
+          *:cursor-pointer
+          hover:**:data-[slot=switch-track]:bg-foreground-lighter
+        `,
         props.className,
       )}
     >
@@ -42,10 +47,21 @@ export function Switch({ id, enabled, onChange, label, ...props }: SwitchProps) 
         <span
           data-slot="switch-track"
           className={cn(
-            'inline-flex size-3 items-center justify-center rounded-full bg-foreground/50 text-center text-xs text-red-300 transition-[background-color,translate] duration-spring ease-spring',
+            `
+              inline-flex size-3 items-center justify-center rounded-full
+              bg-foreground/50 text-center text-xs text-red-300
+              transition-[background-color,translate] duration-spring
+              ease-spring
+            `,
             enabled
-              ? 'translate-x-4 bg-foreground fill-black *:scale-100'
-              : 'translate-x-0 bg-foreground/50 fill-black/0 *:scale-golden-inverse',
+              ? `
+                translate-x-4 bg-foreground fill-black
+                *:scale-100
+              `
+              : `
+                translate-x-0 bg-foreground/50 fill-black/0
+                *:scale-golden-inverse
+              `,
           )}
         >
           <SvgIcon icon="Check" className="size-2.5 transition-[fill,scale]" />

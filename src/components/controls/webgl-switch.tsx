@@ -62,7 +62,11 @@ export function WebGlSwitch(props: ComponentProps<'div'>) {
             setPerformanceWarningShown(true)
             setWarningDialogOpen(false)
           }}
-          className="rounded-full border bg-background-lighter/25 text-base font-bold text-foreground-lighter transition-colors hover:bg-background-lighter"
+          className="
+            rounded-full border bg-background-lighter/25 text-base font-bold
+            text-foreground-lighter transition-colors
+            hover:bg-background-lighter
+          "
         >
           {t('header.webglSwitch.warning.proceed')}
         </button>

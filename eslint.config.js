@@ -31,14 +31,19 @@ export default defineConfig(
         tsconfigRootDir: import.meta.dirname,
       },
     },
+    settings: {
+      'better-tailwindcss': {
+        entryPoint: 'src/index.css',
+      },
+    },
     plugins: {
       eslint,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       'react-compiler': reactCompiler,
+      'better-tailwindcss': betterTailwindcss,
       prettier,
       import: importPlugin,
-      'better-tailwindcss': betterTailwindcss,
       i18next: fixupPluginRules(i18next),
     },
     rules: {
@@ -105,6 +110,16 @@ export default defineConfig(
           message: 'Literal string is not allowed',
         },
       ],
+      'better-tailwindcss/enforce-consistent-line-wrapping': [
+        'error',
+        {
+          strictness: 'loose', // Resolves conflicts with Prettier
+          printWidth: 80,
+          classesPerLine: 0,
+          group: 'newLine',
+        },
+      ],
+      'better-tailwindcss/enforce-consistent-class-order': 'warn',
     },
   },
   {

@@ -6,8 +6,19 @@ export function App() {
   const sceneContainerRef = useRef<HTMLDivElement>(null)
 
   return (
-    <div className="relative not-print:h-dvh not-print:w-dvw not-print:overflow-hidden">
-      <div ref={sceneContainerRef} className="pointer-events-none absolute inset-0 print:hidden" />
+    <div
+      className="
+        relative
+        not-print:h-dvh not-print:w-dvw not-print:overflow-hidden
+      "
+    >
+      <div
+        ref={sceneContainerRef}
+        className="
+          pointer-events-none absolute inset-0
+          print:hidden
+        "
+      />
 
       <SceneProvider containerRef={sceneContainerRef}>
         <EdgeMask />
@@ -27,7 +38,10 @@ function EdgeMask() {
 
   return (
     <div
-      className="absolute inset-0 size-full print:hidden"
+      className="
+        absolute inset-0 size-full
+        print:hidden
+      "
       style={{
         backgroundImage: `linear-gradient(
               90deg,

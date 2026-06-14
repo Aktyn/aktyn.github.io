@@ -57,7 +57,10 @@ export function Journey({ ref, ...props }: IntroProps) {
         />
         <Separator
           data-entry-animation-type="zoom-in-x"
-          className="bg-transparent bg-linear-to-r from-transparent via-foreground/20 to-transparent"
+          className="
+            bg-transparent bg-linear-to-r from-transparent via-foreground/20
+            to-transparent
+          "
         />
         <div className="flex flex-col items-stretch gap-2">
           <p data-entry-animation className="z-10 text-sm font-medium text-pretty">
@@ -116,7 +119,10 @@ export function Journey({ ref, ...props }: IntroProps) {
                     {t('journey.work.header_2')}
                     <SvgIcon
                       icon="Help"
-                      className="inline size-3.5 align-super text-muted-foreground print:hidden"
+                      className="
+                        inline size-3.5 align-super text-muted-foreground
+                        print:hidden
+                      "
                     />
                   </b>
                 </TooltipTrigger>
@@ -156,7 +162,10 @@ export function Journey({ ref, ...props }: IntroProps) {
         />
         <div
           data-entry-animation-type="fade-in"
-          className="text-sm text-muted-foreground print:hidden"
+          className="
+            text-sm text-muted-foreground
+            print:hidden
+          "
         >
           {t('journey.projects.moreDetails')}
         </div>
@@ -178,7 +187,10 @@ function DatedTitle({ dateStart, dateEnd, title, icon, ...divProps }: DatedTitle
       data-entry-animation-type="from-bottom"
       {...divProps}
       className={cn(
-        'flex flex-row flex-wrap-reverse items-center gap-4 *:[svg]:size-5 *:[svg]:min-w-5 *:[svg]:text-muted-foreground',
+        `
+          flex flex-row flex-wrap-reverse items-center gap-4
+          *:[svg]:size-5 *:[svg]:min-w-5 *:[svg]:text-muted-foreground
+        `,
         divProps.className,
       )}
     >

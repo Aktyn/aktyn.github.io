@@ -7,7 +7,13 @@ export function ScrollDownButton({ children, className, ...divProps }: Component
     <div
       {...divProps}
       className={cn(
-        'flex cursor-pointer flex-col items-center justify-self-center text-muted-foreground transition-[color,scale,opacity] *:animate-bounce *:animation-duration-2000 hover:scale-110 hover:fill-foreground-complementary hover:text-foreground-complementary',
+        `
+          flex cursor-pointer flex-col items-center justify-self-center
+          text-muted-foreground transition-[color,scale,opacity]
+          *:animate-bounce *:animation-duration-2000
+          hover:scale-110 hover:fill-foreground-complementary
+          hover:text-foreground-complementary
+        `,
 
         className,
       )}

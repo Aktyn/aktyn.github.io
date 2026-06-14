@@ -18,7 +18,10 @@ export const Default: Story = {
         <Sidebar sectionsContainerRef={ref} />
         <div
           ref={ref}
-          className="ml-4 h-[200vh] w-full border border-dashed border-foreground/30 bg-foreground/5 p-8"
+          className="
+            ml-4 h-[200vh] w-full border border-dashed border-foreground/30
+            bg-foreground/5 p-8
+          "
         >
           Scroll container placeholder
         </div>

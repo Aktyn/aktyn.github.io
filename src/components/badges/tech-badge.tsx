@@ -11,7 +11,12 @@ export function TechBadge({ tech, ...badgeProps }: TechBadgeProps) {
       dir="ltr"
       {...badgeProps}
       className={cn(
-        'relative flex flex-row gap-x-2 rounded-md bg-background/50 text-sm text-shadow-none not-print:p-1 not-print:px-2 print:border-none',
+        `
+          relative flex flex-row gap-x-2 rounded-md bg-background/50 text-sm
+          text-shadow-none
+          not-print:p-1 not-print:px-2
+          print:border-none
+        `,
         badgeProps.className,
       )}
     >
@@ -20,13 +25,19 @@ export function TechBadge({ tech, ...badgeProps }: TechBadgeProps) {
           <i
             className={cn(
               techStack[tech].icon,
-              'absolute inset-y-auto left-2 blur-md brightness-150 saturate-150 print:hidden',
+              `
+                absolute inset-y-auto left-2 blur-md brightness-150 saturate-150
+                print:hidden
+              `,
             )}
           />
           <i
             className={cn(
               techStack[tech].icon,
-              'not-print:drop-shadow-[0_0_calc(var(--spacing)*1)_var(--color-background)] print:brightness-0',
+              `
+                not-print:drop-shadow-[0_0_calc(var(--spacing)*1)_var(--color-background)]
+                print:brightness-0
+              `,
             )}
           />
         </>

@@ -16,7 +16,11 @@ export function Diploma() {
       <AmbientImage
         src={diplomaSrc}
         alt="diploma"
-        className="h-48 cursor-pointer transition-[scale] *:max-h-48 hover:z-10 hover:scale-110"
+        className="
+          h-48 cursor-pointer transition-[scale]
+          *:max-h-48
+          hover:z-10 hover:scale-110
+        "
         ambientOpacity={0.3}
         onClick={(event) => {
           setOpenGallery(true)

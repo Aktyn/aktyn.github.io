@@ -23,7 +23,11 @@ export function QuickPersonalInfo({
   return (
     <div
       className={cn(
-        'grid max-w-full grid-cols-1 items-center justify-start gap-x-4 gap-y-2 xs:grid-cols-2 xs:gap-y-4 md:grid-cols-4',
+        `
+          grid max-w-full grid-cols-1 items-center justify-start gap-x-4 gap-y-2
+          xs:grid-cols-2 xs:gap-y-4
+          md:grid-cols-4
+        `,
         className,
       )}
     >
@@ -44,7 +48,12 @@ export function QuickPersonalInfo({
           href="https://maps.app.goo.gl/HngK9DdmwfTJpXhA9"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex flex-row items-center gap-1 px-1! text-xs transition-colors hover:fill-foreground-complementary hover:text-foreground-complementary hover:no-underline print:hidden"
+          className="
+            flex flex-row items-center gap-1 px-1! text-xs transition-colors
+            hover:fill-foreground-complementary
+            hover:text-foreground-complementary hover:no-underline
+            print:hidden
+          "
         >
           <ProjectedIcon
             path={materialSymbolIcons.Map}
@@ -72,7 +81,12 @@ export function QuickPersonalInfo({
             />
           </QuickInfoLabel>
         </TooltipTrigger>
-        <TooltipContent className="grid grid-cols-[auto_auto] items-center justify-center gap-x-1 text-left text-sm">
+        <TooltipContent
+          className="
+            grid grid-cols-[auto_auto] items-center justify-center gap-x-1
+            text-left text-sm
+          "
+        >
           {t('intro.quickInfo.polish')}:<b>{t('intro.quickInfo.native')}</b>
           {t('intro.quickInfo.english')}:<b>{t('names.c1')}</b>
         </TooltipContent>
@@ -130,7 +144,12 @@ function QuickInfoLabel(props: ComponentProps<'p'>) {
     <p
       {...props}
       className={cn(
-        'flex flex-row items-center justify-center gap-x-1.5 fill-muted-foreground text-sm font-medium whitespace-nowrap text-muted-foreground *:[svg]:aspect-square *:[svg]:size-5 *:[svg]:min-w-5',
+        `
+          flex flex-row items-center justify-center gap-x-1.5
+          fill-muted-foreground text-sm font-medium whitespace-nowrap
+          text-muted-foreground
+          *:[svg]:aspect-square *:[svg]:size-5 *:[svg]:min-w-5
+        `,
         props.className,
       )}
     />

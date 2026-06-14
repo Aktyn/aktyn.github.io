@@ -18,7 +18,10 @@ export function GalleryPagination({ count, index, ...divProps }: GalleryPaginati
       role="group"
       aria-label={`Image ${current + 1} of ${count}`}
       className={cn(
-        'pointer-events-none inline-flex flex-row items-center gap-1 rounded-full border border-white/50 bg-black/20 p-1 select-none',
+        `
+          pointer-events-none inline-flex flex-row items-center gap-1
+          rounded-full border border-white/50 bg-black/20 p-1 select-none
+        `,
         divProps.className,
       )}
     >
@@ -28,7 +31,10 @@ export function GalleryPagination({ count, index, ...divProps }: GalleryPaginati
           key={i}
           aria-hidden="true"
           className={cn(
-            'block size-1.5 rounded-full transition-[background-color,scale] ease-in-out',
+            `
+              block size-1.5 rounded-full transition-[background-color,scale]
+              ease-in-out
+            `,
             i === current ? 'scale-120 bg-white' : 'scale-100 bg-white/40',
           )}
         />

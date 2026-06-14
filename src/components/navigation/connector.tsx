@@ -124,7 +124,14 @@ export function Connector({ sectionsContainerRef }: ConnectorProps) {
   }, [sectionsContainerRef])
 
   return (
-    <div ref={ref} data-slot="sidebar-connector" className="h-full w-full grow 4xl:max-w-64">
+    <div
+      ref={ref}
+      data-slot="sidebar-connector"
+      className="
+        h-full w-full grow
+        4xl:max-w-64
+      "
+    >
       <svg
         className="size-full stroke-foreground"
         viewBox="0 0 100 100"

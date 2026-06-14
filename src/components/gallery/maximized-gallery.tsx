@@ -122,7 +122,6 @@ export default function MaximizedGallery({
     scrollableContainer?.addEventListener('wheel', cancelEvent)
     scrollableContainer?.addEventListener('touchmove', cancelEvent)
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setEntryAnimation((prev) => {
       if (prev) {
         prev.revert()
@@ -211,9 +210,14 @@ export default function MaximizedGallery({
   }
 
   return (
-    <div ref={ref} className={cn('fixed inset-0 z-90', !open && 'pointer-events-none')}>
-      <div className="relative grid size-full grid-rows-[1fr_auto] **:[svg]:size-6">
-        <div className={cn('grid grid-cols-[auto_1fr_auto]', images.length <= 1 && 'grid-cols-1')}>
+    <div ref={ref} className={cn('fixed inset-0 z-90', !open && `pointer-events-none`)}>
+      <div
+        className="
+          relative grid size-full grid-rows-[1fr_auto]
+          **:[svg]:size-6
+        "
+      >
+        <div className={cn('grid grid-cols-[auto_1fr_auto]', images.length <= 1 && `grid-cols-1`)}>
           {images.length > 1 && (
             <NavButton
               data-slot="prev-button"
@@ -228,7 +232,10 @@ export default function MaximizedGallery({
           <div data-slot="images-container" className="relative">
             <div
               className={cn(
-                'pointer-events-none absolute inset-0 no-scrollbar flex flex-row items-stretch justify-start gap-x-8 overflow-x-auto',
+                `
+                  pointer-events-none absolute inset-0 no-scrollbar flex
+                  flex-row items-stretch justify-start gap-x-8 overflow-x-auto
+                `,
                 images.length > 1 && '-mx-8 -mb-6',
               )}
             >
@@ -238,13 +245,20 @@ export default function MaximizedGallery({
                   data-index={index}
                   className="flex h-full min-w-full items-center justify-center"
                 >
-                  <div className="-z-1 mr-[-100%] flex size-full min-w-full items-center justify-center">
+                  <div
+                    className="
+                      -z-1 mr-[-100%] flex size-full min-w-full items-center
+                      justify-center
+                    "
+                  >
                     <img
                       data-src={image}
                       loading="lazy"
                       alt=""
                       aria-hidden="true"
-                      className="lazyload size-full scale-105 object-cover blur-lg"
+                      className="
+                        lazyload size-full scale-105 object-cover blur-lg
+                      "
                     />
                   </div>
                   <div
@@ -287,11 +301,21 @@ export default function MaximizedGallery({
           </div>
         )}
 
-        <div className="absolute inset-x-0 top-0 z-20 flex flex-row items-center justify-end p-2">
+        <div
+          className="
+            absolute inset-x-0 top-0 z-20 flex flex-row items-center justify-end
+            p-2
+          "
+        >
           <button
             data-slot="close-button"
             aria-label="Close gallery"
-            className="rounded-full border border-white/40 bg-black/50 p-2 transition-colors hover:bg-black hover:*:scale-110"
+            className="
+              rounded-full border border-white/40 bg-black/50 p-2
+              transition-colors
+              hover:bg-black
+              hover:*:scale-110
+            "
             onClick={handleClose}
           >
             <SvgIcon icon="Close" className="transition-transform duration-spring ease-spring" />
@@ -312,7 +336,12 @@ function NavButton({ direction, ...buttonProps }: NavButtonProps) {
       {...buttonProps}
       aria-label={direction === -1 ? 'Previous image' : 'Next image'}
       className={cn(
-        'z-5 my-auto flex h-full w-8 flex-col justify-center rounded-md bg-foreground-lighter/0 p-1 transition-colors not-disabled:hover:bg-foreground/50 disabled:fill-muted-foreground/50 disabled:opacity-50',
+        `
+          z-5 my-auto flex h-full w-8 flex-col justify-center rounded-md
+          bg-foreground-lighter/0 p-1 transition-colors
+          not-disabled:hover:bg-foreground/50
+          disabled:fill-muted-foreground/50 disabled:opacity-50
+        `,
         direction === -1 && 'not-disabled:hover:*:-translate-x-[12.5%]',
         direction === 1 && 'not-disabled:hover:*:translate-x-[12.5%]',
         buttonProps.className,

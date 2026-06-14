@@ -88,7 +88,13 @@ export function Sidebar({ sectionsContainerRef, ...props }: SidebarProps) {
       ref={sidebarRef}
       {...props}
       className={cn(
-        'sticky top-0 flex h-dvh w-full flex-row items-start justify-start overflow-hidden max-4xl:justify-self-start 4xl:justify-end print:hidden',
+        `
+          sticky top-0 flex h-dvh w-full flex-row items-start justify-start
+          overflow-hidden
+          max-4xl:justify-self-start
+          4xl:justify-end
+          print:hidden
+        `,
         props.className,
       )}
     >

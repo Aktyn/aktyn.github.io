@@ -26,7 +26,11 @@ export const useSchoolTimelineItems = () => {
       content: (
         <div className="flex flex-col items-start">
           <p>{t('timeline.school.competition.title')}</p>
-          <div className="flex flex-row flex-wrap-reverse items-center gap-x-4 gap-y-1">
+          <div
+            className="
+              flex flex-row flex-wrap-reverse items-center gap-x-4 gap-y-1
+            "
+          >
             <Suspense fallback={<Skeleton className="h-48 w-32" />}>
               <Diploma />
             </Suspense>
@@ -68,7 +72,10 @@ export const useUniversityTimelineItems = () => {
               )?.images ?? []
             }
             altPrefix="ZeroG-Ball"
-            className="-ml-10 **:data-[slot=images-strip-content-container]:pl-10"
+            className="
+              -ml-10
+              **:data-[slot=images-strip-content-container]:pl-10
+            "
           />
         </div>
       ),
@@ -297,7 +304,13 @@ export const useFreeTimeProjectsTimelineItems = () => {
     {
       date: t('timeline.graphics.date'),
       content: (
-        <div className="inline-flex flex-row flex-wrap justify-start gap-x-4 gap-y-1 max-md:flex-col md:items-center">
+        <div
+          className="
+            inline-flex flex-row flex-wrap justify-start gap-x-4 gap-y-1
+            max-md:flex-col
+            md:items-center
+          "
+        >
           <div className="flex-0 grow text-sm text-pretty">
             <p>
               {t('timeline.graphics.desc1')}{' '}
@@ -305,7 +318,12 @@ export const useFreeTimeProjectsTimelineItems = () => {
               {t('timeline.graphics.desc2')}
             </p>
             <p>{t('timeline.graphics.desc3')}</p>
-            <ul className="mt-2 *:ml-2">
+            <ul
+              className="
+                mt-2
+                *:ml-2
+              "
+            >
               <QuickProjectInfo
                 githubLink="https://github.com/Aktyn/Blender-portfolio"
                 title={t('timeline.projects.blender.title')}

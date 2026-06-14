@@ -28,18 +28,30 @@ export function Projects() {
     <SectionContainer section={Section.PublicProjects}>
       {projectsGroupsArray.map((group) => (
         <Article key={group} articleKey={group}>
-          <div className="-m-3 mb-0 flex flex-col items-center gap-2 bg-background/40 p-3">
+          <div
+            className="
+              -m-3 mb-0 flex flex-col items-center gap-2 bg-background/40 p-3
+            "
+          >
             <h4 data-entry-animation-type="zoom-in" className="text-lg font-semibold">
               {projectsGroupsInfo[group].title}
             </h4>
             <p
               data-entry-animation-type="zoom-in"
-              className="text-center text-sm leading-tight font-medium tracking-wide text-balance whitespace-pre-wrap text-muted-foreground"
+              className="
+                text-center text-sm leading-tight font-medium tracking-wide
+                text-balance whitespace-pre-wrap text-muted-foreground
+              "
             >
               {projectsGroupsInfo[group].description}
             </p>
           </div>
-          <div className="grid items-stretch gap-4 md:grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*134),1fr))]">
+          <div
+            className="
+              grid items-stretch gap-4
+              md:grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*134),1fr))]
+            "
+          >
             {projectsGroupsInfo[group].projects.map((project, _, array) => (
               <ProjectCard key={project.title} project={project} single={array.length === 1} />
             ))}
@@ -66,9 +78,17 @@ function ProjectCard({ project, single }: ProjectCardProps) {
     <div
       data-entry-animation
       className={cn(
-        'inline-grid grid-cols-1 gap-4 not-print:not-data-[entry-animation=entered]:scale-120 md:min-h-80 md:grid-cols-[1fr_auto]',
+        `
+          inline-grid grid-cols-1 gap-4
+          not-print:not-data-[entry-animation=entered]:scale-120
+          md:min-h-80 md:grid-cols-[1fr_auto]
+        `,
         !single &&
-          'overflow-hidden rounded-lg border border-foreground/20 bg-background-lighter/30 p-3 not-print:shadow-lg',
+          `
+            overflow-hidden rounded-lg border border-foreground/20
+            bg-background-lighter/30 p-3
+            not-print:shadow-lg
+          `,
       )}
     >
       <div className="flex grow flex-col items-stretch gap-4">
@@ -77,7 +97,12 @@ function ProjectCard({ project, single }: ProjectCardProps) {
             <Tooltip key={link}>
               <TooltipTrigger asChild>
                 <a href={link} target="_blank" className="flex flex-row items-center gap-3">
-                  <GithubIcon className="size-5 print:hidden" />
+                  <GithubIcon
+                    className="
+                      size-5
+                      print:hidden
+                    "
+                  />
                   {arr.length === 1 && <p>{project.title}</p>}
                 </a>
               </TooltipTrigger>
@@ -90,7 +115,10 @@ function ProjectCard({ project, single }: ProjectCardProps) {
               key={href.toString()}
               href={href}
               target="_blank"
-              className="ml-2 text-sm font-light not-print:hidden"
+              className="
+                ml-2 text-sm font-light
+                not-print:hidden
+              "
             >
               ({href})
             </a>
@@ -103,13 +131,32 @@ function ProjectCard({ project, single }: ProjectCardProps) {
           ))}
         </div>
       </div>
-      <Separator className="my-2 bg-foreground/20 md:hidden" />
+      <Separator
+        className="
+          my-2 bg-foreground/20
+          md:hidden
+        "
+      />
       <ScrollArea
         type="hover"
         orientation={width < MD ? 'horizontal' : 'vertical'}
-        className="-m-3 overflow-hidden contain-[size] max-md:-mt-16 max-md:h-64 max-md:**:data-radix-scroll-area-viewport:w-full max-md:**:data-radix-scroll-area-viewport:*:flex! max-md:**:data-radix-scroll-area-viewport:*:h-full md:-ml-16 md:w-76 print:in-[.hide-images-in-print]:hidden"
+        className="
+          -m-3 overflow-hidden contain-[size]
+          max-md:-mt-16 max-md:h-64
+          max-md:**:data-radix-scroll-area-viewport:w-full
+          max-md:**:data-radix-scroll-area-viewport:*:flex!
+          max-md:**:data-radix-scroll-area-viewport:*:h-full
+          md:-ml-16 md:w-76
+          print:in-[.hide-images-in-print]:hidden
+        "
       >
-        <div className="flex items-stretch justify-start gap-4 p-2 max-md:mx-auto max-md:h-full max-md:flex-row max-md:pt-16 md:my-auto md:w-full md:flex-col md:p-4 md:pl-16">
+        <div
+          className="
+            flex items-stretch justify-start gap-4 p-2
+            max-md:mx-auto max-md:h-full max-md:flex-row max-md:pt-16
+            md:my-auto md:w-full md:flex-col md:p-4 md:pl-16
+          "
+        >
           <Suspense fallback={<span className="fixed inset-0">...</span>}>
             <LazyImagesStrip images={project.images} altPrefix="project-image" />
           </Suspense>

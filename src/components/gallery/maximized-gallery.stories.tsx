@@ -27,7 +27,12 @@ const GalleryWithState = () => {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="rounded-md bg-foreground px-4 py-2 font-medium text-background transition-colors hover:bg-foreground/90 disabled:opacity-50"
+        className="
+          rounded-md bg-foreground px-4 py-2 font-medium text-background
+          transition-colors
+          hover:bg-foreground/90
+          disabled:opacity-50
+        "
       >
         Open Gallery
       </button>
