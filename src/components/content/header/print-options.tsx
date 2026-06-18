@@ -1,4 +1,4 @@
-import { useEffect, useState, type ComponentProps } from 'react'
+import { useState, type ComponentProps } from 'react'
 import { Switch } from '~/components/common/switch'
 import { SvgIcon } from '~/icons/material-symbol-icons'
 import { cn } from '~/lib/utils'
@@ -111,17 +111,18 @@ function usePrintOptions() {
     Object.values(Section).filter((section) => section !== Section.PublicProjects),
   )
 
-  useEffect(() => {
-    for (const section of Object.values(Section)) {
-      //! Be careful when changing this class name, it's used in multiple tailwind classes
-      const targetClassName = `hide-section-${section}-in-print`
-      if (printSections.includes(section)) {
-        document.documentElement.classList.remove(targetClassName)
-      } else {
-        document.documentElement.classList.add(targetClassName)
-      }
-    }
-  }, [printSections])
+  //TODO: rethink this in CV.tsx
+  // useEffect(() => {
+  //   for (const section of Object.values(Section)) {
+  //     //! Be careful when changing this class name, it's used in multiple tailwind classes
+  //     const targetClassName = `hide-section-${section}-in-print`
+  //     if (printSections.includes(section)) {
+  //       document.documentElement.classList.remove(targetClassName)
+  //     } else {
+  //       document.documentElement.classList.add(targetClassName)
+  //     }
+  //   }
+  // }, [printSections])
 
   const setPrintWithImages = (printWithImages: boolean) => {
     if (printWithImages) {

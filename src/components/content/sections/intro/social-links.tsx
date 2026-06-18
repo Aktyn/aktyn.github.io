@@ -11,10 +11,8 @@ export function SocialLinks(props: ComponentProps<'div'>) {
       {...props}
       className={cn(
         `
-          inline-grid grid-cols-[repeat(auto-fit,calc(var(--spacing)*32))]
+          inline-grid w-full grid-cols-[repeat(auto-fit,--spacing(32))]
           items-start justify-center gap-x-3 gap-y-2
-          not-print:w-full
-          print:mx-auto print:grid-cols-2
         `,
         props.className,
       )}
@@ -63,7 +61,6 @@ function SocialLinkButton({ icon, text, className, href, ...linkProps }: SocialL
         className="
           absolute inset-0 -z-10 rounded-full border bg-background-lighter/50
           transition-colors
-          print:hidden
         "
       />
 
@@ -75,14 +72,13 @@ function SocialLinkButton({ icon, text, className, href, ...linkProps }: SocialL
         "
       >
         {icon}
-        <span className="print:hidden">{text}</span>
-        <span className="not-print:hidden">{href}</span>
+        <span>{text}</span>
+        <span className="hidden">{href}</span>
       </div>
       <div
         className="
           absolute inset-0 flex scale-golden items-center justify-center
           opacity-0 transition-[opacity,scale]
-          print:hidden
         "
       >
         <SvgIcon icon="OpenInNew" className="inline-block size-4.5 fill-foreground-lighter" />

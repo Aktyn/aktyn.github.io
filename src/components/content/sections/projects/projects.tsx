@@ -49,7 +49,7 @@ export function Projects() {
           <div
             className="
               grid items-stretch gap-4
-              md:grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*134),1fr))]
+              md:grid-cols-[repeat(auto-fit,minmax(--spacing(134),1fr))]
             "
           >
             {projectsGroupsInfo[group].projects.map((project, _, array) => (
@@ -80,14 +80,13 @@ function ProjectCard({ project, single }: ProjectCardProps) {
       className={cn(
         `
           inline-grid grid-cols-1 gap-4
-          not-print:not-data-[entry-animation=entered]:scale-120
+          not-data-[entry-animation=entered]:scale-120
           md:min-h-80 md:grid-cols-[1fr_auto]
         `,
         !single &&
           `
             overflow-hidden rounded-lg border border-foreground/20
-            bg-background-lighter/30 p-3
-            not-print:shadow-lg
+            bg-background-lighter/30 p-3 shadow-lg
           `,
       )}
     >
@@ -97,12 +96,7 @@ function ProjectCard({ project, single }: ProjectCardProps) {
             <Tooltip key={link}>
               <TooltipTrigger asChild>
                 <a href={link} target="_blank" className="flex flex-row items-center gap-3">
-                  <GithubIcon
-                    className="
-                      size-5
-                      print:hidden
-                    "
-                  />
+                  <GithubIcon className="size-5" />
                   {arr.length === 1 && <p>{project.title}</p>}
                 </a>
               </TooltipTrigger>
@@ -110,19 +104,6 @@ function ProjectCard({ project, single }: ProjectCardProps) {
             </Tooltip>
           ))}
           {forceArray(project.linkToGithubRepo ?? []).length !== 1 && <p>{project.title}</p>}
-          {forceArray(project.linkToGithubRepo ?? []).map((href) => (
-            <a
-              key={href.toString()}
-              href={href}
-              target="_blank"
-              className="
-                ml-2 text-sm font-light
-                not-print:hidden
-              "
-            >
-              ({href})
-            </a>
-          ))}
         </div>
         <div className="text-sm tracking-wide text-pretty">{project.description}</div>
         <div className="mt-auto flex flex-row flex-wrap items-center gap-2">
@@ -147,7 +128,6 @@ function ProjectCard({ project, single }: ProjectCardProps) {
           max-md:**:data-radix-scroll-area-viewport:*:flex!
           max-md:**:data-radix-scroll-area-viewport:*:h-full
           md:-ml-16 md:w-76
-          print:in-[.hide-images-in-print]:hidden
         "
       >
         <div

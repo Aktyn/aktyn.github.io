@@ -9,16 +9,7 @@ type AmbientImageProps = ComponentProps<'div'> & {
 
 export function AmbientImage({ src, alt, ambientOpacity = 0.5, ...divProps }: AmbientImageProps) {
   return (
-    <div
-      {...divProps}
-      className={cn(
-        `
-          relative z-1
-          print:in-[.hide-images-in-print]:hidden
-        `,
-        divProps.className,
-      )}
-    >
+    <div {...divProps} className={cn(`relative z-1`, divProps.className)}>
       <img
         alt={`${alt}-blur`}
         aria-hidden="true"
@@ -27,7 +18,6 @@ export function AmbientImage({ src, alt, ambientOpacity = 0.5, ...divProps }: Am
         className="
           lazyload pointer-events-none absolute inset-0 -z-1 h-full scale-110
           blur-lg
-          print:hidden
         "
         style={{ opacity: ambientOpacity }}
       />

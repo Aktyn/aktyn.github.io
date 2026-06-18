@@ -50,7 +50,7 @@ export function QuickAccess(props: ComponentPropsWithoutRef<'div'>) {
       <div
         className="
           relative hidden h-16 w-full
-          not-print:lg:block
+          lg:block
         "
         style={{
           maskImage: `linear-gradient(
@@ -110,7 +110,7 @@ export function QuickAccess(props: ComponentPropsWithoutRef<'div'>) {
           relative hidden h-auto w-full grow animate-in delay-2000 duration-1000
           fill-mode-both fade-in
           has-[[data-entry-animation-type]:not([data-entry-animation=entered])]:paused
-          not-print:lg:block
+          lg:block
         "
         style={{
           maskImage: `linear-gradient(

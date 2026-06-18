@@ -1,6 +1,20 @@
 import { type ComponentProps } from 'react'
 import { cn } from '~/lib/utils'
 
-export function Separator(props: ComponentProps<'hr'>) {
-  return <hr {...props} className={cn('h-px w-full border-none bg-border/40', props.className)} />
+type SeparatorProps = ComponentProps<'hr'> & {
+  orientation?: 'horizontal' | 'vertical'
+}
+
+export function Separator({ orientation = 'horizontal', ...hrProps }: SeparatorProps) {
+  return (
+    <hr
+      {...hrProps}
+      className={cn(
+        'border-none bg-border/40',
+        orientation === 'horizontal' && 'h-px w-full',
+        orientation === 'vertical' && 'h-full w-px',
+        hrProps.className,
+      )}
+    />
+  )
 }

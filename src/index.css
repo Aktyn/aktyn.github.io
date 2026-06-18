@@ -6,42 +6,62 @@
 
 :root {
   --background: 0.2489 0.0439 184.84;
-  --background-lighter: 0.4668 0.084459 180.3974; /* teal 800 */
-  --background-visual: 0.3853 0.0347 173.194; /*! Should not be used for regular styling */
+  --background-lighter: 0.4668 0.084459 180.3974;
+  /* teal 800 */
+  --background-visual: 0.3853 0.0347 173.194;
+  /*! Should not be used for regular styling */
 
-  --background-tetradic-1: 0.1492 0.0439 296.37; /* from background with the same chroma */
-  --background-tetradic-2: 0.1751 0.0439 19.99; /* from background with the same chroma */
-  --background-tetradic-3: 0.2528 0.0439 128.92; /* from background with the same chroma */
+  --background-tetradic-1: 0.1492 0.0439 296.37;
+  /* from background with the same chroma */
+  --background-tetradic-2: 0.1751 0.0439 19.99;
+  /* from background with the same chroma */
+  --background-tetradic-3: 0.2528 0.0439 128.92;
+  /* from background with the same chroma */
 
-  --background-lighter-tetradic-1: 0.2643 0.0528 286.63; /* from background lighter - 0.1 chroma */
-  --background-lighter-tetradic-2: 0.3283 0.0329 24.35; /* from background lighter - 0.1 chroma */
-  --background-lighter-tetradic-3: 0.4732 0.0281 130.4; /* from background lighter - 0.1 chroma */
+  --background-lighter-tetradic-1: 0.2643 0.0528 286.63;
+  /* from background lighter - 0.1 chroma */
+  --background-lighter-tetradic-2: 0.3283 0.0329 24.35;
+  /* from background lighter - 0.1 chroma */
+  --background-lighter-tetradic-3: 0.4732 0.0281 130.4;
+  /* from background lighter - 0.1 chroma */
 
-  --foreground-lighter: 0.9476 0.019 192.81; /* teal 50 */
+  --foreground-lighter: 0.9476 0.019 192.81;
+  /* teal 50 */
   --foreground-lighter-tetradic-1: 0.9183 0.0256 305.84;
   --foreground-lighter-tetradic-2: 0.9214 0.0198 13.65;
   --foreground-lighter-tetradic-3: 0.9502 0.0253 126.55;
 
-  --foreground: 0.8708 0.047 189.63; /* teal 100 */
-  --foreground-complementary: 0.8049 0.1526 12.32; /* --foreground-tetradic-2; c+0.1 */
-  --foreground-tetradic-1: 0.7936 0.0656 303.16; /* teal 100 tetradic 1 */
-  --foreground-tetradic-1-complementary: 0.8786 0.1631 125.41; /* --foreground-tetradic-3; c+0.1 */
-  --foreground-tetradic-2: 0.8049 0.0526 12.32; /* teal 100 tetradic 2 (same as complementary) */
-  --foreground-tetradic-2-complementary: 0.8708 0.147 189.63; /* --foreground; c+0.1 */
-  --foreground-tetradic-3: 0.8786 0.0631 125.41; /* teal 100 tetradic 3 */
-  --foreground-tetradic-3-complementary: 0.7936 0.1656 303.16; /* --foreground-tetradic-1; c+0.1 */
+  --foreground: 0.8708 0.047 189.63;
+  /* teal 100 */
+  --foreground-complementary: 0.8049 0.1526 12.32;
+  /* --foreground-tetradic-2; c+0.1 */
+  --foreground-tetradic-1: 0.7936 0.0656 303.16;
+  /* teal 100 tetradic 1 */
+  --foreground-tetradic-1-complementary: 0.8786 0.1631 125.41;
+  /* --foreground-tetradic-3; c+0.1 */
+  --foreground-tetradic-2: 0.8049 0.0526 12.32;
+  /* teal 100 tetradic 2 (same as complementary) */
+  --foreground-tetradic-2-complementary: 0.8708 0.147 189.63;
+  /* --foreground; c+0.1 */
+  --foreground-tetradic-3: 0.8786 0.0631 125.41;
+  /* teal 100 tetradic 3 */
+  --foreground-tetradic-3-complementary: 0.7936 0.1656 303.16;
+  /* --foreground-tetradic-1; c+0.1 */
 
-  --foreground-darker: 0.7912 0.0755 188.24; /* teal 200 */
+  --foreground-darker: 0.7912 0.0755 188.24;
+  /* teal 200 */
   --foreground-darker-tetradic-1: 0.658 0.0755 302.41;
   --foreground-darker-tetradic-2: 0.68 0.0755 13.77;
   --foreground-darker-tetradic-3: 0.8014 0.0755 126.91;
 
-  --muted-foreground: 0.7912 0.0255 188.24; /* teal 200; h-0.05 */
+  --muted-foreground: 0.7912 0.0255 188.24;
+  /* teal 200; h-0.05 */
   --muted-foreground-tetradic-1: 0.75 0.0354 302.58;
   --muted-foreground-tetradic-2: 0.7565 0.0282 9.22;
   --muted-foreground-tetradic-3: 0.7973 0.0345 123.94;
 
-  --border: 0.6563 0.1071 185.34; /* teal 400 */
+  --border: 0.6563 0.1071 185.34;
+  /* teal 400 */
 
   --radius: 0.5rem;
 }
@@ -134,35 +154,34 @@
   --breakpoint-3xl: 1920px;
   --breakpoint-4xl: 2560px;
 
-  --spacing-header: 3rem; /* Used as fixed height in header.tsx */
+  --spacing-header: 3rem;
+  /* Used as fixed height in header.tsx */
 
   --transition-duration-spring: 1800ms;
-  --ease-spring: linear(
-    0,
-    0.01 0.7%,
-    0.039 1.4%,
-    0.162 3%,
-    0.328 4.5%,
-    0.839 8.6%,
-    1.067 10.9%,
-    1.154 12.1%,
-    1.214 13.2%,
-    1.254 14.3%,
-    1.276 15.5%,
-    1.278 16.9%,
-    1.254 18.5%,
-    1.207 20.2%,
-    1.058 24.5%,
-    0.993 26.7%,
-    0.944 29.2%,
-    0.923 31.7%,
-    0.929 34.8%,
-    1.002 43%,
-    1.021 47.8%,
-    0.994 63.7%,
-    1.002 79.7%,
-    1
-  );
+  --ease-spring: linear(0,
+      0.01 0.7%,
+      0.039 1.4%,
+      0.162 3%,
+      0.328 4.5%,
+      0.839 8.6%,
+      1.067 10.9%,
+      1.154 12.1%,
+      1.214 13.2%,
+      1.254 14.3%,
+      1.276 15.5%,
+      1.278 16.9%,
+      1.254 18.5%,
+      1.207 20.2%,
+      1.058 24.5%,
+      0.993 26.7%,
+      0.944 29.2%,
+      0.923 31.7%,
+      0.929 34.8%,
+      1.002 43%,
+      1.021 47.8%,
+      0.994 63.7%,
+      1.002 79.7%,
+      1);
 }
 
 @layer utilities {
@@ -173,6 +192,7 @@
     font-style: normal;
     src: url('/font/SpaceGrotesk-Light.ttf') format('truetype');
   }
+
   @font-face {
     font-family: 'Space Grotesk';
     font-weight: 400;
@@ -180,6 +200,7 @@
     font-style: normal;
     src: url('/font/SpaceGrotesk-Regular.ttf') format('truetype');
   }
+
   @font-face {
     font-family: 'Space Grotesk';
     font-weight: 500;
@@ -187,6 +208,7 @@
     font-style: normal;
     src: url('/font/SpaceGrotesk-Medium.ttf') format('truetype');
   }
+
   @font-face {
     font-family: 'Space Grotesk';
     font-weight: 600;
@@ -194,6 +216,7 @@
     font-style: normal;
     src: url('/font/SpaceGrotesk-SemiBold.ttf') format('truetype');
   }
+
   @font-face {
     font-family: 'Space Grotesk';
     font-weight: 700;
@@ -224,6 +247,7 @@
   body {
     @apply m-0 bg-background-visual p-0;
   }
+
   body {
     @apply fill-foreground text-foreground;
   }
@@ -231,15 +255,18 @@
   button {
     @apply not-disabled:cursor-pointer;
   }
+
   a {
     @apply fill-current transition-colors not-disabled:hover:text-foreground-complementary;
   }
 
   @media print {
     @page {
-      margin-top: 0;
-      margin-bottom: 0;
+      margin: 0;
+      /* margin-top: 0; */
+      /* margin-bottom: 0; */
     }
+
     html,
     body {
       @apply bg-white p-0 text-left text-background text-shadow-none **:[span]:text-black **:[svg]:fill-black;
@@ -254,51 +281,57 @@
   }
 
   @media not print {
-    [data-entry-animation],
-    [data-entry-animation-type] {
-      @apply duration-spring ease-spring;
+    /*TODO: restore and optimize animations */
+
+    #print-container {
+      @apply hidden;
     }
 
-    [data-entry-animation],
-    [data-entry-animation-type='default'] [data-entry-animation-type='zoom-in'] {
-      @apply scale-golden opacity-0 transition-[opacity,scale] data-[entry-animation=entered]:scale-100 data-[entry-animation=entered]:opacity-100;
-    }
-
-    [data-entry-animation-type='from-left'] {
-      @apply -translate-x-24;
-    }
-    [data-entry-animation-type='from-right'] {
-      @apply translate-x-24;
-    }
-    [data-entry-animation-type='from-top'] {
-      @apply -translate-y-24;
-    }
-    [data-entry-animation-type='from-bottom'] {
-      @apply translate-y-24;
-    }
-
-    [data-entry-animation-type='from-left'],
-    [data-entry-animation-type='from-right'],
-    [data-entry-animation-type='from-top'],
-    [data-entry-animation-type='from-bottom'] {
-      @apply opacity-0 transition-[opacity,translate] data-[entry-animation=entered]:translate-x-0 data-[entry-animation=entered]:translate-y-0 data-[entry-animation=entered]:opacity-100;
-    }
-
-    [data-entry-animation-type='zoom-in'] {
-      @apply scale-x-golden-inverse scale-y-golden-inverse;
-    }
-    [data-entry-animation-type='zoom-in-x'] {
-      @apply scale-x-0;
-    }
-
-    [data-entry-animation-type='zoom-in'],
-    [data-entry-animation-type='zoom-in-x'] {
-      @apply opacity-0 transition-[opacity,scale] data-[entry-animation=entered]:scale-x-100 data-[entry-animation=entered]:scale-y-100 data-[entry-animation=entered]:opacity-100;
-    }
-
-    [data-entry-animation-type='fade-in'] {
-      @apply opacity-0 transition-opacity duration-1000 ease-out data-[entry-animation=entered]:opacity-100;
-    }
+    /* [data-entry-animation], */
+    /* [data-entry-animation-type] { */
+    /*   @apply duration-spring ease-spring; */
+    /* } */
+    /**/
+    /* [data-entry-animation], */
+    /* [data-entry-animation-type='default'] [data-entry-animation-type='zoom-in'] { */
+    /*   @apply scale-golden opacity-0 transition-[opacity,scale] data-[entry-animation=entered]:scale-100 data-[entry-animation=entered]:opacity-100; */
+    /* } */
+    /**/
+    /* [data-entry-animation-type='from-left'] { */
+    /*   @apply -translate-x-24; */
+    /* } */
+    /* [data-entry-animation-type='from-right'] { */
+    /*   @apply translate-x-24; */
+    /* } */
+    /* [data-entry-animation-type='from-top'] { */
+    /*   @apply -translate-y-24; */
+    /* } */
+    /* [data-entry-animation-type='from-bottom'] { */
+    /*   @apply translate-y-24; */
+    /* } */
+    /**/
+    /* [data-entry-animation-type='from-left'], */
+    /* [data-entry-animation-type='from-right'], */
+    /* [data-entry-animation-type='from-top'], */
+    /* [data-entry-animation-type='from-bottom'] { */
+    /*   @apply opacity-0 transition-[opacity,translate] data-[entry-animation=entered]:translate-x-0 data-[entry-animation=entered]:translate-y-0 data-[entry-animation=entered]:opacity-100; */
+    /* } */
+    /**/
+    /* [data-entry-animation-type='zoom-in'] { */
+    /*   @apply scale-x-golden-inverse scale-y-golden-inverse; */
+    /* } */
+    /* [data-entry-animation-type='zoom-in-x'] { */
+    /*   @apply scale-x-0; */
+    /* } */
+    /**/
+    /* [data-entry-animation-type='zoom-in'], */
+    /* [data-entry-animation-type='zoom-in-x'] { */
+    /*   @apply opacity-0 transition-[opacity,scale] data-[entry-animation=entered]:scale-x-100 data-[entry-animation=entered]:scale-y-100 data-[entry-animation=entered]:opacity-100; */
+    /* } */
+    /**/
+    /* [data-entry-animation-type='fade-in'] { */
+    /*   @apply opacity-0 transition-opacity duration-1000 ease-out data-[entry-animation=entered]:opacity-100; */
+    /* } */
   }
 }
 

@@ -1,4 +1,4 @@
-import { createContext, type ComponentProps } from 'react'
+import { createContext, useEffect, type ComponentProps } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Section, sectionData } from '~/lib/consts'
 import { cn } from '~/lib/utils'
@@ -14,6 +14,12 @@ type SectionContainerProps = Omit<ComponentProps<'section'>, 'id'> & {
 export function SectionContainer({ section, ...sectionProps }: SectionContainerProps) {
   const { t } = useTranslation()
 
+  useEffect(() => {
+    if (`#${section}` === location.hash) {
+      location.replace(location.href)
+    }
+  }, [section])
+
   return (
     <SectionContext value={section}>
       <section
@@ -24,7 +30,6 @@ export function SectionContainer({ section, ...sectionProps }: SectionContainerP
             flex w-full scroll-mt-8 break-after-page flex-col items-center
             justify-center gap-4
             max-3xl:mx-auto max-3xl:max-w-[calc(100%-var(--spacing)*4)]
-            print:gap-0
           `,
           section === Section.MyJourney &&
             `
@@ -35,7 +40,6 @@ export function SectionContainer({ section, ...sectionProps }: SectionContainerP
               [--foreground-lighter:var(--foreground-lighter-tetradic-1)]
               [--foreground:var(--foreground-tetradic-1)]
               [--muted-foreground:var(--muted-foreground-tetradic-1)]
-              print:in-[.hide-section-my-journey-in-print]:hidden
             `,
           section === Section.PublicProjects &&
             `
@@ -46,7 +50,6 @@ export function SectionContainer({ section, ...sectionProps }: SectionContainerP
               [--foreground-lighter:var(--foreground-lighter-tetradic-2)]
               [--foreground:var(--foreground-tetradic-2)]
               [--muted-foreground:var(--muted-foreground-tetradic-2)]
-              print:in-[.hide-section-public-projects-in-print]:hidden
             `,
           section === Section.TechStack &&
             `
@@ -57,7 +60,6 @@ export function SectionContainer({ section, ...sectionProps }: SectionContainerP
               [--foreground-lighter:var(--foreground-lighter-tetradic-3)]
               [--foreground:var(--foreground-tetradic-3)]
               [--muted-foreground:var(--muted-foreground-tetradic-3)]
-              print:in-[.hide-section-tech-stack-in-print]:hidden
             `,
           sectionProps.className,
         )}
@@ -67,7 +69,6 @@ export function SectionContainer({ section, ...sectionProps }: SectionContainerP
             className="
               grid w-full grid-cols-[1fr_auto_1fr] items-center justify-center
               gap-8 text-center
-              print:grid-cols-1
             "
           >
             <SectionTitleLine side="left" />
@@ -98,10 +99,7 @@ function SectionTitleLine({ side }: { side: 'left' | 'right' }) {
       as="span"
       rounding={2}
       className={cn(
-        `
-          h-0.5 w-full rounded-sm bg-foreground/50
-          print:hidden
-        `,
+        'h-0.5 w-full rounded-sm bg-foreground/50',
         side === 'left' && 'origin-right',
         side === 'right' && 'origin-left',
       )}

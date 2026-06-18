@@ -1,6 +1,7 @@
 {
   "common": {
-    "close": "Close"
+    "close": "Close",
+    "version": "Version"
   },
   "header": {
     "printOrDownload": "Print or download",

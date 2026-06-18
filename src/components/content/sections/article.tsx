@@ -27,15 +27,16 @@ export function Article({ articleKey, className, ...props }: ArticleProps) {
       className={cn(
         `
           relative flex w-full scroll-mt-8 flex-col gap-3 overflow-hidden
-          rounded-xl border-border/40 p-3
-          not-print:border-2 not-print:shadow-xl
+          rounded-xl border-2 border-border/40 p-3 shadow-xl
           3xl:duration-0
         `,
-        `
-          bg-linear-150 from-background/30 via-background/60 to-background/30
-          bg-repeat
-          print:bg-none!
-        `,
+        `bg-background-lighter`,
+        //TODO: cleanup
+        // `
+        //   bg-linear-150 from-background/30 via-background/60 to-background/30
+        //   bg-repeat
+        //
+        // `,
         section === Section.MyJourney &&
           `
             border-foreground-tetradic-1/40 from-background-tetradic-1/30
@@ -59,18 +60,12 @@ export function Article({ articleKey, className, ...props }: ArticleProps) {
           `,
         className,
       )}
-      style={{
-        background: 'linear-gradient(var(--tw-gradient-stops)), url(/img/noise.png)',
-        backgroundRepeat: 'repeat',
-        backgroundPosition: '0 0',
-      }}
     >
       <div
         className="
           pointer-events-none absolute inset-0 bg-radial-[circle_at_50%_38.2%]
           from-foreground-lighter/50 via-foreground-lighter/25 via-25%
           to-black/40 bg-fixed bg-center bg-no-repeat mix-blend-overlay
-          print:hidden
         "
       />
       {props.children}

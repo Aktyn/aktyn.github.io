@@ -121,7 +121,6 @@ export function Journey({ ref, ...props }: IntroProps) {
                       icon="Help"
                       className="
                         inline size-3.5 align-super text-muted-foreground
-                        print:hidden
                       "
                     />
                   </b>
@@ -160,13 +159,7 @@ export function Journey({ ref, ...props }: IntroProps) {
           }
           items={freeTimeProjectsTimelineItems}
         />
-        <div
-          data-entry-animation-type="fade-in"
-          className="
-            text-sm text-muted-foreground
-            print:hidden
-          "
-        >
+        <div data-entry-animation-type="fade-in" className="text-sm text-muted-foreground">
           {t('journey.projects.moreDetails')}
         </div>
       </Article>

@@ -80,7 +80,6 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
         min-h-header w-full max-w-screen flex-row flex-wrap items-center
         justify-between p-2 delay-1000
         *:pointer-events-auto
-        print:hidden
       "
     >
       <HeaderSection data-entry-animation-type="from-left" className="mr-auto">

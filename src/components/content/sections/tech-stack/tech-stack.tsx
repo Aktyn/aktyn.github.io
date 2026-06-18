@@ -12,13 +12,12 @@ export function TechStack() {
   const techStackInfo = useTechStackInfo()
 
   return (
-    <SectionContainer section={Section.TechStack} className="print:gap-0">
+    <SectionContainer section={Section.TechStack}>
       {techStackCategories.map((category) => (
-        <Article key={category} articleKey={category} className="print:gap-0">
+        <Article key={category} articleKey={category}>
           <div
             className="
               -m-3 mb-0 flex flex-col items-center gap-2 bg-background/40 p-3
-              print:gap-0
             "
           >
             <h4 data-entry-animation-type="zoom-in" className="text-lg font-semibold">
@@ -39,7 +38,6 @@ export function TechStack() {
                 className="
                   text-center text-xs leading-tight font-medium tracking-wide
                   text-balance whitespace-pre-wrap text-muted-foreground
-                  print:hidden
                 "
               >
                 {techStackInfo[category].description2}
@@ -49,9 +47,7 @@ export function TechStack() {
           <div
             className="
               grid items-stretch gap-4
-              md:grid-cols-[repeat(auto-fit,minmax(calc(var(--spacing)*112),1fr))]
-              print:grid-cols-2 print:justify-center
-              print:lg:grid-cols-3
+              md:grid-cols-[repeat(auto-fit,minmax(--spacing(112),1fr))]
             "
           >
             {techStackInfo[category].stackGroups.map((stackGroup) => (
@@ -77,13 +73,11 @@ export function TechStackGroup({ title, stack, ...divProps }: StackGroupProps) {
       className={cn(
         `
           flex max-w-full flex-col items-center gap-2
-          not-print:not-data-[entry-animation=entered]:scale-120
-          print:gap-0
+          not-data-[entry-animation=entered]:scale-120
         `,
         `
-          rounded-lg border-foreground/20 bg-background-lighter/30
-          not-print:border not-print:p-2 not-print:shadow-lg
-          print:items-start
+          rounded-lg border border-foreground/20 bg-background-lighter p-2
+          shadow-lg
         `,
         divProps.className,
       )}
@@ -91,25 +85,17 @@ export function TechStackGroup({ title, stack, ...divProps }: StackGroupProps) {
       {title && (
         <p className="text-sm font-semibold">
           {title}
-          <span className="not-print:hidden">:</span>
+          <span className="hidden">:</span>
         </p>
       )}
       <div
         className="
-          inline-flex max-w-full flex-row items-center justify-center gap-2
-          overflow-hidden
-          not-print:flex-wrap
+          inline-flex max-w-full flex-row flex-wrap items-center justify-center
+          gap-2 overflow-hidden
         "
       >
         {stack.map((tech) => (
-          <TechBadge
-            key={tech}
-            tech={tech}
-            className="
-              self-center text-base
-              print:self-start print:text-xs
-            "
-          />
+          <TechBadge key={tech} tech={tech} className="self-center text-base" />
         ))}
       </div>
       {divProps.children}

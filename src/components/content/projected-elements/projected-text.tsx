@@ -1,6 +1,7 @@
 import {
   Fragment,
   useCallback,
+  useContext,
   useImperativeHandle,
   useRef,
   type ComponentPropsWithoutRef,
@@ -11,6 +12,7 @@ import type { WebScene } from '~/graphics/web-scene'
 import { omit } from '~/lib/utils'
 import type { ProjectedComponentProps } from '../content-helpers'
 import { useProjectedSceneObject } from '../useProjectedSceneObject'
+import { SceneContext } from '../scene-context'
 
 const defaultFontSize = 16
 const defaultFontWeight: FontWeight = 'medium'
@@ -27,6 +29,26 @@ export function ProjectedText<As extends ElementType = 'span'>({
   splitWords = true,
   ...props
 }: ProjectedTextProps<As>) {
+  const { webScene } = useContext(SceneContext)
+
+  // Fallback to simple span element in no-webgl mode
+  if (!webScene) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { fontSize, fontWeight, ref, as, lowPriority, ...spanProps } = props
+    return (
+      <span
+        {...spanProps}
+        style={{
+          fontSize: `${fontSize ?? defaultFontSize}px`,
+          fontWeight: fontWeightValues[fontWeight ?? defaultFontWeight],
+          ...spanProps.style,
+        }}
+      >
+        {text}
+      </span>
+    )
+  }
+
   const words = splitWords ? text.split(' ') : [text]
 
   return words.map((word, index) => (

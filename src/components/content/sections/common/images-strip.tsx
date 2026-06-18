@@ -27,7 +27,6 @@ export default function ImagesStrip({ images, altPrefix, ambientOpacity }: Image
             cursor-pointer transition-[scale] ease-out
             hover:scale-110
             max-md:max-h-46
-            print:in-[.hide-images-in-print]:hidden
           "
           onClick={(event) => {
             setOpenGallery(true)

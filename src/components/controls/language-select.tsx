@@ -4,6 +4,7 @@ import { SvgIcon } from '~/icons/material-symbol-icons'
 import { cn } from '~/lib/utils'
 
 const options = [
+  //TODO: use real icons since the unicode frags are not visibile in all environments
   { value: 'en', label: '🇬🇧 EN' },
   { value: 'pl', label: '🇵🇱 PL' },
 ]
@@ -22,7 +23,6 @@ export function LanguageSelect(props: ComponentProps<'div'>) {
           relative flex flex-row items-center self-stretch rounded-lg border
           border-foreground/20 bg-transparent text-sm font-semibold
           text-foreground transition-colors
-          print:hidden
         `,
         open
           ? 'border-foreground-complementary'

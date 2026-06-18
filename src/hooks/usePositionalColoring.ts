@@ -93,7 +93,6 @@ export function usePositionalColoring(targetRef: RefObject<HTMLDivElement | null
 
         webScene.setSunPosition(factor)
       } else {
-        // targetElement.style.backgroundColor = `color-mix(in oklch, oklch(var(${closestSections[0].colorVar})) ${closestSections[0].factor * 100}%, oklch(var(${closestSections[1].colorVar})) ${closestSections[1].factor * 100}%)`
         const mappedFactor =
           closestSections[1].factor / (closestSections[0].factor + closestSections[1].factor)
         const visualOklch = Array.from({ length: 3 }).map((_, i) =>

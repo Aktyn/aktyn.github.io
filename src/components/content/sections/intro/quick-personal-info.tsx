@@ -6,6 +6,7 @@ import { cn } from '~/lib/utils'
 import { ProjectedIcon } from '../../projected-elements/projected-icon'
 import { ProjectedText } from '../../projected-elements/projected-text'
 import { useTranslation } from 'react-i18next'
+import { Separator } from '~/components/common/separator'
 
 type QuickPersonalInfoProps = {
   experienceStartDate: Date
@@ -52,7 +53,6 @@ export function QuickPersonalInfo({
             flex flex-row items-center gap-1 px-1! text-xs transition-colors
             hover:fill-foreground-complementary
             hover:text-foreground-complementary hover:no-underline
-            print:hidden
           "
         >
           <ProjectedIcon
@@ -83,12 +83,15 @@ export function QuickPersonalInfo({
         </TooltipTrigger>
         <TooltipContent
           className="
-            grid grid-cols-[auto_auto] items-center justify-center gap-x-1
-            text-left text-sm
+            grid grid-flow-col grid-cols-[1fr_auto_1fr] grid-rows-2 items-center
+            justify-center gap-x-4 text-center text-sm
           "
         >
-          {t('intro.quickInfo.polish')}:<b>{t('intro.quickInfo.native')}</b>
-          {t('intro.quickInfo.english')}:<b>{t('names.c1')}</b>
+          <span>{t('intro.quickInfo.polish')}</span>
+          <b>{t('intro.quickInfo.native')}</b>
+          <Separator className="col-2 row-span-2" orientation="vertical" />
+          <span>{t('intro.quickInfo.english')}</span>
+          <b>{t('names.c1')}</b>
         </TooltipContent>
       </Tooltip>
       <Tooltip>
@@ -128,9 +131,8 @@ export function QuickPersonalInfo({
               splitWords={false}
               fontSize={14}
               lowPriority
-              className="print:hidden"
             />
-            <span className="not-print:hidden">{format(birthDate, 'dd.MM.yyyy')}</span>
+            <span className="hidden">{format(birthDate, 'dd.MM.yyyy')}</span>
           </QuickInfoLabel>
         </TooltipTrigger>
         <TooltipContent className="text-sm">{format(birthDate, 'dd.MM.yyyy')}</TooltipContent>

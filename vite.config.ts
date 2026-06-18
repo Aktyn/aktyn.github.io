@@ -3,6 +3,7 @@ import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 import babel from '@rolldown/plugin-babel'
+import pkg from './package.json'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -20,13 +21,14 @@ export default defineConfig({
     },
   },
   build: {
+    chunkSizeWarningLimit: 1100,
     rolldownOptions: {
       output: {
         codeSplitting: {
           groups: [
             {
               name: 'react-vendor',
-              test: /node_modules[\\/]react/,
+              test: /node_modules[\\\\/]react/,
               priority: 20,
             },
             {
@@ -46,6 +48,10 @@ export default defineConfig({
         comments: false
       }
     }
+  },
+  define: {
+    global: "window",
+    'import.meta.env.VITE_APP_VERSION': JSON.stringify(pkg.version),
   },
   //@ts-expect-error test key doesn't exist in UserConfigExport
   test: {

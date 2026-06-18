@@ -1,24 +1,24 @@
-import { useContext, useRef } from 'react'
+import { useContext, useEffect, useRef } from 'react'
+import { flushSync } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { ContentLayer } from './components/content/content-layer'
 import { SceneContext, SceneProvider } from './components/content/scene-context'
+import { CV } from './components/cv'
 
 export function App() {
   const sceneContainerRef = useRef<HTMLDivElement>(null)
 
+  useCvPrinting()
+
   return (
     <div
+      //TODO: remove all print related classes from every nested component since the entire tree is now hidden in print mode
       className="
-        relative
-        not-print:h-dvh not-print:w-dvw not-print:overflow-hidden
+        relative h-dvh w-dvw overflow-hidden
+        print:hidden
       "
     >
-      <div
-        ref={sceneContainerRef}
-        className="
-          pointer-events-none absolute inset-0
-          print:hidden
-        "
-      />
+      <div ref={sceneContainerRef} className="pointer-events-none absolute inset-0" />
 
       <SceneProvider containerRef={sceneContainerRef}>
         <EdgeMask />
@@ -38,10 +38,7 @@ function EdgeMask() {
 
   return (
     <div
-      className="
-        absolute inset-0 size-full
-        print:hidden
-      "
+      className="absolute inset-0 size-full"
       style={{
         backgroundImage: `linear-gradient(
               90deg,
@@ -55,4 +52,42 @@ function EdgeMask() {
       }}
     />
   )
+}
+
+function useCvPrinting() {
+  useEffect(() => {
+    const printContainerID = 'print-container'
+
+    const beforePrintHandler = () => {
+      const printContainer = document.createElement('div')
+      printContainer.id = printContainerID
+      document.body.appendChild(printContainer)
+      const virtualDiv = document.createElement('div')
+      const root = createRoot(virtualDiv)
+      flushSync(() => {
+        root.render(
+          <div id={printContainerID}>
+            <CV />
+          </div>,
+        )
+      })
+      printContainer.innerHTML = virtualDiv.innerHTML
+    }
+    const afterPrintHandler = () => {
+      const container = document.getElementById(printContainerID)
+      if (container) {
+        container.remove()
+      } else {
+        console.warn(`Could not find element with id "${printContainerID}"`)
+      }
+    }
+
+    window.addEventListener('beforeprint', beforePrintHandler)
+    window.addEventListener('afterprint', afterPrintHandler)
+
+    return () => {
+      window.removeEventListener('beforeprint', beforePrintHandler)
+      window.removeEventListener('afterprint', afterPrintHandler)
+    }
+  }, [])
 }

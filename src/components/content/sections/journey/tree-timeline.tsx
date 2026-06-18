@@ -20,7 +20,7 @@ export function TreeTimeline({ header, items, ...divProps }: TreeTimelineProps) 
         className="
           bg-transparent bg-linear-to-r from-transparent via-foreground/20
           to-transparent
-          max-md:via-[calc(var(--spacing)*2)]
+          max-md:via-[--spacing(2)]
           md:max-w-64 md:via-25%
         "
       />
@@ -45,7 +45,7 @@ export function TreeTimeline({ header, items, ...divProps }: TreeTimelineProps) 
             data-entry-animation-type="from-right"
             className="
               flex flex-row items-center justify-stretch gap-0
-              not-print:not-data-[entry-animation=entered]:translate-x-10
+              not-data-[entry-animation=entered]:translate-x-10
               *:last:flex-0 *:last:grow
               max-md:flex-wrap
             "

@@ -118,7 +118,6 @@ export function ContentLayer() {
             from-[color-mix(in_oklch,var(--color-background-visual)_80%,var(--color-red-400))]
             to-[color-mix(in_oklch,var(--color-background-visual)_70%,var(--color-blue-600))]
             mix-blend-color
-            print:hidden
           "
         />
       )}
@@ -127,10 +126,9 @@ export function ContentLayer() {
         id={contentViewportID}
         className={cn(
           `
-            prettier-plugin-tailwindcss pointer-events-auto relative inset-0
-            flex w-dvw max-w-dvw flex-col
-            not-print:absolute not-print:h-dvh not-print:max-h-dvh
-            not-print:text-shadow-background/20 not-print:text-shadow-md
+            prettier-plugin-tailwindcss pointer-events-auto absolute inset-0
+            flex h-dvh max-h-dvh w-dvw max-w-dvw flex-col
+            text-shadow-background/20 text-shadow-md
           `,
           !webScene &&
             `
@@ -145,7 +143,6 @@ export function ContentLayer() {
               absolute inset-0 size-full bg-radial-[circle_at_50%_13%]
               from-orange-100 via-orange-200/50 via-20% to-transparent to-70%
               opacity-40 mix-blend-plus-lighter
-              print:hidden
             "
           >
             <HexBackground />
@@ -154,13 +151,10 @@ export function ContentLayer() {
 
         <Header ref={headerRef} />
         <ScrollArea
-          className="
-            flex flex-col items-center
-            not-print:size-full
-          "
+          className="flex size-full flex-col items-center"
           contentContainerProps={{
             className:
-              'print:mask-none! float-none w-full *:grid! max-3xl:*:grid-cols-1 min-7xl:*:grid-cols-1 print:*:grid-cols-1 *:grid-cols-[1fr_auto_1fr]',
+              'float-none w-full *:grid! max-3xl:*:grid-cols-1 min-7xl:*:grid-cols-1  *:grid-cols-[1fr_auto_1fr]',
             style: {
               maskImage: `linear-gradient(to bottom, 
                   #fff4,
@@ -179,7 +173,7 @@ export function ContentLayer() {
             <div
               className="
                 flex flex-col items-center justify-start
-                not-print:*:min-h-dvh
+                *:min-h-dvh
               "
             >
               <Intro ref={introRef} />
@@ -189,8 +183,7 @@ export function ContentLayer() {
               ref={sectionsContainerRef}
               className="
                 float-none inline-flex max-w-dvw flex-col items-stretch gap-16
-                not-print:pb-8
-                print:mt-2 print:flex-col-reverse print:gap-8
+                pb-8
               "
             >
               <Journey ref={journeyRef} />
@@ -207,7 +200,6 @@ export function ContentLayer() {
         className="
           pointer-events-none absolute inset-x-0 bottom-4 z-20 flex
           origin-bottom flex-row justify-center pt-48 text-center delay-2000
-          print:hidden
         "
         data-entry-animation-type="from-top"
       >

@@ -93,7 +93,6 @@ export function Sidebar({ sectionsContainerRef, ...props }: SidebarProps) {
           overflow-hidden
           max-4xl:justify-self-start
           4xl:justify-end
-          print:hidden
         `,
         props.className,
       )}

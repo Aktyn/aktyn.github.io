@@ -1,6 +1,7 @@
 {
   "common": {
-    "close": "Zamknij"
+    "close": "Zamknij",
+    "version": "Wersja"
   },
   "header": {
     "printOrDownload": "Drukuj lub pobierz",

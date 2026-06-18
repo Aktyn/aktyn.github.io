@@ -58,7 +58,6 @@ export function ScrollArea({
           `
             opacity-0 transition-[translate,opacity] duration-400
             data-[state=visible]:opacity-100
-            print:hidden
           `,
           orientation === 'vertical' &&
             `
@@ -78,10 +77,8 @@ export function ScrollArea({
               rounded-full bg-foreground/50 transition-colors
               hover:bg-foreground-complementary
             `,
-            orientation === 'vertical' &&
-              '[--radix-scroll-area-thumb-width:calc(var(--spacing)*1.5)]',
-            orientation === 'horizontal' &&
-              '[--radix-scroll-area-thumb-height:calc(var(--spacing)*1.5)]',
+            orientation === 'vertical' && '[--radix-scroll-area-thumb-width:--spacing(1.5)]',
+            orientation === 'horizontal' && '[--radix-scroll-area-thumb-height:--spacing(1.5)]',
           )}
         />
       </ScrollAreaPrimitive.Scrollbar>
