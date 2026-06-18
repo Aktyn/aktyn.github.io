@@ -73,7 +73,7 @@ export function TechStackGroup({ title, stack, ...divProps }: StackGroupProps) {
       className={cn(
         `
           flex max-w-full flex-col items-center gap-2
-          not-data-[entry-animation=entered]:scale-120
+          not-data-[entry-animation=entered]:scale-80
         `,
         `
           rounded-lg border border-foreground/20 bg-background-lighter p-2

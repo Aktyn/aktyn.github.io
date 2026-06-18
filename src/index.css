@@ -263,8 +263,6 @@
   @media print {
     @page {
       margin: 0;
-      /* margin-top: 0; */
-      /* margin-bottom: 0; */
     }
 
     html,
@@ -281,57 +279,56 @@
   }
 
   @media not print {
-    /*TODO: restore and optimize animations */
-
     #print-container {
       @apply hidden;
     }
 
-    /* [data-entry-animation], */
-    /* [data-entry-animation-type] { */
-    /*   @apply duration-spring ease-spring; */
-    /* } */
-    /**/
-    /* [data-entry-animation], */
-    /* [data-entry-animation-type='default'] [data-entry-animation-type='zoom-in'] { */
-    /*   @apply scale-golden opacity-0 transition-[opacity,scale] data-[entry-animation=entered]:scale-100 data-[entry-animation=entered]:opacity-100; */
-    /* } */
-    /**/
-    /* [data-entry-animation-type='from-left'] { */
-    /*   @apply -translate-x-24; */
-    /* } */
-    /* [data-entry-animation-type='from-right'] { */
-    /*   @apply translate-x-24; */
-    /* } */
-    /* [data-entry-animation-type='from-top'] { */
-    /*   @apply -translate-y-24; */
-    /* } */
-    /* [data-entry-animation-type='from-bottom'] { */
-    /*   @apply translate-y-24; */
-    /* } */
-    /**/
-    /* [data-entry-animation-type='from-left'], */
-    /* [data-entry-animation-type='from-right'], */
-    /* [data-entry-animation-type='from-top'], */
-    /* [data-entry-animation-type='from-bottom'] { */
-    /*   @apply opacity-0 transition-[opacity,translate] data-[entry-animation=entered]:translate-x-0 data-[entry-animation=entered]:translate-y-0 data-[entry-animation=entered]:opacity-100; */
-    /* } */
-    /**/
-    /* [data-entry-animation-type='zoom-in'] { */
-    /*   @apply scale-x-golden-inverse scale-y-golden-inverse; */
-    /* } */
-    /* [data-entry-animation-type='zoom-in-x'] { */
-    /*   @apply scale-x-0; */
-    /* } */
-    /**/
-    /* [data-entry-animation-type='zoom-in'], */
-    /* [data-entry-animation-type='zoom-in-x'] { */
-    /*   @apply opacity-0 transition-[opacity,scale] data-[entry-animation=entered]:scale-x-100 data-[entry-animation=entered]:scale-y-100 data-[entry-animation=entered]:opacity-100; */
-    /* } */
-    /**/
-    /* [data-entry-animation-type='fade-in'] { */
-    /*   @apply opacity-0 transition-opacity duration-1000 ease-out data-[entry-animation=entered]:opacity-100; */
-    /* } */
+    [data-entry-animation],
+    [data-entry-animation-type] {
+      /* @apply duration-spring ease-spring; */
+      @apply duration-500 ease-out;
+    }
+    
+    [data-entry-animation],
+    [data-entry-animation-type='default'] [data-entry-animation-type='zoom-in'] {
+      @apply scale-golden opacity-0 transition-[opacity,scale] data-[entry-animation=entered]:scale-100 data-[entry-animation=entered]:opacity-100;
+    }
+
+    [data-entry-animation-type='from-left'] {
+      @apply -translate-x-24;
+    }
+    [data-entry-animation-type='from-right'] {
+      @apply translate-x-24;
+    }
+    [data-entry-animation-type='from-top'] {
+      @apply -translate-y-24;
+    }
+    [data-entry-animation-type='from-bottom'] {
+      @apply translate-y-24;
+    }
+
+    [data-entry-animation-type='from-left'],
+    [data-entry-animation-type='from-right'],
+    [data-entry-animation-type='from-top'],
+    [data-entry-animation-type='from-bottom'] {
+      @apply opacity-0 transition-[opacity,translate] data-[entry-animation=entered]:translate-x-0 data-[entry-animation=entered]:translate-y-0 data-[entry-animation=entered]:opacity-100;
+    }
+
+    [data-entry-animation-type='zoom-in'] {
+      @apply scale-x-golden-inverse scale-y-golden-inverse;
+    }
+    [data-entry-animation-type='zoom-in-x'] {
+      @apply scale-x-0;
+    }
+
+    [data-entry-animation-type='zoom-in'],
+    [data-entry-animation-type='zoom-in-x'] {
+      @apply opacity-0 transition-[opacity,scale] data-[entry-animation=entered]:scale-x-100 data-[entry-animation=entered]:scale-y-100 data-[entry-animation=entered]:opacity-100;
+    }
+
+    [data-entry-animation-type='fade-in'] {
+      @apply opacity-0 transition-opacity data-[entry-animation=entered]:opacity-100;
+    }
   }
 }
 

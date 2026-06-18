@@ -1,5 +1,5 @@
 import { animate, type JSAnimation, onScroll, stagger } from 'animejs'
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useEntryAnimations } from '~/hooks/useEntryAnimations'
 import { contentViewportID, mainHeaderID } from '~/lib/consts'
@@ -26,6 +26,8 @@ export function ContentLayer() {
   const introRef = useRef<HTMLDivElement | null>(null)
   const journeyRef = useRef<HTMLDivElement | null>(null)
   const sectionsContainerRef = useRef<HTMLDivElement | null>(null)
+
+  const [enableSmoothScrolling, setEnableSmoothScrolling] = useState(false)
 
   // Scroll linked animations
   useEffect(() => {
@@ -79,6 +81,8 @@ export function ContentLayer() {
       })
       animations.push(scrollDownButtonAnimation)
     }
+
+    setEnableSmoothScrolling(true)
 
     return () => {
       animations.forEach((anim) => anim.revert())
@@ -151,6 +155,7 @@ export function ContentLayer() {
 
         <Header ref={headerRef} />
         <ScrollArea
+          smoothScrolling={enableSmoothScrolling}
           className="flex size-full flex-col items-center"
           contentContainerProps={{
             className:

@@ -1,8 +1,8 @@
 import { type RefObject, useEffect } from 'react'
 
-const STAGGER_DELAY = 200
+const STAGGER_DELAY = 100
 /** Delay after refreshing the page in the same session */
-const CONSEQUENTIAL_STAGGER_DELAY = 100
+const CONSEQUENTIAL_STAGGER_DELAY = 50
 const entryAnimationAttributes = ['data-entry-animation', 'data-entry-animation-type']
 const enteredAttributeValue = 'entered' as const
 
@@ -33,14 +33,18 @@ export function useEntryAnimations(rootRef: RefObject<HTMLElement | null>) {
         return
       }
 
-      const currentElement = elementsQueue.sort(largestFirst).shift() // get largest element
+      const currentElement = elementsQueue.shift()
       if (!currentElement) {
         return
       }
 
       currentElement?.setAttribute('data-entry-animation', 'entered')
 
-      observer?.unobserve(currentElement)
+      if (observer) {
+        observer.unobserve(currentElement)
+      } else {
+        console.warn('IntersectionObserver is not initialized')
+      }
 
       staggerTimeout = setTimeout(() => {
         staggerTimeout = null

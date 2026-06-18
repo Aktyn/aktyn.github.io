@@ -80,7 +80,7 @@ function ProjectCard({ project, single }: ProjectCardProps) {
       className={cn(
         `
           inline-grid grid-cols-1 gap-4
-          not-data-[entry-animation=entered]:scale-120
+          not-data-[entry-animation=entered]:scale-80
           md:min-h-80 md:grid-cols-[1fr_auto]
         `,
         !single &&

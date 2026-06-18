@@ -3,11 +3,13 @@ import { type ComponentPropsWithRef, useEffect, useRef, type ComponentProps } fr
 import { cn } from '~/lib/utils'
 
 type ScrollAreaProps = ComponentProps<typeof ScrollAreaPrimitive.Root> & {
+  smoothScrolling?: boolean
   orientation?: 'horizontal' | 'vertical' | null
   contentContainerProps?: ComponentPropsWithRef<'div'>
 }
 
 export function ScrollArea({
+  smoothScrolling = true,
   orientation = 'vertical',
   children,
   contentContainerProps = {},
@@ -47,7 +49,7 @@ export function ScrollArea({
       <ScrollAreaPrimitive.Viewport
         {...contentContainerProps}
         ref={viewportRef}
-        className={cn('scroll-smooth', contentContainerProps.className)}
+        className={cn(smoothScrolling && 'scroll-smooth', contentContainerProps.className)}
       >
         {children}
       </ScrollAreaPrimitive.Viewport>
