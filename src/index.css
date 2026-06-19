@@ -246,6 +246,7 @@
   html,
   body {
     @apply m-0 bg-background-visual p-0;
+    font-display: swap;
   }
 
   body {

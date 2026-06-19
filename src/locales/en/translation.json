@@ -3,6 +3,9 @@
     "close": "Close",
     "version": "Version"
   },
+  "error": {
+    "imageNotFound": "Image not found"
+  },
   "header": {
     "printOrDownload": "Print or download",
     "cv": "CV",

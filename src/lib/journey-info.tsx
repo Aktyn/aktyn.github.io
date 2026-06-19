@@ -1,4 +1,5 @@
 import type { ComponentProps } from 'react'
+import { type Images } from '~/components/content/sections/common/images-strip'
 import type { SvgIcon } from '~/icons/material-symbol-icons'
 
 export enum JourneySection {
@@ -13,15 +14,36 @@ export const journeyInfo = {
     thumbnail: '/img/quick-access-thumbnails/diploma.webp',
     icon: 'School',
     images: [
-      '/img/journey/diploma.webp',
+      { full: '/img/journey/diploma.webp', preview: '/img/journey/diploma-preview.webp' },
       // --------------------------------------------------
-      '/img/computer-graphics/table-tennis.webp',
-      '/img/computer-graphics/psyduck.webp',
-      '/img/computer-graphics/fafik_2.webp',
-      '/img/computer-graphics/old_ball.webp',
-      '/img/computer-graphics/hairy-logo-v1-postprocess.webp',
-      '/img/computer-graphics/neon_logo_wallpaper.webp',
-      '/img/computer-graphics/sniadanko.webp',
+      {
+        full: '/img/computer-graphics/table-tennis.webp',
+        preview: '/img/computer-graphics/table-tennis-preview.webp',
+      },
+      {
+        full: '/img/computer-graphics/psyduck.webp',
+        preview: '/img/computer-graphics/psyduck-preview.webp',
+      },
+      {
+        full: '/img/computer-graphics/fafik_2.webp',
+        preview: '/img/computer-graphics/fafik_2-preview.webp',
+      },
+      {
+        full: '/img/computer-graphics/old_ball.webp',
+        preview: '/img/computer-graphics/old_ball-preview.webp',
+      },
+      {
+        full: '/img/computer-graphics/hairy-logo-v1-postprocess.webp',
+        preview: '/img/computer-graphics/hairy-logo-v1-postprocess-preview.webp',
+      },
+      {
+        full: '/img/computer-graphics/neon_logo_wallpaper.webp',
+        preview: '/img/computer-graphics/neon_logo_wallpaper-preview.webp',
+      },
+      {
+        full: '/img/computer-graphics/sniadanko.webp',
+        preview: '/img/computer-graphics/sniadanko-preview.webp',
+      },
     ],
   },
   [JourneySection.WorkExperience]: {
@@ -34,13 +56,18 @@ export const journeyInfo = {
     title: 'Free time projects',
     thumbnail: '/img/quick-access-thumbnails/web-scraper.webp',
     icon: 'PersonHeart',
-    images: ['/img/journey/graphics-aspirations.webp'],
+    images: [
+      {
+        full: '/img/journey/graphics-aspirations.webp',
+        preview: '/img/journey/graphics-aspirations-preview.webp',
+      },
+    ],
   },
 } as const satisfies {
   [key in JourneySection]: {
     title: string
     thumbnail: string
-    images: string[]
+    images: Images
     icon: ComponentProps<typeof SvgIcon>['icon'] | { svgPath: string }
   }
 }

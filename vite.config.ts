@@ -3,7 +3,7 @@ import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 import babel from '@rolldown/plugin-babel'
-import pkg from './package.json'
+import pkg from './package.json' with { type: 'json' }
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -53,7 +53,7 @@ export default defineConfig({
     global: "window",
     'import.meta.env.VITE_APP_VERSION': JSON.stringify(pkg.version),
   },
-  //@ts-expect-error test key doesn't exist in UserConfigExport
+  //@ts-expect-error incomplete types
   test: {
     environment: 'jsdom',
   },

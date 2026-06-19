@@ -14,7 +14,7 @@ export function GraphicsAspirations() {
   return (
     <>
       <AmbientImage
-        src={graphicsAspirationsSrc}
+        src={graphicsAspirationsSrc.preview ?? graphicsAspirationsSrc.full}
         alt="graphics aspirations"
         className="
           mr-auto h-32 cursor-pointer transition-[scale]
@@ -33,7 +33,7 @@ export function GraphicsAspirations() {
             open={openGallery}
             onClose={() => setOpenGallery(false)}
             sourceBounds={sourceBounds}
-            images={[graphicsAspirationsSrc]}
+            images={[graphicsAspirationsSrc.full]}
             index={0}
             onIndexChange={() => void 0}
           />

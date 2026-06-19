@@ -149,7 +149,7 @@ export function ContentLayer() {
               opacity-40 mix-blend-plus-lighter
             "
           >
-            <HexBackground />
+            <HexBackground interactive />
           </div>
         )}
 

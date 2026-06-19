@@ -1,7 +1,41 @@
 import { useEffect, useRef } from 'react'
-import { clamp } from '~/lib/utils'
+import { clamp, cn } from '~/lib/utils'
 
-export function HexBackground() {
+type HexDigit =
+  | '0'
+  | '1'
+  | '2'
+  | '3'
+  | '4'
+  | '5'
+  | '6'
+  | '7'
+  | '8'
+  | '9'
+  | 'a'
+  | 'b'
+  | 'c'
+  | 'd'
+  | 'e'
+  | 'f'
+
+type HexBackgroundProps = {
+  className?: string
+  interactive?: boolean
+  /** Outer radius of hexagon */
+  hexRadius?: number
+  seed?: number
+  /** 2-digit hex value for alpha channel */
+  paletteOpacity?: `${HexDigit}${HexDigit}`
+}
+
+export function HexBackground({
+  className,
+  interactive = false,
+  hexRadius = 48,
+  seed = 10_000,
+  paletteOpacity = '05',
+}: HexBackgroundProps) {
   const canvasGrid = useRef<HTMLCanvasElement>(null)
   const canvasEffect = useRef<HTMLCanvasElement>(null)
 
@@ -9,7 +43,7 @@ export function HexBackground() {
     const canvasGridElement = canvasGrid.current
     const canvasEffectElement = canvasEffect.current
     const containerElement = canvasGridElement?.parentElement
-    if (!canvasGridElement || !canvasEffectElement || !containerElement) {
+    if (!canvasGridElement || !containerElement) {
       return
     }
 
@@ -17,41 +51,40 @@ export function HexBackground() {
     canvasGridElement.height = containerElement.clientHeight
 
     const ctxGrid = canvasGridElement.getContext('2d', { alpha: true, desynchronized: true })
-    const ctxEffect = canvasEffectElement.getContext('2d', { alpha: true, desynchronized: true })
-    if (!ctxGrid || !ctxEffect) {
+    const ctxEffect = canvasEffectElement?.getContext('2d', { alpha: true, desynchronized: true })
+    if (!ctxGrid) {
       return
     }
 
     const radiusRatio = 2 / Math.sqrt(3) // ratio of inner radius to outer radius of hexagon
-    const outerRadius = 48 //pixels
-    const innerRadius = outerRadius / radiusRatio
+    const innerRadius = hexRadius / radiusRatio
     const xStep = innerRadius * 2
-    const yStep = outerRadius * 1.5
+    const yStep = hexRadius * 1.5
     const fillPalette = [
-      '#ffffff05',
-      '#00000005',
-      '#ffaaaa05',
-      '#aaffaa05',
-      '#aaaaff05',
-      '#ffffaa05',
-      '#ffaaff05',
-      '#aaffff05',
+      `#ffffff${paletteOpacity}`,
+      `#000000${paletteOpacity}`,
+      `#ffaaaa${paletteOpacity}`,
+      `#aaffaa${paletteOpacity}`,
+      `#aaaaff${paletteOpacity}`,
+      `#ffffaa${paletteOpacity}`,
+      `#ffaaff${paletteOpacity}`,
+      `#aaffff${paletteOpacity}`,
     ]
 
-    const fillHex = (x: number, y: number, color: string, ctx = ctxGrid) => {
+    const fillHex = (x: number, y: number, color: string, ctx: CanvasRenderingContext2D) => {
       ctx.fillStyle = color
 
       ctx.beginPath()
       for (let i = 0; i < 6; i++) {
         const angle = (Math.PI / 3) * i
-        const vertexX = Math.sin(angle) * outerRadius
-        const vertexY = Math.cos(angle) * outerRadius
+        const vertexX = Math.sin(angle) * hexRadius
+        const vertexY = Math.cos(angle) * hexRadius
         ctx.lineTo(x + vertexX, y + vertexY)
       }
       ctx.fill()
     }
 
-    const drawGrid = (ctx = ctxGrid) => {
+    const drawGrid = (ctx: CanvasRenderingContext2D) => {
       const { width, height } = canvasGridElement
       ctx.clearRect(0, 0, width, height)
 
@@ -59,31 +92,31 @@ export function HexBackground() {
       ctx.lineWidth = 1
 
       ctx.beginPath()
-      for (let y = 0; y < height + outerRadius; y += yStep) {
+      for (let y = 0; y < height + hexRadius; y += yStep) {
         for (
           let x = Math.floor(y / yStep) % 2 === 0 ? innerRadius : 0;
           x < width + innerRadius;
           x += xStep
         ) {
-          ctx.moveTo(x, y + outerRadius)
+          ctx.moveTo(x, y + hexRadius)
           for (let i = 1; i <= 3; i++) {
             const angle = (Math.PI / 3) * i
-            const vertexX = Math.sin(angle) * outerRadius
-            const vertexY = Math.cos(angle) * outerRadius
+            const vertexX = Math.sin(angle) * hexRadius
+            const vertexY = Math.cos(angle) * hexRadius
             ctx.lineTo(x + vertexX, y + vertexY)
           }
         }
       }
       ctx.stroke()
 
-      for (let y = 0; y < height + outerRadius; y += yStep) {
+      for (let y = 0; y < height + hexRadius; y += yStep) {
         for (
           let x = Math.floor(y / yStep) % 2 === 0 ? innerRadius : 0;
           x < width + innerRadius;
           x += xStep
         ) {
           const index = Math.floor(x / xStep) + Math.floor(y / yStep) * Math.ceil(width / xStep)
-          if (hashInt(index + 10000) % 3 !== 0) {
+          if (hashInt(index + seed) % 3 !== 0) {
             continue
           }
 
@@ -104,11 +137,11 @@ export function HexBackground() {
     /** [x, y, width, height] where x,y is top-left corner */
     const effectBoundingBox = [0, 0, boxSize, boxSize] as [number, number, number, number]
 
-    const drawEffect = (centerX: number, centerY: number, ctx = ctxEffect) => {
+    const drawEffect = (centerX: number, centerY: number, ctx: CanvasRenderingContext2D) => {
       ctx.clearRect(...effectBoundingBox)
 
       const cx = centerX + innerRadius / 2
-      const cy = centerY + outerRadius / 2
+      const cy = centerY + hexRadius / 2
 
       const x =
         Math.floor(cx / xStep) * xStep + (Math.floor(cy / yStep) % 2 === 0 ? innerRadius : 0)
@@ -139,8 +172,8 @@ export function HexBackground() {
         )
 
         const angle2 = (Math.PI / 3) * i
-        const outerVertexX2 = Math.sin(angle2) * outerRadius * 3
-        const outerVertexY2 = Math.cos(angle2) * outerRadius * 3
+        const outerVertexX2 = Math.sin(angle2) * hexRadius * 3
+        const outerVertexY2 = Math.cos(angle2) * hexRadius * 3
         fillHex(
           x + outerVertexX2,
           y + outerVertexY2,
@@ -154,36 +187,47 @@ export function HexBackground() {
       const { width, height } = containerElement.getBoundingClientRect()
       canvasGridElement.width = width
       canvasGridElement.height = height
-      canvasEffectElement.width = width
-      canvasEffectElement.height = height
+      if (canvasEffectElement) {
+        canvasEffectElement.width = width
+        canvasEffectElement.height = height
+      }
 
-      drawGrid()
+      drawGrid(ctxGrid)
     }
 
     const mouseMoveHandler = (event: PointerEvent) => {
-      drawEffect(event.clientX, event.clientY)
+      if (ctxEffect) {
+        drawEffect(event.clientX, event.clientY, ctxEffect)
+      }
     }
 
     const resizeObserver = new ResizeObserver(resize)
     resizeObserver.observe(containerElement)
-    document.addEventListener('pointermove', mouseMoveHandler)
+    if (interactive) {
+      document.addEventListener('pointermove', mouseMoveHandler)
+    }
 
     return () => {
       resizeObserver.disconnect()
-      document.removeEventListener('pointermove', mouseMoveHandler)
+      if (interactive) {
+        document.removeEventListener('pointermove', mouseMoveHandler)
+      }
     }
-  }, [])
+  }, [hexRadius, interactive, paletteOpacity, seed])
 
   return (
     <div
-      className="
-        relative size-full animate-in overflow-hidden delay-1000 duration-1000
-        fill-mode-both fade-in
-        *:absolute *:inset-0
-      "
+      className={cn(
+        `
+          relative size-full animate-in overflow-hidden delay-1000 duration-1000
+          fill-mode-both fade-in
+          *:absolute *:inset-0
+        `,
+        className,
+      )}
     >
       <canvas ref={canvasGrid} />
-      <canvas ref={canvasEffect} />
+      {interactive && <canvas ref={canvasEffect} />}
     </div>
   )
 }

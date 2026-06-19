@@ -342,7 +342,7 @@ function NavButton({ direction, ...buttonProps }: NavButtonProps) {
           not-disabled:hover:bg-foreground/50
           disabled:fill-muted-foreground/50 disabled:opacity-50
         `,
-        direction === -1 && 'not-disabled:hover:*:-translate-x-[12.5%]',
+        direction === -1 && 'not-disabled:hover:*:translate-x-[-12.5%]',
         direction === 1 && 'not-disabled:hover:*:translate-x-[12.5%]',
         buttonProps.className,
       )}

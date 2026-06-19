@@ -3,6 +3,9 @@
     "close": "Zamknij",
     "version": "Wersja"
   },
+  "error": {
+    "imageNotFound": "Nie znaleziono obrazu"
+  },
   "header": {
     "printOrDownload": "Drukuj lub pobierz",
     "cv": "CV",

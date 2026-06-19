@@ -3,6 +3,7 @@ import type { SvgIcon } from '~/icons/material-symbol-icons'
 import type { techStack } from '~/lib/tech-stack'
 import type { ExtendArray } from '~/lib/types'
 import { useTranslation } from 'react-i18next'
+import type { Images } from '~/components/content/sections/common/images-strip'
 
 export enum ProjectsGroup {
   WebDevelopment = 'web-development',
@@ -15,7 +16,7 @@ export type ProjectSchema = {
   title: string
   description: ReactNode
   linkToGithubRepo: ExtendArray<`https://github.com/Aktyn/${string}`> | null
-  images: string[]
+  images: Images
   techStack?: Array<keyof typeof techStack>
 }
 
@@ -43,12 +44,12 @@ export function useProjectsGroupsInfo(): Record<ProjectsGroup, ProjectsGroupInfo
             description: t('projectsInfo.webDev.projects.in2rp.desc'),
             linkToGithubRepo: 'https://github.com/Aktyn/in2rp_homepage',
             images: [
-              '/img/websites/in2rp/1.webp',
-              '/img/websites/in2rp/2.webp',
-              '/img/websites/in2rp/3.webp',
-              '/img/websites/in2rp/4.webp',
-              '/img/websites/in2rp/5.webp',
-              '/img/websites/in2rp/6.webp',
+              { full: '/img/websites/in2rp/1.webp', preview: '/img/websites/in2rp/1-preview.webp' },
+              { full: '/img/websites/in2rp/2.webp', preview: '/img/websites/in2rp/2-preview.webp' },
+              { full: '/img/websites/in2rp/3.webp', preview: '/img/websites/in2rp/3-preview.webp' },
+              { full: '/img/websites/in2rp/4.webp', preview: '/img/websites/in2rp/4-preview.webp' },
+              { full: '/img/websites/in2rp/5.webp', preview: '/img/websites/in2rp/5-preview.webp' },
+              { full: '/img/websites/in2rp/6.webp', preview: '/img/websites/in2rp/6-preview.webp' },
             ],
             techStack: ['typescript', 'react', 'sass', 'webpack', 'express', 'mysql', 'discordjs'],
           },
@@ -56,21 +57,40 @@ export function useProjectsGroupsInfo(): Record<ProjectsGroup, ProjectsGroupInfo
             title: 'FiveM launcher',
             description: t('projectsInfo.webDev.projects.fivem.desc'),
             linkToGithubRepo: 'https://github.com/Aktyn/fivem-launcher',
-            images: ['/img/websites/fivem-launcher.webp'],
+            images: [
+              {
+                full: '/img/websites/fivem-launcher.webp',
+                preview: '/img/websites/fivem-launcher-preview.webp',
+              },
+            ],
             techStack: ['nodejs', 'electron', 'typescript', 'react', 'sass', 'webpack'],
           },
           {
             title: 'Project Paradise',
             description: t('projectsInfo.webDev.projects.paradise.desc'),
             linkToGithubRepo: 'https://github.com/Aktyn/ProjectParadise',
-            images: ['/img/websites/project-paradise.webp'],
+            images: [
+              {
+                full: '/img/websites/project-paradise.webp',
+                preview: '/img/websites/project-paradise-preview.webp',
+              },
+            ],
             techStack: ['typescript', 'react', 'sass', 'webpack'],
           },
           {
             title: 'Map POI',
             description: t('projectsInfo.webDev.projects.mapPoi.desc'),
             linkToGithubRepo: 'https://github.com/Aktyn/React-Map-POI',
-            images: ['/img/websites/map-poi/1.webp', '/img/websites/map-poi/2.webp'],
+            images: [
+              {
+                full: '/img/websites/map-poi/1.webp',
+                preview: '/img/websites/map-poi/1-preview.webp',
+              },
+              {
+                full: '/img/websites/map-poi/2.webp',
+                preview: '/img/websites/map-poi/2-preview.webp',
+              },
+            ],
             techStack: ['typescript', 'react', 'sass', 'webpack'],
           },
         ],
@@ -86,11 +106,26 @@ export function useProjectsGroupsInfo(): Record<ProjectsGroup, ProjectsGroupInfo
             description: t('projectsInfo.gameDev.projects.berta.desc'),
             linkToGithubRepo: 'https://github.com/Aktyn/BertaSnakes',
             images: [
-              '/img/games/berta-snakes/1.webp',
-              '/img/games/berta-snakes/2.webp',
-              '/img/games/berta-snakes/3.webp',
-              '/img/games/berta-snakes/4.webp',
-              '/img/games/berta-snakes/5.webp',
+              {
+                full: '/img/games/berta-snakes/1.webp',
+                preview: '/img/games/berta-snakes/1-preview.webp',
+              },
+              {
+                full: '/img/games/berta-snakes/2.webp',
+                preview: '/img/games/berta-snakes/2-preview.webp',
+              },
+              {
+                full: '/img/games/berta-snakes/3.webp',
+                preview: '/img/games/berta-snakes/3-preview.webp',
+              },
+              {
+                full: '/img/games/berta-snakes/4.webp',
+                preview: '/img/games/berta-snakes/4-preview.webp',
+              },
+              {
+                full: '/img/games/berta-snakes/5.webp',
+                preview: '/img/games/berta-snakes/5-preview.webp',
+              },
             ],
             techStack: ['typescript', 'react', 'sass', 'webpack', 'express', 'mongodb'],
           },
@@ -99,11 +134,26 @@ export function useProjectsGroupsInfo(): Record<ProjectsGroup, ProjectsGroupInfo
             description: t('projectsInfo.gameDev.projects.kulka.desc'),
             linkToGithubRepo: 'https://github.com/Aktyn/kulka-w-tarapatach',
             images: [
-              '/img/games/kulka-w-tarapatach/1.webp',
-              '/img/games/kulka-w-tarapatach/2.webp',
-              '/img/games/kulka-w-tarapatach/3.webp',
-              '/img/games/kulka-w-tarapatach/4.webp',
-              '/img/games/kulka-w-tarapatach/5.webp',
+              {
+                full: '/img/games/kulka-w-tarapatach/1.webp',
+                preview: '/img/games/kulka-w-tarapatach/1-preview.webp',
+              },
+              {
+                full: '/img/games/kulka-w-tarapatach/2.webp',
+                preview: '/img/games/kulka-w-tarapatach/2-preview.webp',
+              },
+              {
+                full: '/img/games/kulka-w-tarapatach/3.webp',
+                preview: '/img/games/kulka-w-tarapatach/3-preview.webp',
+              },
+              {
+                full: '/img/games/kulka-w-tarapatach/4.webp',
+                preview: '/img/games/kulka-w-tarapatach/4-preview.webp',
+              },
+              {
+                full: '/img/games/kulka-w-tarapatach/5.webp',
+                preview: '/img/games/kulka-w-tarapatach/5-preview.webp',
+              },
             ],
             techStack: ['java', 'opengl'],
           },
@@ -111,14 +161,19 @@ export function useProjectsGroupsInfo(): Record<ProjectsGroup, ProjectsGroupInfo
             title: 'Astro kulka',
             description: t('projectsInfo.gameDev.projects.astro.desc'),
             linkToGithubRepo: null,
-            images: ['/img/games/astro-kulka.webp'],
+            images: [
+              {
+                full: '/img/games/astro-kulka.webp',
+                preview: '/img/games/astro-kulka-preview.webp',
+              },
+            ],
             techStack: ['java', 'opengl'],
           },
           {
             title: 'Tetris widget',
             description: t('projectsInfo.gameDev.projects.tetris.desc'),
             linkToGithubRepo: 'https://github.com/Aktyn/Tetris-widget',
-            images: ['/img/games/tetris.webp'],
+            images: [{ full: '/img/games/tetris.webp', preview: '/img/games/tetris-preview.webp' }],
             techStack: ['javascript', 'typescript'],
           },
           {
@@ -132,7 +187,12 @@ export function useProjectsGroupsInfo(): Record<ProjectsGroup, ProjectsGroupInfo
               </>
             ),
             linkToGithubRepo: 'https://github.com/Aktyn/Ten-tac-toe',
-            images: ['/img/games/ten-tac-toe.webp'],
+            images: [
+              {
+                full: '/img/games/ten-tac-toe.webp',
+                preview: '/img/games/ten-tac-toe-preview.webp',
+              },
+            ],
             techStack: ['html', 'javascript'],
           },
           {
@@ -140,11 +200,26 @@ export function useProjectsGroupsInfo(): Record<ProjectsGroup, ProjectsGroupInfo
             description: t('projectsInfo.gameDev.projects.zerog.desc'),
             linkToGithubRepo: 'https://github.com/Aktyn/ZeroG-Ball',
             images: [
-              '/img/games/zero-g-ball/1.webp',
-              '/img/games/zero-g-ball/2.webp',
-              '/img/games/zero-g-ball/3.webp',
-              '/img/games/zero-g-ball/4.webp',
-              '/img/games/zero-g-ball/5.webp',
+              {
+                full: '/img/games/zero-g-ball/1.webp',
+                preview: '/img/games/zero-g-ball/1-preview.webp',
+              },
+              {
+                full: '/img/games/zero-g-ball/2.webp',
+                preview: '/img/games/zero-g-ball/2-preview.webp',
+              },
+              {
+                full: '/img/games/zero-g-ball/3.webp',
+                preview: '/img/games/zero-g-ball/3-preview.webp',
+              },
+              {
+                full: '/img/games/zero-g-ball/4.webp',
+                preview: '/img/games/zero-g-ball/4-preview.webp',
+              },
+              {
+                full: '/img/games/zero-g-ball/5.webp',
+                preview: '/img/games/zero-g-ball/5-preview.webp',
+              },
             ],
             techStack: ['javascript', 'webpack', 'electron'],
           },
@@ -169,13 +244,34 @@ export function useProjectsGroupsInfo(): Record<ProjectsGroup, ProjectsGroupInfo
             ),
             linkToGithubRepo: 'https://github.com/Aktyn/Blender-portfolio',
             images: [
-              '/img/computer-graphics/table-tennis.webp',
-              '/img/computer-graphics/psyduck.webp',
-              '/img/computer-graphics/fafik_2.webp',
-              '/img/computer-graphics/old_ball.webp',
-              '/img/computer-graphics/hairy-logo-v1-postprocess.webp',
-              '/img/computer-graphics/neon_logo_wallpaper.webp',
-              '/img/computer-graphics/sniadanko.webp',
+              {
+                full: '/img/computer-graphics/table-tennis.webp',
+                preview: '/img/computer-graphics/table-tennis-preview.webp',
+              },
+              {
+                full: '/img/computer-graphics/psyduck.webp',
+                preview: '/img/computer-graphics/psyduck-preview.webp',
+              },
+              {
+                full: '/img/computer-graphics/fafik_2.webp',
+                preview: '/img/computer-graphics/fafik_2-preview.webp',
+              },
+              {
+                full: '/img/computer-graphics/old_ball.webp',
+                preview: '/img/computer-graphics/old_ball-preview.webp',
+              },
+              {
+                full: '/img/computer-graphics/hairy-logo-v1-postprocess.webp',
+                preview: '/img/computer-graphics/hairy-logo-v1-postprocess-preview.webp',
+              },
+              {
+                full: '/img/computer-graphics/neon_logo_wallpaper.webp',
+                preview: '/img/computer-graphics/neon_logo_wallpaper-preview.webp',
+              },
+              {
+                full: '/img/computer-graphics/sniadanko.webp',
+                preview: '/img/computer-graphics/sniadanko-preview.webp',
+              },
             ],
             techStack: ['blender', 'gimp'],
           },
@@ -191,7 +287,12 @@ export function useProjectsGroupsInfo(): Record<ProjectsGroup, ProjectsGroupInfo
             title: 'Experimental robot',
             description: t('projectsInfo.rpi.projects.robot.desc'),
             linkToGithubRepo: null,
-            images: ['/img/rpi-projects/robot.webp'],
+            images: [
+              {
+                full: '/img/rpi-projects/robot.webp',
+                preview: '/img/rpi-projects/robot-preview.webp',
+              },
+            ],
             techStack: ['raspberrypi', 'python'],
           },
           {
@@ -202,9 +303,18 @@ export function useProjectsGroupsInfo(): Record<ProjectsGroup, ProjectsGroupInfo
               'https://github.com/Aktyn/Cyclocomputer-mobile',
             ],
             images: [
-              '/img/rpi-projects/cyclocomputer/1.webp',
-              '/img/rpi-projects/cyclocomputer/2.webp',
-              '/img/rpi-projects/cyclocomputer/3.webp',
+              {
+                full: '/img/rpi-projects/cyclocomputer/1.webp',
+                preview: '/img/rpi-projects/cyclocomputer/1-preview.webp',
+              },
+              {
+                full: '/img/rpi-projects/cyclocomputer/2.webp',
+                preview: '/img/rpi-projects/cyclocomputer/2-preview.webp',
+              },
+              {
+                full: '/img/rpi-projects/cyclocomputer/3.webp',
+                preview: '/img/rpi-projects/cyclocomputer/3-preview.webp',
+              },
             ],
             techStack: ['raspberrypi', 'python'],
           },
@@ -213,10 +323,22 @@ export function useProjectsGroupsInfo(): Record<ProjectsGroup, ProjectsGroupInfo
             description: t('projectsInfo.rpi.projects.biketour.desc'),
             linkToGithubRepo: 'https://github.com/Aktyn/Bike-Tour-Assistant',
             images: [
-              '/img/rpi-projects/bike-tour-assistant/1.webp',
-              '/img/rpi-projects/bike-tour-assistant/2.webp',
-              '/img/rpi-projects/bike-tour-assistant/3.webp',
-              '/img/rpi-projects/bike-tour-assistant/4.webp',
+              {
+                full: '/img/rpi-projects/bike-tour-assistant/1.webp',
+                preview: '/img/rpi-projects/bike-tour-assistant/1-preview.webp',
+              },
+              {
+                full: '/img/rpi-projects/bike-tour-assistant/2.webp',
+                preview: '/img/rpi-projects/bike-tour-assistant/2-preview.webp',
+              },
+              {
+                full: '/img/rpi-projects/bike-tour-assistant/3.webp',
+                preview: '/img/rpi-projects/bike-tour-assistant/3-preview.webp',
+              },
+              {
+                full: '/img/rpi-projects/bike-tour-assistant/4.webp',
+                preview: '/img/rpi-projects/bike-tour-assistant/4-preview.webp',
+              },
             ],
             techStack: ['raspberrypi', 'cplusplus'],
           },
@@ -225,14 +347,38 @@ export function useProjectsGroupsInfo(): Record<ProjectsGroup, ProjectsGroupInfo
             description: t('projectsInfo.rpi.projects.drone.desc'),
             linkToGithubRepo: 'https://github.com/Aktyn/aktyn-drone',
             images: [
-              '/img/rpi-projects/aktyn-drone/1.webp',
-              '/img/rpi-projects/aktyn-drone/ui1.webp',
-              '/img/rpi-projects/aktyn-drone/2.webp',
-              '/img/rpi-projects/aktyn-drone/ui2.webp',
-              '/img/rpi-projects/aktyn-drone/3.webp',
-              '/img/rpi-projects/aktyn-drone/4.webp',
-              '/img/rpi-projects/aktyn-drone/5.webp',
-              '/img/rpi-projects/aktyn-drone/6.webp',
+              {
+                full: '/img/rpi-projects/aktyn-drone/1.webp',
+                preview: '/img/rpi-projects/aktyn-drone/1-preview.webp',
+              },
+              {
+                full: '/img/rpi-projects/aktyn-drone/ui1.webp',
+                preview: '/img/rpi-projects/aktyn-drone/ui1-preview.webp',
+              },
+              {
+                full: '/img/rpi-projects/aktyn-drone/2.webp',
+                preview: '/img/rpi-projects/aktyn-drone/2-preview.webp',
+              },
+              {
+                full: '/img/rpi-projects/aktyn-drone/ui2.webp',
+                preview: '/img/rpi-projects/aktyn-drone/ui2-preview.webp',
+              },
+              {
+                full: '/img/rpi-projects/aktyn-drone/3.webp',
+                preview: '/img/rpi-projects/aktyn-drone/3-preview.webp',
+              },
+              {
+                full: '/img/rpi-projects/aktyn-drone/4.webp',
+                preview: '/img/rpi-projects/aktyn-drone/4-preview.webp',
+              },
+              {
+                full: '/img/rpi-projects/aktyn-drone/5.webp',
+                preview: '/img/rpi-projects/aktyn-drone/5-preview.webp',
+              },
+              {
+                full: '/img/rpi-projects/aktyn-drone/6.webp',
+                preview: '/img/rpi-projects/aktyn-drone/6-preview.webp',
+              },
             ],
             techStack: ['raspberrypi', 'python', 'typescript', 'react'],
           },

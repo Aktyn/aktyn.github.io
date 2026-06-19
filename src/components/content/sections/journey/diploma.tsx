@@ -14,7 +14,7 @@ export function Diploma() {
   return (
     <>
       <AmbientImage
-        src={diplomaSrc}
+        src={diplomaSrc.preview ?? diplomaSrc.full}
         alt="diploma"
         className="
           h-48 cursor-pointer transition-[scale]
@@ -33,7 +33,7 @@ export function Diploma() {
             open={openGallery}
             onClose={() => setOpenGallery(false)}
             sourceBounds={sourceBounds}
-            images={[diplomaSrc]}
+            images={[diplomaSrc.full]}
             index={0}
             onIndexChange={() => void 0}
           />

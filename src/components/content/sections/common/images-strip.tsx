@@ -4,8 +4,10 @@ import { AmbientImage } from '~/components/gallery/ambient-image'
 
 const LazyMaximizedGallery = lazy(() => import('~/components/gallery/maximized-gallery'))
 
+export type Images = Array<{ full: string; preview?: string }>
+
 type ImagesStripProps = {
-  images: string[]
+  images: Images
   altPrefix: string
   ambientOpacity?: number
 }
@@ -19,8 +21,8 @@ export default function ImagesStrip({ images, altPrefix, ambientOpacity }: Image
     <>
       {images.map((image, index) => (
         <AmbientImage
-          key={image}
-          src={image}
+          key={image.preview ?? image.full}
+          src={image.preview ?? image.full}
           alt={`${altPrefix}-${index}`}
           ambientOpacity={ambientOpacity}
           className="
@@ -42,7 +44,7 @@ export default function ImagesStrip({ images, altPrefix, ambientOpacity }: Image
               open={openGallery}
               onClose={() => setOpenGallery(false)}
               sourceBounds={sourceBounds}
-              images={images}
+              images={images.map((image) => image.full)}
               index={focusImageIndex}
               onIndexChange={setFocusImageIndex}
             />

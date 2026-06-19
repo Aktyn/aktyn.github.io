@@ -6,6 +6,7 @@ import type { ProjectsGroup } from '~/lib/projects-info'
 import type { TechStackCategory } from '~/lib/tech-stack'
 import { cn } from '~/lib/utils'
 import { SectionContainer } from './section-container'
+import { HexBackground } from '../hex-background'
 
 type ArticleProps = ComponentProps<'article'> & {
   articleKey: JourneySection | ProjectsGroup | TechStackCategory
@@ -31,12 +32,6 @@ export function Article({ articleKey, className, ...props }: ArticleProps) {
           3xl:duration-0
         `,
         `bg-background-lighter`,
-        //TODO: cleanup
-        // `
-        //   bg-linear-150 from-background/30 via-background/60 to-background/30
-        //   bg-repeat
-        //
-        // `,
         section === Section.MyJourney &&
           `
             border-foreground-tetradic-1/40 from-background-tetradic-1/30
@@ -61,13 +56,16 @@ export function Article({ articleKey, className, ...props }: ArticleProps) {
         className,
       )}
     >
+      <HexBackground className="absolute inset-0 opacity-30" seed={100_000} hexRadius={32} />
+
+      {/* Light source inside the article container */}
       <div
         className="
           pointer-events-none absolute inset-0 bg-radial-[circle_at_50%_38.2%]
-          from-foreground-lighter/50 via-foreground-lighter/25 via-25%
-          to-black/40 bg-fixed bg-center bg-no-repeat mix-blend-overlay
+          from-foreground-lighter/60 via-foreground-lighter/35 via-25%
+          to-black/50 bg-fixed bg-center bg-no-repeat mix-blend-overlay
         "
-      />
+      ></div>
       {props.children}
     </article>
   )

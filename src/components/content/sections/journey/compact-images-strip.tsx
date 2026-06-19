@@ -1,12 +1,13 @@
 import { lazy, Suspense } from 'react'
 import { ScrollArea } from '~/components/common/scroll-area'
 import { Skeleton } from '~/components/common/skeleton'
+import { type Images } from '~/components/content/sections/common/images-strip'
 import { cn } from '~/lib/utils'
 
 const LazyImagesStrip = lazy(() => import('~/components/content/sections/common/images-strip'))
 
 type CompactImagesStripProps = {
-  images: string[]
+  images: Images
   altPrefix: string
   maskSize?: number
   className?: string
@@ -54,7 +55,7 @@ export function CompactImagesStrip({
           fallback={
             <div className="flex flex-row gap-4">
               {images.map((img, index) => (
-                <Skeleton key={`${img}-${index}`} className="h-32 w-52" />
+                <Skeleton key={`${img.full}-${index}`} className="h-32 w-52" />
               ))}
             </div>
           }
