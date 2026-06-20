@@ -12,7 +12,6 @@ export function App() {
 
   return (
     <div
-      //TODO: remove all print related classes from every nested component since the entire tree is now hidden in print mode
       className="
         relative h-dvh w-dvw overflow-hidden
         print:hidden

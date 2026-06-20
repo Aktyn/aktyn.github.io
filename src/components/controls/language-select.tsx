@@ -4,9 +4,14 @@ import { SvgIcon } from '~/icons/material-symbol-icons'
 import { cn } from '~/lib/utils'
 
 const options = [
-  //TODO: use real icons since the unicode frags are not visibile in all environments
-  { value: 'en', label: '🇬🇧 EN' },
-  { value: 'pl', label: '🇵🇱 PL' },
+  {
+    value: 'en',
+    label: <LanguageLabel lang="en" />,
+  },
+  {
+    value: 'pl',
+    label: <LanguageLabel lang="pl" />,
+  },
 ]
 
 export function LanguageSelect(props: ComponentProps<'div'>) {
@@ -91,5 +96,14 @@ export function LanguageSelect(props: ComponentProps<'div'>) {
         />
       </span>
     </div>
+  )
+}
+
+function LanguageLabel({ lang }: { lang: 'pl' | 'en' }) {
+  return (
+    <span className="inline-flex h-full items-center gap-1">
+      <img data-src={`/img/flags/${lang}.svg`} loading="lazy" className="lazyload inline size-5" />
+      <span className="uppercase">{lang}</span>
+    </span>
   )
 }

@@ -1,7 +1,8 @@
 {
   "common": {
     "close": "Zamknij",
-    "version": "Wersja"
+    "version": "Wersja",
+    "loading": "Ładowanie"
   },
   "error": {
     "imageNotFound": "Nie znaleziono obrazu"

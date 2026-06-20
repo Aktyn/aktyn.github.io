@@ -1,7 +1,8 @@
 {
   "common": {
     "close": "Close",
-    "version": "Version"
+    "version": "Version",
+    "loading": "Loading"
   },
   "error": {
     "imageNotFound": "Image not found"

@@ -11,6 +11,8 @@ import { GalleryPagination } from '~/components/gallery/gallery-pagination'
 import { useStateToRef } from '~/hooks/useStateToRef'
 import { SvgIcon } from '~/icons/material-symbol-icons'
 import { cn } from '~/lib/utils'
+import { Skeleton } from '../common/skeleton'
+import { useTranslation } from 'react-i18next'
 
 const ENTRY_DURATION = 400
 
@@ -267,16 +269,11 @@ export default function MaximizedGallery({
                       images.length > 1 && 'px-8',
                     )}
                   >
-                    <img
-                      data-slot="image"
-                      data-src={image}
-                      loading="lazy"
+                    <LoadableImage
+                      src={image}
                       alt={`Gallery image ${index + 1}`}
-                      className={cn(
-                        'lazyload h-auto max-h-full max-w-full object-contain',
-                        open ? 'pointer-events-auto' : 'pointer-events-none',
-                      )}
-                      onDoubleClick={handleClose}
+                      open={open}
+                      onClose={handleClose}
                     />
                   </div>
                 </div>
@@ -323,6 +320,52 @@ export default function MaximizedGallery({
         </div>
       </div>
     </div>
+  )
+}
+
+type LoadableImageProps = {
+  src: string
+  alt: string
+  open: boolean
+  onClose: () => void
+}
+
+function LoadableImage({ src, alt, open, onClose }: LoadableImageProps) {
+  const { t } = useTranslation()
+
+  const [loaded, setLoaded] = useState(false)
+
+  return (
+    <>
+      {!loaded && (
+        <Skeleton
+          className="
+            pointer-events-none z-20 flex h-1/2 w-1/2 animate-none items-center
+            justify-center object-contain text-center text-lg
+            text-foreground-lighter backdrop-blur-md
+          "
+        >
+          <div className="animate-pulse">
+            <span>{t('common.loading')}:</span>
+            <br />
+            <b>{alt}</b>
+          </div>
+        </Skeleton>
+      )}
+      <img
+        data-slot="image"
+        data-src={src}
+        loading="lazy"
+        alt={alt}
+        className={cn(
+          'lazyload h-auto max-h-full max-w-full object-contain',
+          open ? 'pointer-events-auto' : 'pointer-events-none',
+          !loaded && 'size-0 opacity-0',
+        )}
+        onDoubleClick={onClose}
+        onLoad={() => setLoaded(true)}
+      />
+    </>
   )
 }
 

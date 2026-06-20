@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { useIsTouchDevice } from '~/hooks/useIsTouchDevice'
 import { clamp, cn } from '~/lib/utils'
 
 type HexDigit =
@@ -38,6 +39,8 @@ export function HexBackground({
 }: HexBackgroundProps) {
   const canvasGrid = useRef<HTMLCanvasElement>(null)
   const canvasEffect = useRef<HTMLCanvasElement>(null)
+
+  const isTouchDevice = useIsTouchDevice()
 
   useEffect(() => {
     const canvasGridElement = canvasGrid.current
@@ -203,17 +206,17 @@ export function HexBackground({
 
     const resizeObserver = new ResizeObserver(resize)
     resizeObserver.observe(containerElement)
-    if (interactive) {
+    if (interactive && !isTouchDevice) {
       document.addEventListener('pointermove', mouseMoveHandler)
     }
 
     return () => {
       resizeObserver.disconnect()
-      if (interactive) {
+      if (interactive && !isTouchDevice) {
         document.removeEventListener('pointermove', mouseMoveHandler)
       }
     }
-  }, [hexRadius, interactive, paletteOpacity, seed])
+  }, [hexRadius, interactive, isTouchDevice, paletteOpacity, seed])
 
   return (
     <div
@@ -227,7 +230,7 @@ export function HexBackground({
       )}
     >
       <canvas ref={canvasGrid} />
-      {interactive && <canvas ref={canvasEffect} />}
+      {interactive && !isTouchDevice && <canvas ref={canvasEffect} />}
     </div>
   )
 }
