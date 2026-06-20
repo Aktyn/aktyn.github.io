@@ -22,7 +22,6 @@ export type ProjectSchema = {
 
 export type ProjectsGroupInfoSchema = {
   title: string
-  thumbnail: string
   description: string
   icon: ComponentProps<typeof SvgIcon>['icon']
   projects: Array<ProjectSchema>
@@ -35,7 +34,6 @@ export function useProjectsGroupsInfo(): Record<ProjectsGroup, ProjectsGroupInfo
     () => ({
       [ProjectsGroup.WebDevelopment]: {
         title: t('projectsInfo.webDev.title'),
-        thumbnail: '/img/quick-access-thumbnails/web-dev.webp',
         description: t('projectsInfo.webDev.desc'),
         icon: 'Web',
         projects: [
@@ -97,7 +95,6 @@ export function useProjectsGroupsInfo(): Record<ProjectsGroup, ProjectsGroupInfo
       },
       [ProjectsGroup.GameDevelopment]: {
         title: t('projectsInfo.gameDev.title'),
-        thumbnail: '/img/quick-access-thumbnails/game-dev.webp',
         description: t('projectsInfo.gameDev.desc'),
         icon: 'Gamepad',
         projects: [
@@ -227,7 +224,6 @@ export function useProjectsGroupsInfo(): Record<ProjectsGroup, ProjectsGroupInfo
       },
       [ProjectsGroup.ComputerGraphics]: {
         title: t('projectsInfo.compGraphics.title'),
-        thumbnail: '/img/quick-access-thumbnails/computer-graphics.webp',
         description: t('projectsInfo.compGraphics.desc'),
         icon: 'PhotoLibrary',
         projects: [
@@ -279,7 +275,6 @@ export function useProjectsGroupsInfo(): Record<ProjectsGroup, ProjectsGroupInfo
       },
       [ProjectsGroup.RaspberryPi]: {
         title: t('projectsInfo.rpi.title'),
-        thumbnail: '/img/quick-access-thumbnails/raspberry-pi.webp',
         description: t('projectsInfo.rpi.desc'),
         icon: 'RaspberryPi',
         projects: [

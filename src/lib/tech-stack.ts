@@ -13,7 +13,6 @@ export type TechStackInfoSchema = {
     title: string
     description: string
     description2?: string
-    thumbnail: string
     icon: ComponentProps<typeof SvgIcon>['icon'] | { svgPath: string }
     stackGroups: Array<{
       title: string
@@ -30,7 +29,6 @@ export const useTechStackInfo = () => {
       [TechStackCategory.Frontend]: {
         title: t('techStack.frontend.title'),
         description: t('techStack.frontend.desc'),
-        thumbnail: '/img/quick-access-thumbnails/react.webp',
         icon: 'Devices',
         stackGroups: [
           {
@@ -62,7 +60,6 @@ export const useTechStackInfo = () => {
       [TechStackCategory.Backend]: {
         title: t('techStack.backend.title'),
         description: t('techStack.backend.desc'),
-        thumbnail: '/img/quick-access-thumbnails/nodejs.webp',
         icon: 'Terminal',
         stackGroups: [
           {
@@ -87,7 +84,6 @@ export const useTechStackInfo = () => {
         title: t('techStack.knownTools.title'),
         description: t('techStack.knownTools.desc'),
         description2: t('techStack.knownTools.descArch'),
-        thumbnail: '/img/quick-access-thumbnails/jira.webp',
         icon: 'Construction',
         stackGroups: [
           {

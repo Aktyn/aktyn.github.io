@@ -11,7 +11,6 @@ export enum JourneySection {
 export const journeyInfo = {
   [JourneySection.Education]: {
     title: 'Education',
-    thumbnail: '/img/quick-access-thumbnails/diploma.webp',
     icon: 'School',
     images: [
       { full: '/img/journey/diploma.webp', preview: '/img/journey/diploma-preview.webp' },
@@ -48,13 +47,11 @@ export const journeyInfo = {
   },
   [JourneySection.WorkExperience]: {
     title: 'Work experience',
-    thumbnail: '/img/quick-access-thumbnails/linkedin.webp',
     icon: 'Work',
     images: [],
   },
   [JourneySection.FreeTimeProjects]: {
     title: 'Free time projects',
-    thumbnail: '/img/quick-access-thumbnails/web-scraper.webp',
     icon: 'PersonHeart',
     images: [
       {
@@ -66,7 +63,6 @@ export const journeyInfo = {
 } as const satisfies {
   [key in JourneySection]: {
     title: string
-    thumbnail: string
     images: Images
     icon: ComponentProps<typeof SvgIcon>['icon'] | { svgPath: string }
   }

@@ -1,4 +1,4 @@
-import { useContext, type ComponentProps } from 'react'
+import { useContext, useEffect, type ComponentProps } from 'react'
 import { useWindowSize } from '~/hooks/useWindowSize'
 import { Section } from '~/lib/consts'
 import type { JourneySection } from '~/lib/journey-info'
@@ -19,6 +19,12 @@ export function Article({ articleKey, className, ...props }: ArticleProps) {
   const breakpoint = 1920 // !Must be same as 3xl breakpoint defined in index.css
 
   const dataProps = width < breakpoint ? { 'data-entry-animation-type': 'fade-in' } : {}
+
+  useEffect(() => {
+    if (`#${articleKey}` === location.hash) {
+      location.replace(location.href)
+    }
+  }, [articleKey])
 
   return (
     <article
