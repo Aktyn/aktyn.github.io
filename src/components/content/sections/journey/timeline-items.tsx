@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next'
 export const useSchoolTimelineItems = () => {
   const { t } = useTranslation()
 
-  //TODO: reverse order; newest items should be on top
   return [
     {
       date: t('timeline.school.gePower.date'),

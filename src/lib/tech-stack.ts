@@ -45,7 +45,7 @@ export const useTechStackInfo = () => {
           },
           {
             title: t('techStack.frontend.groups.graphics'),
-            stack: ['svg', 'threejs', 'opengl+webgl', 'glsl'],
+            stack: ['svg', 'threejs', 'opengl', 'glsl'],
           },
           {
             title: t('techStack.frontend.groups.testing'),
@@ -67,12 +67,12 @@ export const useTechStackInfo = () => {
             stack: ['python', 'java', 'cplusplus'],
           },
           {
-            title: t('techStack.backend.groups.runtimes'),
-            stack: ['nodejs', 'fastify', 'express', 'puppeteer'],
-          },
-          {
             title: t('techStack.backend.groups.databases'),
             stack: ['postgresql', 'sqlite', 'mongodb'],
+          },
+          {
+            title: t('techStack.backend.groups.runtimes'),
+            stack: ['nodejs', 'fastify', 'express', 'puppeteer'],
           },
           {
             title: t('techStack.backend.groups.microcontrollers'),
@@ -233,10 +233,6 @@ export const techStack = {
   threejs: {
     icon: 'devicon-threejs-original',
     name: 'Three.js',
-  },
-  'opengl+webgl': {
-    icon: 'devicon-opengl-plain colored',
-    name: 'OpenGL + WebGL',
   },
   glsl: {
     icon: '',

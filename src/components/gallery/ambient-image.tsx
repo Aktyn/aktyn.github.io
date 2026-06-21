@@ -46,7 +46,7 @@ export function AmbientImage({ src, alt, ambientOpacity = 0.5, ...divProps }: Am
               loading="lazy"
               className="
                 lazyload pointer-events-none absolute inset-0 -z-1 h-full
-                scale-110 blur-lg
+                scale-110 animate-in blur-lg duration-400 fade-in
               "
               style={{ opacity: ambientOpacity }}
             />
@@ -61,7 +61,7 @@ export function AmbientImage({ src, alt, ambientOpacity = 0.5, ...divProps }: Am
                 max-md:max-h-full
                 md:h-auto md:w-full md:max-w-full
               `,
-              !isLoaded && 'opacity-0',
+              isLoaded ? 'animate-in opacity-100 duration-400 fade-in' : 'opacity-0',
             )}
             onLoad={() => setIsLoaded(true)}
             onError={() => {

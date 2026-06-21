@@ -1,9 +1,8 @@
 import { useState, type ComponentProps } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Switch } from '~/components/common/switch'
 import { SvgIcon } from '~/icons/material-symbol-icons'
 import { cn } from '~/lib/utils'
-import { useTranslation } from 'react-i18next'
-import { Section, sectionData } from '~/lib/consts'
 
 type PrintOptionsProps = ComponentProps<'div'> & {
   showPrintOptions: boolean
@@ -15,7 +14,7 @@ export function PrintOptions({
   setShowPrintOptions,
   ...props
 }: PrintOptionsProps) {
-  const { printWithImages, setPrintWithImages, printSections, setPrintSections } = usePrintOptions()
+  const { printWithColors, setPrintWithColors } = usePrintOptions()
   const { t } = useTranslation()
 
   return (
@@ -33,53 +32,20 @@ export function PrintOptions({
       )}
     >
       <Switch
-        id="print-with-images-switch"
-        label={t('header.printOptions.printWithImages')}
-        enabled={printWithImages}
-        onChange={setPrintWithImages}
+        id="print-with-colors-switch"
+        label={t('header.printOptions.printWithColors')}
+        enabled={printWithColors}
+        onChange={setPrintWithColors}
       />
-      <div className="flex flex-col items-stretch gap-1">
-        <div className="text-center text-sm font-semibold">
-          {t('header.printOptions.sectionsToPrint')}
-        </div>
-        {Object.values(Section).map((section) => (
-          <SectionVisibilitySwitch
-            key={section}
-            section={section}
-            enabled={printSections.includes(section)}
-            onChange={(enabled) =>
-              setPrintSections(
-                enabled ? [...printSections, section] : printSections.filter((s) => s !== section),
-              )
-            }
-          />
-        ))}
-      </div>
       <OptionButton onClick={() => window.print()}>
         <SvgIcon icon="Print" />
-        <span>{t('header.printOptions.openPrintMenu')}</span>
+        <span className="whitespace-nowrap">{t('header.printOptions.openPrintMenu')}</span>
       </OptionButton>
       <OptionButton onClick={() => setShowPrintOptions(false)}>
         <SvgIcon icon="Close" />
         <span>{t('header.printOptions.cancel')}</span>
       </OptionButton>
     </div>
-  )
-}
-
-type SectionVisibilitySwitchProps = Pick<ComponentProps<typeof Switch>, 'enabled' | 'onChange'> & {
-  section: Section
-}
-
-function SectionVisibilitySwitch({ section, ...props }: SectionVisibilitySwitchProps) {
-  const { t } = useTranslation()
-
-  return (
-    <Switch
-      id={`print-section-visibility-switch-${section}`}
-      label={t(`sections.${section}.title`, sectionData[section].title)}
-      {...props}
-    />
   )
 }
 
@@ -101,37 +67,21 @@ function OptionButton(props: ComponentProps<'button'>) {
   )
 }
 
-function usePrintOptions() {
-  const className = 'hide-images-in-print' //! Be careful when changing this class name, it's used in multiple tailwind classes
-
-  const [printWithImages, internalSetPrintWithImages] = useState(
+const className = 'print-without-colors' //! Be careful when changing this class name, it's used in other files
+export function usePrintOptions() {
+  const [printWithColors, internalSetPrintWithColors] = useState(
     !document.documentElement.classList.contains(className),
   )
-  const [printSections, setPrintSections] = useState<Array<Section>>(
-    Object.values(Section).filter((section) => section !== Section.PublicProjects),
-  )
 
-  //TODO: rethink this in CV.tsx
-  // useEffect(() => {
-  //   for (const section of Object.values(Section)) {
-  //     //! Be careful when changing this class name, it's used in multiple tailwind classes
-  //     const targetClassName = `hide-section-${section}-in-print`
-  //     if (printSections.includes(section)) {
-  //       document.documentElement.classList.remove(targetClassName)
-  //     } else {
-  //       document.documentElement.classList.add(targetClassName)
-  //     }
-  //   }
-  // }, [printSections])
-
-  const setPrintWithImages = (printWithImages: boolean) => {
-    if (printWithImages) {
+  const setPrintWithColors = (printWithColors: boolean) => {
+    if (printWithColors) {
       document.documentElement.classList.remove(className)
     } else {
       document.documentElement.classList.add(className)
     }
-    internalSetPrintWithImages(printWithImages)
+    internalSetPrintWithColors(printWithColors)
   }
 
-  return { printWithImages, setPrintWithImages, printSections, setPrintSections }
+  return { printWithColors, setPrintWithColors }
 }
+usePrintOptions.className = className

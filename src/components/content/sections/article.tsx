@@ -1,12 +1,11 @@
 import { useContext, useEffect, type ComponentProps } from 'react'
-import { useWindowSize } from '~/hooks/useWindowSize'
 import { Section } from '~/lib/consts'
 import type { JourneySection } from '~/lib/journey-info'
 import type { ProjectsGroup } from '~/lib/projects-info'
 import type { TechStackCategory } from '~/lib/tech-stack'
 import { cn } from '~/lib/utils'
-import { SectionContainer } from './section-container'
 import { HexBackground } from '../hex-background'
+import { SectionContainer } from './section-container'
 
 type ArticleProps = ComponentProps<'article'> & {
   articleKey: JourneySection | ProjectsGroup | TechStackCategory
@@ -14,11 +13,6 @@ type ArticleProps = ComponentProps<'article'> & {
 
 export function Article({ articleKey, className, ...props }: ArticleProps) {
   const section = useContext(SectionContainer.Context)
-  const { width } = useWindowSize()
-
-  const breakpoint = 1920 // !Must be same as 3xl breakpoint defined in index.css
-
-  const dataProps = width < breakpoint ? { 'data-entry-animation-type': 'fade-in' } : {}
 
   useEffect(() => {
     if (`#${articleKey}` === location.hash) {
@@ -29,7 +23,6 @@ export function Article({ articleKey, className, ...props }: ArticleProps) {
   return (
     <article
       id={articleKey}
-      {...dataProps}
       {...props}
       className={cn(
         `

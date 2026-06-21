@@ -17,7 +17,7 @@ export function Diploma() {
         src={diplomaSrc.preview ?? diplomaSrc.full}
         alt="diploma"
         className="
-          h-48 cursor-pointer transition-[scale]
+          h-48 min-w-32 cursor-pointer transition-[scale]
           *:max-h-48
           hover:z-10 hover:scale-110
         "

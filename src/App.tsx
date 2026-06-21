@@ -3,12 +3,17 @@ import { flushSync } from 'react-dom'
 import { createRoot } from 'react-dom/client'
 import { ContentLayer } from './components/content/content-layer'
 import { SceneContext, SceneProvider } from './components/content/scene-context'
-import { CV } from './components/cv'
+import { CV } from './components/cv/cv'
 
 export function App() {
   const sceneContainerRef = useRef<HTMLDivElement>(null)
 
   useCvPrinting()
+
+  //TODO: remove this
+  useEffect(() => {
+    window.print()
+  }, [])
 
   return (
     <div

@@ -32,7 +32,6 @@
 			"materialui",
 			"metalness",
 			"microcontrollers",
-			"Microcontrollers",
 			"micropython",
 			"mzlhvcsqta",
 			"oklch",
@@ -44,7 +43,6 @@
 			"skategoryzowane",
 			"Stylesheet",
 			"threejs",
-			"webgl",
 			"wordmark"
 		],
 		"typescript.tsdk": "node_modules/typescript/lib",
