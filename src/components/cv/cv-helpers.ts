@@ -1,4 +1,4 @@
-export const properNouns = {
+export const contactValues = {
   fullName: 'Radosław Krajewski',
   phoneNumber: '+48 519 780 399',
   email: 'Aktyn3@gmail.com',

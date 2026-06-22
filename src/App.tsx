@@ -12,7 +12,11 @@ export function App() {
 
   //TODO: remove this
   useEffect(() => {
-    window.print()
+    const timeout = setTimeout(() => {
+      window.print()
+    }, 1000)
+
+    return () => clearTimeout(timeout)
   }, [])
 
   return (

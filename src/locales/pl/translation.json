@@ -238,7 +238,7 @@
         "desc1": "W procesie rekrutacji otrzymałem zadanie stworzenia małego projektu w",
         "desc2": "w ciągu kilku dni. Projekt nazywał się",
         "desc3": "Przez większość czasu byłem częścią zespołu deweloperów front-end pracujących nad witryną projektu. Zdobyłem cenne doświadczenie z nowoczesnymi technologiami webowymi.",
-        "desc4": "Gdy projekt dobiegał końca, musiałem poszerzyć swoje umiejętności, ponieważ był okres, gdy programiści front-end nie byli potrzebni.",
+        "desc4": "Pod koniec trwania projektu, musiałem poszerzyć swoje umiejętności, gdyż zaczął się okres, w którym brakowało zadań przy rozwijaniu frontendu strony.",
         "desc5": "Przez ostatnie kilka miesięcy pisałem zapytania",
         "desc6": "co dało mi realne doświadczenie z bazami danych."
       },
@@ -365,33 +365,39 @@
     "frontend-technologies": "technologie front-end",
     "backend-technologies": "technologie back-end",
     "known-tools": "znane narzędzia",
-    "technologies-disclaimer": "Niektóre technologie są pośrednio zawarte w innych, dlatego nie uwzględniłem ich w powyższych listach, aby zachować ich zwięzłość.\nPrzykładowo, aby korzystać z Reacta, trzeba znać podstawy HTML.\nPełną listę technologii można znaleźć na mojej stronie internetowej.",
+    "technologies-disclaimer": "Niektóre technologie są pośrednio zawarte w innych, dlatego nie uwzględniłem ich w powyższych listach, aby zachować ich zwięzłość.\nPrzykładowo, aby korzystać z Reacta, trzeba znać podstawy HTML. Pełną listę technologii można znaleźć na mojej stronie internetowej.",
     "aboutMe": "o mnie",
+    "aboutMeContent": "todo\ntodo second line",
     "experience": "doświadczenie",
     "education": "edukacja",
     "gdpr": "Wyrażam zgodę na przetwarzanie moich danych osobowych dla potrzeb niezbędnych do realizacji procesu rekrutacji (zgodnie z ustawą z dnia 10 maja 2018 roku o ochronie danych osobowych (Dz. U. z 2018 r. poz. 1000) oraz zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. (RODO)).",
-    "employmentType": "Preferowana forma zatrudnienia: B2B",
-    "workSystem": "System pracy: Jira, Scrum, Git, GitHub (+ code review)",
+    "experience-personal-projects-disclaimer": "... i wiele osobistych projektów, które można znaleźć na moim profilu GitHub.",
     "apprenticeRole": "Praktyki zawodowe",
     "apprenticeDesc": "Miesięczne praktyki zawodowe w GE Power Controls Sp. z o.o.",
     "gePowerDate": "Maj 2015",
-    "graduationTitle": "Technik Informatyk",
-    "graduationDesc": "Uzyskanie kwalifikacji zawodowych po ukończeniu technikum informatycznego.",
-    "graduationDate": "Sierpień 2016",
+    "graduationTitle": "Technikum informatyczne",
+    "graduationDesc": "Zespół Szkół Ponadgimnazjalnych im. J. Piłsudskiego",
+    "graduationDate": {
+      "start": "2012",
+      "end": "2016"
+    },
     "universityTitle": "Studia informatyczne",
     "universityDesc": "Wydział Matematyki i Informatyki Uniwersytetu Łódzkiego",
-    "universityDate": "2017 – 2020",
+    "universityDate": {
+      "start": "2017",
+      "end": "2020"
+    },
     "nightWoodsRole": "Programista Front-End",
     "enigmaRole": "Programista Front-End",
     "nightWoodsBullets": {
       "1": "Rozwój projektów webowych ze skupieniem na technologiach front-endowych (React, TypeScript).",
-      "2": "Współpraca przy rozwijaniu back-endu oraz aplikacji mobilnych (React Native, Expo).",
-      "3": "Projektowanie nowoczesnych interfejsów użytkownika (UI/UX) w programie Figma."
+      "2": "Integracja aplikacji webowych z zewnętrznymi narzędziami/API (Stripe, Google Captcha, itp.).",
+      "3": "Współpraca przy rozwijaniu back-endu (NodeJS, Fastify) oraz aplikacji mobilnych (React Native, Expo).",
+      "4": "Projektowanie nowoczesnych interfejsów użytkownika (UI/UX) w programie Figma."
     },
     "enigmaBullets": {
-      "1": "Rozwój witryn i modułów internetowych w technologii React + TypeScript.",
-      "2": "Zaprojektowanie i wdrożenie dedykowanego modułu mapy ze znacznikami POI bez użycia zewnętrznych bibliotek mapowych.",
-      "3": "Praca z relacyjnymi bazami danych – tworzenie i optymalizacja zapytań PostgreSQL."
+      "1": "Rozwój aplikacji webowej od strony frontendu w technologii React + TypeScript.",
+      "2": "Praca z relacyjnymi bazami danych – tworzenie i optymalizacja zapytań PostgreSQL."
     }
   }
 }

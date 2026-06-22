@@ -21,11 +21,11 @@ export function CV() {
       }}
       className="
         relative m-0 mx-auto my-0 box-border flex h-screen w-full flex-col
-        justify-between gap-[8mm] overflow-hidden p-[12mm] font-sans text-black
+        justify-between gap-[6mm] overflow-hidden p-[12mm] font-sans text-black
         shadow-none
       "
     >
-      <CvHeader />
+      <CvHeader noColors={noColors} />
 
       <div className="flex w-full grow flex-col gap-[4mm] overflow-hidden *:w-full">
         <div className="grid grid-cols-[5fr_1px_9fr] gap-[8mm]">

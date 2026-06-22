@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { techStack, TechStackCategory, useTechStackInfo } from '~/lib/tech-stack'
 import { cn } from '~/lib/utils'
 import { CvSectionTitle } from './cv-section-title'
+import { SvgIcon } from '~/icons/material-symbol-icons'
 
 const techStackCategories = Object.values(TechStackCategory)
 const sectionTitlesMap = {
@@ -38,7 +39,22 @@ export function CvTechnologies({ noColors }: { noColors: boolean }) {
       <div className="flex flex-row gap-[8mm] overflow-hidden">
         {techStackCategories.map((category) => (
           <div>
-            <CvSectionTitle>{t(sectionTitlesMap[category])}</CvSectionTitle>
+            <CvSectionTitle>
+              <SvgIcon
+                className="size-3.5 fill-neutral-500"
+                icon={
+                  typeof techStackInfo[category].icon === 'string'
+                    ? techStackInfo[category].icon
+                    : undefined
+                }
+                svgPath={
+                  typeof techStackInfo[category].icon === 'object'
+                    ? techStackInfo[category].icon.svgPath
+                    : undefined
+                }
+              />
+              {t(sectionTitlesMap[category])}
+            </CvSectionTitle>
             <div className="flex flex-col flex-wrap gap-[4mm] overflow-hidden">
               <div
                 key={category}
@@ -76,7 +92,7 @@ export function CvTechnologies({ noColors }: { noColors: boolean }) {
                                   noColors
                                     ? techStack[tech].icon.replace('colored', '')
                                     : techStack[tech].icon,
-                                  noColors && 'text-neutral-800',
+                                  noColors && 'text-neutral-700',
                                 )}
                               />
                             ) : (

@@ -14,27 +14,6 @@ export function CvFooter() {
         {/* TODO: verify this in both languages */}
         {t('cv.gdpr')}
       </p>
-      {/* Slanted decoration footer matching layout */}
-      <div
-        className="
-          relative mx-[-15mm] mt-4 mb-[-15mm] h-6 w-[210mm] overflow-hidden
-          select-none
-          print:hidden
-        "
-      >
-        <div
-          className="
-            absolute inset-0 origin-bottom-right skew-y-2 transform
-            bg-neutral-900
-          "
-        />
-        <div
-          className="
-            absolute inset-0 origin-bottom-right skew-y-1 transform
-            bg-neutral-800 opacity-80
-          "
-        />
-      </div>
     </div>
   )
 }

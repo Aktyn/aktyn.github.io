@@ -1,5 +1,5 @@
 import { GithubIcon } from '~/icons/GithubIcon'
-import { properNouns } from './cv-helpers'
+import { contactValues } from './cv-helpers'
 import { LinkedInIcon } from '~/icons/LinkedInIcon'
 import type { ComponentProps, ComponentType } from 'react'
 import { SvgIcon } from '~/icons/material-symbol-icons'
@@ -13,14 +13,14 @@ export function CvContact() {
   return (
     <div>
       <CvSectionTitle>{t('cv.contact')}</CvSectionTitle>
-      <ul className="space-y-2 text-[11px] text-neutral-700">
+      <ul className="space-y-2 text-[11px]">
         {(
           [
-            ['Phone', properNouns.phoneNumber, false],
-            ['Email', properNouns.email, false],
-            [GithubIcon, properNouns.github, true],
-            [LinkedInIcon, properNouns.linkedin, true],
-            ['Website', properNouns.site, true],
+            ['Phone', contactValues.phoneNumber, false],
+            ['Email', contactValues.email, false],
+            [GithubIcon, contactValues.github, true],
+            [LinkedInIcon, contactValues.linkedin, true],
+            ['Website', contactValues.site, true],
           ] as Array<
             [
               ComponentProps<typeof SvgIcon>['icon'] | ComponentType<ComponentProps<'svg'>>,

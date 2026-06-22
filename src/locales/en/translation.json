@@ -361,33 +361,39 @@
     "frontend-technologies": "frontend technologies",
     "backend-technologies": "backend technologies",
     "known-tools": "known tools",
-    "technologies-disclaimer": "Some technologies are implicitly contained within others, so I haven't included them in the above lists to keep them concise.\nFor example, you need to know the basics of HTML to use React.\nYou can find the complete list on my website.",
+    "technologies-disclaimer": "Some technologies are implicitly contained within others, so I haven't included them in the above lists to keep them concise.\nFor example, you need to know the basics of HTML to use React. You can find the complete list on my website.",
     "aboutMe": "about me",
+    "aboutMeContent": "todo\ntodo second line",
     "experience": "experience",
     "education": "education",
     "gdpr": "I hereby give consent for my personal data included in my application to be processed for the purposes of the recruitment process (in accordance with the Act of May 10, 2018 on the Protection of Personal Data, and in accordance with Regulation (EU) 2016/679 of the European Parliament and of the Council of April 27, 2016 (GDPR)).",
-    "employmentType": "Preferred employment type: B2B",
-    "workSystem": "Work system: Jira, Scrum, Git, GitHub (+ code review)",
+    "experience-personal-projects-disclaimer": "... and a lot of personal projects that you can find on my GitHub profile.",
     "apprenticeRole": "Apprenticeship",
     "apprenticeDesc": "One-month apprenticeship at GE Power Controls Sp. z o.o.",
     "gePowerDate": "May 2015",
-    "graduationTitle": "IT Technician",
-    "graduationDesc": "Obtained professional qualifications after graduating from technical school.",
-    "graduationDate": "August 2016",
+    "graduationTitle": "Technical school, IT class",
+    "graduationDesc": "Zespół Szkół Ponadgimnazjalnych im. J. Piłsudskiego",
+    "graduationDate": {
+      "start": "2012",
+      "end": "2016"
+    },
     "universityTitle": "Computer Science Studies",
     "universityDesc": "Faculty of Mathematics and Computer Science, University of Łódź",
-    "universityDate": "2017 – 2020",
+    "universityDate": {
+      "start": "2017",
+      "end": "2020"
+    },
     "nightWoodsRole": "Frontend Developer",
     "enigmaRole": "Frontend Developer",
     "nightWoodsBullets": {
       "1": "Development of web projects focusing on frontend technologies (React, TypeScript).",
-      "2": "Collaboration in backend development and mobile applications (React Native, Expo).",
-      "3": "Designing modern user interfaces (UI/UX) in Figma."
+      "2": "Integrating web applications with external tools/APIs (Stripe, Google Captcha, etc.).",
+      "3": "Collaboration in backend development (NodeJS, Fastify, Drizzle) and mobile applications (React Native, Expo).",
+      "4": "Designing modern user interfaces (UI/UX) in Figma."
     },
     "enigmaBullets": {
-      "1": "Development of web applications and modules using React + TypeScript.",
-      "2": "Designing and implementing a custom map module with POI markers without using external map libraries.",
-      "3": "Working with relational databases – writing and optimizing PostgreSQL queries."
+      "1": "Developing web application frontent with React + TypeScript.",
+      "2": "Working with relational databases – writing and optimizing PostgreSQL queries."
     }
   }
 }

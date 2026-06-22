@@ -7,10 +7,14 @@ export function CvAboutMe() {
   return (
     <div>
       <CvSectionTitle>{t('cv.aboutMe')}</CvSectionTitle>
-      <p className="text-[11px] leading-relaxed font-semibold text-neutral-700">
-        {t('cv.employmentType')}
-        <br />
-        {t('cv.workSystem')}
+      <p
+        className="
+          text-[11px] leading-relaxed font-semibold text-pretty
+          whitespace-pre-wrap text-neutral-700
+        "
+      >
+        {/* TODO: write the content in translation files */}
+        {t('cv.aboutMeContent')}
       </p>
     </div>
   )
