@@ -51,20 +51,7 @@ export function CvContact() {
                 </a>
                 <div className="flex flex-col items-center gap-1">
                   <SvgIcon icon="South" className="size-5" />
-                  <img
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6AQMAAACyIsh+AAAABlBMVEX///8AAABVwtN+AAAACXBI
-WXMAAA7EAAAOxAGVKw4bAAABdUlEQVRoge2YvXGEQAyFtUNASAmU4tKgNEqhhAsJbpD1swKMPZzA
-6VPAgPaL3kjah4g+xcAeb6Kvl37PVHjsa5ZHAAFMplf3JuZXo5l2JeoXyxYAd4BOFJ06lVpeJNsK
-1S9FPhYAjwCT2osYwL8Ar1w7A/AI2Nrfqd6l/ms+ALgE2KMCIXXNAsgDp9Cz9ZwEkAFcapsBprc0
-vXolueHtASANSOcroC9mOMmb3s4A3AEGd+1u3cVw8txW1zn4G4AkEDaz8cHpUvO8iw4gC5A7JD01
-w2mdz3EvAQhAXJCktRytMFVEVfIwSAFkAVHZC9M3GMxrvYZq+wPIApKVeiW/cbSM94IuAG4BzbbB
-cBdUTOj40QGQBPZwKm7s/doBkAO8092U+36SyuGXcQSQBiYTtKt+sm4wqtQFwB3gx37yENt8AHAf
-0MtJ2/8wTQE8AfSX0Vy7zdDh91IdwCUQ7W8LoWh/1fs8HwBcA7XZTWrmUDkCQBr4FN+iQ3qsX6Vz
-gAAAAABJRU5ErkJggg=="
-                    alt="Website QR"
-                    width={92}
-                    height={92}
-                  />
+                  <img src="/img/site-qr-code.png" alt="Website QR" width={92} height={92} />
                 </div>
               </div>
             ) : isLink ? (

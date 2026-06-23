@@ -200,7 +200,7 @@ export const techStack = {
   },
   opengl: {
     icon: 'devicon-opengl-plain colored',
-    name: 'OpenGL',
+    name: 'OpenGL/WebGL',
   },
   blender: {
     icon: 'devicon-blender-original colored',

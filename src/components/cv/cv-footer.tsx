@@ -11,7 +11,6 @@ export function CvFooter() {
           leading-relaxed text-neutral-400
         "
       >
-        {/* TODO: verify this in both languages */}
         {t('cv.gdpr')}
       </p>
     </div>

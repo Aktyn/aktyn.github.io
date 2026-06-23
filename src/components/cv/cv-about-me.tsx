@@ -9,11 +9,10 @@ export function CvAboutMe() {
       <CvSectionTitle>{t('cv.aboutMe')}</CvSectionTitle>
       <p
         className="
-          text-[11px] leading-relaxed font-semibold text-pretty
-          whitespace-pre-wrap text-neutral-700
+          text-[10px] leading-normal text-pretty whitespace-pre-wrap
+          text-neutral-700
         "
       >
-        {/* TODO: write the content in translation files */}
         {t('cv.aboutMeContent')}
       </p>
     </div>

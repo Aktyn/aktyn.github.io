@@ -10,15 +10,6 @@ export function App() {
 
   useCvPrinting()
 
-  //TODO: remove this
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      window.print()
-    }, 1000)
-
-    return () => clearTimeout(timeout)
-  }, [])
-
   return (
     <div
       className="
