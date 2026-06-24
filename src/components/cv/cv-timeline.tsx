@@ -44,12 +44,11 @@ export function CvTimeline({ items }: CvTimelineProps) {
               ) : (
                 <div
                   className="
-                    flex items-center justify-stretch
-                    max-md:gap-1
-                    md:w-auto md:flex-col
+                    flex flex-row flex-nowrap items-center justify-stretch
+                    whitespace-nowrap
                   "
                 >
-                  <span>{item.date.start}</span> – <span>{item.date.end}</span>
+                  <span>{item.date.start}</span>&nbsp;–&nbsp;<span>{item.date.end}</span>
                 </div>
               )}
             </span>

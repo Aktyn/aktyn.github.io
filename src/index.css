@@ -9,7 +9,6 @@
   --background-lighter: 0.4668 0.084459 180.3974;
   /* teal 800 */
   --background-visual: 0.3853 0.0347 173.194;
-  /*! Should not be used for regular styling */
 
   --background-tetradic-1: 0.1492 0.0439 296.37;
   /* from background with the same chroma */
@@ -263,21 +262,20 @@
 
   @media print {
     @page {
-      size: A4;
+      size: A4 porttrait;
       margin: 0;
     }
 
     html,
     body {
-      @apply bg-white p-0 text-left text-background text-shadow-none;
+      @apply bg-white m-0! p-0! overflow-hidden text-left text-background text-shadow-none h-full;
       background-image: none;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
     }
-
-    canvas,
-    .animejs-onscroll-debug {
-      display: none !important;
+    
+    #print-container {
+      @apply h-full flex flex-col justify-stretch m-0 p-0;
     }
   }
 

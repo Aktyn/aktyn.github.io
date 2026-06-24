@@ -22,8 +22,8 @@ export function CV() {
       }}
       className={cn(
         `
-          relative m-0 mx-auto my-0 box-border flex h-screen w-full flex-col
-          justify-between gap-[6mm] overflow-hidden p-[12mm] font-sans
+          relative m-0 mx-auto my-0 box-border flex h-full min-h-full w-full
+          flex-col justify-between gap-[6mm] overflow-hidden p-[12mm] font-sans
           text-black shadow-none
         `,
         noColors && 'grayscale-100',
