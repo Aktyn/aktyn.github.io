@@ -14,7 +14,7 @@ import { SvgIcon } from '~/icons/material-symbol-icons'
 
 const performanceWarningShownKey = 'webgl-performance-warning-shown'
 
-export function WebGlSwitch(props: ComponentProps<'div'>) {
+export function WebGlSwitch(props: ComponentProps<'button'>) {
   const { webGlEnabled, setWebGlEnabled } = useContext(SceneContext)
   const { t } = useTranslation()
 

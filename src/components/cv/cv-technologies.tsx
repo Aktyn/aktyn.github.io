@@ -38,7 +38,7 @@ export function CvTechnologies({ noColors }: { noColors: boolean }) {
     <>
       <div className="flex flex-row gap-[8mm] overflow-hidden">
         {techStackCategories.map((category) => (
-          <div>
+          <div key={category}>
             <CvSectionTitle>
               <SvgIcon
                 className="size-3.5 fill-neutral-500"
@@ -82,6 +82,7 @@ export function CvTechnologies({ noColors }: { noColors: boolean }) {
                       {stackGroup.stack.map((tech) =>
                         omit.includes(tech) ? null : (
                           <div
+                            key={tech}
                             className="
                               flex flex-row items-center gap-1 text-black
                             "

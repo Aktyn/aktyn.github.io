@@ -21,7 +21,9 @@ export function CvHeader({ noColors }: { noColors: boolean }) {
       </div>
       <img
         src="/img/cv-photo.jpg"
-        alt="Photo"
+        alt="Photo of Radosław Krajewski"
+        width={120}
+        height={120}
         className={cn('my-[-4mm] h-[30mm] w-auto', noColors && 'grayscale-100')}
       />
     </header>

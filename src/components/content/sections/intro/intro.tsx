@@ -32,7 +32,7 @@ export function Intro({ ref, className, ...props }: IntroProps) {
       className={cn(`gap-y-8 px-4 text-center`, className)}
     >
       <div className="flex flex-1 flex-col items-center justify-end gap-6">
-        <div data-header-anchor className="-mb-2">
+        <div data-header-anchor className="-mb-1">
           <h1>
             {fullName.split(' ').map((namePart, index, arr) => (
               <Fragment key={`${namePart}-${index}`}>
@@ -48,9 +48,9 @@ export function Intro({ ref, className, ...props }: IntroProps) {
               </Fragment>
             ))}
           </h1>
-          <h3 data-entry-animation className="shining-text">
+          <p data-entry-animation className="shining-text mt-1.5 text-2xl font-medium md:text-3xl">
             <ProjectedText text={role} fontSize={isMobile ? 24 : 32} fontWeight="medium" />
-          </h3>
+          </p>
         </div>
         <QuickPersonalInfo experienceStartDate={experienceStartDate} birthDate={birthDate} />
         <SocialLinks />

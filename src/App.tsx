@@ -55,6 +55,33 @@ function EdgeMask() {
 
 function useCvPrinting() {
   useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>
+
+    // Preload images needed for print
+    const onLoad = () => {
+      timeout = setTimeout(() => {
+        for (const source of ['/img/site-qr-code.png', '/img/cv-photo.jpg']) {
+          const img = new Image()
+          img.src = source
+          img.style.display = 'none'
+          if (!document.body.contains(img)) {
+            document.body.appendChild(img)
+          }
+        }
+      }, 500)
+    }
+
+    window.addEventListener('load', onLoad)
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout)
+      }
+      window.removeEventListener('load', onLoad)
+    }
+  }, [])
+
+  useEffect(() => {
     const printContainerID = 'print-container'
 
     const beforePrintHandler = () => {

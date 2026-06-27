@@ -21,6 +21,7 @@ export default defineConfig({
     },
   },
   build: {
+    sourcemap: true,
     chunkSizeWarningLimit: 1100,
     rolldownOptions: {
       output: {
@@ -28,8 +29,13 @@ export default defineConfig({
           groups: [
             {
               name: 'react-vendor',
-              test: /node_modules[\\\\/]react/,
+              test: /node_modules[\\/]react/,
               priority: 20,
+            },
+            {
+              name: 'three-vendor',
+              test: /node_modules[\\/]three/,
+              priority: 15,
             },
             {
               name: 'vendor',

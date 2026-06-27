@@ -11,6 +11,7 @@ export function GithubProjectLink({ title, ...anchorProps }: GithubProjectLinkPr
   return (
     <a
       target="_blank"
+      rel="noopener noreferrer"
       {...anchorProps}
       className={cn(
         `

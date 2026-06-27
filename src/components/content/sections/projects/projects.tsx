@@ -95,8 +95,14 @@ function ProjectCard({ project, single }: ProjectCardProps) {
           {forceArray(project.linkToGithubRepo ?? []).map((link, _, arr) => (
             <Tooltip key={link}>
               <TooltipTrigger asChild>
-                <a href={link} target="_blank" className="flex flex-row items-center gap-3">
-                  <GithubIcon className="size-5" />
+                <a
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={t('projects.viewOnGithub')}
+                  className="flex flex-row items-center gap-3"
+                >
+                  <GithubIcon className="size-5" aria-hidden="true" />
                   {arr.length === 1 && <p>{project.title}</p>}
                 </a>
               </TooltipTrigger>

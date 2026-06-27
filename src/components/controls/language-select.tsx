@@ -1,4 +1,4 @@
-import { type ComponentProps, useState } from 'react'
+import { type ComponentProps, useState, useId } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SvgIcon } from '~/icons/material-symbol-icons'
 import { cn } from '~/lib/utils'
@@ -14,15 +14,19 @@ const options = [
   },
 ]
 
-export function LanguageSelect(props: ComponentProps<'div'>) {
+export function LanguageSelect(props: ComponentProps<'button'>) {
   const { i18n } = useTranslation()
+  const id = useId()
 
   const [open, setOpen] = useState(false)
 
   return (
-    <div
-      {...props}
+    <button
+      aria-haspopup="listbox"
+      aria-expanded={open}
+      aria-controls={`language-listbox-${id}`}
       aria-label="Language selector"
+      {...props}
       className={cn(
         `
           relative flex flex-row items-center self-stretch rounded-lg border
@@ -95,7 +99,7 @@ export function LanguageSelect(props: ComponentProps<'div'>) {
           "
         />
       </span>
-    </div>
+    </button>
   )
 }
 

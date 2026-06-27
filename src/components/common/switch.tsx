@@ -9,26 +9,27 @@ type SwitchPropsBase = {
   label?: ReactNode
 }
 
-type SwitchProps = SwitchPropsBase & Omit<ComponentProps<'div'>, keyof SwitchPropsBase>
+type SwitchProps = SwitchPropsBase & Omit<ComponentProps<'button'>, keyof SwitchPropsBase>
 
 export function Switch({ id, enabled, onChange, label, ...props }: SwitchProps) {
   return (
-    <div
+    <button
+      type="button"
+      role="switch"
+      aria-checked={enabled}
       {...props}
       className={cn(
         `
-          flex flex-row-reverse flex-wrap items-center justify-end gap-x-1
-          gap-y-0.5 overflow-hidden
-          *:cursor-pointer
+          flex cursor-pointer flex-row-reverse flex-wrap items-center
+          justify-end gap-x-1 gap-y-0.5 overflow-hidden
           hover:**:data-[slot=switch-track]:bg-foreground-lighter
         `,
         props.className,
       )}
+      onClick={() => onChange(!enabled)}
     >
       {label && (
-        <label htmlFor={id} className="text-sm font-medium text-ellipsis whitespace-nowrap">
-          {label}
-        </label>
+        <span className="text-sm font-medium text-ellipsis whitespace-nowrap">{label}</span>
       )}
       <input
         id={id}
@@ -36,13 +37,15 @@ export function Switch({ id, enabled, onChange, label, ...props }: SwitchProps) 
         checked={enabled}
         hidden
         onChange={(e) => onChange(e.target.checked)}
+        aria-hidden="true"
+        tabIndex={-1}
       />
-      <div
+      <span
         className={cn(
           'flex w-9 flex-row items-center rounded-full p-1 transition-colors',
           enabled ? 'bg-background/80' : 'bg-background/40',
         )}
-        onClick={() => onChange(!enabled)}
+        aria-hidden="true"
       >
         <span
           data-slot="switch-track"
@@ -66,7 +69,7 @@ export function Switch({ id, enabled, onChange, label, ...props }: SwitchProps) 
         >
           <SvgIcon icon="Check" className="size-2.5 transition-[fill,scale]" />
         </span>
-      </div>
-    </div>
+      </span>
+    </button>
   )
 }

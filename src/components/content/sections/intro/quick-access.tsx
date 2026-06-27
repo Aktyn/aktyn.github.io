@@ -43,9 +43,9 @@ export function QuickAccess(props: ComponentPropsWithoutRef<'div'>) {
       )}
     >
       {/* Zawartość strony */}
-      <h5 data-entry-animation-type="zoom-in" className="text-sm font-medium text-muted-foreground">
+      <p data-entry-animation-type="zoom-in" className="text-sm font-medium text-muted-foreground">
         {t('intro.quickAccess.siteContent')}
-      </h5>
+      </p>
 
       <div
         className="

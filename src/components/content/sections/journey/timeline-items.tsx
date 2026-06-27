@@ -325,6 +325,7 @@ export const useFreeTimeProjectsTimelineItems = () => {
               "
             >
               <QuickProjectInfo
+                component="li"
                 githubLink="https://github.com/Aktyn/Blender-portfolio"
                 title={t('timeline.projects.blender.title')}
               />
