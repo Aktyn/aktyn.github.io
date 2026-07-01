@@ -56,7 +56,7 @@ export function LanguageSelect(props: ComponentProps<'button'>) {
         )}
       >
         {options.map((option) => (
-          <button
+          <span
             key={option.value}
             onClick={(event) => {
               void i18n.changeLanguage(option.value)
@@ -69,7 +69,7 @@ export function LanguageSelect(props: ComponentProps<'button'>) {
             )}
           >
             {option.label}
-          </button>
+          </span>
         ))}
       </div>
       <span
