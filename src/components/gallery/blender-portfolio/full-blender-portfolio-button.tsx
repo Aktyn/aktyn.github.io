@@ -1,5 +1,6 @@
 import { lazy, Suspense, useState, type ComponentProps } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/common/tooltip'
 import { RootPortal } from '~/components/portal/root-portal'
 import { cn } from '~/lib/utils'
 
@@ -15,22 +16,29 @@ export function FullBlenderPortfolioButton(props: FullBlenderPortfolioButtonProp
 
   return (
     <>
-      <button
-        {...props}
-        className={cn(
-          `
-            inline-flex min-w-54 flex-row items-center justify-center gap-1
-            rounded-md border border-muted-foreground/50 bg-background/50 p-1
-            px-2 text-sm font-semibold text-balance transition-colors
-            hover:border-foreground-lighter hover:bg-background
-            hover:text-foreground-lighter
-          `,
-          props.className,
-        )}
-        onClick={() => setOpenGallery(true)}
-      >
-        {t('full-blender-gallery.button')}
-      </button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button
+            {...props}
+            className={cn(
+              `
+                inline-flex min-w-54 flex-row items-center justify-center gap-1
+                rounded-md border border-muted-foreground/50 bg-background/50
+                p-1 px-2 text-sm font-semibold text-balance transition-colors
+                hover:border-foreground-lighter hover:bg-background
+                hover:text-foreground-lighter
+              `,
+              props.className,
+            )}
+            onClick={() => setOpenGallery(true)}
+          >
+            {t('full-blender-gallery.button')}
+          </button>
+        </TooltipTrigger>
+        <TooltipContent className="max-w-lg text-pretty whitespace-pre-wrap">
+          {t('full-blender-gallery.tooltip')}
+        </TooltipContent>
+      </Tooltip>
       <RootPortal>
         <Suspense fallback={<span className="fixed inset-0">...</span>}>
           <LazyMaximizedGallery

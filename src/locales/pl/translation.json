@@ -401,6 +401,7 @@
     }
   },
   "full-blender-gallery": {
-    "button": "Pokaż wszystkie moje grafiki wykonane w Blenderze"
+    "button": "Otwórz pełną galerię moich grafik",
+    "tooltip": "Otworzy to galerię moich grafik wykonanych w Blenderze, w pełnej rozdzielczości.\nŁadowanie może być powolne z powodu rozmiaru plików graficznych."
   }
 }

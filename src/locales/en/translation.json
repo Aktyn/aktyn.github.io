@@ -397,6 +397,7 @@
     }
   },
   "full-blender-gallery": {
-    "button": "Show all my blender graphics"
+    "button": "Open complete gallery of my graphics",
+    "tooltip": "This will open gallery of full resolution images of my graphics.\nLoading might get slow due to the full size of raw images."
   }
 }
