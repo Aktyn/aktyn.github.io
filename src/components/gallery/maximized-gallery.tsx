@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
 } from 'react'
+import { useIsTouchDevice } from '~/hooks/useIsTouchDevice'
 import { GalleryPagination } from '~/components/gallery/gallery-pagination'
 import { useStateToRef } from '~/hooks/useStateToRef'
 import { SvgIcon } from '~/icons/material-symbol-icons'
@@ -38,6 +39,8 @@ export default function MaximizedGallery({
 
   const [mounted, setMounted] = useState(false)
   const [entryAnimation, setEntryAnimation] = useState<Timeline | null>(null)
+
+  const isTouchDevice = useIsTouchDevice()
 
   const closeRef = useStateToRef(onClose)
 
@@ -207,12 +210,81 @@ export default function MaximizedGallery({
     }
   }, [open, handleClose])
 
+  // Touch swipe handler
+  useLayoutEffect(() => {
+    if (!mounted || !open || !isTouchDevice) {
+      return
+    }
+
+    let touchStartX: number | null = null
+    let touchStartY: number | null = null
+    const imagesContainer = ref.current?.querySelector('[data-slot="images-container"] > *')
+
+    const onTouchStart = (event: Event) => {
+      const touchEvent = event as TouchEvent
+      touchStartX = touchEvent.touches[0].clientX
+      touchStartY = touchEvent.touches[0].clientY
+    }
+
+    const onTouchMove = (event: Event) => {
+      if (touchStartX === null || touchStartY === null) {
+        return
+      }
+
+      const touchEvent = event as TouchEvent
+      const touchCurrentX = touchEvent.touches[0].clientX
+      const touchCurrentY = touchEvent.touches[0].clientY
+      const diffX = touchCurrentX - touchStartX
+      const diffY = touchCurrentY - touchStartY
+
+      // Only prevent default if horizontal swipe is more dominant than vertical
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+        event.preventDefault()
+      }
+    }
+
+    const onTouchEnd = (event: Event) => {
+      if (touchStartX === null) {
+        return
+      }
+
+      const touchEvent = event as TouchEvent
+      const touchEndX = touchEvent.changedTouches[0].clientX
+      const diffX = touchEndX - touchStartX
+      const swipeThreshold = 50
+
+      if (Math.abs(diffX) > swipeThreshold) {
+        if (diffX > 0 && index > 0) {
+          onIndexChange(index - 1)
+        } else if (diffX < 0 && index < images.length - 1) {
+          onIndexChange(index + 1)
+        }
+      }
+
+      touchStartX = null
+      touchStartY = null
+    }
+
+    imagesContainer?.addEventListener('touchstart', onTouchStart, { passive: true })
+    imagesContainer?.addEventListener('touchmove', onTouchMove, { passive: false })
+    imagesContainer?.addEventListener('touchend', onTouchEnd)
+
+    return () => {
+      imagesContainer?.removeEventListener('touchstart', onTouchStart)
+      imagesContainer?.removeEventListener('touchmove', onTouchMove)
+      imagesContainer?.removeEventListener('touchend', onTouchEnd)
+    }
+  }, [mounted, open, isTouchDevice, index, images.length, onIndexChange])
+
   if (!mounted) {
     return null
   }
 
   return (
-    <div ref={ref} className={cn('fixed inset-0 z-90', !open && `pointer-events-none`)}>
+    <div
+      ref={ref}
+      className={cn('fixed inset-0 z-90 overflow-hidden', !open && `pointer-events-none`)}
+    >
       <div
         className="
           relative grid size-full grid-rows-[1fr_auto]
