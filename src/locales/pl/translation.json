@@ -399,5 +399,8 @@
       "1": "Rozwój aplikacji webowej od strony frontendu w technologii React + TypeScript.",
       "2": "Praca z relacyjnymi bazami danych – tworzenie i optymalizacja zapytań PostgreSQL."
     }
+  },
+  "full-blender-gallery": {
+    "button": "Pokaż wszystkie moje grafiki wykonane w Blenderze"
   }
 }

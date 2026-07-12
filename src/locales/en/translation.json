@@ -395,5 +395,8 @@
       "1": "Developing web application frontent with React + TypeScript.",
       "2": "Working with relational databases – writing and optimizing PostgreSQL queries."
     }
+  },
+  "full-blender-gallery": {
+    "button": "Show all my blender graphics"
   }
 }

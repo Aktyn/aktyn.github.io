@@ -16,6 +16,7 @@ import { SectionContainer } from '../section-container'
 import { useWindowSize } from '~/hooks/useWindowSize'
 import defaultTheme from 'tailwindcss/defaultTheme'
 import { useTranslation } from 'react-i18next'
+import { FullBlenderPortfolioButton } from '~/components/gallery/blender-portfolio/full-blender-portfolio-button'
 
 const LazyImagesStrip = lazy(() => import('~/components/content/sections/common/images-strip'))
 
@@ -53,7 +54,12 @@ export function Projects() {
             "
           >
             {projectsGroupsInfo[group].projects.map((project, _, array) => (
-              <ProjectCard key={project.title} project={project} single={array.length === 1} />
+              <ProjectCard
+                key={project.title}
+                group={group}
+                project={project}
+                single={array.length === 1}
+              />
             ))}
           </div>
         </Article>
@@ -65,11 +71,12 @@ export function Projects() {
 type ProjectType = ProjectsGroupInfoSchema['projects'][number]
 
 type ProjectCardProps = {
+  group: ProjectsGroup
   project: ProjectType
   single?: boolean
 }
 
-function ProjectCard({ project, single }: ProjectCardProps) {
+function ProjectCard({ group, project, single }: ProjectCardProps) {
   const { width } = useWindowSize()
   const MD = parseInt(defaultTheme.screens.md) * 16
   const { t } = useTranslation()
@@ -112,6 +119,9 @@ function ProjectCard({ project, single }: ProjectCardProps) {
           {forceArray(project.linkToGithubRepo ?? []).length !== 1 && <p>{project.title}</p>}
         </div>
         <div className="text-sm tracking-wide text-pretty">{project.description}</div>
+        {group === ProjectsGroup.ComputerGraphics && (
+          <FullBlenderPortfolioButton className="self-start" />
+        )}
         <div className="mt-auto flex flex-row flex-wrap items-center gap-2">
           {project.techStack?.map((tech) => (
             <TechBadge key={tech} tech={tech} />

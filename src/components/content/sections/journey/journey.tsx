@@ -18,6 +18,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/common/too
 import { Article } from '../article'
 import { GithubIcon } from '~/icons/GithubIcon'
 import { useTranslation } from 'react-i18next'
+import { FullBlenderPortfolioButton } from '~/components/gallery/blender-portfolio/full-blender-portfolio-button'
 
 type IntroProps = ComponentProps<'section'> & {
   ref?: React.RefObject<HTMLDivElement | null>
@@ -63,19 +64,24 @@ export function Journey({ ref, ...props }: IntroProps) {
           "
         />
         <div className="flex flex-col items-stretch gap-2">
-          <p data-entry-animation className="z-10 text-sm font-medium text-pretty">
-            {t('journey.education.desc_1')}
-            <br />
-            {t('journey.education.desc_2')}{' '}
-            <a href="https://www.blender.org/" target="_blank" className="font-bold">
-              {t('names.blender')}
-            </a>{' '}
-            {t('journey.education.desc_bind')}{' '}
-            <a href="https://www.gimp.org/" target="_blank" className="font-bold">
-              {t('names.gimp')}
-            </a>{' '}
-            {t('journey.education.desc_3')}
-          </p>
+          <div className="flex flex-row items-center justify-between gap-4">
+            <p data-entry-animation className="z-10 text-sm font-medium text-pretty">
+              {t('journey.education.desc_1')}
+              <br />
+              {t('journey.education.desc_2')}{' '}
+              <a href="https://www.blender.org/" target="_blank" className="font-bold">
+                {t('names.blender')}
+              </a>{' '}
+              {t('journey.education.desc_bind')}{' '}
+              <a href="https://www.gimp.org/" target="_blank" className="font-bold">
+                {t('names.gimp')}
+              </a>{' '}
+              {t('journey.education.desc_3')}
+            </p>
+            <div data-entry-animation-type="from-right" className="z-10">
+              <FullBlenderPortfolioButton className="grow contain-inline-size" />
+            </div>
+          </div>
           <CompactImagesStrip
             images={journeyInfo[JourneySection.Education].images.slice(1)} // get only the diploma image
             altPrefix="graphics-aspirations"

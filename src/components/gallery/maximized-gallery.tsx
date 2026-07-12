@@ -381,9 +381,10 @@ function NavButton({ direction, ...buttonProps }: NavButtonProps) {
       className={cn(
         `
           z-5 my-auto flex h-full w-8 flex-col justify-center rounded-md
-          bg-foreground-lighter/0 p-1 transition-colors
-          not-disabled:hover:bg-foreground/50
-          disabled:fill-muted-foreground/50 disabled:opacity-50
+          bg-foreground-lighter/0 fill-white/50 p-1 transition-colors
+          hover:fill-white
+          not-disabled:hover:bg-white/5
+          disabled:fill-white/20 disabled:opacity-50
         `,
         direction === -1 && 'not-disabled:hover:*:translate-x-[-12.5%]',
         direction === 1 && 'not-disabled:hover:*:translate-x-[12.5%]',
