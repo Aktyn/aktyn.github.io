@@ -51,7 +51,7 @@ export function ContentLayer() {
         // enter: { target: 'top', container: 'bottom' },
         // Leaves when the bottom of the target meets the top of the container
         // leave: { target: 'bottom', container: 'top' }
-        enter: { target: 'top-=8rem', container: 'top' },
+        enter: { target: 'top-=4rem', container: 'top' },
         leave: { target: 'top', container: 'top' },
         sync: 0.5,
         onUpdate: () => headerRef.current?.invalidateProjectedPositions(),

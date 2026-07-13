@@ -23,7 +23,8 @@ export function PrintOptions({
       className={cn(
         `
           absolute top-full right-0 flex flex-col items-center gap-3 rounded-lg
-          border bg-background-lighter/50 p-2 transition-[opacity,translate]
+          border bg-background-lighter/50 p-2 backdrop-blur-sm
+          transition-[opacity,translate]
         `,
         showPrintOptions
           ? 'translate-y-2 opacity-100'

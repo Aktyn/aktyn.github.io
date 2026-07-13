@@ -4,6 +4,7 @@ import { Section, sectionData } from '~/lib/consts'
 import { cn } from '~/lib/utils'
 import { ProjectedText } from '../projected-elements/projected-text'
 import { ProjectedContainer } from '../projected-elements/projected-container'
+import { useIsMobile } from '~/hooks/useIsMobile'
 
 const SectionContext = createContext<Section | null>(null)
 
@@ -13,6 +14,7 @@ type SectionContainerProps = Omit<ComponentProps<'section'>, 'id'> & {
 
 export function SectionContainer({ section, ...sectionProps }: SectionContainerProps) {
   const { t } = useTranslation()
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     if (`#${section}` === location.hash) {
@@ -76,7 +78,7 @@ export function SectionContainer({ section, ...sectionProps }: SectionContainerP
               data-entry-animation-type="zoom-in"
               as="h2"
               text={t(`sections.${section}.title`, sectionData[section].title)}
-              fontSize={36}
+              fontSize={isMobile ? 24 : 36}
               fontWeight="bold"
               className="text-foreground delay-500"
               splitWords={false}

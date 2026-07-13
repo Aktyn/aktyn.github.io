@@ -78,11 +78,12 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
       className="
         pointer-events-none absolute top-0 bottom-auto z-10 -mb-header flex
         min-h-header w-full max-w-screen flex-row flex-wrap items-center
-        justify-between p-2 delay-1000
+        justify-center p-2 delay-1000
         *:pointer-events-auto
+        xs:justify-between
       "
     >
-      <HeaderSection data-entry-animation-type="from-left" className="mr-auto">
+      <HeaderSection data-entry-animation-type="from-left" className="max-w-full xs:mr-auto">
         <a
           aria-label="Logo Home Link"
           ref={logoRef}
@@ -94,13 +95,13 @@ export function Header({ ref: interfaceRef }: { ref: RefObject<HeaderInterfaceRe
         </a>
         {webGLAvailable && <WebGlSwitch />}
       </HeaderSection>
-      <HeaderSection className="relative ml-auto" data-entry-animation-type="from-right">
+      <HeaderSection data-entry-animation-type="from-right" className="relative xs:ml-auto">
         <LanguageSelect />
         <button
           className="
             ml-auto flex cursor-pointer flex-row items-center gap-1.5 rounded-lg
             border border-foreground/20 px-2 py-1 text-foreground
-            transition-colors
+            backdrop-blur-sm transition-colors
             hover:bg-foreground/20
             *:[svg]:size-4
           "

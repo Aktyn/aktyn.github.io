@@ -29,7 +29,13 @@ export function Switch({ id, enabled, onChange, label, ...props }: SwitchProps) 
       onClick={() => onChange(!enabled)}
     >
       {label && (
-        <span className="text-sm font-medium text-ellipsis whitespace-nowrap">{label}</span>
+        <span
+          className="
+            overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap
+          "
+        >
+          {label}
+        </span>
       )}
       <input
         id={id}
@@ -42,7 +48,10 @@ export function Switch({ id, enabled, onChange, label, ...props }: SwitchProps) 
       />
       <span
         className={cn(
-          'flex w-9 flex-row items-center rounded-full p-1 transition-colors',
+          `
+            flex w-9 min-w-9 flex-row items-center rounded-full p-1
+            transition-colors
+          `,
           enabled ? 'bg-background/80' : 'bg-background/40',
         )}
         aria-hidden="true"
@@ -52,7 +61,7 @@ export function Switch({ id, enabled, onChange, label, ...props }: SwitchProps) 
           className={cn(
             `
               inline-flex size-3 items-center justify-center rounded-full
-              bg-foreground/50 text-center text-xs text-red-300
+              bg-foreground/50 text-center text-xs
               transition-[background-color,translate] duration-spring
               ease-spring
             `,

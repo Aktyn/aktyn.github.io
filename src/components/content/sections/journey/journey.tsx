@@ -64,7 +64,11 @@ export function Journey({ ref, ...props }: IntroProps) {
           "
         />
         <div className="flex flex-col items-stretch gap-2">
-          <div className="flex flex-row items-center justify-between gap-4">
+          <div
+            className="
+              flex flex-row flex-wrap items-center justify-between gap-4
+            "
+          >
             <p data-entry-animation className="z-10 text-sm font-medium text-pretty">
               {t('journey.education.desc_1')}
               <br />

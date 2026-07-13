@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next'
 import { useWindowSize } from '~/hooks/useWindowSize'
 
 import './pulse.css'
+import { useIsMobile } from '~/hooks/useIsMobile'
 
 const commonSvgProps: ComponentProps<'svg'> = {
   viewBox: '0 0 100 100',
@@ -42,7 +43,6 @@ export function QuickAccess(props: ComponentPropsWithoutRef<'div'>) {
         props.className,
       )}
     >
-      {/* Zawartość strony */}
       <p data-entry-animation-type="zoom-in" className="text-sm font-medium text-muted-foreground">
         {t('intro.quickAccess.siteContent')}
       </p>
@@ -77,7 +77,8 @@ export function QuickAccess(props: ComponentPropsWithoutRef<'div'>) {
 
       <div
         className="
-          mt-4 grid max-w-384 grid-cols-1 justify-center gap-y-4
+          grid max-w-384 grid-cols-1 justify-center
+          xs:mt-4 xs:gap-y-4
           lg:mt-0 lg:grid-cols-3 lg:items-stretch
         "
       >
@@ -152,6 +153,7 @@ function SvgBase(props: ComponentPropsWithoutRef<'svg'>) {
 
 function SectionLink({ section, className }: { section: Section; className?: string }) {
   const { t } = useTranslation()
+  const isMobile = useIsMobile()
 
   return (
     <a
@@ -176,7 +178,7 @@ function SectionLink({ section, className }: { section: Section; className?: str
         <ProjectedText
           text={t(`sections.${section}.extendedTitle`, sectionData[section].extendedTitle)}
           as="span"
-          fontSize={20}
+          fontSize={isMobile ? 16 : 20}
           fontWeight="semibold"
         />
       </div>

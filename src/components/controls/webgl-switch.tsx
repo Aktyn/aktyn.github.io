@@ -43,6 +43,7 @@ export function WebGlSwitch(props: ComponentProps<'button'>) {
           enabled={webGlEnabled}
           onChange={handleSwitchChange}
           label={t('header.webglSwitch.toggle')}
+          className="flex-nowrap"
         />
       </DialogTrigger>
       <DialogContent className="border">

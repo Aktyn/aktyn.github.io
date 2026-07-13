@@ -21,7 +21,6 @@ type IntroProps = ComponentProps<'section'> & {
 }
 export function Intro({ ref, className, ...props }: IntroProps) {
   const { t } = useTranslation()
-  const role = t('intro.role')
   const isMobile = useIsMobile()
 
   return (
@@ -29,7 +28,13 @@ export function Intro({ ref, className, ...props }: IntroProps) {
       ref={ref}
       section={Section.Intro}
       {...props}
-      className={cn(`gap-y-8 px-4 text-center`, className)}
+      className={cn(
+        `
+          gap-y-8 text-center
+          xs:px-4
+        `,
+        className,
+      )}
     >
       <div className="flex flex-1 flex-col items-center justify-end gap-6">
         <div data-header-anchor className="-mb-1">
@@ -40,16 +45,18 @@ export function Intro({ ref, className, ...props }: IntroProps) {
                   className="inline-block"
                   data-entry-animation-type={index % 2 === 0 ? 'from-left' : 'from-right'}
                 >
-                  <ProjectedText text={namePart} fontSize={isMobile ? 36 : 56} fontWeight="bold" />
+                  <ProjectedText text={namePart} fontSize={isMobile ? 34 : 56} fontWeight="bold" />
                 </div>
-                {index < arr.length - 1 && (
-                  <span style={{ fontSize: isMobile ? 36 : 56 }}>&nbsp;</span>
-                )}
+                {index < arr.length - 1 && <span style={{ fontSize: isMobile ? 36 : 56 }}> </span>}
               </Fragment>
             ))}
           </h1>
           <p data-entry-animation className="shining-text mt-1.5 text-2xl font-medium md:text-3xl">
-            <ProjectedText text={role} fontSize={isMobile ? 24 : 32} fontWeight="medium" />
+            <ProjectedText
+              text={t('intro.role')}
+              fontSize={isMobile ? 24 : 32}
+              fontWeight="medium"
+            />
           </p>
         </div>
         <QuickPersonalInfo experienceStartDate={experienceStartDate} birthDate={birthDate} />
@@ -73,7 +80,6 @@ export function Intro({ ref, className, ...props }: IntroProps) {
         </span>
         <Separator />
       </div>
-      <div className="mt-6 hidden h-px w-full border-t border-black/40" />
       <QuickAccess className="flex-1" />
     </SectionContainer>
   )

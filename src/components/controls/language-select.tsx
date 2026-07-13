@@ -31,7 +31,7 @@ export function LanguageSelect(props: ComponentProps<'button'>) {
         `
           relative flex flex-row items-center self-stretch rounded-lg border
           border-foreground/20 bg-transparent text-sm font-semibold
-          text-foreground transition-colors
+          text-foreground backdrop-blur-sm transition-colors
         `,
         open
           ? 'border-foreground-complementary'
